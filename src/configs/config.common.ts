@@ -20,6 +20,7 @@ export default function getConfigs(params: ICommonConfig.Params) {
     test: {
       var1: 'apple',
       var2: 'banana',
+      var3: 'kiwi',
     },
 
     api: {
