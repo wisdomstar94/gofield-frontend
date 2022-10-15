@@ -26,6 +26,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Generate Config Files
+        run: |
+          echo "$ENV_LOCALHOST" >> .env.localhost
+          echo "$ENV_DEVELOPMENT" >> .env.development
+          echo "$ENV_PRODUCTION" >> .env.production
+
       - name: npm i
         run: npm i
 

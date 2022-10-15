@@ -1,6 +1,6 @@
 import getConfigs from "./config.common";
 
-const baseUrl = 'development_base_url';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const mode = 'development';
 
 const configDevelopment = getConfigs({

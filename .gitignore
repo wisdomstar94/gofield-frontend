@@ -35,9 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# config
-src/configs/config.common.ts
-src/configs/config.development.ts
-src/configs/config.export.ts
-src/configs/config.local.ts
-src/configs/config.production.ts
+# env
+.env.localhost
+.env.development
+.env.production
