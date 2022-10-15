@@ -22,7 +22,7 @@ const PageContents = () => {
   return (
     <>
       {'{}'} 
-      {Config().test.var2}
+      {Config().test.var3}
     </>
   );
 };
