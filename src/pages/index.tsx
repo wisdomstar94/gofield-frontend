@@ -22,7 +22,7 @@ const PageContents = () => {
   return (
     <>
       {'{}'} 
-      {/* {Config().mode} */}
+      {Config().baseUrl}
     </>
   );
 };
