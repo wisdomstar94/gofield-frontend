@@ -10,3 +10,7 @@ Recoil (https://recoiljs.org/ko/)
 
 ### CI/CD
 Github Action
+<br />
+
+### 레포지토리
+서명된 커밋(Signed Commit) 적용
