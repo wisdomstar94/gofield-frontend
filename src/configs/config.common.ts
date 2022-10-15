@@ -17,6 +17,10 @@ export default function getConfigs(params: ICommonConfig.Params) {
     baseUrl,
     mode,
 
+    test: {
+      var1: 'apple',
+    },
+
     api: {
       
     },
