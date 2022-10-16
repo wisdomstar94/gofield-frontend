@@ -52,6 +52,7 @@ jobs:
           --protocol tcp
           --port ${{ secrets.REMOTE_SSH_PORT }}
           --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          --debug false
 
       # 민감정보가 담긴 환경변수 값들을 .env 파일들로 생성합니다.
       - name: Generate Config Files
