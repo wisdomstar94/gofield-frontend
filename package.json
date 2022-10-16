@@ -28,8 +28,8 @@
     "local": "env-cmd -f .env.localhost next dev -p 6060",
     "build:dev": "env-cmd -f .env.development next build",
     "start:dev": "env-cmd -f .env.development next start -p 6060",
-    "build": "next build",
-    "start": "next start -p 6060",
+    "build": "env-cmd -f .env.production next build",
+    "start": "env-cmd -f .env.production next start -p 6060",
     "lint": "next lint"
   },
   "dependencies": {
