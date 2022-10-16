@@ -7,13 +7,16 @@ on:
 
 jobs:
   build:
+    # 빌드 환경에서 사용할 OS를 지정합니다.
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # 사용할 node.js 버전대를 지정합니다.
         node-version: [16.x]
     steps:
       - uses: actions/checkout@main
 
+      # 종속성을 캐싱합니다.
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -21,15 +24,19 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      # node.js 를 setup 합니다.      
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
+      # github action 컨테이너가 구동되고 있는 실제 public ip 주소를 알아냅니다.
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1.2
 
+      # 위에서 알아낸 public ip 주소를 aws 서버에서 허용해주기 위해 aws cli 환경설정을 진행합니다.
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -37,24 +44,29 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      # aws cli 를 통해 원하는 인스턴스에 위에서 알아낸 public ip 를 보안정책에 등록합니다.
       - name: aws lightsail ip, port open
         run: >
           aws lightsail open-instance-public-ports
           --instance-name ${{ secrets.INSTANCE_NAME }}
           --port-info fromPort=${{ secrets.REMOTE_SSH_PORT }},protocol=TCP,toPort=${{ secrets.REMOTE_SSH_PORT }},cidrs=${{ steps.ip.outputs.ipv4 }}/32
 
+      # 민감정보가 담긴 환경변수 값들을 .env 파일들로 생성합니다.
       - name: Generate Config Files
         run: |
           echo "$ENV_LOCALHOST" >> .env.localhost
           echo "$ENV_DEVELOPMENT" >> .env.development
           echo "$ENV_PRODUCTION" >> .env.production
 
+      # npm install 을 진행하여 패키지를 다운받습니다.
       - name: npm i
         run: npm i
 
+      # next.js 프로젝트를 빌드합니다.
       - name: npm run build
         run: npm run build
 
+      # 빌드가 완료되었으면 배포할 서버로 빌드된 폴더째로 업로드 합니다.
       - name: (scp) .next folder to ec2
         uses: appleboy/scp-action@master
         with:
@@ -65,6 +77,7 @@ jobs:
           source: ".next"
           target: "/home/projects/gofield-frontend/.next.new"
 
+      # 배포된 서버에서 폴더 위치 변경 및 폴더명 변경 작업을 진행합니다.
       - name: .next.new/.next folder move and ec2 server folder name change
         uses: appleboy/ssh-action@master
         with:
@@ -75,6 +88,7 @@ jobs:
           script: |
             sh /home/projects/gofield-frontend/sh/deploy.sh
 
+      # 배포가 완료되었으니 이제 아까 보안정책에 등록했던 public ip 는 다시 제거해줍니다.
       - name: aws lightsail ip, port close
         run: >
           aws lightsail close-instance-public-ports
