@@ -9,7 +9,7 @@ const SvgGofieldLogo = (props: ISvgGofieldLogo.Props) => {
           <path id="6hyzsi7kdc" d="M0 0h31.441v31.441H0z"/>
           <path id="17a0d3t19e" d="M0 31.441h170V0H0z"/>
         </defs>
-        <g fill="none" fill-rule="evenodd">
+        <g fill="none" fillRule="evenodd">
           <g>
             <mask id="s5ezkmt66b" fill="#fff">
               <use xlinkHref="#388bxwdt7a"/>

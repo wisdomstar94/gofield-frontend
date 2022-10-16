@@ -29,25 +29,25 @@ export default function getConfigs(params: ICommonConfig.Params) {
     api: {
       auth: {
         login: {
-          _: `/api/auth/${apiVersion}/login`,
+          _: baseUrl + `/api/auth/${apiVersion}/login`,
           auto:{ 
-            _: `/api/auth/${apiVersion}/login/auto`,
+            _: baseUrl + `/api/auth/${apiVersion}/login/auto`,
           },
         },
         logout: {
-          _: `/api/auth/${apiVersion}/logout`,
+          _: baseUrl + `/api/auth/${apiVersion}/logout`,
         },
         refresh: {
-          _: `/api/auth/${apiVersion}/refresh`,
+          _: baseUrl + `/api/auth/${apiVersion}/refresh`,
         },
         signup: {
-          _: `/api/auth/${apiVersion}/signup`,
+          _: baseUrl + `/api/auth/${apiVersion}/signup`,
         },
       },
       
       third: {
         ready: {
-          _: `/api/third/${apiVersion}/ready`,
+          _: baseUrl + `/api/third/${apiVersion}/ready`,
         },
       },
     },

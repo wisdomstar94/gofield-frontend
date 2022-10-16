@@ -6,7 +6,8 @@ import SvgGofieldLogo from "../../components/svgs/svg-gofield-logo/svg-gofield-l
 import List, { ListItem } from "../../components/layouts/list/list.component";
 import SvgSocialSymbolKakao from "../../components/svgs/svg-social-symbol-kakao/svg-social-symbol-kakao.component";
 import SvgSocialSymbolNaver from "../../components/svgs/svg-social-symbol-naver/svg-social-symbol-naver.component";
-import SvgSocialSymbolApple from "../../components/svgs/svg-social-symbol-apple/svg-social-symbol-apple.component";
+import { useCallback } from "react";
+import Config from "../../configs/config.export";
 
 const LoginPage: NextPage = () => {
   return (
@@ -14,8 +15,6 @@ const LoginPage: NextPage = () => {
       <Head>
         <title>고필드 로그인</title>
         <meta name="description" content="고필드 로그인 페이지 입니다." />
-        <meta name="robots" content="noindex" />
-        <meta name="robots" content="nofollow" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -25,6 +24,23 @@ const LoginPage: NextPage = () => {
 };  
 
 const PageContents = () => {
+  const socialLoginButtonClick = useCallback((socialType: 'KAKAO' | 'NAVER') => {
+    let environment = '';
+    switch (Config().mode) {
+      case 'local': environment = 'LOCAL'; break;
+      case 'development': environment = 'DEV'; break;
+      case 'production': environment = 'PROD'; break;
+    }
+    if (environment === '') {
+      alert('유효하지 않은 요청입니다.');
+      return;
+    }
+
+    const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
+    // console.log(`url`, url);
+    location.href = url;
+  }, []);
+
   return (
     <>
       <WindowSizeContainer>
@@ -37,7 +53,8 @@ const PageContents = () => {
               <button className={[
                   styles['social-login-button'],
                   styles['kakao'],
-                ].join(' ')}>
+                ].join(' ')}
+                onClick={e => socialLoginButtonClick('KAKAO')}>
                 <div className={[
                     styles['content']
                   ].join(' ')}>
@@ -54,7 +71,8 @@ const PageContents = () => {
               <button className={[
                   styles['social-login-button'],
                   styles['naver'],
-                ].join(' ')}>
+                ].join(' ')}
+                onClick={e => socialLoginButtonClick('NAVER')}>
                 <div className={[
                     styles['content']
                   ].join(' ')}>

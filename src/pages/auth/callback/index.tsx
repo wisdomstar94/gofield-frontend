@@ -1,5 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const AuthCallbackPage: NextPage = () => {
   return (
@@ -18,6 +20,17 @@ const AuthCallbackPage: NextPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady !== true) {
+      return;
+    }
+
+    console.log('router.query', router.query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   return (
     <>
       
