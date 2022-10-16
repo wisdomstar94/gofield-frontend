@@ -44,8 +44,8 @@ jobs:
 
       - name: aws lightsail ip, port open
         run: >
-          aws lightsail open-instance-public-ports  
-          --instance-name "${{ secrets.INSTANCE_NAME }}" 
+          aws lightsail open-instance-public-ports
+          --instance-name "${{ secrets.INSTANCE_NAME }}"
           --port-info fromPort=${{ secrets.REMOTE_SSH_PORT }},protocol=TCP,toPort=${{ secrets.REMOTE_SSH_PORT }},cidrs="${{ steps.ip.outputs.ipv4 }}"
 
       - name: (scp) .next folder to ec2
