@@ -21,7 +21,8 @@ const Home: NextPage = () => {
 const PageContents = () => {
   return (
     <>
-      {'{}'} 
+      {'{}'} <br />
+      {Config().mode} <br />
       {Config().test.var4}
     </>
   );
