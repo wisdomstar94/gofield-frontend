@@ -57,9 +57,9 @@ jobs:
       # 민감정보가 담긴 환경변수 값들을 .env 파일들로 생성합니다.
       - name: Generate Config Files
         run: |
-          echo "$ENV_LOCALHOST" >> .env.localhost
-          echo "$ENV_DEVELOPMENT" >> .env.development
-          echo "$ENV_PRODUCTION" >> .env.production
+          echo "${{ secrets.ENV_LOCALHOST }}" >> .env.localhost
+          echo "${{ secrets.ENV_DEVELOPMENT }}" >> .env.development
+          echo "${{ secrets.ENV_PRODUCTION }}" >> .env.production
 
       # npm install 을 진행하여 패키지를 다운받습니다.
       - name: npm i
