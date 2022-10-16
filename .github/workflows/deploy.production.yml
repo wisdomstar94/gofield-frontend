@@ -74,3 +74,9 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             sh /home/projects/gofield-frontend/sh/deploy.sh
+
+      - name: aws lightsail ip, port close
+        run: >
+          aws lightsail close-instance-public-ports
+          --instance-name ${{ secrets.INSTANCE_NAME }}
+          --port-info fromPort=${{ secrets.REMOTE_SSH_PORT }},protocol=TCP,toPort=${{ secrets.REMOTE_SSH_PORT }},cidrs=${{ steps.ip.outputs.ipv4 }}/32
