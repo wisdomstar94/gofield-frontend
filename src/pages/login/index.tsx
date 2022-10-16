@@ -67,23 +67,6 @@ const PageContents = () => {
                 </div>
               </button>
             </ListItem>
-            <ListItem __marginBottom="10px">
-              <button className={[
-                  styles['social-login-button'],
-                  styles['apple'],
-                ].join(' ')}>
-                <div className={[
-                    styles['content']
-                  ].join(' ')}>
-                  <SvgSocialSymbolApple />
-                  <div className={[
-                      styles['text-area']
-                    ].join(' ')}>
-                    Apple로 계속하기
-                  </div>
-                </div>
-              </button>
-            </ListItem>
           </List>
         </div>
       </WindowSizeContainer>
