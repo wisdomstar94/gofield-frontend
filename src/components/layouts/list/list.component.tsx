@@ -4,8 +4,6 @@ import styles from './list.component.module.scss';
 import { IList } from './list.interface';
 
 export const List = (props: IList.Props) => {
-  // console.log('styles', styles);
-
   const getListClasses = useCallback(() => {
     const classes: string[] = [];
 
@@ -86,7 +84,6 @@ export const List = (props: IList.Props) => {
       {
         React.Children.map(props.children, function(_item) {
           const item = _item as { props: IList.ItemProps };
-          // console.log('item', item);
           return (
             <li className={styles['item']} style={getListItemStyles(item.props)}>
               {item.props.children}

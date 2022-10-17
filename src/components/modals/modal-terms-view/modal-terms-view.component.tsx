@@ -43,22 +43,17 @@ const ModalTermsView = forwardRef((props: IModalTermsView.Props, ref: ForwardedR
       if (typeof props.__onRecentId === 'function') {
         props.__onRecentId(recentTerm.id);
       }
-      // setIframeUrl(recentTerm.url);
-      // setIframeUrl('/terms/privacy/privacy-20221101');
 
       axios.getAxiosInstance<any>({
-        // url: '/terms/privacy/privacy-20221101',
         url: recentTerm.url,
         method: 'get',
       }).then((response) => {
-        // console.log('response.data', response.data);
         const domParser = new DOMParser();
         const dom = domParser.parseFromString(response.data, "text/html");
         const htmlContent = dom.querySelector('.terms-content-area')?.innerHTML;
         if (typeof htmlContent === 'string') {
           setTermHtmlContent(htmlContent);
         }
-        // setTermHtmlContent(response.data);
       });
       
     }).catch((error) => {
