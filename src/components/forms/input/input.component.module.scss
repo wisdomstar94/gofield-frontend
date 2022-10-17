@@ -1,0 +1,41 @@
+.input-container {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  border: 1px solid #e9ebee;
+  border-radius: 10px;
+  background-color: #fff;
+
+  &.focus {
+    border: 1px solid #374553;
+  }
+
+  &.disable {
+    background-color: #FAFAFA;
+  }
+
+  .input {
+    width: 100%;
+    height: 100%;
+    color: #374553;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: block;
+    padding: 14px;
+    border: 0;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+
+    &:focus {
+      border: 0;
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #B0B5BA;
+    }
+  }
+}

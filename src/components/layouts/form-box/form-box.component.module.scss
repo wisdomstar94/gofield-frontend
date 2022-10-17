@@ -12,6 +12,11 @@
     display: flex;
     flex-wrap: wrap;
     position: relative;
+    margin-bottom: 24px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
     
     .title-row {
       width: 100%;
@@ -27,10 +32,8 @@
 
     .content-row {
       width: 100%;
-      display: flex;
-      flex-wrap: wrap;
+      display: block;
       position: relative;
-      align-items: center;
     }
   }
 }
