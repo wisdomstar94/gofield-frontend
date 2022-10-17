@@ -9,6 +9,7 @@ const WindowSizeContainer = (props: IWindowSizeContainer.Props) => {
         style={{
           backgroundColor: props.__bgColor,
           padding: props.__padding,
+          zIndex: props.__zIndex,
         }}>
         { props.children }
       </div>

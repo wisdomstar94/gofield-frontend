@@ -51,7 +51,7 @@ const ModalTermsView = forwardRef((props: IModalTermsView.Props, ref: ForwardedR
         url: recentTerm.url,
         method: 'get',
       }).then((response) => {
-        console.log('response.data', response.data);
+        // console.log('response.data', response.data);
         const domParser = new DOMParser();
         const dom = domParser.parseFromString(response.data, "text/html");
         const htmlContent = dom.querySelector('.terms-content-area')?.innerHTML;
@@ -75,7 +75,7 @@ const ModalTermsView = forwardRef((props: IModalTermsView.Props, ref: ForwardedR
     <>
       {
         modalState === 'show'  ?
-        <WindowSizeContainer>
+        <WindowSizeContainer __zIndex={1}>
           <Topbar 
             __backButtonClickCallback={backButtonClick}
             __layoutTypeA={{
