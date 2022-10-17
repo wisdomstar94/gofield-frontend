@@ -1,0 +1,36 @@
+.form-box {
+  width: 100%;
+  display: block;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 24px;
+  position: relative;
+  box-sizing: border-box;
+
+  .form-box-item {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    
+    .title-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #374553;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .content-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      align-items: center;
+    }
+  }
+}
