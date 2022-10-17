@@ -27,6 +27,24 @@ export default function getConfigs(params: ICommonConfig.Params) {
     },
 
     api: {
+      app: {
+        banner: {
+          _: baseUrl + `/api/app/${apiVersion}/banner`,
+        },
+        category: {
+          _: baseUrl + `/api/app/${apiVersion}/category`,
+        },
+        health: {
+          _: baseUrl + `/api/app/${apiVersion}/health`,
+        },
+        term: {
+          _: baseUrl + `/api/app/${apiVersion}/term`,
+        },
+        version: {
+          _: baseUrl + `/api/app/${apiVersion}/version`,
+        },
+      },
+
       auth: {
         login: {
           _: baseUrl + `/api/auth/${apiVersion}/login`,

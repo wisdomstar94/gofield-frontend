@@ -1,31 +1,41 @@
 import { useCallback, useEffect, useState } from "react";
 import Config from "../../configs/config.export";
+import { ICode } from "../../interfaces/code/code.interface";
 import { ICommon } from "../../interfaces/common/common.interface";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
 import useUser from "../use-user-hook/use-user.hook";
 
-// Domain 값을 가져오는 api hook sample
-export const useSampleValueItems = () => {
+// code list
+export const useCategoryValueItems = () => {
   const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([]);
-
   const axios = useAxios();
   
   useEffect(() => {
-    // axios.getAxiosInstance<any>({
-    //   url: '',
-    //   method: 'post',
-    //   data: {},
-    // }).then(response => {
-    //   const codeList: { code: string; name: string; }[] = response.data.codeList;
-    //   setValueItems(codeList.map(x => ({ text: x.name, value: x.code })));
-    // });
+    axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
+      url: Config().api.app.category._,
+      method: 'get',
+      isAuth: true,
+      data: {},
+    }).then(response => {
+      const codeList = response.data.data;
+      setValueItems(codeList.map(x => ({ text: x.name, value: x.id + '' })));
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return valueItems;
 };
+
+
+
+
+
+
+
+
+
 
 export const useUserLogin = () => {
   const axios = useAxios();
