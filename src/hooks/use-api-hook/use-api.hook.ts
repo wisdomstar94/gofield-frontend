@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Config from "../../configs/config.export";
 import { ICommon } from "../../interfaces/common/common.interface";
+import { ILogin } from "../../interfaces/login/login.interface";
+import { IResponse } from "../../interfaces/response/response.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
 
 // Domain 값을 가져오는 api hook sample
@@ -24,22 +26,22 @@ export const useSampleValueItems = () => {
   return valueItems;
 };
 
-// 상세정보 값을 가져오는 api hook sample
-export const useSampleDetailInfo = () => {
+export const useUserLogin = () => {
   const axios = useAxios();
 
-  const then = useCallback((callback: (info: unknown) => void) => {
-    // axios.getAxiosInstance<any>({
-    //   url: '',
-    //   method: 'post',
-    //   data: {},
-    // }).then(response => {
-    //   const data = response...;
-    //   callback(data);
-    // });
-  }, []);
+  const getInstance = useCallback((code: string, state: string, social: string) => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<ILogin.LoginData>>({
+      url: Config().api.auth.login._,
+      method: 'post',
+      data: {
+        code,
+        state,
+        social,
+      },
+    });
+  }, [axios]);
 
   return {
-    then,
+    getInstance,
   };
 };

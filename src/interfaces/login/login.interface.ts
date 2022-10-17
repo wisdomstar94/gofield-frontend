@@ -1,12 +1,27 @@
 export declare namespace ILogin {
   export interface LoginData {
-    // 미정, 협의 필요
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    accessTokenExpiresIn: number;
+    grantType: 'Gofield',
+    isFirst: boolean;
+    refreshToken: string;
+    refreshTokenExpiresIn: number;
   }
 
   export interface RefreshData {
-    // 미정, 협의 필요
     accessToken: string;
+    accessTokenExpiresIn: number;
+    grantType: 'Gofield',
+    refreshToken: string;
+    refreshTokenExpiresIn: number;
+  }
+
+  export interface JwtPayload {
+    iss: string;
+    gti: string;
+    jti: string;
+    exp: number;
+    isFirst: boolean;
+    social: 'KAKAO' | 'NAVER';
   }
 }

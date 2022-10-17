@@ -37,7 +37,6 @@ const PageContents = () => {
     }
 
     const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
-    // console.log(`url`, url);
     location.href = url;
   }, []);
 

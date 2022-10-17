@@ -1,12 +1,16 @@
 export declare namespace IResponse {
+  export type ErrorAction = 'NONE' | 'TOAST' | 'RETRY';
+
   export interface CommonResponse<T> {
-    // 미정, 협의 필요
+    status: boolean;
+    message: string;
     data: T;
+    error: ErrorResponse | null;
   }
 
   export interface ErrorResponse {
-    // 미정, 협의 필요
-    code: number;
-    msg: string;
+    code: string;
+    action: ErrorAction;
+    message: string;
   }
 }

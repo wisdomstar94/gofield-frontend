@@ -25,7 +25,7 @@ const useAxios = () => {
       (config) => {
         if (params?.isAuth === true) {
           config.headers = {
-            Authorization: 'Bearer ' + user.getAccessToken(),
+            Authorization: 'Gofield ' + user.getAccessToken(),
           };
         }
         return config;
@@ -77,14 +77,13 @@ const useAxios = () => {
       getAxiosInstance<IResponse.CommonResponse<ILogin.RefreshData>>({ 
         isAuth: true, 
         isRefreshApply: false, 
-        // url: Config().api.auth.refresh._,
-        url: '',
+        url: Config().api.auth.refresh._,
         method: 'post',
         data: {
-          refresh_token: user.getRefreshToken(),
+          refreshToken: user.getRefreshToken(),
         },
       }).then(response => {
-        // user.setAccessToken(response.data.data.accessToken);
+        user.setAccessToken(response.data.data.accessToken);
         resolve(true);
       }).catch(error => {
         console.error(error);

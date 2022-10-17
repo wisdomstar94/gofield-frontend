@@ -10,8 +10,10 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
     if (axiosGloballError === null) {
       return;
     }
-
-    console.log('root.axiosGloballError.emit!!!', axiosGloballError?.response?.data);
+    
+    if (axiosGloballError?.response?.data.action === 'TOAST') {
+      alert(axiosGloballError?.response?.data.message);
+    }
   }, [axiosGloballError]);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
       return;
     }
 
-    console.log('root.axiosGloballResponse.emit!!!', axiosGloballResponse?.data);
+    
   }, [axiosGloballResponse]);
 
   return (
