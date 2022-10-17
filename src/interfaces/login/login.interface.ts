@@ -21,7 +21,7 @@ export declare namespace ILogin {
     gti: string;
     jti: string;
     exp: number;
-    isFirst: boolean;
+    isSign: boolean;
     social: 'KAKAO' | 'NAVER';
   }
 }

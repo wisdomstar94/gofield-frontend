@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 
@@ -12,7 +13,9 @@ const SignupPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageContents />
+      <AccessTokenCheck __checkTarget="first-user">
+        <PageContents />
+      </AccessTokenCheck>
     </>
   );
 };

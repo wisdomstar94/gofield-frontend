@@ -1,4 +1,5 @@
 const useUser = () => {
+  // const axios = useAxios();
   const ACCESS_TOKEN = 'accessToken';
   const REFRESH_TOKEN = 'refreshToken';
 
@@ -6,6 +7,7 @@ const useUser = () => {
     removeAccessToken();
     removeRefreshToken();
   }
+  
 
 
 

@@ -4,6 +4,7 @@ import { ICommon } from "../../interfaces/common/common.interface";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
+import useUser from "../use-user-hook/use-user.hook";
 
 // Domain 값을 가져오는 api hook sample
 export const useSampleValueItems = () => {
@@ -43,5 +44,32 @@ export const useUserLogin = () => {
 
   return {
     getInstance,
+  };
+};
+
+export const useRefreshAccessToken = () => {
+  const axios = useAxios();
+  const user = useUser();
+
+  const start = useCallback((callback: (result: boolean) => void) => {
+    axios.getAxiosInstance<IResponse.CommonResponse<ILogin.RefreshData>>({ 
+      isAuth: true, 
+      isRefreshApply: false, 
+      url: Config().api.auth.refresh._,
+      method: 'post',
+      data: {
+        refreshToken: user.getRefreshToken(),
+      },
+    }).then(response => {
+      user.setAccessToken(response.data.data.accessToken);
+      callback(true);
+    }).catch(error => {
+      console.error(error);
+      callback(false);
+    });
+  }, [axios, user]);
+
+  return {
+    start,
   };
 };
