@@ -1,10 +1,15 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import ModalTermsView from '../../modals/modal-terms-view/modal-terms-view.component';
+import { IModalTermsView } from '../../modals/modal-terms-view/modal-terms-view.interface';
 import SvgArrowRightIcon from '../../svgs/svg-arrow-right-icon/svg-arrow-right-icon.component';
 import SvgCheckIcon from '../../svgs/svg-check-icon/svg-check-icon.component';
 import styles from './terms-check.component.module.scss';
 import { ITermsCheck } from './terms-check.interface';
 
 const TermsCheck = (props: ITermsCheck.Props) => {
+  const modalTermsViewSignupRef = useRef<IModalTermsView.RefObject>(null);
+  const modalTermsViewPrivacyRef = useRef<IModalTermsView.RefObject>(null);
+
   const [requiredTermAccordionState, setRequiredTermAccordionState] = useState<ITermsCheck.AccordionState>('');
   const [freeTermAccordionState, setFreeTermAccordionState] = useState<ITermsCheck.AccordionState>('');
 
@@ -157,8 +162,9 @@ const TermsCheck = (props: ITermsCheck.Props) => {
                   ].join(' ')}> 
                   <span 
                     className={[
-                        styles['contents-view-button']
-                      ].join(' ')}>내용 보기</span>
+                      styles['contents-view-button']
+                    ].join(' ')}
+                    onClick={e => { modalTermsViewSignupRef.current?.show() }}>내용 보기</span>
                 </div>
               </li>
               {/* 개인 정보 수집 및 이용 동의 */}
@@ -180,8 +186,9 @@ const TermsCheck = (props: ITermsCheck.Props) => {
                   ].join(' ')}> 
                   <span 
                     className={[
-                        styles['contents-view-button']
-                      ].join(' ')}>내용 보기</span>
+                      styles['contents-view-button']
+                    ].join(' ')}
+                    onClick={e => { modalTermsViewPrivacyRef.current?.show() }}>내용 보기</span>
                 </div>
               </li>
             </ul>
@@ -304,6 +311,9 @@ const TermsCheck = (props: ITermsCheck.Props) => {
           </div>
         </li>
       </ul>
+
+      <ModalTermsView ref={modalTermsViewPrivacyRef} __termType="PRIVACY" />
+      <ModalTermsView ref={modalTermsViewSignupRef} __termType="SIGNUP" />
     </>
   );
 };

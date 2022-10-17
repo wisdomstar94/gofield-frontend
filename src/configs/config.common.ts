@@ -27,6 +27,7 @@ export default function getConfigs(params: ICommonConfig.Params) {
     },
 
     api: {
+      /*
       app: {
         banner: {
           _: baseUrl + `/api/app/${apiVersion}/banner`,
@@ -44,6 +45,7 @@ export default function getConfigs(params: ICommonConfig.Params) {
           _: baseUrl + `/api/app/${apiVersion}/version`,
         },
       },
+      */
 
       auth: {
         login: {
@@ -66,6 +68,36 @@ export default function getConfigs(params: ICommonConfig.Params) {
       third: {
         ready: {
           _: baseUrl + `/api/third/${apiVersion}/ready`,
+        },
+      },
+
+      user: {
+        account: {
+          _: baseUrl + `/api/user/${apiVersion}/account`,
+        },
+        address: {
+          _: baseUrl + `/api/user/${apiVersion}/account`,
+        },
+        category: {
+          _: baseUrl + `/api/user/${apiVersion}/category`,
+        },
+        profile: {
+          _: baseUrl + `/api/user/${apiVersion}/profile`,
+          upload: {
+            _: baseUrl + `/api/user/${apiVersion}/profile/upload`,
+          },
+        },
+        push: {
+          _: baseUrl + `/api/user/${apiVersion}/push`,
+        },
+        sms: {
+          _: baseUrl + `/api/user/${apiVersion}/sms`,
+        },
+        term: {
+          _: baseUrl + `/api/user/${apiVersion}/term`,
+        },
+        withdraw: {
+          _: baseUrl + `/api/user/${apiVersion}/withdraw`,
         },
       },
     },

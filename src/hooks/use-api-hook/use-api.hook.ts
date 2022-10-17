@@ -4,6 +4,7 @@ import { ICode } from "../../interfaces/code/code.interface";
 import { ICommon } from "../../interfaces/common/common.interface";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
+import { ITerms } from "../../interfaces/terms/terms.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
 import useUser from "../use-user-hook/use-user.hook";
 
@@ -14,7 +15,7 @@ export const useCategoryValueItems = () => {
   
   useEffect(() => {
     axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
-      url: Config().api.app.category._,
+      url: Config().api.user.category._,
       method: 'get',
       isAuth: true,
       data: {},
@@ -36,7 +37,9 @@ export const useCategoryValueItems = () => {
 
 
 
-
+/*
+  auth-controller
+*/
 export const useUserLogin = () => {
   const axios = useAxios();
 
@@ -81,5 +84,23 @@ export const useRefreshAccessToken = () => {
 
   return {
     start,
+  };
+};
+
+export const useTermList = () => {
+  const axios = useAxios();
+
+  const getInstance = useCallback((termType: ITerms.TermType) => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<ITerms.TermItem[]>>({
+      url: Config().api.user.term._,
+      method: 'get',
+      params: {
+        type: termType,
+      },
+    });
+  }, [axios]);
+
+  return {
+    getInstance,
   };
 };
