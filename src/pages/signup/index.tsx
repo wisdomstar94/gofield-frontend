@@ -3,6 +3,7 @@ import Head from "next/head";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import Input from "../../components/forms/input/input.component";
 import MultipleCheckItems from "../../components/forms/multiple-check-items/multiple-check-items.component";
+import TermsCheck from "../../components/forms/terms-check/terms-check.component";
 import Formbox, { FormboxItem } from "../../components/layouts/form-box/form-box.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
@@ -69,6 +70,13 @@ const PageContents = () => {
                 <MultipleCheckItems
                   __valueItems={categoryValueItems}
                   __onChange={info => { console.log(`info`, info) }} />
+              </>
+            } />
+          <FormboxItem
+            __titleComponent={<>약관동의</>}
+            __contentComponent={
+              <>
+                <TermsCheck />
               </>
             } />
         </Formbox>
