@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useRefreshAccessToken } from "../../../hooks/use-api-hook/use-api.hook";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
@@ -9,6 +10,7 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
   const [validState, setValidState] = useState<'' | 'valid' | 'invalid'>('');
   const user = useUser();
   const refreshAccessToken = useRefreshAccessToken();
+  const router = useRouter();
 
   useEffect(() => {
     const accessToken = user.getAccessToken();
@@ -40,21 +42,29 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
     switch (accessTokenInvalidType) {
       case 'empty-jwt': {
         console.error('empty-jwt');
+        user.removeAll();
+        router.push('/login', undefined, { shallow: true });
       } break;
       case 'expired': {
         console.error('expired');
+        user.removeAll();
+        router.push('/login', undefined, { shallow: true });
       } break;
       case 'not-first-user': {
         console.error('not-first-user');
+        router.push('/', undefined, { shallow: true });
       } break;
       case 'not-jwt': {
         console.error('not-jwt');
+        user.removeAll();
+        router.push('/login', undefined, { shallow: true });
       } break;
       case 'not-signup-complete-user': {
         console.error('not-signup-complete-user');
+        router.push('/signup', undefined, { shallow: true });
       } break;
     }
-  }, []);
+  }, [router, user]);
 
   const accessTokenCheck = useCallback(() => {
     const accessToken = user.getAccessToken();

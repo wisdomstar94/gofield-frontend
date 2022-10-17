@@ -1,0 +1,26 @@
+.button {
+  width: 100%;
+  display: inline-flex;
+  margin: 0;
+  padding: 14px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #231f20;
+  border: 1px solid #231f20;
+
+  &.disable {
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid #c5c8ce;
+    color: #c5c8ce;
+    cursor: none;
+  }
+
+  &:not(.disable):hover {
+    background-color: #000000;
+  }
+}

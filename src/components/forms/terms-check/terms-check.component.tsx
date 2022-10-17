@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ITerms } from '../../../interfaces/terms/terms.interface';
 import ModalTermsView from '../../modals/modal-terms-view/modal-terms-view.component';
 import { IModalTermsView } from '../../modals/modal-terms-view/modal-terms-view.interface';
 import SvgArrowRightIcon from '../../svgs/svg-arrow-right-icon/svg-arrow-right-icon.component';
@@ -14,6 +15,9 @@ const TermsCheck = (props: ITermsCheck.Props) => {
   const [freeTermAccordionState, setFreeTermAccordionState] = useState<ITermsCheck.AccordionState>('');
 
   // 필수
+  const privacyTermRecentIdRef = useRef<number>(0);
+  const serviceUseTermRecentIdRef = useRef<number>(0);
+
   const [serviceUseTermAgreeState, setServiceUseTermAgreeState] = useState(false);
   const [privacyTermAgreeState, setPrivacyTermAgreeState] = useState(false);
 
@@ -54,11 +58,19 @@ const TermsCheck = (props: ITermsCheck.Props) => {
     if (serviceUseTermAgreeState || privacyTermAgreeState) {
       setServiceUseTermAgreeState(false);
       setPrivacyTermAgreeState(false);
+      if (typeof props.__onAgreeListChange === 'function') {
+        props.__onAgreeListChange([]);
+      }
     } else {
       setServiceUseTermAgreeState(true);
       setPrivacyTermAgreeState(true);
+      if (typeof props.__onAgreeListChange === 'function') {
+        if (privacyTermRecentIdRef.current !== 0 && serviceUseTermRecentIdRef.current !== 0) {
+          props.__onAgreeListChange([ privacyTermRecentIdRef.current, serviceUseTermRecentIdRef.current ]);
+        }
+      }
     }
-  }, [privacyTermAgreeState, serviceUseTermAgreeState]);
+  }, [privacyTermAgreeState, props, serviceUseTermAgreeState]);
 
   const requiredTermArrowIconClick = useCallback(() => {
     if (requiredTermAccordionState === 'show') {
@@ -99,6 +111,16 @@ const TermsCheck = (props: ITermsCheck.Props) => {
   const emailItemClick = useCallback(() => {
     setEmailAgreeState(!emailAgreeState);
   }, [emailAgreeState]);
+
+  useEffect(() => {
+    if (typeof props.__onSelectionListChange === 'function') {
+      const list: ITerms.TermSelectionType[] = [];
+      if (appPushAgreeState) { list.push('PUSH'); }
+      if (smsAgreeState) { list.push('SMS'); }
+      if (emailAgreeState) { list.push('EMAIL'); }
+      props.__onSelectionListChange(list);
+    }
+  }, [appPushAgreeState, smsAgreeState, emailAgreeState, props]);
 
   return (
     <>
@@ -253,7 +275,8 @@ const TermsCheck = (props: ITermsCheck.Props) => {
                   <div className={[
                       styles['text-area']
                     ].join(' ')}>
-                    앱푸시
+                    앱푸시 
+                    {/* PUSH */}
                   </div>
                 </div>
               </li>
@@ -279,6 +302,7 @@ const TermsCheck = (props: ITermsCheck.Props) => {
                       styles['text-area']
                     ].join(' ')}>
                     문자메시지
+                    {/* SMS */}
                   </div>
                 </div>
               </li>
@@ -304,6 +328,7 @@ const TermsCheck = (props: ITermsCheck.Props) => {
                       styles['text-area']
                     ].join(' ')}>
                     이메일
+                    {/* EMAIL */}
                   </div>
                 </div>
               </li>
@@ -312,8 +337,8 @@ const TermsCheck = (props: ITermsCheck.Props) => {
         </li>
       </ul>
 
-      <ModalTermsView ref={modalTermsViewPrivacyRef} __termType="PRIVACY" />
-      <ModalTermsView ref={modalTermsViewSignupRef} __termType="SIGNUP" />
+      <ModalTermsView ref={modalTermsViewPrivacyRef} __termType="PRIVACY" __onRecentId={ id => privacyTermRecentIdRef.current = id } />
+      <ModalTermsView ref={modalTermsViewSignupRef} __termType="SIGNUP" __onRecentId={ id => serviceUseTermRecentIdRef.current = id } />
     </>
   );
 };

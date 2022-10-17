@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import Config from '../configs/config.export';
 import styles from '../styles/Home.module.scss'
 
@@ -13,7 +14,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageContents />
+      <AccessTokenCheck __checkTarget="signup-complete-user">
+        <PageContents />
+      </AccessTokenCheck>
     </>
   )
 };

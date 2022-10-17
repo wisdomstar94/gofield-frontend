@@ -1,3 +1,6 @@
+import { ILogin } from "../../interfaces/login/login.interface";
+import { getJwtPayload } from "../../librarys/jwt-util/jwt-util.library";
+
 const useUser = () => {
   // const axios = useAxios();
   const ACCESS_TOKEN = 'accessToken';
@@ -25,6 +28,17 @@ const useUser = () => {
 
 
 
+  function getAccessTokenPayload() {
+    const accessToken = getAccessToken();
+    if (accessToken === null) {
+      return null;
+    }
+    const payload = getJwtPayload<ILogin.JwtPayload>(accessToken);
+    return payload;
+  }
+
+
+
   function setRefreshToken(token: string): void {
     localStorage.setItem(REFRESH_TOKEN, token);
   }
@@ -45,6 +59,7 @@ const useUser = () => {
     getRefreshToken,
     removeRefreshToken,
     removeAll,
+    getAccessTokenPayload,
   };
 };
 

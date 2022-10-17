@@ -29,43 +29,43 @@ const ModalTermsView = forwardRef((props: IModalTermsView.Props, ref: ForwardedR
 
   const [modalState, setModalState] = useState<IModalTermsView.ModalState>('');
   useEffect(() => {
-    if (modalState === 'show') {
-      termList.getInstance(props.__termType).then((response) => {
-        if (response.data.status !== true) {
-          return;
+    termList.getInstance(props.__termType).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      const termList = response.data.data;
+      const recentTerm = termList[0];
+      if (recentTerm === undefined) {
+        return;
+      }
+
+      if (typeof props.__onRecentId === 'function') {
+        props.__onRecentId(recentTerm.id);
+      }
+      // setIframeUrl(recentTerm.url);
+      // setIframeUrl('/terms/privacy/privacy-20221101');
+
+      axios.getAxiosInstance<any>({
+        // url: '/terms/privacy/privacy-20221101',
+        url: recentTerm.url,
+        method: 'get',
+      }).then((response) => {
+        console.log('response.data', response.data);
+        const domParser = new DOMParser();
+        const dom = domParser.parseFromString(response.data, "text/html");
+        const htmlContent = dom.querySelector('.terms-content-area')?.innerHTML;
+        if (typeof htmlContent === 'string') {
+          setTermHtmlContent(htmlContent);
         }
-
-        const termList = response.data.data;
-        const recentTerm = termList[0];
-        if (recentTerm === undefined) {
-          return;
-        }
-
-        // setIframeUrl(recentTerm.url);
-        // setIframeUrl('/terms/privacy/privacy-20221101');
-
-        axios.getAxiosInstance<any>({
-          // url: '/terms/privacy/privacy-20221101',
-          url: recentTerm.url,
-          method: 'get',
-        }).then((response) => {
-          console.log('response.data', response.data);
-          const domParser = new DOMParser();
-          const dom = domParser.parseFromString(response.data, "text/html");
-          const htmlContent = dom.querySelector('.terms-content-area')?.innerHTML;
-          if (typeof htmlContent === 'string') {
-            setTermHtmlContent(htmlContent);
-          }
-          // setTermHtmlContent(response.data);
-        });
-        
-      }).catch((error) => {
-
+        // setTermHtmlContent(response.data);
       });
-    }
+      
+    }).catch((error) => {
 
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalState]);
+  }, []);
 
   const backButtonClick = useCallback(() => {
     setModalState('hide');

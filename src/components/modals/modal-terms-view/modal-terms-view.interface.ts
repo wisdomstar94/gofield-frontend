@@ -10,5 +10,6 @@ export declare namespace IModalTermsView {
 
   export interface Props {
     __termType: ITerms.TermType;
+    __onRecentId: (id: number) => void;
   }
 }
