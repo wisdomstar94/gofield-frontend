@@ -1,0 +1,59 @@
+ul.step-items {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  > li.item {
+    list-style-type: none;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    white-space: pre-line;
+    word-break: keep-all;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 0.98rem;
+
+    &.pass {
+      background-color: #e9ebee;
+      color: #c5c8ce;
+    } 
+
+    &.current {
+      background-color: #13162b;
+      color: #fff;
+    }
+
+    &.yet {
+      border: 1px solid #e9ebee;
+      color: #1e2238;
+    }
+
+    &.between-area {
+      width: 26px;
+
+      .circle {
+        width: 4px;
+        height: 4px;
+        border-radius: 10px;
+        background-color: #e9ebee;
+        margin-right: 2px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
