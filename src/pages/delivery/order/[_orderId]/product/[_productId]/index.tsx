@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import AccessTokenCheck from "../../../../../../components/auth/access-token-check/access-token-check.component";
 import LinkText from "../../../../../../components/forms/link-text/link-text.component";
 import StepItems from "../../../../../../components/forms/step-items/step-items.component";
+import StrokeButtons from "../../../../../../components/forms/stroke-buttons/stroke-buttons.component";
 import BothSidebox from "../../../../../../components/layouts/both-side-box/both-side-box.component";
 import ContentArticle from "../../../../../../components/layouts/content-article/content-article.component";
 import EmptyRow from "../../../../../../components/layouts/empty-row/empty-row.component";
@@ -95,6 +96,22 @@ const PageContents = () => {
             __rightComponent={<>
               <LinkText __onClick={() => {  }}>자세히보기</LinkText>
             </>} />
+          <EmptyRow __style={{ height: '24px' }} />
+          <StrokeButtons
+            __buttonItems={[
+              {
+                textComponent: <>CJ대한통운</>,
+                onClick: () => {
+
+                },
+              },
+              {
+                textComponent: <>배송기사</>,
+                onClick: () => {
+
+                },
+              },
+            ]} />
         </ContentArticle>
       </WindowSizeContainer>
     </>

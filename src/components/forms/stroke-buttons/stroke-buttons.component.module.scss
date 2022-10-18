@@ -1,0 +1,40 @@
+.stroke-buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: stretch;
+  justify-content: center;
+  border: 1px solid #1e2238;
+
+  &.button-count-1 {
+    button.button {
+      width: 100%;
+    }
+  }
+
+  &.button-count-2 {
+    button.button {
+      width: 50%;
+
+      &:not(:last-child) {
+        border-right: 1px solid #1e2238;
+      }
+    }
+  }
+
+  button.button {
+    padding: 14px 20px;
+    box-sizing: border-box;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0);
+    color: #1e2238;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+}
