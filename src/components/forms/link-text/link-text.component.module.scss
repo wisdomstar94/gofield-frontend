@@ -1,0 +1,14 @@
+a.link-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  white-space: pre-line;
+  word-break: break-all;
+  cursor: pointer;
+
+  &.normal {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #1e2238;
+  }
+}

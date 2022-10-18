@@ -1,0 +1,26 @@
+.both-side-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+  .common-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+    align-items: stretch;
+
+    &.left {
+      width: 50%;
+      justify-content: flex-start;
+    }
+
+    &.right {
+      width: 50%;
+      justify-content: flex-end;
+    }
+  }
+}
