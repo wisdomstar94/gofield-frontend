@@ -65,6 +65,12 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
       
+      main: {
+        error: {
+          _: baseUrl + `/api/main/${apiVersion}/error`,
+        },
+      },
+
       third: {
         ready: {
           _: baseUrl + `/api/third/${apiVersion}/ready`,

@@ -1,0 +1,230 @@
+.modal-item-container {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+
+  &.hide {
+    animation-name: modalItemContainerHide;
+
+    .modal-container {
+      animation-name: modalContainerHide;
+    }
+  }
+
+  &.show {
+    animation-name: modalItemContainerShow;
+
+    .modal-container {
+      animation-name: modalContainerShow;
+    }
+  }
+
+  .background {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-container {
+    width: 320px;
+    max-height: calc(100% - 40px);
+    position: relative;
+    z-index: 3;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+
+    .modal {
+      width: 100%;
+      display: block;
+      max-height: calc(100vh - 100px);
+      background-color: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      overflow-y: scroll;
+      position: relative;
+      z-index: 3;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        position: absolute;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      .top-area {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative; 
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 24px;
+
+        .title-row {
+          width: 100%;
+          padding: 24px;
+          display: flex;
+          flex-wrap: wrap;
+          position: relative;
+          justify-content: center;
+          align-items: center;
+          font-size: 0.9rem;
+          color: #1e2238;
+          font-weight: bold;
+          box-sizing: border-box;
+
+          &.title-style-b {
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            text-align: left;
+            justify-content: flex-start;
+            border-bottom: 1px solid #e9ebee;
+            font-size: 1.2rem;
+          }
+        }
+
+        .content-row {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          color: #1e2238;
+          font-weight: normal;
+          text-align: center;
+          white-space: pre-line;
+          word-break: break-all;
+          font-size: 0.9rem;
+        }
+      }
+
+      .bottom-area {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative; 
+        justify-content: space-between;
+        align-items: stretch;
+
+        .modal-button {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 0.9rem;
+          box-sizing: border-box;
+          padding: 14px 20px;
+          border: 0;
+
+          &.total-count-1 {
+            width: 100%;
+          }
+
+          &.total-count-2 {
+            width: 50%;
+          }
+
+          &.total-count-3 {
+            width: 33.3333%;
+          }
+
+          &.negative-button {
+            background-color: #e9ebee;
+            color: #1e2238;
+          }
+
+          &.positive-button {
+            background-color: #231f20;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes modalItemContainerShow {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  1% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes modalItemContainerHide {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+  99% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+
+@keyframes modalContainerShow {
+  0% {
+    transform: translateY(50px);
+  }
+  1% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalContainerHide {
+  0% {
+    transform: translateY(0);
+  }
+  99% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(50px);
+  }
+}

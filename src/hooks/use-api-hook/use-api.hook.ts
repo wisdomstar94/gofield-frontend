@@ -121,6 +121,29 @@ export const useUserSignup = () => {
 
 
 
+/*
+  Main Controller
+*/
+export const useErrorApi = () => {
+  const axios = useAxios();
+
+  const getInstance = useCallback(() => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<ITerms.TermItem[]>>({
+      url: Config().api.main.error._,
+      method: 'get',
+    });
+  }, [axios]);
+
+  return {
+    getInstance,
+  };
+};
+
+
+
+
+
+
 
 
 

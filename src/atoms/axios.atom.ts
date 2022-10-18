@@ -4,7 +4,7 @@ import { IResponse } from "../interfaces/response/response.interface";
 
 export const axiosGloballErrorAtom = atom({
   key: 'axiosGloballError',
-  default: null as null | AxiosError<IResponse.ErrorResponse>,
+  default: null as null | AxiosError<IResponse.CommonResponse<null>>,
 });
 
 export const axiosGlobalResponseAtom = atom({

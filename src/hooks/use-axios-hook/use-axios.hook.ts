@@ -67,9 +67,13 @@ const useAxios = () => {
     return instance.request<T>({ url: params.url, data: params.data, params: params.params });
   }
 
-  function isAccessTokenInvalid(error: AxiosError<IResponse.ErrorResponse>) {
+  function isAccessTokenInvalid(error: AxiosError<IResponse.CommonResponse<null>>) {
     // access token 이 만료되거나 유효하지 않다는 응답을 체크하는 로직 작성. 만료 & 유효하지 않다는 응답이 맞으면 true, 그렇지 않으면 false 를 반환하도록 작성하면 됨.
-    return true;
+    if (error.status === 401) {
+      return true;
+    }
+
+    return false;
   }
 
   function refreshAccessToken() {

@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <RootComponent>
-          <Component {...pageProps} />    
+          <Component {...pageProps} />
         </RootComponent>
       </RecoilRoot>
     </>
