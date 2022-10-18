@@ -8,6 +8,7 @@ import SvgSocialSymbolKakao from "../../components/svgs/svg-social-symbol-kakao/
 import SvgSocialSymbolNaver from "../../components/svgs/svg-social-symbol-naver/svg-social-symbol-naver.component";
 import { useCallback } from "react";
 import Config from "../../configs/config.export";
+import NotLoginCheck from "../../components/auth/not-login-check/not-login-check.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -18,7 +19,9 @@ const LoginPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageContents />
+      <NotLoginCheck>
+        <PageContents />
+      </NotLoginCheck>
     </>
   );
 };  
