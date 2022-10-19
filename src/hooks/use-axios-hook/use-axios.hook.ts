@@ -69,7 +69,7 @@ const useAxios = () => {
 
   function isAccessTokenInvalid(error: AxiosError<IResponse.CommonResponse<null>>) {
     // access token 이 만료되거나 유효하지 않다는 응답을 체크하는 로직 작성. 만료 & 유효하지 않다는 응답이 맞으면 true, 그렇지 않으면 false 를 반환하도록 작성하면 됨.
-    if (error.status === 401) {
+    if (error.response?.data.error?.code === 'U4100') {
       return true;
     }
 

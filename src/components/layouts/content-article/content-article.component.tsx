@@ -11,6 +11,7 @@ const ContentArticle = (props: IContentArticle.Props) => {
         style={{
           padding: props.__padding,
           marginBottom: props.__marginBottom,
+          backgroundColor: props.__bgOpacityZero === true ? 'rgba(255, 255, 255, 0' : undefined,
         }}>
         { props.children }
       </article>

@@ -30,6 +30,20 @@ export const useCategoryValueItems = () => {
   return valueItems;
 };
 
+export const useExchangeReturnReasonValueItems = () => {
+  const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([
+    { text: '상품이 마음에 들지 않음 (단순변심)', value: '1' },
+    { text: '상품이 문제 있음 (불량)', value: '2' },
+    { text: '상품이 설명과 다름', value: '3' },
+    { text: '상품이 누락됨', value: '4' },
+    { text: '다른 상품이 배송됨', value: '5' },
+    { text: '다른 주소로 배송됨', value: '6' },
+  ]);
+
+  return valueItems;
+};
+
+
 
 
 
