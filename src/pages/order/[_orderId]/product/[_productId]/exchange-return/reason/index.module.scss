@@ -1,0 +1,15 @@
+.button-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+
+@media all and (max-height: 500px) {
+  .button-row {
+    position: relative;
+  }
+}

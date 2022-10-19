@@ -1,0 +1,27 @@
+.check-box {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+
+  // &.none-checked {
+
+  // }
+
+  // &.checked {
+    
+  // }
+
+  .check-icon-area {
+    display: inline-flex;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .check-text-area {
+    display: inline-flex;
+    position: relative;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+}

@@ -1,5 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import AccessTokenCheck from "../../../../../../../components/auth/access-token-check/access-token-check.component";
 
 const ExchangeReturnApplyPage: NextPage = () => {
@@ -19,9 +21,27 @@ const ExchangeReturnApplyPage: NextPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    const {
+      _orderId,
+      _productId,
+      reasonList,
+    } = router.query;
+    console.log('_orderId', _orderId);
+    console.log('_productId', _productId);
+    console.log('reasonList', reasonList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   return (
     <>
-    
+      apply...
     </>
   );
 };
