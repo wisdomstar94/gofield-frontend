@@ -113,6 +113,37 @@ const PageContents = () => {
               },
             ]} />
         </ContentArticle>
+
+        <ContentArticle>
+          <BothSidebox 
+            __leftComponentStyle={{ 'width': '0' }}
+            __rightComponentStyle={{ 'width': '100%' }}
+            __leftComponent={<></>}
+            __rightComponent={<><LinkText __onClick={() => {  }}>주문 상세보기</LinkText></>} />
+          
+        </ContentArticle>    
+
+        <ContentArticle>
+          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="10px">
+            <ListItem>
+              <span style={{ fontSize: '0.9rem', color: '#374553', fontWeight: 'bold' }}>홍길동</span>
+            </ListItem>
+            <ListItem __marginBottom="20px">
+              <span style={{ fontSize: '0.9rem', color: '#1e2238', fontWeight: 'normal' }}>
+                (00000) 서울특별시 강남구 역삼동 12345 123<br />
+                010-0000-0000
+              </span>
+            </ListItem>
+            <ListItem __marginBottom="20px">
+              <EmptyRow __style={{ height: '1px', backgroundColor: '#e9ebee' }}></EmptyRow>
+            </ListItem>
+            <ListItem __marginBottom="0">
+              <span style={{ fontSize: '0.9rem', color: '#1e2238', fontWeight: 'normal' }}>
+                배송요청사항 : 문 앞에 놔두고 가주세요
+              </span>
+            </ListItem>
+          </List>
+        </ContentArticle>
       </WindowSizeContainer>
     </>
   );
