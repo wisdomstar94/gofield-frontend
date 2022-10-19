@@ -123,7 +123,7 @@ const PageContents = () => {
             __rightComponent={<><LinkText __onClick={() => {  }}>주문 상세보기</LinkText></>} />
           <EmptyRow __style={{ 'height': '24px' }} />
           <ProductRowItem />
-          <ProductRowItem />
+          {/* <ProductRowItem /> */}
         </ContentArticle>    
 
         <ContentArticle>
