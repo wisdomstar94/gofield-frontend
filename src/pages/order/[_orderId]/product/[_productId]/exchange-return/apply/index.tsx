@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../../../../../../components/auth/access-token-check/access-token-check.component";
 import BothSidebox from "../../../../../../../components/layouts/both-side-box/both-side-box.component";
 import ContentArticle from "../../../../../../../components/layouts/content-article/content-article.component";
@@ -19,6 +19,7 @@ import Checkbox from "../../../../../../../components/forms/checkbox/checkbox.co
 import Button from "../../../../../../../components/forms/button/button.component";
 import { getNextRouterQueryToUrlQueryString } from "../../../../../../../librarys/string-util/string-util.library";
 import ModalAddressManage from "../../../../../../../components/modals/modal-address-manage/modal-address-manage.component";
+import { IModalAddressManage } from "../../../../../../../components/modals/modal-address-manage/modal-address-manage.interface";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -41,6 +42,7 @@ const PageContents = () => {
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
   const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
   const [reasonList, setReasonList] = useState<string[]>([]);
+  const modalAddressManageComponentRef = useRef<IModalAddressManage.RefObject>(null);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -207,7 +209,7 @@ const PageContents = () => {
               </span>
             </>}
             __rightComponent={<>
-              <Button __buttonStyle="small-gray-stroke-radius">
+              <Button __buttonStyle="small-gray-stroke-radius" __onClick={() => modalAddressManageComponentRef?.current?.show()}>
                 변경하기
               </Button>
             </>} />
@@ -240,7 +242,7 @@ const PageContents = () => {
           </>} />
       </WindowSizeContainer>
       
-      <ModalAddressManage __modalState="show" />
+      <ModalAddressManage ref={modalAddressManageComponentRef} />
     </>
   );
 };

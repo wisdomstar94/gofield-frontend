@@ -19,11 +19,11 @@ const ModalAddressManage = forwardRef((props: IModalAddressManage.Props, ref: Fo
   }));
 
   const show = useCallback(() => {
-
+    setModalState('show');
   }, []);
 
   const hide = useCallback(() => {
-
+    setModalState('hide');
   }, []);
 
   useEffect(() => {
@@ -36,6 +36,9 @@ const ModalAddressManage = forwardRef((props: IModalAddressManage.Props, ref: Fo
         modalState === 'show' ?
         <WindowSizeContainer __bgColor="#ffffff">
           <Topbar
+            __backButtonClickCallback={() => {
+              hide();
+            }}
             __layoutTypeA={{
               titleComponent: <>주소록</>
             }} />
