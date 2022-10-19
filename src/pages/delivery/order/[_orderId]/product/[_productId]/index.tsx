@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import AccessTokenCheck from "../../../../../../components/auth/access-token-check/access-token-check.component";
 import LinkText from "../../../../../../components/forms/link-text/link-text.component";
+import ProductRowItem from "../../../../../../components/forms/product-row-item/product-row-item.component";
 import StepItems from "../../../../../../components/forms/step-items/step-items.component";
 import StrokeButtons from "../../../../../../components/forms/stroke-buttons/stroke-buttons.component";
 import BothSidebox from "../../../../../../components/layouts/both-side-box/both-side-box.component";
@@ -120,7 +121,9 @@ const PageContents = () => {
             __rightComponentStyle={{ 'width': '100%' }}
             __leftComponent={<></>}
             __rightComponent={<><LinkText __onClick={() => {  }}>주문 상세보기</LinkText></>} />
-          
+          <EmptyRow __style={{ 'height': '24px' }} />
+          <ProductRowItem />
+          <ProductRowItem />
         </ContentArticle>    
 
         <ContentArticle>

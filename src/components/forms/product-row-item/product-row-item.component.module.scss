@@ -1,0 +1,39 @@
+.container {
+  margin-bottom: 24px;
+
+  .product-row-item {
+    width: 100%;
+    margin-bottom: 24px;
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: flex-start;
+
+    .common-area {
+      display: flex;
+      position: relative;
+      align-items: flex-start;
+      justify-content: flex-start;
+      box-sizing: border-box;
+
+      &.left-area {
+        width: 80px;
+        height: 80px;
+      }
+
+      &.right-area {
+        width: calc(100% - 80px);
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .button-row {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    position: relative;
+  }
+}
