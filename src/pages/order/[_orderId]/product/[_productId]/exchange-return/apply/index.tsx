@@ -18,6 +18,7 @@ import Titlebox from "../../../../../../../components/layouts/title-box/title-bo
 import Checkbox from "../../../../../../../components/forms/checkbox/checkbox.component";
 import Button from "../../../../../../../components/forms/button/button.component";
 import { getNextRouterQueryToUrlQueryString } from "../../../../../../../librarys/string-util/string-util.library";
+import ModalAddressManage from "../../../../../../../components/modals/modal-address-manage/modal-address-manage.component";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -206,7 +207,7 @@ const PageContents = () => {
               </span>
             </>}
             __rightComponent={<>
-              <Button __buttonStyle="gray-stroke-radius">
+              <Button __buttonStyle="small-gray-stroke-radius">
                 변경하기
               </Button>
             </>} />
@@ -238,6 +239,8 @@ const PageContents = () => {
             </Button>
           </>} />
       </WindowSizeContainer>
+      
+      <ModalAddressManage __modalState="show" />
     </>
   );
 };

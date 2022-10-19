@@ -27,6 +27,9 @@ const Button = (props: IButton.Props) => {
           styles[buttonStyle],
           props.__disable === true ? styles['disable'] : '',
         ].join(' ')}
+        style={{
+          borderRadius: props.__borderRadius,
+        }}
         onClick={buttonClick}>
         { props.children }
       </button>

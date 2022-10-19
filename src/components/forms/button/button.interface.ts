@@ -3,12 +3,16 @@ import React from "react";
 export declare namespace IButton {
   export type ButtonStyle = 
     'black-solid' | 
-    'gray-stroke-radius' | 
-    'gray-solid'
+    'black-solid-radius' |
+    'small-gray-stroke-radius' | 
+    'small-gray-solid-radius' | 
+    'gray-solid' | 
+    'gray-solid-radius'
   ;
 
   export interface Props {
     __buttonStyle?: ButtonStyle;
+    __borderRadius?: string;
     __disable?: boolean;
     __onClick?: () => void;  
 
