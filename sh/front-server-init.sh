@@ -36,3 +36,10 @@ EOI
 sed -i'' -r -e "/User specific environment and startup programs/a\\$exportContent" ~/.bash_profile
 sed -i'' -r -e "/User specific environment and startup programs/a\\$exportContent" /home/ec2-user/.bash_profile
 # 이후에는 ec2-user 계정인 상태에서 "source ~/.bash_profile" 명령어 진행
+
+# nginx 설치
+sudo amazon-linux-extras install nginx1 -y
+
+# certbot 설치
+sudo amazon-linux-extras install epel -y
+sudo yum install certbot-nginx -y
