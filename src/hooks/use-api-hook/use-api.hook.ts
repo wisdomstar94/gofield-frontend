@@ -164,6 +164,10 @@ export const useErrorApi = () => {
 /*
   User Controller
 */
+
+/**
+ * @description /api/user/{version}/term 이용약관 리스트 조회
+ */
 export const useTermList = () => {
   const axios = useAxios();
 

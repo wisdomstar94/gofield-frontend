@@ -4,8 +4,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import Button from "../../components/forms/button/button.component";
-import Input from "../../components/forms/input/input.component";
-import MultipleCheckItems from "../../components/forms/multiple-check-items/multiple-check-items.component";
 import TermsCheck from "../../components/forms/terms-check/terms-check.component";
 import Formbox, { FormboxItem } from "../../components/layouts/form-box/form-box.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
@@ -57,35 +55,38 @@ const PageContents = () => {
   }, [user]);
 
   const detailInfoChange = useCallback(() => {
-    if (typeof signupDetailInfoRef.current.height !== 'string') {
-      setSignupButtonState('invalid');
-      return;
-    }
+    /*
+     * [2022-10-28] 신체사이즈와 관심스포츠 종목은 회원가입시 입력 받지 않는 것으로 기획 변경됨. 
+    */
+    // if (typeof signupDetailInfoRef.current.height !== 'string') {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
-    if (signupDetailInfoRef.current.height.trim() === '') {
-      setSignupButtonState('invalid');
-      return;
-    }
+    // if (signupDetailInfoRef.current.height.trim() === '') {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
-    if (isNaN(Number(signupDetailInfoRef.current.height))) {
-      setSignupButtonState('invalid');
-      return;
-    }
+    // if (isNaN(Number(signupDetailInfoRef.current.height))) {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
-    if (typeof signupDetailInfoRef.current.weight !== 'string') {
-      setSignupButtonState('invalid');
-      return;
-    }
+    // if (typeof signupDetailInfoRef.current.weight !== 'string') {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
-    if (signupDetailInfoRef.current.weight.trim() === '') {
-      setSignupButtonState('invalid');
-      return;
-    }
+    // if (signupDetailInfoRef.current.weight.trim() === '') {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
-    if (isNaN(Number(signupDetailInfoRef.current.weight))) {
-      setSignupButtonState('invalid');
-      return;
-    }
+    // if (isNaN(Number(signupDetailInfoRef.current.weight))) {
+    //   setSignupButtonState('invalid');
+    //   return;
+    // }
 
     if (signupDetailInfoRef.current.agreeList.length !== 2) {
       setSignupButtonState('invalid');
@@ -131,7 +132,7 @@ const PageContents = () => {
                   __onChange={e => {  }} /> */}
               </>
             } />
-          <FormboxItem
+          {/* <FormboxItem
             __titleComponent={<>신체사이즈</>}
             __contentComponent={
               <>
@@ -147,8 +148,8 @@ const PageContents = () => {
                   __value={signupDetailInfoRef.current.weight}
                   __onChange={value => { signupDetailInfoRef.current.weight = value; detailInfoChange(); }} />
               </>
-            } />
-          <FormboxItem
+            } /> */}
+          {/* <FormboxItem
             __titleComponent={<>관심 스포츠 종목</>}
             __contentComponent={
               <>
@@ -156,7 +157,7 @@ const PageContents = () => {
                   __valueItems={categoryValueItems}
                   __onChange={info => { signupDetailInfoRef.current.categoryList = info.currentCheckedValues.map(x => Number(x)); detailInfoChange(); }} />
               </>
-            } />
+            } /> */}
           <FormboxItem
             __titleComponent={<>약관동의</>}
             __contentComponent={
