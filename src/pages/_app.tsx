@@ -1,5 +1,5 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
+import '../styles/globals.scss';
+import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import RootComponent from './_root';
 import Head from 'next/head';
