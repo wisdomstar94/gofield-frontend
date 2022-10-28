@@ -143,7 +143,7 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
   }, []);
 
   const slideItemClasses = useCallback((index: number) => {
-    const classes: string[] = [styles['slide-item']];
+    const classes: Set<string> = new Set([styles['slide-item']]);
     const childrenCount = Children.count(props.children);
     const prevIndex = currentIndex - 1 < 0 ? childrenCount - 1 : currentIndex - 1;
     const nextIndex = currentIndex + 1 >= childrenCount ? 0 : currentIndex + 1;
@@ -152,37 +152,47 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
 
     // 슬라이드 아이템이 1개 이거나 2개인 경우는 아래와 같이 처리
     if (childrenCount === 1) {
-      classes.push(styles['current-index']);
-      return classes.join(' ');
+      classes.add(styles['current-index']);
+      return Array.from(classes).join(' ');
     } else if (childrenCount === 2) {
       if (currentIndex === 0) {
         if (index === 0) {
-          classes.push(styles['current-index']);
+          classes.add(styles['current-index']);
         } else if (index === 1) {
-          classes.push(styles['next-index']);
+          classes.add(styles['next-index']);
         }
       } else if (currentIndex === 1) {
         if (index === 0) {
-          classes.push(styles['prev-index']);
+          classes.add(styles['prev-index']);
         } else if (index === 1) {
-          classes.push(styles['current-index']);
+          classes.add(styles['current-index']);
         }
       }
-      return classes.join(' ');
+      return Array.from(classes).join(' ');
     }
     
     // 슬라이드 아이템이 3개 이상인 경우는 아래와 같이 처리
     if (index === currentIndex) {
-      classes.push(styles['current-index']);
+      classes.add(styles['current-index']);
     } else if (index === prevIndex) {
-      classes.push(styles['prev-index']);
+      classes.add(styles['prev-index']);
     } else if (index === nextIndex) {
-      classes.push(styles['next-index']);
+      classes.add(styles['next-index']);
     } else {
-      classes.push(styles['not-matched-index']);
+      classes.add(styles['not-matched-index']);
     }
 
-    return classes.join(' ');
+    if (!isLoop.current && index === prevIndex && currentIndex === 0) {
+      classes.delete(styles['prev-index']);
+      classes.add(styles['not-matched-index']);
+    }
+
+    if (!isLoop.current && index === nextIndex && currentIndex === Children.count(props.children) - 1) {
+      classes.delete(styles['next-index']);
+      classes.add(styles['not-matched-index']);
+    }
+
+    return Array.from(classes).join(' ');
   }, [currentIndex, props.children]);
 
   const paginationItemClasses = useCallback((index: number) => {
