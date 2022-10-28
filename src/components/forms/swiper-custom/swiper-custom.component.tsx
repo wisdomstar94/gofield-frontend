@@ -10,10 +10,17 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
   const isLoop = useRef(props.__isLoop ?? false);
   const isSwipping = useRef(false);
   const [currentIndex, setCurrentIndex] = useState(props.__currentIndex ?? 0);
+  const [activePaginationIndex, setActivePaginationIndex] = useState(props.__currentIndex ?? 0);
 
   useEffect(() => {
     setCurrentIndex(props.__currentIndex ?? 0);
+    setActivePaginationIndex(props.__currentIndex ?? 0);
   }, [props.__currentIndex]);
+
+  useEffect(() => {
+    getSlideItemElements(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
 
   useEffect(() => {
     swipeSpeed.current = props.__swipeSpeed ?? 400;
@@ -81,16 +88,16 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       
       if (isWillLeftSliding) {
         translateX = -getSwiperBoxWidth();
+        setActivePaginationIndex(nextIndex);
         completeCallback = () => {
           isSwipping.current = false;
-          getSlideItemElements(true);
           setCurrentIndex(nextIndex);
         };
       } else if (isWillRightSliding) {
         translateX = getSwiperBoxWidth();
+        setActivePaginationIndex(prevIndex);
         completeCallback = () => {
           isSwipping.current = false;
-          getSlideItemElements(true);
           setCurrentIndex(prevIndex);
         };
       }
@@ -178,24 +185,55 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
     return classes.join(' ');
   }, [currentIndex, props.children]);
 
+  const paginationItemClasses = useCallback((index: number) => {
+    const classes: string[] = [styles['item']];
+
+    if (activePaginationIndex === index) {
+      classes.push(styles['active']);
+    }
+
+    return classes.join(' ');
+  }, [activePaginationIndex]);
+
   return (
     <>
-      <div 
-        ref={swiperCustomDivRef}
-        className={[
-          styles['swiper-custom'],
+      <div className={[
+          styles['container']
         ].join(' ')}
         style={props.__style}>
-        {
-          Children.map(props.children, (child, index) => {
-            return (
-              <div key={index}
-                className={slideItemClasses(index)}>
-                { child }
-              </div>
-            );
-          })
-        }
+        <div 
+          ref={swiperCustomDivRef}
+          className={[
+            styles['swiper-custom'],
+          ].join(' ')}>
+          {
+            Children.map(props.children, (child, index) => {
+              return (
+                <div key={index}
+                  className={slideItemClasses(index)}>
+                  { child }
+                </div>
+              );
+            })
+          }
+        </div>
+
+        <ul className={[
+            styles['pagination-box']
+          ].join(' ')}>
+          {
+            Children.map(props.children, (child, index) => {
+              return (
+                <>
+                  <li key={index}
+                    className={paginationItemClasses(index)}>
+
+                  </li>
+                </>
+              );
+            })
+          }
+        </ul>
       </div>
     </>
   );
