@@ -12,5 +12,8 @@ export declare namespace ITopbar {
       bgColorTransparency?: boolean;
     };
 
+    __layoutTypeB?: {
+      titleComponent?: React.ReactNode;
+    };
   }
 }

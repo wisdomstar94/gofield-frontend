@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
+import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
+import SvgShoppingCartIcon from '../../svgs/svg-shopping-cart-icon/svg-shopping-cart-icon.component';
 import styles from './top-bar.component.module.scss';
 import { ITopbar } from './top-bar.interface';
 
@@ -54,7 +56,63 @@ const Topbar = (props: ITopbar.Props) => {
               </div>
             </div>
           </>
-          : ''
+          : <></>
+        }
+
+        {
+          props.__layoutTypeB !== undefined ?
+          <>
+            <div 
+              className={[
+                styles['layout-type-b']
+              ].join(' ')}>
+              <div 
+                className={[
+                  styles['left-area'],
+                ].join(' ')}>
+                {
+                  props.__layoutTypeB.titleComponent !== undefined ?
+                  <>
+                    {/* 뒤로가기 버튼 + 타이틀 */}
+                    <button className={[
+                        styles['back-button'],
+                      ].join(' ')}
+                      onClick={backButtonClick}>
+                      <span>icon<br />없음</span>  
+                    </button> 
+                    <div>
+                      { props.__layoutTypeB.titleComponent }
+                    </div>
+                  </>
+                  :
+                  <>
+                    {/* logo */}
+                    <div className={[
+                        styles['logo-area']
+                      ].join(' ')}>
+                      GOFIELD
+                    </div>
+                  </>
+                }
+              </div>
+              <div 
+                className={[
+                  styles['right-area'],
+                ].join(' ')}>
+                <div className={[
+                    styles['button-item']
+                  ].join(' ')}>
+                  <SvgShoppingCartIcon />
+                </div>
+                <div className={[
+                    styles['button-item']
+                  ].join(' ')}>
+                  <SvgMagnifyingGlassIcon />
+                </div>
+              </div>
+            </div>
+          </>
+          : <></>
         }
 
       </div>
