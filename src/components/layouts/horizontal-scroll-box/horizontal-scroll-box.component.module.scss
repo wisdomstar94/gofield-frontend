@@ -1,0 +1,27 @@
+.horizontal-sroll-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  overflow-y: scroll;
+  // white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media all and (max-width: 800px) {
+  .horizontal-sroll-box {
+    &::-webkit-scrollbar {
+      height: 0;
+    }
+  }
+}

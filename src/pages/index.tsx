@@ -4,8 +4,10 @@ import Link from 'next/link';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
+import ProductColumnItem from '../components/forms/product-column-item/product-column-item.component';
 import Article from '../components/layouts/article/article.component';
 import BothSidebox from '../components/layouts/both-side-box/both-side-box.component';
+import HorizontalScrollBox from '../components/layouts/horizontal-scroll-box/horizontal-scroll-box.component';
 import List, { ListItem } from '../components/layouts/list/list.component';
 import Topbar from '../components/layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../components/layouts/window-size-container/window-size-container.component';
@@ -47,6 +49,12 @@ const PageContents = () => {
                 <a style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'bold' }}>더보기 &gt;</a>
               </Link>
             </>} />
+          <HorizontalScrollBox>
+            <ProductColumnItem
+              __style={{ width: '150px' }}
+              __brandNameComponent={<>맥켄리</>}
+              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>} />
+          </HorizontalScrollBox>
         </Article>
       </WindowSizeContainer>
     </>
