@@ -7,6 +7,16 @@ export declare namespace IProductColumnItem {
     __brandNameComponent?: React.ReactNode;
     __productNameComponent?: React.ReactNode;
 
+    /**
+     * @description 새상품 최저가, 중고상품 최저가, 리뷰 별점
+     */
+    __infoTypeA?: {
+      newProductPrice: number;
+      oldProductPrice: number;
+      reviewCount: number;
+      reviewStarPoint: number;
+    };
+
     __style?: CSSProperties;
     children?: React.ReactNode;
   }

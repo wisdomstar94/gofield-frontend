@@ -53,7 +53,13 @@ const PageContents = () => {
             <ProductColumnItem
               __style={{ width: '150px' }}
               __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>} />
+              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
+              __infoTypeA={{
+                newProductPrice: 560000,
+                oldProductPrice: 210000,
+                reviewCount: 3,
+                reviewStarPoint: 4.7,
+              }} />
           </HorizontalScrollBox>
         </Article>
       </WindowSizeContainer>

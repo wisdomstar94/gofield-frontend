@@ -1,6 +1,10 @@
 import { IStringUtilLibrary } from "./string-util.interface";
 
 export const getAddCommaNumberString = (params: IStringUtilLibrary.AddCommaParams): string => {
+  if (typeof params.numberValue !== 'number' && typeof params.numberValue !== 'string') {
+    return 'null';
+  }
+
   let returnValue = '';
   if (typeof params.numberValue === 'number') {
     returnValue = params.numberValue.toString().replace(/,/gi, '').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
