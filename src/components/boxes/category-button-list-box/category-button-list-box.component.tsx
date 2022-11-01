@@ -46,7 +46,8 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
     <>
       <div className={[
           styles['container']
-        ].join(' ')}>
+        ].join(' ')}
+        style={props.__style}>
         <ul className={[
             styles['category-button-list']
           ].join(' ')}>

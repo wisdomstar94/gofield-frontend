@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export declare namespace ICategoryButtonListBox {
   export interface CategoryItem {
@@ -9,6 +9,7 @@ export declare namespace ICategoryButtonListBox {
   }
 
   export interface Props {
+    __style?: CSSProperties;
     children?: React.ReactNode;
   }
 }
