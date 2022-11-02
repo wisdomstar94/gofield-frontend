@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
+import { useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
@@ -29,6 +30,7 @@ const Home: NextPage = () => {
 };
 
 const PageContents = () => {
+  const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
 
   return (
     <>
@@ -50,16 +52,23 @@ const PageContents = () => {
               </Link>
             </>} />
           <HorizontalScrollBox>
-            <ProductColumnItem
-              __style={{ width: '150px' }}
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{
-                newProductPrice: 560000,
-                oldProductPrice: 210000,
-                reviewCount: 3,
-                reviewStarPoint: 4.7,
-              }} />
+            {
+              popularityProductList.map((item, index) => {
+                return (
+                  <ProductColumnItem
+                    key={index}
+                    __style={{ width: '150px' }}
+                    __brandNameComponent={<>맥켄리</>}
+                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
+                    __infoTypeA={{
+                      newProductPrice: 560000,
+                      oldProductPrice: 210000,
+                      reviewCount: 3,
+                      reviewStarPoint: 4.7,
+                    }} />
+                )
+              })
+            }
           </HorizontalScrollBox>
         </Article>
       </WindowSizeContainer>
