@@ -1,6 +1,18 @@
 import { IHorizontalScrollBox } from "./horizontal-scroll-box.interface";
 import styled from 'styled-components';
 
+const HorizontalScrollBox = (props: IHorizontalScrollBox.Props) => {
+  return (
+    <>
+      <StyleIn.Container style={props.__style}>
+        <StyleIn.InlineBox>
+          { props.children }
+        </StyleIn.InlineBox>
+      </StyleIn.Container>
+    </>
+  );
+};
+
 const StyleIn = {
   Container: styled.div<IHorizontalScrollBox.Props>`
     width: 100%;
@@ -32,18 +44,6 @@ const StyleIn = {
     flex-wrap: nowrap;
     position: relative;
   `,
-};
-
-const HorizontalScrollBox = (props: IHorizontalScrollBox.Props) => {
-  return (
-    <>
-      <StyleIn.Container>
-        <StyleIn.InlineBox>
-          { props.children }
-        </StyleIn.InlineBox>
-      </StyleIn.Container>
-    </>
-  );
 };
 
 export default HorizontalScrollBox;
