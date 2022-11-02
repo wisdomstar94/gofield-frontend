@@ -12,6 +12,8 @@ import HorizontalScrollBox from '../components/layouts/horizontal-scroll-box/hor
 import Topbar from '../components/layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../components/layouts/window-size-container/window-size-container.component';
 import styled from 'styled-components';
+import BottomMenuBar from '../components/layouts/bottom-menu-bar/bottom-menu-bar.component';
+import EmptyRow from '../components/layouts/empty-row/empty-row.component';
 
 const Home: NextPage = () => {
   return (
@@ -124,6 +126,8 @@ const PageContents = () => {
             <StyleIn.EmptyColumn />
           </HorizontalScrollBox>
         </Article>
+        <EmptyRow __style={{ height: '64px' }} />
+        <BottomMenuBar />
       </WindowSizeContainer>
     </>
   );
