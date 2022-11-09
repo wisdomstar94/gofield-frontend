@@ -10,25 +10,25 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
       categoryId: '001',
       categoryName: '골프',
       iconUrl: '',
-      link: '',
+      link: '/order/13/product/15/delivery',
     },
     {
       categoryId: '002',
       categoryName: '골프2',
       iconUrl: '',
-      link: '',
+      link: '/order/13/product/15/exchange-return/reason',
     },
     {
       categoryId: '003',
       categoryName: '골프3',
       iconUrl: '',
-      link: '',
+      link: '/order/13/product/15/exchange-return/apply?reasonList=2',
     },
     {
       categoryId: '004',
       categoryName: '골프4',
       iconUrl: '',
-      link: '',
+      link: '/cancel-return-exchange',
     },
     {
       categoryId: '005',
@@ -39,8 +39,8 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
   ]);
 
   const categoryButtonClick = useCallback((item: ICategoryButtonListBox.CategoryItem) => {
-    // router.push('')
-  }, []);
+    router.push(item.link, undefined, { shallow: true });
+  }, [router]);
 
   return (
     <>
