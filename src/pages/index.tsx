@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
@@ -14,6 +14,8 @@ import WindowSizeContainer from '../components/layouts/window-size-container/win
 import styled from 'styled-components';
 import BottomMenuBar from '../components/layouts/bottom-menu-bar/bottom-menu-bar.component';
 import EmptyRow from '../components/layouts/empty-row/empty-row.component';
+import ModalSearch from '../components/modals/modal-search/modal-search.component';
+import { IModalSearch } from '../components/modals/modal-search/modal-search.interface';
 
 const Home: NextPage = () => {
   return (
@@ -32,16 +34,22 @@ const Home: NextPage = () => {
 };
 
 const PageContents = () => {
+  const modalSearchRef = useRef<IModalSearch.RefObject>(null);
+
   const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
   const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
   const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
+
+  const searchButtonClick = useCallback(() => {
+    modalSearchRef.current?.getModal()?.show();
+  }, []);
 
   return (
     <>
       <WindowSizeContainer __bgColor="#f7f8f9">
         <Topbar
           __layoutTypeB={{
-            // titleComponent: <>x타이틀</>,
+            searchButtonClickCallback: searchButtonClick,
           }} />
         <BannerBox />
         <CategoryButtonListBox __style={{ marginBottom: '8px' }} />
@@ -128,6 +136,7 @@ const PageContents = () => {
         </Article>
         <EmptyRow __style={{ height: '64px' }} />
         <BottomMenuBar />
+        <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
     </>
   );

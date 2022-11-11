@@ -1,3 +1,15 @@
+button.back-button {
+  width: 56px;
+  height: 100%;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
 .top-bar {
   width: 100%;
   height: 56px;
@@ -36,18 +48,6 @@
       &.left-area {
         width: 56px;
         justify-content: center;
-  
-        button.back-button {
-          width: 100%;
-          height: 100%;
-          border: 0;
-          background-color: rgba(255, 255, 255, 0);
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-        }
       }
   
       &.center-area {
@@ -81,18 +81,6 @@
       align-items: center;
       justify-content: flex-start;
 
-      button.back-button {
-        width: 56px;
-        height: 100%;
-        border: 0;
-        background-color: rgba(255, 255, 255, 0);
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-      }
-
       .logo-area {
         display: inline-flex;
         font-weight: bolder;
@@ -125,6 +113,53 @@
         }
       }
     }
+  }
+
+  .layout-type-c {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom: 1px solid #e9ebee;
+
+    .left-area {
+      // width: calc(100% - 100px);
+      width: calc(100%);
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      align-items: center;
+      justify-content: flex-start;
+
+      .input-search {
+        width: calc(100% - 56px);
+        height: 100%;
+        border: 0;
+        outline: none;
+        font-size: 0.85rem;
+
+        &::placeholder {
+          color: #B2B7BB;
+        }
+      }
+    }
+
+    // .right-area {
+    //   width: 0;
+    //   box-sizing: border-box;
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   position: relative;
+    //   align-items: center;
+    //   justify-content: flex-end;
+    //   padding-right: 24px;
+    // }
   }
 }
 

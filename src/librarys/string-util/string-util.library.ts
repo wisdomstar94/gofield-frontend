@@ -87,3 +87,7 @@ export const getNextRouterQueryToUrlQueryString = (query: { [key: string]: strin
 
   return '?' + valueItems.map(x => `${x.text}=${x.value}`).join('&');
 };
+
+export function getClasses(classes: string[]) {
+  return classes.join(' ');
+};

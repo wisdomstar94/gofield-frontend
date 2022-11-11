@@ -14,6 +14,11 @@ export declare namespace ITopbar {
 
     __layoutTypeB?: {
       titleComponent?: React.ReactNode;
+      searchButtonClickCallback?: () => void;
+    };
+
+    __layoutTypeC?: {
+
     };
   }
 }

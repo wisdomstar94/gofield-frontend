@@ -1,0 +1,33 @@
+.search-result-box {
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  ul.search-result-list {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    > li.item {
+      width: 100%;
+      display: block;
+      list-style-type: none;
+      margin: 0;
+      padding: 16px 24px;
+      position: relative;
+      text-align: left;
+      box-sizing: border-box;
+      font-size: 0.8rem;
+      color: #000;
+      border-bottom: 1px solid #e9ebee;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f8f8f8;
+      }
+    }
+  }
+}
