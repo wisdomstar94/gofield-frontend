@@ -95,16 +95,8 @@ const PageContents = () => {
   }, [router.query.reasonList]);
 
   const preButtonClick = useCallback(() => {
-    const reasonList = getReasonList();
-    let reasonUrl = router.asPath.split('?')[0].split('/apply')[0] + '/reason';
-    if (reasonList.length > 0) {
-      const query = {
-        reasonList: reasonList,
-      };
-      reasonUrl += getNextRouterQueryToUrlQueryString(query);
-    }
-    router.push(reasonUrl, undefined, { shallow: true });
-  }, [getReasonList, router]);
+    history.back();
+  }, []);
 
   const applyButtonClick = useCallback(() => {
 

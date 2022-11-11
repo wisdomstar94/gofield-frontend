@@ -43,50 +43,6 @@ const PageContents = () => {
     setReasonList([checkboxChangeInfo.value]);
   }, []);
 
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-
-    const query = { ...router.query };
-    query.reasonList = reasonList;
-    const urlQueryString = getNextRouterQueryToUrlQueryString(query);
-    router.push(router.asPath.split('?')[0] + urlQueryString, undefined, { shallow: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasonList]);
-
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-
-    let reasonList = router.query.reasonList;
-    if (typeof reasonList === 'string') {
-      reasonList = [reasonList];
-    }
-
-    if (reasonList === undefined) {
-      return;
-    }
-
-    setReasonList(reasonList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
-
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-
-    const {
-      _orderId,
-      _productId,
-    } = router.query;
-    console.log('_orderId', _orderId);
-    console.log('_productId', _productId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
-
   const nextButtonClick = useCallback(() => {
     if (reasonList.length === 0) {
       setGlobalModalDefaultModalItem({
