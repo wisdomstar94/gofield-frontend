@@ -75,7 +75,7 @@ const PageContents = () => {
       positiveButtonState: 'show',
     });
     const reasonUrl = router.asPath.split('?')[0].split('/apply')[0] + '/reason';
-    router.push(reasonUrl, undefined, { shallow: true });
+    router.push(reasonUrl);
   }, [router, setGlobalModalDefaultModalItem]);
 
   const getReasonList = useCallback(() => {

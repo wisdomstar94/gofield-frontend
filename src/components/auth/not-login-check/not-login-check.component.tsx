@@ -43,7 +43,7 @@ const NotLoginCheck = (props: INotLoginCheck.Props) => {
 
   const doneLoginState = useCallback(() => {
     alert('로그인 되어 있는 상태에서는 접근할 수 없는 페이지 입니다. 메인 화면으로 이동합니다.');
-    router.push('/', undefined, { shallow: true });
+    router.push('/');
   }, [router]);
 
   return (

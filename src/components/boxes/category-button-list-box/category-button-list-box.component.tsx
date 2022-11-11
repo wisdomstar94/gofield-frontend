@@ -79,7 +79,7 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
   ]);
 
   const categoryButtonClick = useCallback((item: ICategoryButtonListBox.CategoryItem) => {
-    router.push(item.link, undefined, { shallow: true });
+    router.push(item.link);
   }, [router]);
 
   return (

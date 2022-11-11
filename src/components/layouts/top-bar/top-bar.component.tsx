@@ -16,7 +16,7 @@ const Topbar = (props: ITopbar.Props) => {
     }
 
     if (typeof props.__backButtonLink === 'string') {
-      router.push(props.__backButtonLink, undefined, { shallow: true });
+      router.push(props.__backButtonLink);
       return;
     }
 

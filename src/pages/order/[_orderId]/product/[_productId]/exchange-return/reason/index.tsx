@@ -62,7 +62,7 @@ const PageContents = () => {
       reasonList: reasonList,
     };
     const urlQueryString = getNextRouterQueryToUrlQueryString(query);
-    router.push(applyUrl + urlQueryString, undefined, { shallow: true });
+    router.push(applyUrl + urlQueryString);
   }, [reasonList, router, setGlobalModalDefaultModalItem]);
 
   return (

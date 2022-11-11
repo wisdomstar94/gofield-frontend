@@ -43,25 +43,25 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
       case 'empty-jwt': {
         console.error('empty-jwt');
         user.removeAll();
-        router.push('/login', undefined, { shallow: true });
+        router.push('/login');
       } break;
       case 'expired': {
         console.error('expired');
         user.removeAll();
-        router.push('/login', undefined, { shallow: true });
+        router.push('/login');
       } break;
       case 'not-first-user': {
         console.error('not-first-user');
-        router.push('/', undefined, { shallow: true });
+        router.push('/');
       } break;
       case 'not-jwt': {
         console.error('not-jwt');
         user.removeAll();
-        router.push('/login', undefined, { shallow: true });
+        router.push('/login');
       } break;
       case 'not-signup-complete-user': {
         console.error('not-signup-complete-user');
-        router.push('/signup', undefined, { shallow: true });
+        router.push('/signup');
       } break;
     }
   }, [router, user]);

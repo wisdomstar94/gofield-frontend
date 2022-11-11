@@ -106,7 +106,7 @@ const PageContents = () => {
       user.setRefreshToken(response.data.data.refreshToken);
 
       alert('회원가입이 완료되었습니다.');
-      router.push('/', undefined, { shallow: true });
+      router.push('/');
     }).catch((error) => {
 
     });

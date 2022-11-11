@@ -58,12 +58,12 @@ const PageContents = () => {
 
       if (response.data.data.isFirst) {
         // 회원 가입 페이지로 이동..
-        router.push('/signup', undefined, { shallow: true });
+        router.push('/signup');
         return;
       }
 
       // 메인페이지로 이동..
-      router.push('/', undefined, { shallow: true });
+      router.push('/');
     }).catch((error) => {
       // ...
     });
