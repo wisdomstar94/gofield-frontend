@@ -1,0 +1,44 @@
+$itemBetweenMargin: 12px;
+
+ul.container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: flex-start;
+  justify-content: flex-start;
+  position: relative;
+
+  &.col-2 {
+    > li.item {
+      width: calc((100% - $itemBetweenMargin) / 2);
+      margin-right: $itemBetweenMargin;
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.col-3 {
+    > li.item {
+      width: calc((100% - ($itemBetweenMargin * 2)) / 3);
+      margin-right: $itemBetweenMargin;
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  > li.item {
+    list-style-type: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 24px;
+    position: relative;
+  }
+}

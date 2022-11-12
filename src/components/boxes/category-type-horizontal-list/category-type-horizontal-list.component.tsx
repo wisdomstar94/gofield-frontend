@@ -31,7 +31,6 @@ const CategoryTypeHorizontalList = (props: ICategoryTypeHorizontalList.Props) =>
     } 
 
     const targetLi = ulRef.current.querySelector<HTMLElement>(`li[data-value="${activeValue}"]`);
-    console.log('targetLi', { a: targetLi });
     if (targetLi === null) {
       return;
     }
@@ -39,13 +38,15 @@ const CategoryTypeHorizontalList = (props: ICategoryTypeHorizontalList.Props) =>
     setScrollLeft(targetLi.offsetLeft < 200 ? 0 : targetLi.offsetLeft - 100);
   }, [activeValue]);
 
-  // useEffect(() => {
-  //   console.log('ulRef', ulRef.current?.children);
-  //   const targetLi = ulRef.current?.querySelector<HTMLElement>(`li[data-value="${activeValue}"]`);
-  //   console.log('targetLi', { a: targetLi });
-  //   // applyActiveValueItemScrollLeft();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [activeValue]);
+  const itemClick = useCallback((item: ICommon.ValueItem) => {
+    if (item.value === activeValue) {
+      return;
+    }
+
+    if (typeof props.__onItemClick === 'function') {
+      props.__onItemClick(item);
+    }
+  }, [activeValue, props]);
 
   return (
     <>
@@ -54,7 +55,9 @@ const CategoryTypeHorizontalList = (props: ICategoryTypeHorizontalList.Props) =>
           {
             valueItems.map((item, index) => {
               return (
-                <li key={index} className={getClasses([styles['item'], item.value === props.__activeValue ? styles['active'] : ''])} data-value={item.value}>
+                <li key={index} 
+                  className={getClasses([styles['item'], item.value === props.__activeValue ? styles['active'] : ''])} data-value={item.value}
+                  onClick={e => itemClick(item)}>
                   { item.text }
                 </li>
               );

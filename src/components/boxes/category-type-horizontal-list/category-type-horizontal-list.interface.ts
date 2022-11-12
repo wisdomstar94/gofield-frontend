@@ -5,6 +5,7 @@ export declare namespace ICategoryTypeHorizontalList {
   export interface Props {
     __valueItems?: ICommon.ValueItem[];
     __activeValue?: string;
+    __onItemClick?: (valueItem: ICommon.ValueItem) => void;
 
     children?: React.ReactNode;
   }

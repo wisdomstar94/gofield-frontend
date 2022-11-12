@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={true} />
+          {/* <ReactQueryDevtools initialIsOpen={true} /> */}
           <RootComponent>
             <Component {...pageProps} />
           </RootComponent>
