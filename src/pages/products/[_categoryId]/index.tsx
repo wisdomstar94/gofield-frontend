@@ -43,7 +43,7 @@ const ProductsPage = () => {
           }} />
         <CategoryTypeHorizontalList
           __valueItems={categoryTypeListQuery.data}
-          __activeValue="" />
+          __activeValue="etc" />
 
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
