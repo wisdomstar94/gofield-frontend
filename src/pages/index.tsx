@@ -63,9 +63,7 @@ const PageContents = () => {
                 <TextProductTypeTitle>인기 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
-                <Link href="#">
-                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
-                </Link>
+                <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
           <HorizontalScrollBox>
@@ -90,9 +88,7 @@ const PageContents = () => {
                 <TextProductTypeTitle>추천 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
-                <Link href="#">
-                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
-                </Link>
+                <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
           <HorizontalScrollBox>
@@ -117,9 +113,7 @@ const PageContents = () => {
                 <TextProductTypeTitle>최근 등록된 중고 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
-                <Link href="#">
-                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
-                </Link>
+                <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
           <HorizontalScrollBox>
@@ -144,32 +138,5 @@ const PageContents = () => {
     </>
   );
 };
-
-// const StyleIn = {
-//   ArticleTopRow: styled.div`
-//     width: 100%;
-//     display: block;
-//     padding: 24px;
-//     padding-bottom: 0;
-//     box-sizing: border-box;
-//   `,
-//   ProductTypeTitleText: styled.span`
-//     display: inline-flex;
-//     font-size: 0.9rem;
-//     color: #1e2238;
-//     font-weight: bold;
-//   `,
-//   MoreViewButtonText: styled.span`
-//     display: inline-flex;
-//     font-size: 0.8rem;
-//     color: #1e2238;
-//     font-weight: bold;
-//   `,
-//   EmptyColumn: styled.div`
-//     width: 24px;
-//     height: 1px;
-//     display: inline-flex;
-//   `,
-// };
 
 export default Home
