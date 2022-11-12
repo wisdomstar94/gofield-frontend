@@ -1,0 +1,100 @@
+$animationSpeed: 300ms;
+
+.background {
+  width: 0;
+  height: 0;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation-duration: $animationSpeed;
+  animation-fill-mode: both;
+
+  &.hide {
+    animation-name: backgroundHide;
+  }
+
+  &.show {
+    animation-name: backgroundShow;
+  }
+}
+
+@keyframes backgroundShow {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  1% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes backgroundHide {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+  99% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.modal {
+  width: 100%;
+  height: auto;
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  animation-duration: $animationSpeed;
+  animation-fill-mode: both;
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+
+  &.hide {
+    animation-name: modalHide;
+  }
+
+  &.show {
+    animation-name: modalShow;
+  }
+}
+
+@keyframes modalShow {
+  0% {
+    bottom: -100%;
+  }
+  1% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+@keyframes modalHide {
+  0% {
+    bottom: 0;
+  }
+  99% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: -100%;
+  }
+}
