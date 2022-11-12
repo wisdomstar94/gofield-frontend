@@ -1,0 +1,106 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  .image-area {
+    width: 100%;
+    height: 100px;
+    position: relative;
+
+    .icon-area {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      cursor: pointer;
+      padding: 4px;
+    }
+  }
+
+  .brand-name-area {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    font-size: 0.8rem;
+    color: #646f7c;
+    font-weight: bold;
+    letter-spacing: -0.03rem;
+    margin-bottom: 4px;
+  }
+
+  .product-name-area {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: #1e2238;
+    letter-spacing: -0.03rem;
+    word-break: break-all;
+    line-height: 1.09rem;
+    margin-bottom: 7px;
+  }
+
+  .info-area {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 0;
+    padding: 0;
+
+    .info-area-type-a {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      margin: 0;
+      padding: 0;
+
+      > .row {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        margin-bottom: 4px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.orange-text {
+  display: inline-flex;
+  color: #ff6247;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: -0.05rem;
+}
+
+.price-text {
+  display: inline-flex;
+  color: #1e2238;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: -0.05rem;
+}
+
+.star-text {
+  color: #646f7c;
+  font-size: 0.7rem;
+  display: inline-flex;
+}
+
+.review-info-text {
+  color: #646f7c;
+  font-size: 0.7rem;
+  display: inline-flex;
+}

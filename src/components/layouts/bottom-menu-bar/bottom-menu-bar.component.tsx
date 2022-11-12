@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './bottom-menu-bar.component.module.scss';
 import SvgBottomMenuCategoryIcon from '../../svgs/svg-bottom-menu-category-icon/svg-bottom-menu-category-icon.component';
 import SvgBottomMenuHomeIcon from '../../svgs/svg-bottom-menu-home-icon/svg-bottom-menu-home-icon.component';
 import SvgBottomMenuLikeIcon from '../../svgs/svg-bottom-menu-like-icon/svg-bottom-menu-like-icon.component';
@@ -38,16 +38,17 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
 
   return (
     <>
-      <StyleIn.Container style={props.__style}>
-        <ul className="menu-list">
+      <div className={styles['container']} style={props.__style}>
+        <ul className={styles['menu-list']}>
           {
             menuItems.map((item, index) => {
               return (
-                <li className="menu-item" key={index}>
-                  <div className="icon-area">
+                <li className={styles['menu-item']} 
+                  key={index}>
+                  <div className={styles['icon-area']}>
                     { item.menuIconComponent }
                   </div>
-                  <div className="menu-name-area">
+                  <div className={styles['menu-name-area']}>
                     { item.menuNameComponent }
                   </div>
                 </li>
@@ -55,61 +56,9 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
             })
           }
         </ul>
-      </StyleIn.Container>
+      </div>
     </>
   );
-};
-
-const StyleIn = {
-  Container: styled.div<IBottomMenuBar.Props>`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 6;
-    background-color: #fff;
-    border-top: 1px solid #dfebf7;
-
-    ul.menu-list {
-      width: 100%;
-      display: inline-flex;
-      flex-wrap: wrap;
-      margin: 0;
-      padding: 0;
-      position: relative;
-
-      > li.menu-item {
-        list-style-type: none;
-        width: 20%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        box-sizing: border-box;
-        cursor: pointer;
-
-        .icon-area {
-          width: 100%;
-          height: 24px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .menu-name-area {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          font-size: 0.7rem;
-        }
-      }
-    }
-  `,
 };
 
 export default BottomMenuBar;

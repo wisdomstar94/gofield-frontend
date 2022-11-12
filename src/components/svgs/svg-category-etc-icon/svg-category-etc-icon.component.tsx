@@ -1,9 +1,4 @@
-import styled from 'styled-components';
 import { ISvgCategoryEtcIcon } from "./svg-category-etc-icon.interface";
-
-const StyleIn = {
-  
-};
 
 const SvgCategoryEtcIcon = (props: ISvgCategoryEtcIcon.Props) => {
   return (

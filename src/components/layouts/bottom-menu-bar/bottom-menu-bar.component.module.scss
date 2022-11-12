@@ -1,0 +1,49 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 6;
+  background-color: #fff;
+  border-top: 1px solid #dfebf7;
+  
+  ul.menu-list {
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    > li.menu-item {
+      list-style-type: none;
+      width: 20%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      .icon-area {
+        width: 100%;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .menu-name-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}

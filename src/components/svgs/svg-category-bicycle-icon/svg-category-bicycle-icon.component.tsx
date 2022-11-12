@@ -1,9 +1,4 @@
-import styled from 'styled-components';
 import { ISvgCategoryBicycleIcon } from "./svg-category-bicycle-icon.interface";
-
-const StyleIn = {
-
-};
 
 const SvgCategoryBicycleIcon = (props: ISvgCategoryBicycleIcon.Props) => {
   return (

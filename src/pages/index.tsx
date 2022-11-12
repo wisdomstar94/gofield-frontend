@@ -11,11 +11,14 @@ import BothSidebox from '../components/layouts/both-side-box/both-side-box.compo
 import HorizontalScrollBox from '../components/layouts/horizontal-scroll-box/horizontal-scroll-box.component';
 import Topbar from '../components/layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../components/layouts/window-size-container/window-size-container.component';
-import styled from 'styled-components';
 import BottomMenuBar from '../components/layouts/bottom-menu-bar/bottom-menu-bar.component';
 import EmptyRow from '../components/layouts/empty-row/empty-row.component';
 import ModalSearch from '../components/modals/modal-search/modal-search.component';
 import { IModalSearch } from '../components/modals/modal-search/modal-search.interface';
+import ArticleTopRow from '../components/layouts/article-top-row/article-top-row.component';
+import TextProductTypeTitle from '../components/texts/text-product-type-title/text-product-type-title.component';
+import TextMoreViewButton from '../components/texts/text-more-view-button/text-more-view-button.component';
+import EmptyColumn from '../components/layouts/empty-column/empty-column.component';
 
 const Home: NextPage = () => {
   return (
@@ -54,19 +57,19 @@ const PageContents = () => {
         <BannerBox />
         <CategoryButtonListBox __style={{ marginBottom: '8px' }} />
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
-          <StyleIn.ArticleTopRow>
+          <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
-                <StyleIn.ProductTypeTitleText>인기 상품</StyleIn.ProductTypeTitleText>
+                <TextProductTypeTitle>인기 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
                 <Link href="#">
-                  <StyleIn.MoreViewButtonText>더보기 &gt;</StyleIn.MoreViewButtonText>
+                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
                 </Link>
               </>} />
-          </StyleIn.ArticleTopRow>
+          </ArticleTopRow>
           <HorizontalScrollBox>
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
             {
               popularityProductList.map((item, index) => {
                 return (
@@ -77,23 +80,23 @@ const PageContents = () => {
                 )
               })
             }
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
-          <StyleIn.ArticleTopRow>
+          <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
-                <StyleIn.ProductTypeTitleText>추천 상품</StyleIn.ProductTypeTitleText>
+                <TextProductTypeTitle>추천 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
                 <Link href="#">
-                  <StyleIn.MoreViewButtonText>더보기 &gt;</StyleIn.MoreViewButtonText>
+                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
                 </Link>
               </>} />
-          </StyleIn.ArticleTopRow>
+          </ArticleTopRow>
           <HorizontalScrollBox>
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
             {
               recommendProductList.map((item, index) => {
                 return (
@@ -104,23 +107,23 @@ const PageContents = () => {
                 )
               })
             }
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
-          <StyleIn.ArticleTopRow>
+          <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
-                <StyleIn.ProductTypeTitleText>최근 등록된 중고 상품</StyleIn.ProductTypeTitleText>
+                <TextProductTypeTitle>최근 등록된 중고 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
                 <Link href="#">
-                  <StyleIn.MoreViewButtonText>더보기 &gt;</StyleIn.MoreViewButtonText>
+                  <TextMoreViewButton>더보기 &gt;</TextMoreViewButton>
                 </Link>
               </>} />
-          </StyleIn.ArticleTopRow>
+          </ArticleTopRow>
           <HorizontalScrollBox>
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
             {
               recentOldProductList.map((item, index) => {
                 return (
@@ -131,7 +134,7 @@ const PageContents = () => {
                 )
               })
             }
-            <StyleIn.EmptyColumn />
+            <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
         <EmptyRow __style={{ height: '64px' }} />
@@ -142,31 +145,31 @@ const PageContents = () => {
   );
 };
 
-const StyleIn = {
-  ArticleTopRow: styled.div`
-    width: 100%;
-    display: block;
-    padding: 24px;
-    padding-bottom: 0;
-    box-sizing: border-box;
-  `,
-  ProductTypeTitleText: styled.span`
-    display: inline-flex;
-    font-size: 0.9rem;
-    color: #1e2238;
-    font-weight: bold;
-  `,
-  MoreViewButtonText: styled.span`
-    display: inline-flex;
-    font-size: 0.8rem;
-    color: #1e2238;
-    font-weight: bold;
-  `,
-  EmptyColumn: styled.div`
-    width: 24px;
-    height: 1px;
-    display: inline-flex;
-  `,
-};
+// const StyleIn = {
+//   ArticleTopRow: styled.div`
+//     width: 100%;
+//     display: block;
+//     padding: 24px;
+//     padding-bottom: 0;
+//     box-sizing: border-box;
+//   `,
+//   ProductTypeTitleText: styled.span`
+//     display: inline-flex;
+//     font-size: 0.9rem;
+//     color: #1e2238;
+//     font-weight: bold;
+//   `,
+//   MoreViewButtonText: styled.span`
+//     display: inline-flex;
+//     font-size: 0.8rem;
+//     color: #1e2238;
+//     font-weight: bold;
+//   `,
+//   EmptyColumn: styled.div`
+//     width: 24px;
+//     height: 1px;
+//     display: inline-flex;
+//   `,
+// };
 
 export default Home

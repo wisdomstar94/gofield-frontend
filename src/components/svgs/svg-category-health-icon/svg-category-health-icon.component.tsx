@@ -1,9 +1,4 @@
-import styled from 'styled-components';
 import { ISvgCategoryHealthIcon } from "./svg-category-health-icon.interface";
-
-const StyleIn = {
-
-};
 
 const SvgCategoryHealthIcon = (props: ISvgCategoryHealthIcon.Props) => {
   return (
