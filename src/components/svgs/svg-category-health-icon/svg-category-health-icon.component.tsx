@@ -8,7 +8,7 @@ const SvgCategoryHealthIcon = (props: ISvgCategoryHealthIcon.Props) => {
           <path id="opylznss0a" d="M.08 0h.84v4.098H.08z"/>
           <path id="3d61zr5ruc" d="M.08 0h.84v4.098H.08z"/>
         </defs>
-        <g fill="none" fill-rule="evenodd">
+        <g fill="none" fillRule="evenodd">
           <path d="M13.979 13.575a1.45 1.45 0 1 1-2.9 0 1.45 1.45 0 0 1 2.9 0" fill="#374553"/>
           <path d="m12.532 18.017-4.537-3.65-1.321-4.34a.342.342 0 1 1 .653-.197l1.259 4.136 3.939 3.168 4.036-3.348 1.168-3.954a.342.342 0 0 1 .655.194l-1.227 4.152-4.625 3.838z" fill="#374553"/>
           <g transform="translate(4 5)">

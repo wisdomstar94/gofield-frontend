@@ -7,7 +7,7 @@ const SvgCategorySoccerIcon = (props: ISvgCategorySoccerIcon.Props) => {
         <defs>
           <path id="bo0ho3ryca" d="M0 0h6.332v3.115H0z"/>
         </defs>
-        <g fill="none" fill-rule="evenodd">
+        <g fill="none" fillRule="evenodd">
           <path d="M15.9 4.45a1.45 1.45 0 1 1-2.9 0 1.45 1.45 0 0 1 2.9 0M16.292 18.81a1.45 1.45 0 1 1-2.9 0 1.45 1.45 0 0 1 2.9 0M5.244 9.986a.342.342 0 0 1-.175-.635l3.61-2.143.047-.012 3.963-1.06a.341.341 0 1 1 .176.66L8.948 7.844l-3.53 2.094a.336.336 0 0 1-.174.048" fill="#374553"/>
           <g transform="translate(14.398 7.106)">
             <mask id="3x15zd26xb" fill="#fff">
