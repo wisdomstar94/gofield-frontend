@@ -6,6 +6,7 @@ export declare namespace IProductColumnItem {
     __isHeart?: boolean;
     __brandNameComponent?: React.ReactNode;
     __productNameComponent?: React.ReactNode;
+    __onClick?: () => void;
 
     /**
      * @description 새상품 최저가, 중고상품 최저가, 리뷰 별점

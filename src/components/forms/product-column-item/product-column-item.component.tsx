@@ -1,7 +1,7 @@
 import styles from './product-column-item.component.module.scss';
 import { IProductColumnItem } from "./product-column-item.interface";
 import Image from 'next/image';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
@@ -13,9 +13,15 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
     setIsHeart(props.__isHeart ?? false);
   }, [props.__isHeart]);
 
+  const itemClick = useCallback(() => {
+    if (typeof props.__onClick === 'function') {
+      props.__onClick();
+    }
+  }, [props]);
+
   return (
     <>
-      <div className={styles['container']} style={props.__style}>
+      <div className={styles['container']} style={props.__style} onClick={itemClick}>
         <div className={styles['image-area']}>
           <Image
             src={props.__imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}

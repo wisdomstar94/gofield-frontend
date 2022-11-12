@@ -36,6 +36,10 @@ const ProductsPage = () => {
     router.push(router.asPath.split('?')[0] + urlQueryString, undefined, { shallow: true });
   }, [router]);
 
+  const productColumnItemClick = useCallback(() => {
+    router.push('/product/33');
+  }, [router]);
+
   useEffect(() => {
     console.log('categoryTypeId 바뀜!', categoryTypeId);
   }, [categoryTypeId]);
@@ -77,42 +81,18 @@ const ProductsPage = () => {
               <ViewFilterBox __optionTypes={['order-by']} />
             </>} />
           <GridList>
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-              <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
-            <ProductColumnItem
-              __brandNameComponent={<>맥켄리</>}
-              __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-              __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
+            {
+              Array.from({ length: 14 }).map((value, index) => {
+                return (
+                  <ProductColumnItem
+                    key={index}
+                    __onClick={productColumnItemClick}
+                    __brandNameComponent={<>맥켄리</>}
+                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
+                    __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />      
+                );
+              })
+            }
           </GridList>
         </Article>
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
