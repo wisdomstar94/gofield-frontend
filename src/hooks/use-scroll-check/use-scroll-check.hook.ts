@@ -63,7 +63,7 @@ export const useScrollCheck = (props: IScrollCheckHook.Props) => {
   useEffect(() => {
 
     return () => {
-      console.log('unmount...');
+      // console.log('unmount...');
 
     };
   }, []);

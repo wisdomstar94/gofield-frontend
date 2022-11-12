@@ -8,7 +8,7 @@ import TermsCheck from "../../components/forms/terms-check/terms-check.component
 import Formbox, { FormboxItem } from "../../components/layouts/form-box/form-box.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
-import { useCategoryValueItems, useUserSignup } from "../../hooks/use-api-hook/use-api.hook";
+import { useUserSignup } from "../../hooks/use-api-hook/use-api.hook";
 import useUser from "../../hooks/use-user-hook/use-user.hook";
 import { ISignup } from "../../interfaces/signup/signup.interface";
 
@@ -43,7 +43,6 @@ const PageContents = () => {
     selectionList: [],
   });
 
-  const categoryValueItems = useCategoryValueItems();
   const [socialText, setSocialText] = useState('');
   useEffect(() => {
     const payload = user.getAccessTokenPayload();

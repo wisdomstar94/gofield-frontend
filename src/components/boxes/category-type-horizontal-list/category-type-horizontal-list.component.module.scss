@@ -1,0 +1,34 @@
+ul.list {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  
+  > li.item {
+    list-style-type: none;
+    margin: 0;
+    padding: 14px 10px;
+    position: relative;
+    cursor: pointer;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: #BFC0C6;
+
+    &:first-child{
+      margin-left: 20px;
+    }
+
+    &:last-child{
+      margin-right: 20px;
+    }
+
+    &.active {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+}

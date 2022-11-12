@@ -10,25 +10,25 @@ import useAxios from "../use-axios-hook/use-axios.hook";
 import useUser from "../use-user-hook/use-user.hook";
 
 // code list
-export const useCategoryValueItems = () => {
-  const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([]);
-  const axios = useAxios();
+// export const useCategoryValueItems = () => {
+//   const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([]);
+//   const axios = useAxios();
   
-  useEffect(() => {
-    axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
-      url: Config().api.user.category._,
-      method: 'get',
-      isAuth: true,
-      data: {},
-    }).then(response => {
-      const codeList = response.data.data;
-      setValueItems(codeList.map(x => ({ text: x.name, value: x.id + '' })));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+//   useEffect(() => {
+//     axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
+//       url: Config().api.user.category._,
+//       method: 'get',
+//       isAuth: true,
+//       data: {},
+//     }).then(response => {
+//       const codeList = response.data.data;
+//       setValueItems(codeList.map(x => ({ text: x.name, value: x.id + '' })));
+//     });
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
 
-  return valueItems;
-};
+//   return valueItems;
+// };
 
 export const useExchangeReturnReasonValueItems = () => {
   const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([
@@ -43,7 +43,22 @@ export const useExchangeReturnReasonValueItems = () => {
   return valueItems;
 };
 
+export const useProductCategoryValueItems = () => {
+  const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([
+    { text: '골프', value: 'delivery' },
+    { text: '자전거', value: 'bicycle' },
+    { text: '헬스', value: 'health' },
+    { text: '등산', value: 'mountain' },
+    { text: '테니스', value: 'tennis' },
+    { text: '축구', value: 'soccer' },
+    { text: '야구', value: 'baseball' },
+    { text: '수영', value: 'swimming' },
+    { text: '의류', value: 'clothing' },
+    { text: '기타', value: 'etc' },
+  ]);
 
+  return valueItems;
+};
 
 
 
