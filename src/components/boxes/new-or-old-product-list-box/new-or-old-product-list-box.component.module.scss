@@ -1,0 +1,25 @@
+ul.order-by-item-list {
+  width: auto;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: 14px 24px;
+  box-sizing: border-box;
+
+  > li.item {
+    display: inline-flex;
+    font-size: 0.8rem;
+    color: #374553;
+    margin-right: 16px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+}

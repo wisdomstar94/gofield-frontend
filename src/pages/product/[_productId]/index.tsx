@@ -11,6 +11,7 @@ import List, { ListItem } from "../../../components/layouts/list/list.component"
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import StrokeTabButtonBox from "../../../components/boxes/stroke-tab-button-box/stroke-tab-button-box.component";
 import { ICommon } from "../../../interfaces/common/common.interface";
+import NewOrOldProductListBox from "../../../components/boxes/new-or-old-product-list-box/new-or-old-product-list-box.component";
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -18,10 +19,6 @@ const ProductDetailPage = () => {
 
   const searchButtonClick = useCallback(() => {
     modalSearchRef.current?.getModal()?.show();
-  }, []);
-
-  const onProductTypeTabClick = useCallback((valueItem: ICommon.ValueItem) => {
-    console.log('onProductTypeTabClick.valueItem', valueItem);
   }, []);
 
   useEffect(() => {
@@ -102,14 +99,7 @@ const ProductDetailPage = () => {
           </List>
         </Article>
 
-        <StrokeTabButtonBox
-          __valueItems={[
-            { text: '전체상품 (18)', value: 'all-product' },
-            { text: '새상품 (3)', value: 'new-product' },
-            { text: '중고상품 (15)', value: 'old-product' },
-          ]}
-          __activeValue="all-product"
-          __onTabClick={onProductTypeTabClick} />
+        <NewOrOldProductListBox />
 
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
