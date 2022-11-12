@@ -1,0 +1,37 @@
+ul.tab-button-box {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  > li.item {
+    margin: 0;
+    padding: 20px 4px;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    color: #1e2238;
+    font-weight: normal;
+    font-size: 0.9rem;
+    border-right: 1px solid #e9ebee;
+    border-bottom: 1px solid #e9ebee;
+    border-top: 1px solid #e9ebee;
+    cursor: pointer;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &.active {
+      color: #1e2238;
+      font-weight: bold;
+    }
+  }
+}

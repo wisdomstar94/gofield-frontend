@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Article from "../../../components/layouts/article/article.component";
 import List, { ListItem } from "../../../components/layouts/list/list.component";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import StrokeTabButtonBox from "../../../components/boxes/stroke-tab-button-box/stroke-tab-button-box.component";
+import { ICommon } from "../../../interfaces/common/common.interface";
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -16,6 +18,10 @@ const ProductDetailPage = () => {
 
   const searchButtonClick = useCallback(() => {
     modalSearchRef.current?.getModal()?.show();
+  }, []);
+
+  const onProductTypeTabClick = useCallback((valueItem: ICommon.ValueItem) => {
+    console.log('onProductTypeTabClick.valueItem', valueItem);
   }, []);
 
   useEffect(() => {
@@ -63,7 +69,9 @@ const ProductDetailPage = () => {
           </div>
         </SwiperCustom>
 
-        <Article __style={{ borderBottom: '1px solid #e9ebee' }}>
+        <Article __style={{ 
+            // borderBottom: '1px solid #e9ebee' 
+          }}>
           <List __defaultItemMarginBottom="5px">
             <ListItem>
               <span style={{ fontSize: '0.8rem', color: '#646f7c' }}>맥켄리</span>
@@ -93,6 +101,15 @@ const ProductDetailPage = () => {
             </ListItem>
           </List>
         </Article>
+
+        <StrokeTabButtonBox
+          __valueItems={[
+            { text: '전체상품 (18)', value: 'all-product' },
+            { text: '새상품 (3)', value: 'new-product' },
+            { text: '중고상품 (15)', value: 'old-product' },
+          ]}
+          __activeValue="all-product"
+          __onTabClick={onProductTypeTabClick} />
 
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
