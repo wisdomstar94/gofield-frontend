@@ -1,0 +1,132 @@
+.top-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px 16px;
+
+  .common-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+
+    &.left-area {
+      width: 40px;
+      justify-content: flex-start;
+      font-size: 0.7rem;  
+    }
+
+    &.center-area {
+      width: calc(100% - 80px);
+      justify-content: center;
+    }
+
+    &.right-area {
+      width: 40px;
+      justify-content: flex-end;
+    }
+  }
+}
+
+ul.option-type-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 16px;
+  padding-top: 8px;
+
+  > li.item {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+
+    .title-row {
+      width: 100%;
+      margin: 0;
+      margin-bottom: 10px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      font-size: 0.9rem;
+      color: #000;
+      font-weight: bold;
+    }
+  }
+}
+
+ul.option-type-item-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+
+  > li.item {
+    width: 25%;
+    margin: 0;
+    padding: 8px;
+    font-size: 0.8rem;
+    color: #000;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #e9ebee;
+    border-bottom: 1px solid #e9ebee;
+    box-sizing: border-box;
+
+    &:nth-child(4n + 1) {
+      border-left: 1px solid #e9ebee;
+
+      &.active {
+        border-left: 1px solid #0c8af5;
+      }
+    }
+
+    &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+      border-top: 1px solid #e9ebee;
+
+      &.active {
+        border-top: 1px solid #0c8af5;
+      }
+    }
+
+    &.active {
+      background-color: #0c8af5;
+      color: #fff;
+
+      border-right: 1px solid #0c8af5;
+      border-bottom: 1px solid #0c8af5;
+    }
+  }
+}
+
+.confirm-button-text {
+  display: inline-flex;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #0c8af5;
+}
+
+.center-title-text {
+  display: inline-flex;
+  font-size: 1rem;
+  color: #000000;
+  font-weight: bold;
+}

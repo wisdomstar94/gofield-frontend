@@ -1,0 +1,33 @@
+ul.container {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+
+  > li.item {
+    display: inline-flex;
+    font-size: 0.8rem;
+    color: #374553;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &.deco {
+      width: 2px;
+      height: 2px;
+      display: flex;
+      border-radius: 10px;
+      background-color: #374553;
+      margin: 0 3px;
+
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+}

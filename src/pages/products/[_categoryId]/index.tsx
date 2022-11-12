@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CategoryTypeHorizontalList from "../../../components/boxes/category-type-horizontal-list/category-type-horizontal-list.component";
+import ViewFilterBox from "../../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductColumnItem from "../../../components/forms/product-column-item/product-column-item.component";
 import Article from "../../../components/layouts/article/article.component";
+import BothSidebox from "../../../components/layouts/both-side-box/both-side-box.component";
 import GridList from "../../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
@@ -67,6 +69,13 @@ const ProductsPage = () => {
           __activeValue={categoryTypeId}
           __onItemClick={categoryTypeItemClick} />
         <Article>
+          <BothSidebox
+            __leftComponentStyle={{ width: '0' }}
+            __rightComponentStyle={{ width: '100%' }}
+            __leftComponent={<></>}
+            __rightComponent={<>
+              <ViewFilterBox __optionTypes={['order-by']} />
+            </>} />
           <GridList>
             <ProductColumnItem
               __brandNameComponent={<>맥켄리</>}
