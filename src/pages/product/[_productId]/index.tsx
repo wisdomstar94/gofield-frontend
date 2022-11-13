@@ -42,7 +42,7 @@ const ProductDetailPage = () => {
         <Topbar
           __layoutTypeB={{
             titleComponent: '',
-            searchButtonClickCallback: searchButtonClick,
+            // searchButtonClickCallback: searchButtonClick,
           }} />
 
         <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>
@@ -116,7 +116,7 @@ const ProductDetailPage = () => {
           <BuyButton />
         </BottomFixedBox>
 
-        <ModalSearch ref={modalSearchRef} __modalState="hide" />
+        {/* <ModalSearch ref={modalSearchRef} __modalState="hide" /> */}
       </WindowSizeContainer>
     </>
   );

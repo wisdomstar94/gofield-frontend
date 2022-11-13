@@ -37,22 +37,16 @@ const Home: NextPage = () => {
 };
 
 const PageContents = () => {
-  const modalSearchRef = useRef<IModalSearch.RefObject>(null);
-
   const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
   const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
   const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
-
-  const searchButtonClick = useCallback(() => {
-    modalSearchRef.current?.getModal()?.show();
-  }, []);
 
   return (
     <>
       <WindowSizeContainer __bgColor="#f7f8f9">
         <Topbar
           __layoutTypeB={{
-            searchButtonClickCallback: searchButtonClick,
+
           }} />
         <BannerBox />
         <CategoryButtonListBox __style={{ marginBottom: '8px' }} />
@@ -133,7 +127,6 @@ const PageContents = () => {
         </Article>
         <EmptyRow __style={{ height: '64px' }} />
         <BottomMenuBar />
-        <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
     </>
   );

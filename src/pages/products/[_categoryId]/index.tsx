@@ -8,8 +8,6 @@ import BothSidebox from "../../../components/layouts/both-side-box/both-side-box
 import GridList from "../../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
-import ModalSearch from "../../../components/modals/modal-search/modal-search.component";
-import { IModalSearch } from "../../../components/modals/modal-search/modal-search.interface";
 import { useProductCategoryValueItems } from "../../../hooks/use-api-hook/use-api.hook";
 import useCategoryListTypeQuery from "../../../hooks/use-queries/use-category-type-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
@@ -20,12 +18,7 @@ const ProductsPage = () => {
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');
   const productCategoryValueItems = useProductCategoryValueItems();
-  const modalSearchRef = useRef<IModalSearch.RefObject>(null);
   const categoryTypeListQuery = useCategoryListTypeQuery(categoryId);
-  
-  const searchButtonClick = useCallback(() => {
-    modalSearchRef.current?.getModal()?.show();
-  }, []);
 
   const categoryTypeItemClick = useCallback((valueItem: ICommon.ValueItem) => {
     const urlQueryString = getNextRouterQueryToUrlQueryString({
@@ -66,7 +59,6 @@ const ProductsPage = () => {
         <Topbar
           __layoutTypeB={{
             titleComponent: productCategoryValueItems.find(x => x.value === router.query._categoryId)?.text,
-            searchButtonClickCallback: searchButtonClick,
           }} />
         <CategoryTypeHorizontalList
           __valueItems={categoryTypeListQuery.data}
@@ -95,7 +87,6 @@ const ProductsPage = () => {
             }
           </GridList>
         </Article>
-        <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
     </>
   );

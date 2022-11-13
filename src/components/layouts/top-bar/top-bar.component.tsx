@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
+import TopBarSearchButton from '../../boxes/top-bar-search-button/top-bar-search-button.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
 import SvgShoppingCartIcon from '../../svgs/svg-shopping-cart-icon/svg-shopping-cart-icon.component';
 import styles from './top-bar.component.module.scss';
@@ -68,8 +69,9 @@ const Topbar = (props: ITopbar.Props) => {
                 <div className={styles['button-item']}>
                   <SvgShoppingCartIcon />
                 </div>
-                <div className={styles['button-item']} onClick={props.__layoutTypeB.searchButtonClickCallback}>
-                  <SvgMagnifyingGlassIcon />
+                <div className={styles['button-item']}>
+                  {/* <SvgMagnifyingGlassIcon /> */}
+                  <TopBarSearchButton />
                 </div>
               </div>
             </div>
@@ -88,9 +90,9 @@ const Topbar = (props: ITopbar.Props) => {
                 </button> 
                 <input type="text" className={styles['input-search']} placeholder="검색어를 입력하세요." />
               </div>
-              <div className={styles['right-area']}>
+              {/* <div className={styles['right-area']}>
                 
-              </div>
+              </div> */}
             </div>
           </>
           : <></>
