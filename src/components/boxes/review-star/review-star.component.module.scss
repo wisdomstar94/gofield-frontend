@@ -2,4 +2,8 @@
   display: inline-flex;
   color: #646f7c;
   font-size: 2.4rem;
+
+  &.small {
+    font-size: 0.8rem;
+  }
 }

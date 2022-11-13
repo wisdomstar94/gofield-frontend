@@ -29,14 +29,21 @@ export const List = (props: IList.Props) => {
   }, [props.__alignItems, props.__direction, props.__justifyContent]);
 
   const getListStyles = useCallback(() => {
-    const obj: any = {};
+    let obj: any = {};
 
     if (typeof props.__width === 'string') {
       obj['width'] = props.__width;
     }
 
+    if (props.__style !== undefined) {
+      obj = {
+        ...obj,
+        ...props.__style,
+      };
+    }
+
     return obj;
-  }, [props.__width]);
+  }, [props.__style, props.__width]);
 
   const getListItemStyles = useCallback((item: IList.ItemProps) => {
     // const item = _item as IList.ItemProps;
@@ -76,7 +83,7 @@ export const List = (props: IList.Props) => {
       obj['marginBottom'] = props.__defaultItemMarginBottom;
     }
 
-    if (typeof item.__style !== undefined) {
+    if (item.__style !== undefined) {
       obj = {
         ...obj,
         ...item.__style,

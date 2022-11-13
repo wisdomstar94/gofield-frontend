@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.review-writer-and-craete-at-text {
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #1e2238;
+}
+
+.buy-options-text {
+  display: inline-block;
+  white-space: pre-line;
+  font-size: 0.8rem;
+  color: #1e2238;
+}
+
+.review-content-text {
+  display: inline-block;
+  white-space: pre-line;
+  font-size: 0.8rem;
+  color: #646f7c;
+
+  .more-view-text {
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

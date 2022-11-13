@@ -14,6 +14,7 @@ export declare namespace IList {
     __defaultItemJustifyContent?: FlexDirection;
     __defaultItemMarginRight?: string;
     __defaultItemMarginBottom?: string;
+    __style?: CSSProperties;
 
     children: React.ReactNode;
   }

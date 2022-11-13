@@ -6,7 +6,7 @@ import { IReviewRatingStarBox } from "./review-rating-star-box.interface";
 const ReviewRatingStarBox = (props: IReviewRatingStarBox.Props) => {
   return (
     <>
-      <List __width="100%" __defaultItemJustifyContent="center">
+      <List __width="100%" __defaultItemJustifyContent="center" __style={props.__style}>
         <ListItem __marginBottom="12px">
           <ReviewStar __style={{ marginRight: '8px' }} />
           <ReviewStar __style={{ marginRight: '8px' }} />
@@ -18,7 +18,7 @@ const ReviewRatingStarBox = (props: IReviewRatingStarBox.Props) => {
           <span className={styles['review-number-info-text']}>4.3 / 5</span>
         </ListItem>
         <ListItem>
-        <span className={styles['review-count-text']}>리뷰 10개</span>
+          <span className={styles['review-count-text']}>리뷰 10개</span>
         </ListItem>
       </List>
     </>
