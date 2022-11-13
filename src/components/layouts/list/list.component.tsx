@@ -40,7 +40,7 @@ export const List = (props: IList.Props) => {
 
   const getListItemStyles = useCallback((item: IList.ItemProps) => {
     // const item = _item as IList.ItemProps;
-    const obj: any = {};
+    let obj: any = {};
 
     if (props.__direction === 'vertical') {
       obj['width'] = '100%';
@@ -74,6 +74,13 @@ export const List = (props: IList.Props) => {
       obj['marginBottom'] = item.__marginBottom;
     } else if (typeof props.__defaultItemMarginBottom === 'string') {
       obj['marginBottom'] = props.__defaultItemMarginBottom;
+    }
+
+    if (typeof item.__style !== undefined) {
+      obj = {
+        ...obj,
+        ...item.__style,
+      };
     }
 
     return obj;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { ListItem } from './list.component';
 
 export declare namespace IList {
@@ -23,6 +23,7 @@ export declare namespace IList {
     __justifyContent?: FlexDirection;
     __marginRight?: string;
     __marginBottom?: string;
+    __style?: CSSProperties;
 
     children: React.ReactNode;
   }

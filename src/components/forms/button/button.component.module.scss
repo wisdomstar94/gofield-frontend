@@ -119,4 +119,22 @@
       background-color: rgba(0, 0, 0, 0.05);
     }
   }
+
+  &.gray-stroke {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #13162b;
+    background-color: #ffffff;
+    border: 1px solid #c5c8ce;
+
+    &.disable {
+      background-color: #f9f9f9;
+      color: #999;
+      cursor: none;
+    }
+
+    &:not(.disable):hover {
+      background-color: #f6f6f6;
+    }
+  }
 }

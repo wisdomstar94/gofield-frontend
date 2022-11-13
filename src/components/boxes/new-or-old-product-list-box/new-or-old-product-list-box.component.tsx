@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
+import Button from "../../forms/button/button.component";
 import ProductRowItem from "../../forms/product-row-item/product-row-item.component";
+import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
 import Article from "../../layouts/article/article.component";
 import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-scroll-box.component";
 import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
@@ -58,14 +60,15 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
         </ul>
       </HorizontalScrollBox>
 
-      <Article>
+      <Article __style={{ paddingTop: '12px', paddingBottom: '12px' }}>
         {
-          // Array.from({ length: 5 }).map((item, index) => {
-          //   return (
-              
-          //   );
-          // })
+          Array.from({ length: 5 }).map((item, index) => {
+            return (
+              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} />  
+            );
+          })
         }
+        <Button __buttonStyle="gray-stroke">더보기</Button>
       </Article>
     </>
   );

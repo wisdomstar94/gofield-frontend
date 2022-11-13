@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: flex-start;
+  align-content: flex-start;
+
+  .photo-area {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 0;
+    margin-right: 8px;
+    padding: 0;
+    position: relative;
+  }
+
+  .product-info-area {
+    width: calc(100% - 88px);
+    display: flex;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    align-items: flex-start;
+    align-content: flex-start;
+  }
+}
