@@ -16,6 +16,8 @@ import ReviewRatingStarBox from "../../../components/boxes/review-rating-star-bo
 import ReviewRowItem from "../../../components/boxes/review-row-item/review-row-item.component";
 import Button from "../../../components/forms/button/button.component";
 import ReviewBox from "../../../components/boxes/review-box/review-box.component";
+import BottomFixedBox from "../../../components/boxes/bottom-fixed-box/bottom-fixed-box.component";
+import BuyButton from "../../../components/forms/buy-button/buy-button.component";
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -105,10 +107,14 @@ const ProductDetailPage = () => {
 
         <NewOrOldProductListBox />
 
-        <Article>
+        <Article __style={{ marginBottom: '50px' }}>
           <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
           <ReviewBox />
         </Article>
+
+        <BottomFixedBox>
+          <BuyButton />
+        </BottomFixedBox>
 
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>

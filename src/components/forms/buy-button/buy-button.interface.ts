@@ -1,9 +1,7 @@
 import React from "react";
 
-export declare namespace ISvgHeartOnIcon {
+export declare namespace IBuyButton {
   export interface Props {
-    __color?: string;
-
     children?: React.ReactNode;
   }
 }
