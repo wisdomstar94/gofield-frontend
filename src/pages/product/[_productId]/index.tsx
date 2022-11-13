@@ -12,6 +12,7 @@ import { getAddCommaNumberString } from "../../../librarys/string-util/string-ut
 import StrokeTabButtonBox from "../../../components/boxes/stroke-tab-button-box/stroke-tab-button-box.component";
 import { ICommon } from "../../../interfaces/common/common.interface";
 import NewOrOldProductListBox from "../../../components/boxes/new-or-old-product-list-box/new-or-old-product-list-box.component";
+import ReviewRatingStarBox from "../../../components/boxes/review-rating-star-box/review-rating-star-box.component";
 
 const ProductDetailPage = () => {
   const router = useRouter();
@@ -100,6 +101,11 @@ const ProductDetailPage = () => {
         </Article>
 
         <NewOrOldProductListBox />
+
+        <Article>
+          <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
+          <ReviewRatingStarBox />
+        </Article>
 
         <ModalSearch ref={modalSearchRef} __modalState="hide" />
       </WindowSizeContainer>
