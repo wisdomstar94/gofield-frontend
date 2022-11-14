@@ -17,11 +17,11 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
   const router = useRouter();
   const [categoryMenuList, setCategoryMenuList] = useState<ICategoryButtonListBox.CategoryItem[]>([
     {
-      categoryId: 'delivery',
+      categoryId: 'golf',
       categoryName: '골프',
       icon: <SvgCategoryGolfIcon />,
-      // link: '/order/13/product/15/delivery',
-      link: '/products/delivery',
+      // link: '/order/13/product/15/golf',
+      link: '/products/golf',
     },
     {
       categoryId: 'bicycle',
