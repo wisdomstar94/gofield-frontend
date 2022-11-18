@@ -6,6 +6,8 @@ import BothSidebox from "../../components/layouts/both-side-box/both-side-box.co
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import Image from 'next/image';
 import ProfileInfoBox from "../../components/boxes/profile-info-box/profile-info-box.component";
+import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.component";
+import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -32,6 +34,19 @@ const PageContents = () => {
           rightComponent: <></>,
         }} />
       <ProfileInfoBox />
+      <MenuRowList
+        __menuItems={[
+          { menuNameComponent: <>나의 정보 수정</>, menuLink: '', },
+          { menuNameComponent: <>주문/배송 조회</>, menuLink: '', },
+          { menuNameComponent: <>관심상품</>, menuLink: '', },
+          { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
+          { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
+          { menuNameComponent: <>취소 반품 교환</>, menuLink: '', },
+          { menuNameComponent: <>고객센터</>, menuLink: '', },
+          { menuNameComponent: <>설정</>, menuLink: '', },
+        ]} />
+      <BottomMenuBar
+        __activeMenuId="my-page" />
     </>
   );
 };
