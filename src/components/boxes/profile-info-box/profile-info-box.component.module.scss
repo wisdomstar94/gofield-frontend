@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+
+  .profile-image-area {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    margin-right: 16px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100px;
+    background-color: #0c8af5;
+  }
+
+  .profile-user-name-area {
+    display: inline-flex;
+    color: #1e2238;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+  }
+}

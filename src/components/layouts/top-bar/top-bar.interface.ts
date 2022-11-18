@@ -14,6 +14,7 @@ export declare namespace ITopbar {
 
     __layoutTypeB?: {
       titleComponent?: React.ReactNode;
+      rightComponent?: React.ReactNode;
     };
 
     __layoutTypeC?: {

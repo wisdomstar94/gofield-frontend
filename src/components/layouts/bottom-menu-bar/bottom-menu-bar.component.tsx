@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './bottom-menu-bar.component.module.scss';
 import SvgBottomMenuCategoryIcon from '../../svgs/svg-bottom-menu-category-icon/svg-bottom-menu-category-icon.component';
 import SvgBottomMenuHomeIcon from '../../svgs/svg-bottom-menu-home-icon/svg-bottom-menu-home-icon.component';
@@ -7,8 +7,11 @@ import SvgBottomMenuMyPageIcon from '../../svgs/svg-bottom-menu-my-page-icon/svg
 import SvgBottomMenuOldProductIcon from '../../svgs/svg-bottom-menu-old-product-icon/svg-bottom-menu-old-product-icon.component';
 import { IBottomMenuBar } from './bottom-menu-bar.interface';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
+import { useRouter } from 'next/router';
 
 const BottomMenuBar = (props: IBottomMenuBar.Props) => {
+  const router = useRouter();
+
   const [activeMenuId, setActiveMenuId] = useState<IBottomMenuBar.MenuId | undefined>();
   const [menuItems, setMenuItems] = useState<IBottomMenuBar.MenuItem[]>([
     {
@@ -27,7 +30,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
       menuId: 'home',
       menuIconComponent: <><SvgBottomMenuHomeIcon /></>,
       menuNameComponent: <>홈</>,
-      menuLink: '',
+      menuLink: '/',
     },
     {
       menuId: 'likes',
@@ -39,13 +42,17 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
       menuId: 'my-page',
       menuIconComponent: <><SvgBottomMenuMyPageIcon /></>,
       menuNameComponent: <>마이페이지</>,
-      menuLink: '',
+      menuLink: '/mypage',
     },
   ]);
 
   useEffect(() => {
     setActiveMenuId(props.__activeMenuId);
   }, [props.__activeMenuId]);
+
+  const menuItemClick = useCallback((item: IBottomMenuBar.MenuItem) => {
+    router.push(item.menuLink);
+  }, [router]);
 
   return (
     <>
@@ -55,7 +62,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
             menuItems.map((item, index) => {
               return (
                 <li className={getClasses([styles['menu-item'], item.menuId === activeMenuId ? styles['active'] : ''])} 
-                  key={index}>
+                  key={index} onClick={e => menuItemClick(item)}>
                   <div className={styles['icon-area']}>
                     { item.menuIconComponent }
                   </div>

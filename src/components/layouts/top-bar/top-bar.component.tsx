@@ -66,13 +66,19 @@ const Topbar = (props: ITopbar.Props) => {
                 }
               </div>
               <div className={styles['right-area']}>
-                <div className={styles['button-item']}>
-                  <SvgShoppingCartIcon />
-                </div>
-                <div className={styles['button-item']}>
-                  {/* <SvgMagnifyingGlassIcon /> */}
-                  <TopBarSearchButton />
-                </div>
+                {
+                  props.__layoutTypeB.rightComponent !== undefined ? 
+                  props.__layoutTypeB.rightComponent : 
+                  <>
+                    <div className={styles['button-item']}>
+                      <SvgShoppingCartIcon />
+                    </div>
+                    <div className={styles['button-item']}>
+                      {/* <SvgMagnifyingGlassIcon /> */}
+                      <TopBarSearchButton />
+                    </div> 
+                  </>
+                }
               </div>
             </div>
           </>
