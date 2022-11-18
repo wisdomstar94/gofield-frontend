@@ -28,6 +28,16 @@
       box-sizing: border-box;
       cursor: pointer;
 
+      &.active {
+        .icon-area {
+          fill: #0c8af5;
+        }
+
+        .menu-name-area {
+          color: #0c8af5;
+        }
+      }
+
       .icon-area {
         width: 100%;
         height: 24px;

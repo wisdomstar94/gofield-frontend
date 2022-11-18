@@ -126,7 +126,7 @@ const PageContents = () => {
           </HorizontalScrollBox>
         </Article>
         <EmptyRow __style={{ height: '64px' }} />
-        <BottomMenuBar />
+        <BottomMenuBar __activeMenuId="home" />
       </WindowSizeContainer>
     </>
   );
