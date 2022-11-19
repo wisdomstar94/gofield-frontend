@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useCallback, useRef } from "react";
 import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
+import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import ProfileFormBox from "../../../../components/boxes/profile-form-box/profile-form-box.component";
 import { IProfileFormBox } from "../../../../components/boxes/profile-form-box/profile-form-box.interface";
 import Button from "../../../../components/forms/button/button.component";
@@ -44,11 +45,13 @@ const PageContents = () => {
           rightComponent: <></>,
         }} />
       <ProfileFormBox ref={formBoxComponentRef} />
-      <Article>
-        <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
-          저장
-        </Button>
-      </Article>
+      <BottomFixedOrRelativeBox __heightToRelative={640}>
+        <Article>
+          <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
+            저장
+          </Button>
+        </Article>
+      </BottomFixedOrRelativeBox>
     </>
   );
 };

@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useCallback, useRef } from "react";
 import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
+import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import PhoneNumberFormBox from "../../../../components/boxes/phone-number-form-box/phone-number-form-box.component";
 import { IPhoneNumberFormBox } from "../../../../components/boxes/phone-number-form-box/phone-number-form-box.interface";
 import ProfileFormBox from "../../../../components/boxes/profile-form-box/profile-form-box.component";
@@ -46,11 +47,13 @@ const PageContents = () => {
           rightComponent: <></>,
         }} />
       <PhoneNumberFormBox ref={formBoxComponentRef} />
-      <Article>
-        <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
-          인증완료
-        </Button>
-      </Article>
+      <BottomFixedOrRelativeBox __heightToRelative={300}>
+        <Article>
+          <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
+            인증완료
+          </Button>
+        </Article>
+      </BottomFixedOrRelativeBox>
     </>
   );
 };
