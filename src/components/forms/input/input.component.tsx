@@ -1,12 +1,12 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import useAddEventListener from '../../../hooks/use-add-event-listener/use-add-event-listener.hook';
 import styles from './input.component.module.scss';
 import { IInput } from './input.interface';
 
 const Input = (props: IInput.Props) => {
-  const [value, setValue] = useState<string | undefined>(props.__value);
+  const [value, setValue] = useState<string | undefined>(props.__value ?? '');
   useEffect(() => {
-    setValue(props.__value);
+    setValue(props.__value ?? '');
   }, [props.__value]);
 
   const [focusState, setFocusState] = useState<IInput.FocusState>('focusout');
@@ -29,6 +29,26 @@ const Input = (props: IInput.Props) => {
     }
   }, [props]);
 
+  const inputStyles = useCallback(() => {
+    const obj: CSSProperties = {};
+
+    if (props.__rightLabel !== undefined) {
+      obj.paddingRight = (props.__rightLabel.width + 16) + 'px';
+    }
+
+    return obj;
+  }, [props.__rightLabel]);
+
+  const rightLabelStyles = useCallback(() => {
+    const obj: CSSProperties = {};
+
+    if (props.__rightLabel !== undefined) {
+      obj.width = props.__rightLabel?.width + 'px';
+    }
+
+    return obj;
+  }, [props.__rightLabel]);
+
   return (
     <>
       <div 
@@ -45,11 +65,21 @@ const Input = (props: IInput.Props) => {
           className={[
             styles['input'],
           ].join(' ')}
+          style={inputStyles()}
           value={value}
           placeholder={props.__placeholder}
           readOnly={props.__disable}
           onChange={valueChange}
           type={props.__type} />
+        {
+          props.__rightLabel !== undefined ? 
+          <>
+            <div className={styles['right-label']} style={rightLabelStyles()}>
+              { props.__rightLabel.component }
+            </div>
+          </> 
+          : <></>
+        }
       </div>
     </>
   );

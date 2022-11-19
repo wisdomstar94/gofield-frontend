@@ -38,4 +38,17 @@
       color: #B0B5BA;
     }
   }
+
+  .right-label {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    position: absolute;
+    justify-content: flex-end;
+    align-items: center;
+    color: #374553;
+    font-size: 0.8rem;
+    top: 0;
+    right: 16px;
+  }
 }

@@ -1,0 +1,46 @@
+ul.form-list-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  margin: 0;
+  padding: 0;
+
+  > li.item {
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .title-row {
+      width: 100%;
+      display: flex;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #374553;
+    }
+
+    .content-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+  }
+}
