@@ -32,7 +32,7 @@ const PageContents = () => {
       <MenuRowList
         __menuItems={[
           { menuNameComponent: <>프로필 수정</>, menuLink: '/mypage/myinfo-edit/profile-edit', },
-          { menuNameComponent: <>휴대폰 번호 변경</>, menuLink: '', },
+          { menuNameComponent: <>휴대폰 번호 변경</>, menuLink: '/mypage/myinfo-edit/phone-number-change', },
           { menuNameComponent: <>환불 계좌 관리</>, menuLink: '', },
         ]} />
       <BottomMenuBar

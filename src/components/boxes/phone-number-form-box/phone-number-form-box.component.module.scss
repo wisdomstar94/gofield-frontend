@@ -1,0 +1,44 @@
+.phone-number-input-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-bottom: 8px;
+
+  .left-area {
+    width: calc(100% - 128px);
+    display: flex;
+    position: relative;
+  }
+
+  .right-area {
+    width: 120px;
+    margin-left: 8px;
+    display: flex;
+    position: relative;
+  }
+}
+
+.cert-number-input-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  .left-area {
+    width: calc(100% - 98px);
+    display: flex;
+    position: relative;
+  }
+
+  .right-area {
+    width: 90px;
+    margin-left: 8px;
+    display: flex;
+    position: relative;
+  }
+}
