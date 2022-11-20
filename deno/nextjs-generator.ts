@@ -1,5 +1,8 @@
 import { ensureFile } from "https://deno.land/std@0.160.0/fs/ensure_file.ts";
 import * as path from "https://deno.land/std@0.160.0/path/mod.ts";
+import dayjs from 'npm:dayjs';
+
+console.log('dayjs 테스트!', dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
 interface DoubleDashInfo {
   optionName: string;
