@@ -1,0 +1,35 @@
+.menu-row-item {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 24px;
+  margin: 0;
+  border-bottom: 1px solid #e9ebee;
+  cursor: pointer;
+
+  &.border-top {
+    border-bottom: 1px solid #e9ebee;
+  }
+
+  .left {
+    width: calc(100% - 30px);
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    color: #1e2238;
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
+
+  .right {
+    width: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    justify-content: flex-end;
+  }
+}

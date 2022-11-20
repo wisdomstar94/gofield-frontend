@@ -6,15 +6,29 @@ import SvgShareIcon from "../../svgs/svg-share-icon/svg-share-icon.component";
 import styles from "./new-product-form-box.component.module.scss";
 import { INewProductFormBox } from "./new-product-form-box.interface";
 import Image from 'next/image';
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import HashTagItem from "../hash-tag-item/hash-tag-item.component";
 import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
 import { ICommon } from "../../../interfaces/common/common.interface";
 import TitleAndContentRowItem from "../title-and-content-row-item/title-and-content-row-item.component";
 import ProductDetailImageBox from "../product-detail-image-box/product-detail-image-box.component";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
+import MenuRowItem from "../menu-row-item/menu-row-item.component";
+import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-scroll-box.component";
+import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
+import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
+import Button from "../../forms/button/button.component";
+import { useRouter } from "next/router";
+import BottomFixedBox from "../bottom-fixed-box/bottom-fixed-box.component";
+import BuyButton from "../../forms/buy-button/buy-button.component";
+import EmptyColumn from "../../layouts/empty-column/empty-column.component";
+import EmptyRow from "../../layouts/empty-row/empty-row.component";
 
 const NewProductFormBox = (props: INewProductFormBox.Props) => {
+  const router = useRouter();
+  const [selectedOrderBy, setSelectedOrderBy] = useState('');
+  const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
+
   const shareButtonClick = useCallback(() => {
 
   }, []);
@@ -22,6 +36,14 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
   const onTabClick = useCallback((valueItem: ICommon.ValueItem) => {
 
   }, []);
+
+  const orderByItemClick = useCallback((valueItem: ICommon.ValueItem) => {
+    setSelectedOrderBy(valueItem.value);
+  }, []);
+
+  const productRowItemClick = useCallback(() => {
+    router.push('/product/new/576');
+  }, [router]);
 
   return (
     <>
@@ -93,7 +115,6 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
           { text: '상품 설명', value: 'product-description' },
           { text: '상품 문의', value: 'product-question' },
         ]}
-        __activeValue="product-info"
         __onTabClick={onTabClick} />
       <Article>
         <div className={styles['article-title-row']}>
@@ -159,6 +180,46 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
         </div>
       </Article>
       <ProductDetailImageBox />
+      <MenuRowItem __isEnableTopBorder={true} __onClick={() => { /* ... */ }}>
+        상품문의
+      </MenuRowItem>
+      <MenuRowItem __onClick={() => { /* ... */ }}>
+        배송/교환/반품 안내
+      </MenuRowItem>
+      <Article __style={{ paddingBottom: '0' }}>
+        <div className={getClasses([styles['article-title-row'], styles['not-margin-bottom']])}>
+          중고상품
+        </div>
+      </Article>
+      <HorizontalScrollBox>
+        <ul className={styles['order-by-item-list']}>
+          {
+            newOrOldProductOrderByListQuery.data?.map((item, index) => {
+              return (
+                <li key={item.value}
+                  className={getClasses([styles['item'], item.value === selectedOrderBy ? styles['active'] : ''])}
+                  onClick={e => orderByItemClick(item)}>
+                  { item.text }
+                </li>
+              )
+            })
+          }
+        </ul>
+      </HorizontalScrollBox>
+      <Article __style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+        {
+          Array.from({ length: 5 }).map((item, index) => {
+            return (
+              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} __onClick={productRowItemClick} />  
+            );
+          })
+        }
+        <Button __buttonStyle="gray-stroke">더보기</Button>
+      </Article>
+      <EmptyRow __style={{ height: '56px' }} />
+      <BottomFixedBox>
+        <BuyButton />
+      </BottomFixedBox>
     </>
   );
 };
