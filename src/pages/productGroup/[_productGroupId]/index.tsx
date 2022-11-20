@@ -18,14 +18,28 @@ import Button from "../../../components/forms/button/button.component";
 import ReviewBox from "../../../components/boxes/review-box/review-box.component";
 import BottomFixedBox from "../../../components/boxes/bottom-fixed-box/bottom-fixed-box.component";
 import BuyButton from "../../../components/forms/buy-button/buy-button.component";
+import Head from "next/head";
+import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 
 const ProductDetailPage = () => {
+  return (
+    <>
+      <Head>
+        <title>고필드 - 묶음상품 상세정보</title>
+        <meta name="description" content="고필드 묶음상품 상세정보 페이지입니다." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <AccessTokenCheck __checkTarget="signup-complete-user">
+        <PageContents />
+      </AccessTokenCheck>
+    </>
+  );
+};
+
+const PageContents = () => {
   const router = useRouter();
   const modalSearchRef = useRef<IModalSearch.RefObject>(null);
-
-  const searchButtonClick = useCallback(() => {
-    modalSearchRef.current?.getModal()?.show();
-  }, []);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -42,7 +56,6 @@ const ProductDetailPage = () => {
         <Topbar
           __layoutTypeB={{
             titleComponent: '',
-            // searchButtonClickCallback: searchButtonClick,
           }} />
 
         <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>

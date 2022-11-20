@@ -8,7 +8,8 @@ export declare namespace IButton {
     'small-gray-solid-radius' | 
     'gray-solid' | 
     'gray-solid-radius' | 
-    'gray-stroke'
+    'gray-stroke' | 
+    'white-solid-gray-stroke'
   ;
 
   export interface Props {

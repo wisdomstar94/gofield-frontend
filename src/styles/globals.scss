@@ -34,3 +34,15 @@ a {
   padding: 24px;
   position: relative;
 }
+
+.next-image-wrapper {
+  width: 100%;
+  
+	& > span {
+		position: unset !important;
+		img {
+			height: auto !important;
+			position: relative !important;
+    }
+	}
+}

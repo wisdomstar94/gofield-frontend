@@ -1,5 +1,7 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import CategoryTypeHorizontalList from "../../../components/boxes/category-type-horizontal-list/category-type-horizontal-list.component";
 import ViewFilterBox from "../../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductGroupColumnItem from "../../../components/forms/product-group-column-item/product-group-column-item.component";
@@ -14,6 +16,22 @@ import { ICommon } from "../../../interfaces/common/common.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 
 const ProductGroupsPage = () => {
+  return (
+    <>
+      <Head>
+        <title>고필드 - 카테고리 묶음상품 목록</title>
+        <meta name="description" content="고필드 카테고리 묶음상품 목록 페이지입니다." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <AccessTokenCheck __checkTarget="signup-complete-user">
+        <PageContents />
+      </AccessTokenCheck>
+    </>
+  );
+};
+
+const PageContents = () => {
   const router = useRouter();
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');

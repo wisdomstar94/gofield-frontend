@@ -1,0 +1,34 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+
+  .title {
+    width: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
+    padding-right: 10px;
+    color: #1e2238;
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: -0.05rem;
+  }
+
+  .content {
+    width: calc(100% - 100px);
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
+    font-size: 0.85rem;
+    color: #1e2238;
+    font-weight: normal;
+    letter-spacing: -0.05rem;
+    line-height: 1.05rem;
+  }
+}

@@ -1,0 +1,29 @@
+.product-detail-image-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+
+  &.minimum {
+    height: 360px;
+  }
+
+  &.maximum {
+    height: auto;
+
+    .detail-info-more-view-button-area {
+      display: none;
+    }
+  }
+
+  .detail-info-more-view-button-area {
+    width: calc(100% - 48px);
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+  }
+}
+

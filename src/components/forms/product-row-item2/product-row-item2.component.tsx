@@ -6,11 +6,18 @@ import TextProductBrandName from "../../texts/text-product-brand-name/text-produ
 import TextProductName from "../../texts/text-product-name/text-product-name.component";
 import TextProductPrice from "../../texts/text-product-price/text-product-price.component";
 import HashTagItem from "../../boxes/hash-tag-item/hash-tag-item.component";
+import { useCallback } from "react";
 
 const ProductRowItem2 = (props: IProductRowItem2.Props) => {
+  const itemClick = useCallback(() => {
+    if (typeof props.__onClick === 'function') {
+      props.__onClick();
+    }
+  }, [props]);
+
   return (
     <>
-      <div className={styles['container']} style={props.__style}>
+      <div className={styles['container']} style={props.__style} onClick={itemClick}>
         <div className={styles['photo-area']}>
           <Image
             src="https://cdn.pixabay.com/photo/2016/04/12/14/31/backpack-1324445__480.jpg"

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
@@ -12,6 +13,7 @@ import styles from "./new-or-old-product-list-box.component.module.scss";
 import { INewOrOldProductListBox } from "./new-or-old-product-list-box.interface";
 
 const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
+  const router = useRouter();
   const [productId, setProductId] = useState(props.__productId ?? '');
 
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
@@ -32,6 +34,10 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
   const orderByItemClick = useCallback((valueItem: ICommon.ValueItem) => {
     setSelectedOrderBy(valueItem.value);
   }, []);
+  
+  const productRowItemClick = useCallback(() => {
+    router.push('/product/new/576');
+  }, [router]);
 
   return (
     <>
@@ -64,7 +70,7 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
         {
           Array.from({ length: 5 }).map((item, index) => {
             return (
-              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} />  
+              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} __onClick={productRowItemClick} />  
             );
           })
         }

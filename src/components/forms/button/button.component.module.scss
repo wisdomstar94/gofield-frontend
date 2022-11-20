@@ -137,4 +137,22 @@
       background-color: #f6f6f6;
     }
   }
+
+  &.white-solid-gray-stroke {
+    font-size: 1rem;
+    color: #13162b;
+    background-color: #ffffff;
+    border: 1px solid #c5c8ce;
+
+    &.disable {
+      background-color: #eeeeee;
+      border: 1px solid #c5c8ce;
+      color: #555;
+      cursor: none;
+    }
+
+    &:not(.disable):hover {
+      background-color: #f0f0f0;
+    }
+  }
 }
