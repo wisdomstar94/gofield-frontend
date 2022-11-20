@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
-import ProductColumnItem from '../components/forms/product-column-item/product-column-item.component';
+import ProductGroupColumnItem from '../components/forms/product-group-column-item/product-group-column-item.component';
 import Article from '../components/layouts/article/article.component';
 import BothSidebox from '../components/layouts/both-side-box/both-side-box.component';
 import HorizontalScrollBox from '../components/layouts/horizontal-scroll-box/horizontal-scroll-box.component';
@@ -67,7 +67,7 @@ const PageContents = () => {
             {
               popularityProductList.map((item, index) => {
                 return (
-                  <ProductColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
                     __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
@@ -93,7 +93,7 @@ const PageContents = () => {
             {
               recommendProductList.map((item, index) => {
                 return (
-                  <ProductColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
                     __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
@@ -119,7 +119,7 @@ const PageContents = () => {
             {
               recentOldProductList.map((item, index) => {
                 return (
-                  <ProductColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
                     __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}

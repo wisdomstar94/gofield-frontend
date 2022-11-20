@@ -1,12 +1,12 @@
-import styles from './product-column-item.component.module.scss';
-import { IProductColumnItem } from "./product-column-item.interface";
+import styles from './product-group-column-item.component.module.scss';
+import { IProductGroupColumnItem } from "./product-group-column-item.interface";
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from "react";
 import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 
-const ProductColumnItem = (props: IProductColumnItem.Props) => {
+const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const [isHeart, setIsHeart] = useState(props.__isHeart ?? false);
 
   useEffect(() => {
@@ -65,4 +65,4 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
   );
 };
 
-export default ProductColumnItem;
+export default ProductGroupColumnItem;

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CategoryTypeHorizontalList from "../../../components/boxes/category-type-horizontal-list/category-type-horizontal-list.component";
 import ViewFilterBox from "../../../components/boxes/view-filter-box/view-filter-box.component";
-import ProductColumnItem from "../../../components/forms/product-column-item/product-column-item.component";
+import ProductGroupColumnItem from "../../../components/forms/product-group-column-item/product-group-column-item.component";
 import Article from "../../../components/layouts/article/article.component";
 import BothSidebox from "../../../components/layouts/both-side-box/both-side-box.component";
 import GridList from "../../../components/layouts/grid-list/grid-list.component";
@@ -29,7 +29,7 @@ const ProductGroupsPage = () => {
     router.push(router.asPath.split('?')[0] + urlQueryString, undefined, { shallow: true });
   }, [router]);
 
-  const productColumnItemClick = useCallback(() => {
+  const ProductGroupColumnItemClick = useCallback(() => {
     router.push('/productGroup/33');
   }, [router]);
 
@@ -76,9 +76,9 @@ const ProductGroupsPage = () => {
             {
               Array.from({ length: 14 }).map((value, index) => {
                 return (
-                  <ProductColumnItem
+                  <ProductGroupColumnItem
                     key={index}
-                    __onClick={productColumnItemClick}
+                    __onClick={ProductGroupColumnItemClick}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
                     __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />      
