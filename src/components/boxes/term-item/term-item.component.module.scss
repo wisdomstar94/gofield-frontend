@@ -1,0 +1,152 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+
+  &.open {
+    ul.child-term-list {
+      animation-name: showChildMenuList;
+    }
+
+    .main-row {
+      .arrow-area { 
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &.close {
+    ul.child-term-list {
+      animation-name: hideChildMenuList;
+    }
+  }
+
+  .main-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 4px 0;
+
+    .checkbox-icon-area {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .name-area {
+      width: calc(100% - (26px + 30px));
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      font-size: 0.85rem;
+      color: #374553;
+    }
+
+    .arrow-area {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      transition: 300ms all;
+    }
+  }
+
+  ul.child-term-list {
+    width: 100%;
+    max-height: 0;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+
+    > li.item {
+      width: 100%;
+      list-style-type: none;
+      margin: 0;
+      padding: 4px 0;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      &:first-child {
+        height: 10px;
+      }
+
+      .left-area {
+        width: calc(100% - 100px);
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        align-items: center;
+        box-sizing: border-box;
+        padding-left: 26px;
+        justify-content: flex-start;
+
+        .check-icon-area {
+          display: inline-flex;
+          margin-right: 10px;
+        }
+
+        .term-name-area {
+          display: inline-flex;
+          flex-wrap: wrap;
+          position: relative;
+          font-size: 0.85rem;
+          color: #374553;
+        }
+      }
+
+      .right-area {
+        width: 100px;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        justify-content: flex-end;
+        align-items: center;
+
+        .detail-view-button {
+          display: inline-flex;
+          font-size: 0.85rem;
+          color: #374553;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@keyframes showChildMenuList {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 100px;
+  }
+}
+
+@keyframes hideChildMenuList {
+  0% {
+    max-height: 100px;
+  }
+  100% {
+    max-height: 0;
+  }
+}
+
+

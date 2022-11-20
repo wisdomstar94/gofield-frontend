@@ -6,7 +6,9 @@ import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-
 import ProfileFormBox from "../../../../components/boxes/profile-form-box/profile-form-box.component";
 import { IProfileFormBox } from "../../../../components/boxes/profile-form-box/profile-form-box.interface";
 import RefundAccountFormBox from "../../../../components/boxes/refund-account-form-box/refund-account-form-box.component";
+import TermItem from "../../../../components/boxes/term-item/term-item.component";
 import Button from "../../../../components/forms/button/button.component";
+import TermsCheck from "../../../../components/forms/terms-check/terms-check.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
 
@@ -47,7 +49,7 @@ const PageContents = () => {
         }} />
       {/* <ProfileFormBox ref={formBoxComponentRef} /> */}
       <RefundAccountFormBox />
-      <BottomFixedOrRelativeBox __heightToRelative={640}>
+      <BottomFixedOrRelativeBox __heightToRelative={560}>
         <Article>
           <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
             저장

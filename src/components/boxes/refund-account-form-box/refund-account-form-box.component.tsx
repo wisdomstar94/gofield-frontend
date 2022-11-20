@@ -6,6 +6,8 @@ import FormListBox from "../form-list-box/form-list-box.component";
 import Input from "../../forms/input/input.component";
 import useBankList from "../../../hooks/use-queries/use-bank-list.query";
 import SelectBox from "../../forms/select-box/select-box.component";
+import TermItem from "../term-item/term-item.component";
+import EmptyRow from "../../layouts/empty-row/empty-row.component";
 
 const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref: ForwardedRef<IRefundAccountFormBox.RefObject>) => {
   const detailInfoRef = useRef<IRefundAccountFormBox.DetailInfo>(props.__detailInfo ?? {});
@@ -53,8 +55,27 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
               contentComponent: <><Input __type="text" __value={detailInfoRef.current.accountNumber ?? ''} __placeholder="계좌번호를 입력해 주세요" __onChange={accountNumberChange} /></>,
             },
           ]} />
+        <EmptyRow __style={{ height: '16px' }} />
+        <TermItem
+          __termName="개인정보 수집 및 이용 동의"
+          __detailContentComponent={<>개인정보 수집 및 이용 동의 !!!</>}
+          __isChecked={false}
+          // __childTermItems={[
+          //   {
+          //     termName: '약관1',
+          //     isChecked: false,
+          //     isCheckBoxShow: true,
+          //     detailContentComponent: <>약관1 내용!!</>
+          //   },
+          //   {
+          //     termName: '약관2',
+          //     isChecked: false,
+          //     isCheckBoxShow: true,
+          //     detailContentComponent: <>약관2 내용!!</>
+          //   }
+          // ]} 
+          />
       </Article>
-
     </>
   );
 });
