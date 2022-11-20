@@ -6,8 +6,8 @@ export declare namespace ITermItem {
   }
 
   export interface TermInfo {
-    isChecked: boolean;
-    
+    isChecked?: boolean;
+    childTermItems?: ChildTermItem[];
   }
 
   export interface ChildTermItem {

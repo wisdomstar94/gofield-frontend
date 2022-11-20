@@ -23,8 +23,12 @@ const TermItem = forwardRef((props: ITermItem.Props, ref: ForwardedRef<ITermItem
   }));
 
   const getInfo = useCallback(() => {
-    return {} as any;
-  }, []);
+    const info: ITermItem.TermInfo = {
+      isChecked,
+      childTermItems,
+    };
+    return info;
+  }, [childTermItems, isChecked]);
 
   useEffect(() => {
     setIsChecked(props.__isChecked);
