@@ -45,7 +45,7 @@ export const useExchangeReturnReasonValueItems = () => {
 
 export const useProductCategoryValueItems = () => {
   const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>([
-    { text: '골프', value: 'delivery' },
+    { text: '골프', value: 'golf' },
     { text: '자전거', value: 'bicycle' },
     { text: '헬스', value: 'health' },
     { text: '등산', value: 'mountain' },

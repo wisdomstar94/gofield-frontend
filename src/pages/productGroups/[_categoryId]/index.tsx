@@ -13,7 +13,7 @@ import useCategoryListTypeQuery from "../../../hooks/use-queries/use-category-ty
 import { ICommon } from "../../../interfaces/common/common.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 
-const ProductsPage = () => {
+const ProductGroupsPage = () => {
   const router = useRouter();
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');
@@ -30,7 +30,7 @@ const ProductsPage = () => {
   }, [router]);
 
   const productColumnItemClick = useCallback(() => {
-    router.push('/product/33');
+    router.push('/productGroup/33');
   }, [router]);
 
   useEffect(() => {
@@ -92,4 +92,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default ProductGroupsPage;

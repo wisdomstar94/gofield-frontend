@@ -32,8 +32,8 @@ const ProductDetailPage = () => {
       return;
     }
 
-    const productId = router.query._productId;
-    console.log('productId', productId);
+    const _productGroupId = router.query._productGroupId;
+    console.log('_productGroupId', _productGroupId);
   }, [router]);
 
   return (
@@ -107,14 +107,14 @@ const ProductDetailPage = () => {
 
         <NewOrOldProductListBox />
 
-        <Article __style={{ marginBottom: '50px' }}>
+        <Article __style={{ marginBottom: '0' }}>
           <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
           <ReviewBox />
         </Article>
 
-        <BottomFixedBox>
+        {/* <BottomFixedBox>
           <BuyButton />
-        </BottomFixedBox>
+        </BottomFixedBox> */}
 
         {/* <ModalSearch ref={modalSearchRef} __modalState="hide" /> */}
       </WindowSizeContainer>
