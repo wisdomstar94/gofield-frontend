@@ -19,6 +19,7 @@ import ArticleTopRow from '../components/layouts/article-top-row/article-top-row
 import TextProductTypeTitle from '../components/texts/text-product-type-title/text-product-type-title.component';
 import TextMoreViewButton from '../components/texts/text-more-view-button/text-more-view-button.component';
 import EmptyColumn from '../components/layouts/empty-column/empty-column.component';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   return (
@@ -37,6 +38,7 @@ const Home: NextPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
   const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
   const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
   const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
@@ -66,6 +68,7 @@ const PageContents = () => {
               popularityProductList.map((item, index) => {
                 return (
                   <ProductColumnItem key={index} __style={{ width: '150px' }}
+                    __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
                     __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
@@ -91,6 +94,7 @@ const PageContents = () => {
               recommendProductList.map((item, index) => {
                 return (
                   <ProductColumnItem key={index} __style={{ width: '150px' }}
+                    __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
                     __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
@@ -116,6 +120,7 @@ const PageContents = () => {
               recentOldProductList.map((item, index) => {
                 return (
                   <ProductColumnItem key={index} __style={{ width: '150px' }}
+                    __onClick={() => { router.push('/productGroup/33') }}
                     __brandNameComponent={<>맥켄리</>}
                     __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
                     __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
