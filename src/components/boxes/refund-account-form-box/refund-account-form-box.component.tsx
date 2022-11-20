@@ -28,6 +28,10 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
 
   }, []);
 
+  const accountNumberChange = useCallback((value: string) => {
+
+  }, []);
+
   return (
     <>
       <Article>
@@ -42,12 +46,11 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
             },
             {
               titleComponent: <>입금은행</>,
-              contentComponent: <>
-                <SelectBox
-                  __placeholder="입금 은행을 선택해주세요"
-                  __valueItems={bankListQuery.data}
-                  __onChange={bankrNameChange} />
-              </>,
+              contentComponent: <><SelectBox __placeholder="입금 은행을 선택해주세요" __valueItems={bankListQuery.data} __onChange={bankrNameChange} /></>,
+            },
+            {
+              titleComponent: <>계좌번호</>,
+              contentComponent: <><Input __type="text" __value={detailInfoRef.current.accountNumber ?? ''} __placeholder="계좌번호를 입력해 주세요" __onChange={accountNumberChange} /></>,
             },
           ]} />
       </Article>
