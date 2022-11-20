@@ -5,6 +5,7 @@ import Article from "../../layouts/article/article.component";
 import FormListBox from "../form-list-box/form-list-box.component";
 import Input from "../../forms/input/input.component";
 import useBankList from "../../../hooks/use-queries/use-bank-list.query";
+import SelectBox from "../../forms/select-box/select-box.component";
 
 const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref: ForwardedRef<IRefundAccountFormBox.RefObject>) => {
   const detailInfoRef = useRef<IRefundAccountFormBox.DetailInfo>(props.__detailInfo ?? {});
@@ -23,6 +24,10 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
 
   }, []);
 
+  const bankrNameChange = useCallback((value: string) => {
+
+  }, []);
+
   return (
     <>
       <Article>
@@ -37,7 +42,12 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
             },
             {
               titleComponent: <>입금은행</>,
-              contentComponent: <></>,
+              contentComponent: <>
+                <SelectBox
+                  __placeholder="입금 은행을 선택해주세요"
+                  __valueItems={bankListQuery.data}
+                  __onChange={bankrNameChange} />
+              </>,
             },
           ]} />
       </Article>
