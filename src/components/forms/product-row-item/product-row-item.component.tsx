@@ -3,8 +3,15 @@ import { IProductRowItem } from "./product-row-item.interface";
 import Image from 'next/image';
 import List, { ListItem } from "../../layouts/list/list.component";
 import StrokeButtons from "../stroke-buttons/stroke-buttons.component";
+import { useEffect, useState } from "react";
 
 const ProductRowItem = (props: IProductRowItem.Props) => {
+  const [isCancelButtonShow, setIsCancelButtonShow] = useState<boolean | undefined>(props.__isCancelButtonShow);
+
+  useEffect(() => {
+    setIsCancelButtonShow(props.__isCancelButtonShow);
+  }, [props.__isCancelButtonShow]);
+
   return (
     <>
       <div className={[
@@ -50,19 +57,24 @@ const ProductRowItem = (props: IProductRowItem.Props) => {
             </List>
           </div>
         </div>
-        <div className={[
-            styles['button-row']
-          ].join(' ')}>
-          <StrokeButtons
-            __buttonItems={[
-              {
-                textComponent: <>주문/배송 취소</>,
-                onClick: () => {
+        {
+          isCancelButtonShow !== false ? 
+          <div 
+            className={[
+              styles['button-row']
+            ].join(' ')}>
+            <StrokeButtons
+              __buttonItems={[
+                {
+                  textComponent: <>주문/배송 취소</>,
+                  onClick: () => {
 
-                },
-              }
-            ]} />
-        </div>
+                  },
+                }
+              ]} />
+          </div> : 
+          <></>
+        } 
       </div>
     </>
   );

@@ -1,0 +1,37 @@
+.deco-line {
+  display: block;
+  height: 1px;
+  background-color: #e9ebee;
+  margin: 0 16px;
+}
+
+.review-title {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  margin-bottom: 6px;
+  color: #374553;
+  font-size: 0.9rem;
+  letter-spacing: -0.03rem;
+  font-weight: bold;
+}
+
+.char-check-text {
+  color: #374553;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.description-text {
+  display: flex;
+  flex-wrap: wrap;
+  color: #c5c8ce;
+  font-size: 0.8rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+}

@@ -1,0 +1,20 @@
+textarea.textarea {
+  width: 100%;
+  border: 1px solid #e9ebee;
+  background-color: #fff;
+  color: #374553;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: block;
+  padding: 14px;
+  height: 144px;
+
+  &:not(.disable).focus {
+    border: 1px solid #374553;
+  }
+
+  &.disable {
+    background-color: #FAFAFA;
+  }
+}
