@@ -6,6 +6,7 @@ import ViewFilterBox from "../../../components/boxes/view-filter-box/view-filter
 import ProductGroupColumnItem from "../../../components/forms/product-group-column-item/product-group-column-item.component";
 import Article from "../../../components/layouts/article/article.component";
 import BothSidebox from "../../../components/layouts/both-side-box/both-side-box.component";
+import BottomMenuBar from "../../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import GridList from "../../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
@@ -64,6 +65,7 @@ const PageContents = () => {
             }
           </GridList>
         </Article>
+        <BottomMenuBar __activeMenuId="old-product" />
       </WindowSizeContainer>
     </>
   );

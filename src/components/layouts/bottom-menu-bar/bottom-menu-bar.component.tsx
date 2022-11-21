@@ -24,7 +24,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
       menuId: 'old-product',
       menuIconComponent: <><SvgBottomMenuOldProductIcon /></>,
       menuNameComponent: <>중고상품</>,
-      menuLink: '',
+      menuLink: '/productGroups/old',
     },
     {
       menuId: 'home',
