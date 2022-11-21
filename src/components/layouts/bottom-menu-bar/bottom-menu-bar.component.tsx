@@ -36,7 +36,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
       menuId: 'likes',
       menuIconComponent: <><SvgBottomMenuLikeIcon /></>,
       menuNameComponent: <>좋아요</>,
-      menuLink: '',
+      menuLink: '/product/likes',
     },
     {
       menuId: 'my-page',
