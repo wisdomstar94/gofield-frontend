@@ -1,30 +1,39 @@
+import styles from "./product-detail-form-box.component.module.scss";
+import { IProductDetailFormBox } from "./product-detail-form-box.interface";
+import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
+import { useRouter } from "next/router";
+import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
+import { ICommon } from "../../../interfaces/common/common.interface";
+import { getClasses } from "../../../librarys/string-util/string-util.library";
+import Button from "../../forms/button/button.component";
+import BuyButton from "../../forms/buy-button/buy-button.component";
+import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
 import SwiperCustom from "../../forms/swiper-custom/swiper-custom.component";
 import Article from "../../layouts/article/article.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
+import EmptyRow from "../../layouts/empty-row/empty-row.component";
+import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-scroll-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
 import SvgShareIcon from "../../svgs/svg-share-icon/svg-share-icon.component";
-import styles from "./new-product-form-box.component.module.scss";
-import { INewProductFormBox } from "./new-product-form-box.interface";
-import Image from 'next/image';
-import { useCallback, useState } from "react";
-import HashTagItem from "../hash-tag-item/hash-tag-item.component";
-import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
-import { ICommon } from "../../../interfaces/common/common.interface";
-import TitleAndContentRowItem from "../title-and-content-row-item/title-and-content-row-item.component";
-import ProductDetailImageBox from "../product-detail-image-box/product-detail-image-box.component";
-import { getClasses } from "../../../librarys/string-util/string-util.library";
-import MenuRowItem from "../menu-row-item/menu-row-item.component";
-import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-scroll-box.component";
-import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
-import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
-import Button from "../../forms/button/button.component";
-import { useRouter } from "next/router";
 import BottomFixedBox from "../bottom-fixed-box/bottom-fixed-box.component";
-import BuyButton from "../../forms/buy-button/buy-button.component";
-import EmptyColumn from "../../layouts/empty-column/empty-column.component";
-import EmptyRow from "../../layouts/empty-row/empty-row.component";
+import HashTagItem from "../hash-tag-item/hash-tag-item.component";
+import MenuRowItem from "../menu-row-item/menu-row-item.component";
+import ProductDetailImageBox from "../product-detail-image-box/product-detail-image-box.component";
+import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
+import TitleAndContentRowItem from "../title-and-content-row-item/title-and-content-row-item.component";
+import Image from "next/image";
 
-const NewProductFormBox = (props: INewProductFormBox.Props) => {
+const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
+  useImperativeHandle(ref, () => ({
+    // 부모 컴포넌트에서 사용할 함수를 선언
+    
+  }));
+
+  const [productType, setProductType] = useState<IProductDetailFormBox.ProductType | undefined>(props.__productType);
+  useEffect(() => {
+    setProductType(props.__productType);
+  }, [props.__productType]);
+
   const router = useRouter();
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
@@ -84,10 +93,14 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
           <ListItem>
             <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>페르마 플러스 드라이버 헤드 (9.5도 단품)</span>
           </ListItem>
-          <ListItem>
-            <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
-            <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>4.7 (3)</span>
-          </ListItem>
+          {
+            productType === 'new' ? 
+            <ListItem>
+              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
+              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>4.7 (3)</span>
+            </ListItem> :
+            <ListItem __marginBottom="0"><></></ListItem>
+          }
           <ListItem>
             <span style={{ color: '#13162b', fontSize: '1.3rem', display: 'inline-flex', fontWeight: 'bold' }}>210,000원</span> 
           </ListItem>
@@ -110,11 +123,18 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
         </List>
       </Article>
       <StrokeTabButtonBox
-        __valueItems={[
-          { text: '상품 정보', value: 'product-info' },
-          { text: '상품 설명', value: 'product-description' },
-          { text: '상품 문의', value: 'product-question' },
-        ]}
+        __valueItems={
+          productType === 'new' ? 
+          [
+            { text: '상품 정보', value: 'product-info' },
+            { text: '상품 설명', value: 'product-description' },
+            { text: '상품 문의', value: 'product-question' },
+          ] : 
+          [
+            { text: '상품 정보', value: 'product-info' },
+            { text: '상품 설명', value: 'product-description' },
+          ]
+        }
         __onTabClick={onTabClick} />
       <Article>
         <div className={styles['article-title-row']}>
@@ -188,7 +208,7 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
       </MenuRowItem>
       <Article __style={{ paddingBottom: '0' }}>
         <div className={getClasses([styles['article-title-row'], styles['not-margin-bottom']])}>
-          중고상품
+          { productType === 'old' ? '다른 ' : '' } 중고상품
         </div>
       </Article>
       <HorizontalScrollBox>
@@ -222,6 +242,7 @@ const NewProductFormBox = (props: INewProductFormBox.Props) => {
       </BottomFixedBox>
     </>
   );
-};
+});
+ProductDetailFormBox.displayName = 'ProductDetailFormBox';
 
-export default NewProductFormBox;
+export default ProductDetailFormBox;

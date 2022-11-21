@@ -8,8 +8,8 @@ const ProductNewPage = () => {
   return (
     <>
       <Head>
-        <title>고필드 - 새상품 상세정보</title>
-        <meta name="description" content="고필드 새상품 상세정보 페이지입니다." />
+        <title>고필드 - 중고상품 상세정보</title>
+        <meta name="description" content="고필드 중고상품 상세정보 페이지입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -29,8 +29,7 @@ const PageContents = () => {
             titleComponent: '',
             // searchButtonClickCallback: searchButtonClick,
           }} />
-        {/* <NewProductFormBox /> */}
-        <ProductDetailFormBox __productType="new" />
+        <ProductDetailFormBox __productType="old" />
       </WindowSizeContainer>
     </>
   );
