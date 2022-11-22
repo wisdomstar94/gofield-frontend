@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export declare namespace IButton {
   export type ButtonStyle = 
@@ -14,9 +14,9 @@ export declare namespace IButton {
 
   export interface Props {
     __buttonStyle?: ButtonStyle;
-    __borderRadius?: string;
     __disable?: boolean;
     __onClick?: () => void;  
+    __style?: CSSProperties;
 
     children: React.ReactNode;
   }
