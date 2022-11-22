@@ -1,0 +1,29 @@
+.getter-name-text {
+  display: inline-flex;
+  color: #1e2238;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.address-text {
+  display: inline-flex;
+  color: #646f7c;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.cp-text {
+  display: inline-flex;
+  color: #646f7c;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.border-bottom-box {
+  display: block;
+  height: 1px;
+  margin: 0 16px;
+  padding: 0;
+  background-color: #e9ebee;
+  position: relative;
+}

@@ -9,11 +9,14 @@ import Article from "../../layouts/article/article.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import EmptyRow from "../../layouts/empty-row/empty-row.component";
 import List, { ListItem } from "../../layouts/list/list.component";
+import ModalAddressBook from "../../modals/modal-address-book/modal-address-book.component";
+import { IModalAddressBook } from "../../modals/modal-address-book/modal-address-book.interface";
 import FormListBox from "../form-list-box/form-list-box.component";
 import styles from "./order-form-box.component.module.scss";
 import { IOrderFormBox } from "./order-form-box.interface";
 
 const OrderFormBox = (props: IOrderFormBox.Props) => {
+  const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
   const [timestamp, setTimestamp] = useState(0);
   const detailInfoRef = useRef<IOrderFormBox.DetailInfo>(props.__detailInfo ?? {});
 
@@ -156,6 +159,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
           __rightComponent={<><div className={styles['price-info-content-text-big']}>154,600원</div></>} />
       </Article>
       <Button __buttonStyle="black-solid">결제하기</Button>
+      <ModalAddressBook ref={modalAddressBookRef} __modalState="show" />
     </>
   );
 };
