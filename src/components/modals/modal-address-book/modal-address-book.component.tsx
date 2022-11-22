@@ -9,8 +9,11 @@ import AddressBookItem from "../../boxes/address-book-item/address-book-item.com
 import BottomFixedOrRelativeBox from "../../boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
+import ModalAddressAdd from "../modal-address-add/modal-address-add.component";
+import { IModalAddressAdd } from "../modal-address-add/modal-address-add.interface";
 
 const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: ForwardedRef<IModalAddressBook.RefObject>) => {
+  const modalAddressAddRef = useRef<IModalAddressAdd.RefObject>(null);
   const addressBookItemsLastBottomElementRef = useRef<HTMLDivElement>(null);
   const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
   const [modalState, setModalState] = useState<IModal.ModalState | undefined>(props.__modalState);
@@ -53,7 +56,7 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
   }, [windowSizeCheck]);
   
   const newAddressItemAddButtonClick = useCallback(() => {
-    
+    modalAddressAddRef.current?.show();
   }, []);
 
   return (
@@ -74,6 +77,7 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
           </BottomFixedOrRelativeBox>
         </WindowSizeContainer>
       </Modal>
+      <ModalAddressAdd ref={modalAddressAddRef} />
     </>
   );
 });
