@@ -49,6 +49,7 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
 
     window.removeEventListener('resize', windowSizeCheck);
     window.addEventListener('resize', windowSizeCheck);
+    windowSizeCheck();
 
     return () => {
       window.removeEventListener('resize', windowSizeCheck);
