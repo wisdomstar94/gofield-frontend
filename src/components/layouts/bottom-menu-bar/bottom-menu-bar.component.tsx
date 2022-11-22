@@ -18,7 +18,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
       menuId: 'category',
       menuIconComponent: <><SvgBottomMenuCategoryIcon /></>,
       menuNameComponent: <>카테고리</>,
-      menuLink: '',
+      menuLink: '/category',
     },
     {
       menuId: 'old-product',

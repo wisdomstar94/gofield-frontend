@@ -20,28 +20,24 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
       categoryId: 'golf',
       categoryName: '골프',
       icon: <SvgCategoryGolfIcon />,
-      // link: '/order/13/product/15/golf',
       link: '/productGroups/golf',
     },
     {
       categoryId: 'bicycle',
       categoryName: '자전거',
       icon: <SvgCategoryBicycleIcon />,
-      // link: '/order/13/product/15/exchange-return/reason',
       link: '/productGroups/bicycle',
     },
     {
       categoryId: 'health',
       categoryName: '헬스',
       icon: <SvgCategoryHealthIcon />,
-      // link: '/order/13/product/15/exchange-return/apply?reasonList=2',
       link: '/productGroups/health',
     },
     {
       categoryId: 'mountain',
       categoryName: '등산',
       icon: <SvgCategoryMountainIcon />,
-      // link: '/cancel-return-exchange',
       link: '/productGroups/mountain',
     },
     {
