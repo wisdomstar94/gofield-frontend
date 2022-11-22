@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import Script from "next/script";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { IDaum } from "../../../interfaces/daum/daum.interface";
 import Button from "../../forms/button/button.component";
 import Checkbox from "../../forms/checkbox/checkbox.component";
 import { ICheckbox } from "../../forms/checkbox/checkbox.interface";
@@ -12,6 +14,7 @@ import styles from "./order-form-box.component.module.scss";
 import { IOrderFormBox } from "./order-form-box.interface";
 
 const OrderFormBox = (props: IOrderFormBox.Props) => {
+  const [timestamp, setTimestamp] = useState(0);
   const detailInfoRef = useRef<IOrderFormBox.DetailInfo>(props.__detailInfo ?? {});
 
   useEffect(() => {
@@ -42,8 +45,22 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
 
   }, []);
 
+  const postNumberSearchButtonClick = useCallback(() => {
+    new (window as any).daum.Postcode({
+      oncomplete: function(data: IDaum.AddrInfo) {
+        console.log('data', data);
+        console.log('data', JSON.stringify(data, undefined, 2));
+
+        detailInfoRef.current.addrBasic = data.address;
+        detailInfoRef.current.postNumber = data.zonecode;
+        setTimestamp(new Date().getTime());
+      },
+    }).open();
+  }, []);
+
   return (
     <>
+      <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
       <Article>
         <div className={styles['big-title-row']}>
           <BothSidebox
@@ -66,9 +83,13 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
               contentComponent: <>
                 <BothSidebox
                   __leftComponentStyle={{ width: 'calc(100% - 128px)' }}
-                  __leftComponent={<><Input __type="number" __placeholder="00000" __value={detailInfoRef.current.postNumber ?? ''} __onChange={postNumberChange} /></>}
+                  __leftComponent={<><Input __type="number" __disable={true} __placeholder="00000" __value={detailInfoRef.current.postNumber ?? ''} __onChange={postNumberChange} /></>}
                   __rightComponentStyle={{ width: '128px' }}
-                  __rightComponent={<><Button __style={{ width: 'calc(100% - 8px)', padding: '12px 14px' }} __buttonStyle="black-solid-radius">우편번호 검색</Button></>}/>
+                  __rightComponent={<>
+                    <Button __style={{ width: 'calc(100% - 8px)', padding: '12px 14px' }} __buttonStyle="black-solid-radius" __onClick={postNumberSearchButtonClick}>
+                      우편번호 검색
+                    </Button>
+                  </>}/>
               </>,
             },
             {

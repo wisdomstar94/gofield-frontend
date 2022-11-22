@@ -5,6 +5,7 @@ import RootComponent from './_root';
 import Head from 'next/head';
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Script from 'next/script';
 
 const queryClient = new QueryClient({
   defaultOptions: {
