@@ -1,15 +1,18 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ForwardedRef, forwardRef, useCallback } from 'react';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
-import TopBarSearchButton from '../../boxes/top-bar-search-button/top-bar-search-button.component';
+import SvgBackIcon from '../../svgs/svg-back-icon/svg-back-icon.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
 import SvgShoppingCartIcon from '../../svgs/svg-shopping-cart-icon/svg-shopping-cart-icon.component';
 import styles from './top-bar.component.module.scss';
 import { ITopbar } from './top-bar.interface';
 
-const Topbar = (props: ITopbar.Props) => {
+const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefObject>) => {
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState('');
+
+  // useImperativeHandle(ref, () => ({
+  //   searchModalHide,
+  // }));
 
   const backButtonClick = useCallback(() => {
     if (typeof props.__backButtonClickCallback === 'function') {
@@ -25,16 +28,9 @@ const Topbar = (props: ITopbar.Props) => {
     history.back();
   }, [props, router]);
 
-  const textSearchStartButtonClick = useCallback(() => {
-    if (typeof props.__onSearchValueChange === 'function') {
-      props.__onSearchValueChange(searchValue);
-    }
-  }, [props, searchValue]);
-
-  const searchValueChange = useCallback((event: ChangeEvent<HTMLInputElement> ) => {
-    const newValue = event.target.value;
-    setSearchValue(newValue);
-  }, []);
+  const searchIconClick = useCallback(() => {
+    router.push('/search');
+  }, [router]);
 
   return (
     <>
@@ -45,7 +41,7 @@ const Topbar = (props: ITopbar.Props) => {
             <div className={getClasses([styles['layout-type-a'], props.__layoutTypeA.bgColorTransparency === true ? styles['bg-color-transparency'] : ''])}>
               <div className={getClasses([styles['common-area'], styles['left-area']])}>
                 <button className={styles['back-button']} onClick={backButtonClick}>
-                  <span>icon<br />없음</span>  
+                  <SvgBackIcon />
                 </button>    
               </div>
               <div className={getClasses([styles['common-area'], styles['center-area']])}>
@@ -66,7 +62,7 @@ const Topbar = (props: ITopbar.Props) => {
                   <>
                     {/* 뒤로가기 버튼 + 타이틀 */}
                     <button className={styles['back-button']} onClick={backButtonClick}>
-                      <span>icon<br />없음</span>  
+                      <SvgBackIcon />
                     </button> 
                     <div>{ props.__layoutTypeB.titleComponent }</div>
                   </>
@@ -85,9 +81,8 @@ const Topbar = (props: ITopbar.Props) => {
                     <div className={styles['button-item']}>
                       <SvgShoppingCartIcon />
                     </div>
-                    <div className={getClasses([styles['button-item'], styles['none-pointer']])}>
-                      {/* <SvgMagnifyingGlassIcon /> */}
-                      <TopBarSearchButton />
+                    <div className={getClasses([styles['button-item']])} onClick={searchIconClick}>
+                      <SvgMagnifyingGlassIcon />
                     </div> 
                   </>
                 }
@@ -96,29 +91,10 @@ const Topbar = (props: ITopbar.Props) => {
           </>
           : <></>
         }
-
-        {
-          props.__layoutTypeC !== undefined ?
-          <>
-            <div className={styles['layout-type-c']}>
-              <div className={styles['left-area']}>  
-                {/* 뒤로가기 버튼 */}
-                <button className={styles['back-button']} onClick={backButtonClick}>
-                  <span>icon<br />없음</span>  
-                </button> 
-                <input type="text" value={searchValue} onChange={searchValueChange} className={styles['input-search']} placeholder="검색어를 입력하세요." />
-              </div>
-              <div className={styles['right-area']}>
-                <span className={styles['search-button']} onClick={textSearchStartButtonClick}><SvgMagnifyingGlassIcon /></span>
-              </div>
-            </div>
-          </>
-          : <></>
-        }
-
       </div>
     </>
   );
-};
+});
+Topbar.displayName = 'Topbar';
 
 export default Topbar;

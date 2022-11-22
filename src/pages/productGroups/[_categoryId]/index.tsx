@@ -9,6 +9,7 @@ import Article from "../../../components/layouts/article/article.component";
 import BothSidebox from "../../../components/layouts/both-side-box/both-side-box.component";
 import GridList from "../../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
+import { ITopbar } from "../../../components/layouts/top-bar/top-bar.interface";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 import { useProductCategoryValueItems } from "../../../hooks/use-api-hook/use-api.hook";
 import useCategoryListTypeQuery from "../../../hooks/use-queries/use-category-type-list.query";
@@ -33,6 +34,7 @@ const ProductGroupsPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const topbarRef = useRef<ITopbar.RefObject>(null);
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');
   const productCategoryValueItems = useProductCategoryValueItems();
@@ -75,9 +77,12 @@ const PageContents = () => {
     <>
       <WindowSizeContainer __bgColor="#fff">
         <Topbar
+          ref={topbarRef}
           __layoutTypeB={{
             titleComponent: productCategoryValueItems.find(x => x.value === router.query._categoryId)?.text,
-          }} />
+          }}
+          // __onSearchButtonClick={(value) => {topbarRef.current?.searchModalHide(); console.log(value);}} 
+          />
         <CategoryTypeHorizontalList
           __valueItems={categoryTypeListQuery.data}
           __activeValue={categoryTypeId}

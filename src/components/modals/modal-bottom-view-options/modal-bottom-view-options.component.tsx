@@ -4,6 +4,7 @@ import { ICommon } from "../../../interfaces/common/common.interface";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
 import ModalBottom from "../../forms/modal-bottom/modal-bottom.component";
 import { IModalBottom } from "../../forms/modal-bottom/modal-bottom.interface";
+import SvgCloseIcon from "../../svgs/svg-close-icon/svg-close-icon.component";
 import styles from "./modal-bottom-view-options.component.module.scss";
 import { IModalBottomViewOptions } from "./modal-bottom-view-options.interface";
 
@@ -81,7 +82,7 @@ const ModalBottomViewOptions = forwardRef((props: IModalBottomViewOptions.Props,
       <ModalBottom __modalState={modalState}>
         <div className={styles['top-row']}>
           <div className={getClasses([styles['common-area'], styles['left-area']])} onClick={closeButtonClick}>
-            no-icon
+            <SvgCloseIcon />
           </div>
           <div className={getClasses([styles['common-area'], styles['center-area']])}>
             <span className={styles['center-title-text']}>보기 옵션</span>

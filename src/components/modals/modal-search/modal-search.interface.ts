@@ -10,7 +10,9 @@ export declare namespace IModalSearch {
 
   export interface Props {
     __modalState?: ModalState;
-
+    __searchValue?: string;
+    __backButtonClick?: () => void;
+    __onSearchButtonClick?: (searchValue: string) => void;
     children?: React.ReactNode;
   }
 }

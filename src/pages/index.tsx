@@ -49,7 +49,8 @@ const PageContents = () => {
         <Topbar
           __layoutTypeB={{
 
-          }} />
+          }}
+           />
         <BannerBox />
         <CategoryButtonListBox __style={{ marginBottom: '8px' }} />
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>

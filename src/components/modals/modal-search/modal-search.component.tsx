@@ -1,4 +1,5 @@
-import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEvent, ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import HashTagItem from '../../boxes/hash-tag-item/hash-tag-item.component';
 import Modal from '../../forms/modal/modal.component';
@@ -7,11 +8,15 @@ import Article from '../../layouts/article/article.component';
 import List, { ListItem } from '../../layouts/list/list.component';
 import Topbar from '../../layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../../layouts/window-size-container/window-size-container.component';
+import SvgBackIcon from '../../svgs/svg-back-icon/svg-back-icon.component';
+import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
 import styles from './modal-search.component.module.scss';
 import { IModalSearch } from "./modal-search.interface";
 
 const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IModalSearch.RefObject>) => {
+  const router = useRouter();
   const modalRef = useRef<IModal.RefObject>(null);
+  const [searchValue, setSearchValue] = useState(props.__searchValue ?? '');
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -20,25 +25,48 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
     },
   }));
 
+  useEffect(() => {
+    setSearchValue(props.__searchValue ?? '');
+  }, [props.__searchValue]);
+
   const backButtonClick = useCallback(() => {
-    modalRef.current?.hide();
+    if (typeof props.__backButtonClick === 'function') {
+      props.__backButtonClick();
+      return;
+    }
+
+    history.back();
+    // modalRef.current?.hide();
+  }, [props]);
+
+  const searchValueInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setSearchValue(newValue);
   }, []);
 
-  const searchValueChange = useCallback((searchValue: string) => {
-    console.log('@@@ searchValue', searchValue);
-  }, []);
+  const searchButtonClick = useCallback(() => {
+    router.push('/productGroups?searchValue=' + searchValue);
+  }, [router, searchValue]);
 
   return (
     <>
       <Modal ref={modalRef} __modalState={props.__modalState ?? ''}>
-        {/* <Topbar
-          __layoutTypeC={{}}
-          __backButtonClickCallback={backButtonClick} /> */}
         <WindowSizeContainer __bgColor="#fff">
-          <Topbar
-            __layoutTypeC={{}}
-            __backButtonClickCallback={backButtonClick}
-            __onSearchValueChange={searchValueChange} />
+          <div className={styles['top-bar-row']}>
+            <div className={styles['left-area']}>
+              <button className={styles['back-button']} onClick={backButtonClick}>
+                <SvgBackIcon />
+              </button>
+            </div>
+            <div className={styles['center-area']}>
+              <input className={styles['search-input']} placeholder="검색어를 입력하세요." type="text" value={searchValue} onChange={searchValueInputChange} />
+            </div>
+            <div className={styles['right-area']}>
+              <div className={styles['button-item']} onClick={searchButtonClick}>
+                <SvgMagnifyingGlassIcon />
+              </div>
+            </div>
+          </div>
           <div className={styles['search-result-box']}>
             <Article __style={{ paddingBottom: '12px' }}>
               <div className={styles['title-row']}>
