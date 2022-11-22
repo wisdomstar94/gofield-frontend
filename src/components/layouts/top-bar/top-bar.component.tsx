@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import TopBarSearchButton from '../../boxes/top-bar-search-button/top-bar-search-button.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
@@ -9,6 +9,7 @@ import { ITopbar } from './top-bar.interface';
 
 const Topbar = (props: ITopbar.Props) => {
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState('');
 
   const backButtonClick = useCallback(() => {
     if (typeof props.__backButtonClickCallback === 'function') {
@@ -23,6 +24,17 @@ const Topbar = (props: ITopbar.Props) => {
 
     history.back();
   }, [props, router]);
+
+  const textSearchStartButtonClick = useCallback(() => {
+    if (typeof props.__onSearchValueChange === 'function') {
+      props.__onSearchValueChange(searchValue);
+    }
+  }, [props, searchValue]);
+
+  const searchValueChange = useCallback((event: ChangeEvent<HTMLInputElement> ) => {
+    const newValue = event.target.value;
+    setSearchValue(newValue);
+  }, []);
 
   return (
     <>
@@ -73,7 +85,7 @@ const Topbar = (props: ITopbar.Props) => {
                     <div className={styles['button-item']}>
                       <SvgShoppingCartIcon />
                     </div>
-                    <div className={styles['button-item']}>
+                    <div className={getClasses([styles['button-item'], styles['none-pointer']])}>
                       {/* <SvgMagnifyingGlassIcon /> */}
                       <TopBarSearchButton />
                     </div> 
@@ -94,11 +106,11 @@ const Topbar = (props: ITopbar.Props) => {
                 <button className={styles['back-button']} onClick={backButtonClick}>
                   <span>icon<br />없음</span>  
                 </button> 
-                <input type="text" className={styles['input-search']} placeholder="검색어를 입력하세요." />
+                <input type="text" value={searchValue} onChange={searchValueChange} className={styles['input-search']} placeholder="검색어를 입력하세요." />
               </div>
-              {/* <div className={styles['right-area']}>
-                
-              </div> */}
+              <div className={styles['right-area']}>
+                <span className={styles['search-button']} onClick={textSearchStartButtonClick}><SvgMagnifyingGlassIcon /></span>
+              </div>
             </div>
           </>
           : <></>

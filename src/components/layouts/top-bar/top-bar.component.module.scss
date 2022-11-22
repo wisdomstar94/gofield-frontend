@@ -108,6 +108,10 @@ button.back-button {
         padding: 2px;
         margin-right: 2px;
 
+        &.none-pointer {
+          cursor: auto;
+        }
+
         &:last-child {
           margin-right: 0;
         }
@@ -129,7 +133,7 @@ button.back-button {
 
     .left-area {
       // width: calc(100% - 100px);
-      width: calc(100%);
+      width: calc(100% - 60px);
       box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
@@ -150,16 +154,22 @@ button.back-button {
       }
     }
 
-    // .right-area {
-    //   width: 0;
-    //   box-sizing: border-box;
-    //   display: flex;
-    //   flex-wrap: wrap;
-    //   position: relative;
-    //   align-items: center;
-    //   justify-content: flex-end;
-    //   padding-right: 24px;
-    // }
+    .right-area {
+      width: 60px;
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 24px;
+    }
   }
 }
 
+
+.search-button {
+  display: inline-flex;
+  padding: 2px;
+  cursor: pointer;
+}

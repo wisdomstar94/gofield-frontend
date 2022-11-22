@@ -1,6 +1,7 @@
 import Head from "next/head";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import BasketFormBox from "../../components/boxes/basket-form-box/basket-form-box.component";
+import OrderFormBox from "../../components/boxes/order-form-box/order-form-box.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 
@@ -8,8 +9,8 @@ const ProductNewPage = () => {
   return (
     <>
       <Head>
-        <title>고필드 - 장바구니</title>
-        <meta name="description" content="고필드 장바구니 페이지입니다." />
+        <title>고필드 - 주문하기</title>
+        <meta name="description" content="고필드 주문하기 페이지입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -26,11 +27,10 @@ const PageContents = () => {
       <WindowSizeContainer __bgColor="#fff">
         <Topbar
           __layoutTypeB={{
-            titleComponent: '장바구니',
+            titleComponent: '주문하기',
             rightComponent: <></>,
-            // searchButtonClickCallback: searchButtonClick,
           }} />
-        <BasketFormBox />
+        <OrderFormBox />
       </WindowSizeContainer>
     </>
   );

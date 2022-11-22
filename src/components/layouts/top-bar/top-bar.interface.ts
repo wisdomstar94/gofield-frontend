@@ -6,6 +6,7 @@ export declare namespace ITopbar {
   export interface Props {
     __backButtonLink?: string;
     __backButtonClickCallback?: () => void;
+    __onSearchValueChange?: (value: string) => void;
 
     __layoutTypeA?: {
       titleComponent?: React.ReactNode;

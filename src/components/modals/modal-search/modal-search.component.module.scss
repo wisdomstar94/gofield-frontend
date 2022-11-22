@@ -31,3 +31,23 @@
     }
   }
 }
+
+.title-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  color: #646f7c;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.hash-tag-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: stretch;
+  align-content: flex-start;
+  justify-content: flex-start;
+}

@@ -14,7 +14,7 @@ const TopBarSearchButton = (props: ITopBarSearchButton.Props) => {
 
   return (
     <>
-      <span style={{ display: 'inline-flex' }} onClick={searchButtonClick}><SvgMagnifyingGlassIcon /></span>
+      <span style={{ display: 'inline-flex', cursor: 'pointer' }} onClick={searchButtonClick}><SvgMagnifyingGlassIcon /></span>
       <ModalSearch ref={modalSearchRef} __modalState="hide" />
     </>
   );
