@@ -1,0 +1,129 @@
+.basket-product-row-item {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .container {
+    width: 100%;
+    display: flex;
+    padding: 16px 24px;
+    flex-wrap: wrap;
+    position: relative;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+
+    .checkbox-area {
+      width: 16px;
+      margin-right: 10px;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .product-area {
+      width: calc(100% - 40px);
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+      justify-content: flex-start;
+
+      .photo-area {
+        width: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 8px;
+        position: relative;
+      }
+
+      .info-area {
+        width: calc(100% - 48px);
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+    }
+
+    .x-button-area {
+      width: 10px;
+      margin-left: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      position: relative;
+      color: #374553;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  .border-bottom-box {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    position: relative;
+    height: 1px;
+    background-color: #e9ebee;
+  }
+}
+
+.sqaure-button {
+  height: 24px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  position: relative;
+  border: 1px solid #e9ebee;
+  border-left: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+  color: #1e2238;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+
+  &:first-child {
+    border-left: 1px solid #e9ebee;
+  }
+}
+
+.product-name-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  color: #1e2238;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}
+
+.options-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  color: #1e2238;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}
+
+.price-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  color: #1e2238;
+  position: relative;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1rem;
+}
+
+.seller-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  color: #1e2238;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}

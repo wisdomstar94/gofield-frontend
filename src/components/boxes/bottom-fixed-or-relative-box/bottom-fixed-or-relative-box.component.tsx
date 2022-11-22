@@ -5,12 +5,26 @@ import { IBottomFixedOrRelativeBox } from "./bottom-fixed-or-relative-box.interf
 const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
   const [positionState, setPositionState] = useState<IBottomFixedOrRelativeBox.PositionState>('fixed');
   const [heightToRelative, setHeightToRelative] = useState<number | undefined>();
+  const [isFixed, setIsFixed] = useState<boolean | undefined>(props.__isFixed);
 
   useEffect(() => {
     setHeightToRelative(props.__heightToRelative);
   }, [props.__heightToRelative]);
 
+  useEffect(() => {
+    setIsFixed(props.__isFixed);
+  }, [props.__isFixed]);
+
+  useEffect(() => {
+    setPositionState(isFixed ? 'fixed' : 'relative');
+  }, [isFixed]);
+
   const checkWindowSize = useCallback(() => {
+    if (isFixed !== undefined) {
+      setPositionState(isFixed ? 'fixed' : 'relative');
+      return;
+    }
+
     if (heightToRelative === undefined) {
       return;
     }
@@ -20,7 +34,7 @@ const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
     } else {
       setPositionState('fixed');
     }
-  }, [heightToRelative]);
+  }, [heightToRelative, isFixed]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

@@ -1,0 +1,39 @@
+.total-price-info-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  box-sizing: border-box;
+  padding: 18px 24px;
+}
+
+.title-text {
+  font-size: 0.9rem;
+  color: #1e2238;
+  font-weight: bold;
+}
+
+.price-text {
+  font-size: 0.9rem;
+  color: #1e2238;
+  font-weight: normal;
+}
+
+.deco-line {
+  width: 100%;
+  display: block;
+  height: 1px;
+  background-color: #e9ebee;
+}
+
+.title-final-text {
+  font-size: 1.1rem;
+  color: #1e2238;
+  font-weight: bold;
+}
+
+.price-final-text {
+  font-size: 1.1rem;
+  color: #ff6247;
+  font-weight: bold;
+}
