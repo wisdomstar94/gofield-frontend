@@ -13,13 +13,14 @@ import List, { ListItem } from "../../../../../../components/layouts/list/list.c
 import Titlebox from "../../../../../../components/layouts/title-box/title-box.component";
 import Topbar from "../../../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../../../components/layouts/window-size-container/window-size-container.component";
+import ProductRowItem3 from "../../../../../../components/boxes/product-row-item3/product-row-item3.component";
 
 const OrderProductDeliveryStatePage = () => {
   return (
     <>
       <Head>
-        <title>고필드 배송조회</title>
-        <meta name="description" content="고필드 배송조회 페이지 입니다." />
+        <title>고필드 주문/배송 조회</title>
+        <meta name="description" content="고필드 주문/배송 조회 페이지 입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -49,104 +50,70 @@ const PageContents = () => {
 
   return (
     <>
-      <WindowSizeContainer>
+      <WindowSizeContainer __bgColor="#ffffff">
         <Topbar
           __layoutTypeA={{
-            titleComponent: <>배송조회</>
+            titleComponent: <>주문/배송 조회</>
           }} />
 
-        <ContentArticle>
-          <Titlebox
-            __titleStyleA={{
-              component: <>상품이 배송 중입니다</>,
-            }} />
-          <StepItems
-            __stepItems={[
-              {
-                textComponent: <>결제 완료</>,
-                state: 'pass',
-              },
-              {
-                textComponent: <>배송 준비중</>,
-                state: 'pass',
-              },
-              {
-                textComponent: <>배송중</>,
-                state: 'current',
-              },
-              {
-                textComponent: <>배송 완료</>,
-                state: 'yet',
-              },
-            ]} />
-          <EmptyRow __style={{ height: '48px' }} />
-          <BothSidebox
-            __style={{ 'alignItems': 'flex-start' }}
-            __leftComponent={<>
-              <List __direction="vertical">
-                <ListItem>
-                  <span style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'bold' }}>CJ 대한통운</span>
-                </ListItem>
-                <ListItem>
-                  <span style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'normal' }}>운솔장번호</span>
-                  <span>&nbsp;</span>
-                  <span style={{ fontSize: '0.8rem', color: '#0c8af5', fontWeight: 'normal' }}>123123123</span>
-                </ListItem>
-              </List>
-            </>}
-            __rightComponent={<>
-              <LinkText __onClick={() => {  }}>자세히보기</LinkText>
-            </>} />
-          <EmptyRow __style={{ height: '24px' }} />
-          <StrokeButtons
-            __buttonItems={[
-              {
-                textComponent: <>CJ대한통운</>,
-                onClick: () => {
+        <div className="w-full my-6 flex justify-center items-center text-lg text-black-b font-bold">
+          상품이 배송 중입니다
+        </div>
 
-                },
-              },
-              {
-                textComponent: <>배송기사</>,
-                onClick: () => {
+        <StepItems
+          __stepItems={[
+            {
+              textComponent: <>결제 완료</>,
+              state: 'pass',
+            },
+            {
+              textComponent: <>배송 준비중</>,
+              state: 'pass',
+            },
+            {
+              textComponent: <>배송중</>,
+              state: 'current',
+            },
+            {
+              textComponent: <>배송 완료</>,
+              state: 'yet',
+            },
+          ]} />
+        
+        <div className="block mx-6 mt-10 mb-4 grid grid-cols-2">
+          <div className="flex flex-wrap items-start">
+            <div className="font-bold text-sm text-black-a w-full mb-1">
+              CJ 대한통운
+            </div>
+            <div className="w-full text-xs font-normal">
+              <span className="text-black-a">운송장 번호</span> 
+              &nbsp;
+              <span className="text-blue-a">123354325</span>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-start justify-end">
+            <span className="text-blue-a text-sm font-bold underline cursor-pointer">자세히보기</span>
+          </div>
+        </div>
 
-                },
-              },
-            ]} />
-        </ContentArticle>
+        <div className="mx-6 h-px bg-gray-a mb-4"></div>
+        
+        <div className="block mb-4">
+          <ProductRowItem3 __buttonLayoutType="order-delicery-cancel" />
+        </div>
 
-        <ContentArticle>
-          <BothSidebox 
-            __leftComponentStyle={{ 'width': '0' }}
-            __rightComponentStyle={{ 'width': '100%' }}
-            __leftComponent={<></>}
-            __rightComponent={<><LinkText __onClick={() => {  }}>주문 상세보기</LinkText></>} />
-          <EmptyRow __style={{ 'height': '24px' }} />
-          <ProductRowItem />
-          {/* <ProductRowItem /> */}
-        </ContentArticle>    
+        <div className="block mx-6 mb-1">
+          <span className="text-sm font-bold text-black-a tracking-tighter">홍길동</span>
+        </div>
 
-        <ContentArticle>
-          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="10px">
-            <ListItem>
-              <span style={{ fontSize: '0.9rem', color: '#374553', fontWeight: 'bold' }}>홍길동</span>
-            </ListItem>
-            <ListItem __marginBottom="20px">
-              <span style={{ fontSize: '0.9rem', color: '#1e2238', fontWeight: 'normal' }}>
-                (00000) 서울특별시 강남구 역삼동 12345 123<br />
-                010-0000-0000
-              </span>
-            </ListItem>
-            <ListItem __marginBottom="20px">
-              <EmptyRow __style={{ height: '1px', backgroundColor: '#e9ebee' }}></EmptyRow>
-            </ListItem>
-            <ListItem __marginBottom="0">
-              <span style={{ fontSize: '0.9rem', color: '#1e2238', fontWeight: 'normal' }}>
-                배송요청사항 : 문 앞에 놔두고 가주세요
-              </span>
-            </ListItem>
-          </List>
-        </ContentArticle>
+        <div className="block mx-6 mb-1">
+          <span className="text-sm font-normal text-gray-b tracking-tighter">(00000) 서울특별시 상남구 역삼로 434, 302호</span>
+        </div>
+
+        <div className="block mx-6 mb-1">
+          <span className="text-sm font-normal text-gray-b tracking-tighter">010-0000-0000</span>
+        </div>
+
       </WindowSizeContainer>
     </>
   );

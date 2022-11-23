@@ -64,7 +64,7 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
                     <button className={styles['back-button']} onClick={backButtonClick}>
                       <SvgBackIcon />
                     </button> 
-                    <div>{ props.__layoutTypeB.titleComponent }</div>
+                    <div className="font-bold">{ props.__layoutTypeB.titleComponent }</div>
                   </>
                   :
                   <>

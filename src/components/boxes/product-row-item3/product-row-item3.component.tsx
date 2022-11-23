@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
@@ -7,6 +8,9 @@ import styles from "./product-row-item3.component.module.scss";
 import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
+  const [buttonLayoutType, setButtonLayoutType] = useState<IProductRowItem3.ButtonLayoutType>(props.__buttonLayoutType ?? 'exchange-refund-review');
+  useEffect(() => { setButtonLayoutType(props.__buttonLayoutType ?? 'exchange-refund-review') }, [props.__buttonLayoutType]);
+
   return (
     <>
       <div className={styles['container']}>
@@ -27,7 +31,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
           </>} />
 
         <BothSidebox
-          __style={{ alignItems: 'flex-start', alignContent: 'flex-start' }}
+          __style={{ alignItems: 'flex-start', alignContent: 'flex-start', marginBottom: '8px' }}
           __leftComponentStyle={{ width: '88px' }}
           __leftComponent={<>
             <div className={styles['product-image-box']}>
@@ -60,25 +64,40 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
             </List>
           </>} />
         
-        <div className="w-full box-border grid grid-cols-2 gap-2 my-2">
-          <div>
-            <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
-              <span className="text-sm font-bold">교환 반품 신청</span>
-            </Button>
-          </div>
-          <div>
-            <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
-              <span className="text-sm font-bold">배송 조회</span>
-            </Button>
-          </div>
-        </div>
+          {
+            buttonLayoutType === 'exchange-refund-review' ?
+            <>
+              <div className="w-full box-border grid grid-cols-2 gap-2 my-2">
+                <div>
+                  <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                    <span className="text-sm font-bold">교환 반품 신청</span>
+                  </Button>
+                </div>
+                <div>
+                  <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                    <span className="text-sm font-bold">배송 조회</span>
+                  </Button>
+                </div>
+              </div>
 
-        <div className="w-full box-border">
-          <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }}>
-            <span className="text-sm font-bold">상품 리뷰 쓰기</span>
-          </Button>
-        </div>
+              <div className="w-full box-border">
+                <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }}>
+                  <span className="text-sm font-bold">상품 리뷰 쓰기</span>
+                </Button>
+              </div>
+            </>
+            : <></>
+          }
 
+          {
+            buttonLayoutType === 'order-delicery-cancel' ?
+            <>
+              <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }}>
+                <span className="text-sm font-bold">주문 배송 취소</span>
+              </Button>
+            </>
+            : <></>
+          }
       </div>
       <div className="block mx-4 h-px bg-gray-a"></div>
     </>
