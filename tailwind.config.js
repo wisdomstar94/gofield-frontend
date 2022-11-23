@@ -12,9 +12,11 @@ module.exports = {
         'orange-a': '#ff6247',
         'black-a': '#1e2238',
         'gray-a': '#e9ebee',
+        'gray-b': '#646f7c',
       },
       backgroundColor: {
         'gray-a': '#e9ebee',
+        'gray-b': '#646f7c',
       },
     },
   },
