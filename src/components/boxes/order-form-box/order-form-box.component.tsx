@@ -61,6 +61,10 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
     }).open();
   }, []);
 
+  const addressBookButtonClick = useCallback(() => {
+    modalAddressBookRef.current?.show();
+  }, []);
+
   return (
     <>
       <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
@@ -69,7 +73,11 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
           <BothSidebox
             __style={{ alignItems: 'flex-start' }}
             __leftComponent={<>배송정보</>}
-            __rightComponent={<><Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '10px 16px' }}>주소록</Button></>} />
+            __rightComponent={<>
+              <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '10px 16px' }} __onClick={addressBookButtonClick}>
+                주소록
+              </Button>
+            </>} />
         </div>
         <FormListBox
           __formItems={[
@@ -159,7 +167,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
           __rightComponent={<><div className={styles['price-info-content-text-big']}>154,600원</div></>} />
       </Article>
       <Button __buttonStyle="black-solid">결제하기</Button>
-      <ModalAddressBook ref={modalAddressBookRef} __modalState="show" />
+      <ModalAddressBook ref={modalAddressBookRef} />
     </>
   );
 };

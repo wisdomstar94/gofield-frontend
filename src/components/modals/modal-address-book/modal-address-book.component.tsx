@@ -21,8 +21,17 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
-    
+    show,
+    hide,
   }));
+
+  const show = useCallback(() => {
+    setModalState('show');
+  }, []);
+
+  const hide = useCallback(() => {
+    setModalState('hide');
+  }, []);
 
   const windowSizeCheck = useCallback(() => {
     if (typeof window === undefined) {
