@@ -2,7 +2,7 @@ import styles from "./product-row-item.component.module.scss";
 import { IProductRowItem } from "./product-row-item.interface";
 import Image from 'next/image';
 import List, { ListItem } from "../../layouts/list/list.component";
-import StrokeButtons from "../stroke-buttons/stroke-buttons.component";
+import StrokeButtons from "../../forms/stroke-buttons/stroke-buttons.component";
 import { useEffect, useState } from "react";
 
 const ProductRowItem = (props: IProductRowItem.Props) => {

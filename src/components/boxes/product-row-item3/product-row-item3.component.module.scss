@@ -1,0 +1,76 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 16px 24px;
+  box-sizing: border-box;
+
+  .product-image-box {
+    width: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+  }
+}
+
+.border-bottom-box {
+  display: block;
+  margin: 0 16px;
+  padding: 0;
+  position: relative;
+  background-color: #e9ebee;
+}
+
+.order-status-text {
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: bold;
+  
+  &.complete {
+    color: #0c8af5;
+  }
+
+  &.ing {
+    color: #48c986;
+  }
+
+  &.payment-complete {
+    color: #ff6247;
+  }
+}
+
+.delicery-date-info-text {
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #1e2238;
+}
+
+.more-button-icon {
+  transform: rotate(90deg);
+}
+
+.product-name-text {
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #1e2238;
+  letter-spacing: -0.08rem;
+}
+
+.product-price-text {
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #1e2238;
+  letter-spacing: -0.04rem;
+}
+
+.options-text {
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #1e2238;
+  letter-spacing: -0.04rem;
+}

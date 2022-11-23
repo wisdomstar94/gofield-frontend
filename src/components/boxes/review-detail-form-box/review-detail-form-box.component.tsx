@@ -1,7 +1,7 @@
 import styles from "./review-detail-form-box.component.module.scss";
 import { IReviewDetailFormBox } from "./review-detail-form-box.interface";
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react";
-import ProductRowItem from "../../forms/product-row-item/product-row-item.component";
+import ProductRowItem from "../product-row-item/product-row-item.component";
 import Article from "../../layouts/article/article.component";
 import ReviewRatingStarBox from "../review-rating-star-box/review-rating-star-box.component";
 import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";

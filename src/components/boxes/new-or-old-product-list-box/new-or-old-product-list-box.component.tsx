@@ -4,8 +4,8 @@ import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-n
 import { ICommon } from "../../../interfaces/common/common.interface";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
-import ProductRowItem from "../../forms/product-row-item/product-row-item.component";
-import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
+import ProductRowItem from "../product-row-item/product-row-item.component";
+import ProductRowItem2 from "../../boxes/product-row-item2/product-row-item2.component";
 import Article from "../../layouts/article/article.component";
 import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-scroll-box.component";
 import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";

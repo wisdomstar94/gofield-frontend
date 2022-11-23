@@ -7,7 +7,7 @@ import { ICommon } from "../../../interfaces/common/common.interface";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
 import BuyButton from "../../forms/buy-button/buy-button.component";
-import ProductRowItem2 from "../../forms/product-row-item2/product-row-item2.component";
+import ProductRowItem2 from "../../boxes/product-row-item2/product-row-item2.component";
 import SwiperCustom from "../../forms/swiper-custom/swiper-custom.component";
 import Article from "../../layouts/article/article.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";

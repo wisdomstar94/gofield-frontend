@@ -2,7 +2,7 @@ import Head from "next/head";
 import AccessTokenCheck from "../../../../../components/auth/access-token-check/access-token-check.component";
 import ProductDetailFormBox from "../../../../../components/boxes/product-detail-form-box/product-detail-form-box.component";
 import ReviewDetailFormBox from "../../../../../components/boxes/review-detail-form-box/review-detail-form-box.component";
-import ProductRowItem from "../../../../../components/forms/product-row-item/product-row-item.component";
+import ProductRowItem from "../../../../../components/boxes/product-row-item/product-row-item.component";
 import Article from "../../../../../components/layouts/article/article.component";
 import Topbar from "../../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../../components/layouts/window-size-container/window-size-container.component";
