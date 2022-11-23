@@ -34,6 +34,8 @@ const PageContents = () => {
         {/* <ProductRowItem />
         <ProductRowItem2 /> */}
         <ProductRowItem3 />
+        <ProductRowItem3 />
+        <ProductRowItem3 />
       </WindowSizeContainer>
     </>
   );

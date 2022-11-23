@@ -155,4 +155,23 @@
       background-color: #f0f0f0;
     }
   }
+
+  &.white-solid-gray-stroke-radius {
+    font-size: 1rem;
+    color: #13162b;
+    background-color: #ffffff;
+    border: 1px solid #e9ebee;
+    border-radius: 10px;
+
+    &.disable {
+      background-color: #eeeeee;
+      border: 1px solid #e9ebee;
+      color: #555;
+      cursor: none;
+    }
+
+    &:not(.disable):hover {
+      background-color: #f0f0f0;
+    }
+  }
 }
