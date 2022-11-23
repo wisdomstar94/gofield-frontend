@@ -17,7 +17,7 @@ import { IOrderFormBox } from "./order-form-box.interface";
 
 const OrderFormBox = (props: IOrderFormBox.Props) => {
   const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
-  const [timestamp, setTimestamp] = useState(0);
+  const [_, setTimestamp] = useState(0);
   const detailInfoRef = useRef<IOrderFormBox.DetailInfo>(props.__detailInfo ?? {});
 
   useEffect(() => {
