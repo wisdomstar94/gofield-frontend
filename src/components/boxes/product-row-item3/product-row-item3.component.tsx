@@ -11,24 +11,30 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const [buttonLayoutType, setButtonLayoutType] = useState<IProductRowItem3.ButtonLayoutType>(props.__buttonLayoutType ?? 'exchange-refund-review');
   useEffect(() => { setButtonLayoutType(props.__buttonLayoutType ?? 'exchange-refund-review') }, [props.__buttonLayoutType]);
 
+  const [isTopRowShow, setIsTopRowShow] = useState(props.__isTopRowShow);
+  useEffect(() => { setIsTopRowShow(props.__isTopRowShow) }, [props.__isTopRowShow]);
+
   return (
     <>
       <div className={styles['container']}>
-        
-        <BothSidebox
-          __style={{ marginBottom: '8px' }}
-          __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
-          __leftComponent={<>
-            <div className="text-sm font-bold text-blue-a">배송완료</div>
-            &nbsp;&nbsp;
-            <div className="text-sm text-black-a font-normal">2022.6.3(월) 도착</div>
-          </>}
-          __rightComponentStyle={{ width: '30px' }}
-          __rightComponent={<>
-            <div className={styles['more-button-icon']}>
-              <SvgCategoryEtcIcon />
-            </div>
-          </>} />
+        {
+          isTopRowShow !== false ?
+          <BothSidebox
+            __style={{ marginBottom: '8px' }}
+            __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
+            __leftComponent={<>
+              <div className="text-sm font-bold text-blue-a">배송완료</div>
+              &nbsp;&nbsp;
+              <div className="text-sm text-black-a font-normal">2022.6.3(월) 도착</div>
+            </>}
+            __rightComponentStyle={{ width: '30px' }}
+            __rightComponent={<>
+              <div className={styles['more-button-icon']}>
+                <SvgCategoryEtcIcon />
+              </div>
+            </>} /> :
+            ''
+        }
 
         <BothSidebox
           __style={{ alignItems: 'flex-start', alignContent: 'flex-start', marginBottom: '8px' }}
