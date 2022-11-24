@@ -20,6 +20,9 @@ import Button from "../../../../../../../components/forms/button/button.componen
 import { getNextRouterQueryToUrlQueryString } from "../../../../../../../librarys/string-util/string-util.library";
 import ModalAddressManage from "../../../../../../../components/modals/modal-address-manage/modal-address-manage.component";
 import { IModalAddressManage } from "../../../../../../../components/modals/modal-address-manage/modal-address-manage.interface";
+import BottomFixedOrRelativeBox from "../../../../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
+import ProductRowItem3 from "../../../../../../../components/boxes/product-row-item3/product-row-item3.component";
+import { ICheckbox } from "../../../../../../../components/forms/checkbox/checkbox.interface";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -38,6 +41,9 @@ const ExchangeReturnApplyPage: NextPage = () => {
 };
 
 const PageContents = () => {
+  const lastBottomElementRef = useRef<HTMLDivElement>(null);
+  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
+
   const router = useRouter();
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
   const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
@@ -94,6 +100,10 @@ const PageContents = () => {
     return reasonList;
   }, [router.query.reasonList]);
 
+  const exchangeOrReturnCheckboxChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
+
+  }, []);
+
   const preButtonClick = useCallback(() => {
     history.back();
   }, []);
@@ -102,136 +112,109 @@ const PageContents = () => {
 
   }, []);
 
+  const windowSizeCheck = useCallback(() => {
+    if (typeof window === undefined) {
+      return;
+    }
+
+    if (lastBottomElementRef.current === null) {
+      return;
+    }
+
+    const windowHeight = window.innerHeight;
+    if (windowHeight - 90 < lastBottomElementRef.current?.getBoundingClientRect().top) {
+      setIsBottomButtonFixed(false);
+    } else {
+      setIsBottomButtonFixed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === undefined) {
+      return;
+    }
+
+    window.removeEventListener('resize', windowSizeCheck);
+    window.addEventListener('resize', windowSizeCheck);
+    windowSizeCheck();
+
+    return () => {
+      window.removeEventListener('resize', windowSizeCheck);
+    };
+  }, [windowSizeCheck]);
+
   return (
     <>
-      <WindowSizeContainer>
+      <WindowSizeContainer __bgColor="#fff">
         <Topbar
           __layoutTypeA={{
             titleComponent: <>교환/반품 신청</>,
           }} />
-        <ContentArticle>
-          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="24px">
-            <ListItem>
-              <span style={{ fontSize: '0.85rem', color: '#374553', fontWeight: 'bold' }}>선택한 상품 1건</span>
-            </ListItem>
-            <ListItem __marginBottom="11px">
-              <span style={{ fontSize: '0.85rem', color: '#1e2238', fontWeight: 'normal' }}>
-                페르마 플러스 드라이버 헤드 (9.5도 단품) 두줄의경우
-              </span>
-            </ListItem>
-            <ListItem>
-              <BothSidebox
-                __leftComponent={<>
-                  <div className={[
-                      styles['product-image']
-                    ].join(' ')}>
-                    <Image
-                      src="https://cdn.pixabay.com/photo/2012/04/13/00/37/golf-31340__480.png"
-                      alt="상품 이미지"
-                      title="상품 이미지"
-                      layout="fill"
-                      objectFit="contain" />
-                  </div>
-                </>}
-                __rightComponent={<>
-                  <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold' }}>
-                    51,600원
-                  </span>
-                </>} />
-            </ListItem>
-            <ListItem>
-              <EmptyRow __style={{ height: '1px', backgroundColor: '#e9ebee' }} />
-            </ListItem>
-            <ListItem>
-              <span style={{ fontSize: '0.85rem', color: '#374553', fontWeight: 'bold' }}>취소 사유</span>
-            </ListItem>
-            <ListItem __marginBottom="0">
-              <span style={{ fontSize: '0.85rem', color: '#1e2238', fontWeight: 'normal' }}>
-                {
-                  reasonList.map((x, index) => {
-                    return (
-                      <div key={index}>
-                        {exchangeReturnReasonValueItems.find(k => k.value === x)?.text}
-                      </div>
-                    );
-                  })
-                }
-              </span>
-            </ListItem>
-          </List>
-        </ContentArticle>
+        
+        <div className="block mx-6 mt-4">
+          <div className="block font-bold text-base">
+            선택한 상품 1건
+          </div>
+        </div>
+        <ProductRowItem3 __buttonLayoutType="none" __isTopRowShow={false} />
 
-        <ContentArticle>
-          <Titlebox
-            __titleStyleA={{
-              component: <>어떤 해결방법을 원하세요?</>
-            }} />
-          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="28px">
-            <ListItem>
-              <Checkbox
-                __name="exchange-or-return-check-box"
-                __value="EXCHANGE"
-                __checkMode="single"
-                __checkState="none-checked"
-                __onChange={(changeInfo) => {  }}>
-                교환
-              </Checkbox>
-            </ListItem>
-            <ListItem __marginBottom="0">
-              <Checkbox
-                __name="exchange-or-return-check-box"
-                __value="RETURN"
-                __checkMode="single"
-                __checkState="none-checked"
-                __onChange={(changeInfo) => {  }}>
-                반품
-              </Checkbox>
-            </ListItem>
-          </List>
-        </ContentArticle>
+        <div className="block mx-6 mt-4">
+          <div className="font-bold text-sm text-black-a mb-1">
+            교환/빈품 사유
+          </div>
+          <div className="font-normal text-sm text-gray-b">
+            { reasonList.map((item) => exchangeReturnReasonValueItems.find(x => x.value === item)?.text) }
+          </div>
+        </div>
 
-        <ContentArticle>
-          <BothSidebox
-            __style={{ alignItems: 'flex-start' }}
-            __leftComponentStyle={{ width: 'calc(100% - 98px)' }}
-            __rightComponentStyle={{ width: '98px' }}
-            __leftComponent={<>
-              <span style={{ fontSize: '0.95rem', color: '#374553', fontWeight: 'bold', letterSpacing: '-0.03rem' }}>
-                배송 정보를 확인해주세요
-              </span>
-            </>}
-            __rightComponent={<>
-              <Button __buttonStyle="small-gray-stroke-radius" __onClick={() => modalAddressManageComponentRef?.current?.show()}>
-                변경하기
-              </Button>
-            </>} />
-          <EmptyRow __style={{ height: '8px' }} />
-          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="10px">
-            <ListItem>
-              <span style={{ fontSize: '0.8rem', color: '#374553', fontWeight: 'bold', letterSpacing: '-0.03rem' }}>
-                홍길동
-              </span>
-            </ListItem>
-            <ListItem __marginBottom="0">
-              <span style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'normal', letterSpacing: '-0.03rem' }}>
-                (00000) 서울특별시 강남구 역삼동 12345 123<br />
-                010-0000-0000
-              </span>
-            </ListItem>
-          </List>
-        </ContentArticle>
+        <div className="block h-px bg-gray-a mx-6 my-4"></div>
 
-        <BothSidebox
-          __leftComponent={<>
-            <Button __buttonStyle="gray-solid" __onClick={preButtonClick}>
-              이전
-            </Button>
-          </>}
-          __rightComponent={<>
-            <Button __onClick={applyButtonClick}>
-              신청
-            </Button>
-          </>} />
+        <div className="font-bold text-base text-black-a mx-6 mb-4">
+          어떤 해결 방법을 원하세요?
+        </div>
+        
+        <div className="w-full box-sizing px-6 mb-2">
+          <Checkbox __name="exchange-or-return" __value="exchange" __checkState="none-checked" __onChange={exchangeOrReturnCheckboxChange}>
+            교환
+          </Checkbox>
+        </div>
+        <div className="w-full box-sizing px-6 mb-2">
+          <Checkbox __name="exchange-or-return" __value="return" __checkState="none-checked" __onChange={exchangeOrReturnCheckboxChange}>
+            반품
+          </Checkbox>
+        </div>
+
+        <div className="block h-px bg-gray-a mx-6 my-4"></div>
+
+        <div className="font-bold text-base text-black-a mx-6 mb-4">
+          배송 정보를 확인해 주세요
+        </div>
+
+        <div className="font-normal text-sm text-black-a mx-6 mb-1">
+          구민성
+        </div>
+        <div className="font-normal text-sm text-gray-b mx-6 mb-1">
+          (00000) 서울특별시 상남구 역삼로 434, 302호
+        </div>
+        <div className="font-normal text-sm text-gray-b mx-6 mb-4">
+          010-0000-0000
+        </div>
+        <div className="mx-6 mb-4">
+          <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '6px 10px' }}>주소 변경하기</Button>
+        </div>
+
+        <div ref={lastBottomElementRef}></div>
+        <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+          <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2 mt-4">
+            <div>
+              <Button __buttonStyle="white-solid-gray-stroke">이전단계</Button>
+            </div>
+            <div>
+              <Button __buttonStyle="black-solid">신청하기</Button>
+            </div>
+          </div>
+        </BottomFixedOrRelativeBox>
+
       </WindowSizeContainer>
       
       <ModalAddressManage ref={modalAddressManageComponentRef} />
