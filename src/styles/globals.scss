@@ -49,3 +49,31 @@ a {
     }
 	}
 }
+
+table.table-style-a {
+  margin: 0;
+
+  > thead {
+    > tr {
+      > th {
+        color: #646f7c;
+        font-size: 0.8rem;
+        text-align: left;
+        padding: 2px 0;
+        font-weight: normal;
+      }
+    }  
+  }
+
+  > tbody {
+    > tr {
+      > td {
+        color: #1e2238;
+        font-size: 0.8rem;
+        margin: 0;
+        text-align: left;
+        padding: 6px 0;
+      }
+    }
+  }
+}

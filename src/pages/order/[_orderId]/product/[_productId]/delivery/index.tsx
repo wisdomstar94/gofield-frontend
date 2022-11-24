@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import AccessTokenCheck from "../../../../../../components/auth/access-token-check/access-token-check.component";
 import LinkText from "../../../../../../components/forms/link-text/link-text.component";
 import ProductRowItem from "../../../../../../components/boxes/product-row-item/product-row-item.component";
@@ -14,6 +14,9 @@ import Titlebox from "../../../../../../components/layouts/title-box/title-box.c
 import Topbar from "../../../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../../../components/layouts/window-size-container/window-size-container.component";
 import ProductRowItem3 from "../../../../../../components/boxes/product-row-item3/product-row-item3.component";
+import { useRecoilState } from "recoil";
+import { globalModalDefaultModalItemAtom } from "../../../../../../atoms/global-modal-default.atom";
+import useModalDeliveryHistoryDetailInfo from "../../../../../../hooks/use-modals/use-modal.hook";
 
 const OrderProductDeliveryStatePage = () => {
   return (
@@ -33,6 +36,7 @@ const OrderProductDeliveryStatePage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const modalDeliveryHistoryDetailInfo = useModalDeliveryHistoryDetailInfo();
 
   useEffect(() => {
     if (!router.isReady) {
@@ -47,6 +51,10 @@ const PageContents = () => {
     console.log('_productId', _productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
+
+  const deliveryHistoryDetailViewButtonClick = useCallback(() => {
+    modalDeliveryHistoryDetailInfo.show();
+  }, [modalDeliveryHistoryDetailInfo]);
 
   return (
     <>
@@ -92,7 +100,7 @@ const PageContents = () => {
             </div>
           </div>
           <div className="flex flex-wrap items-start justify-end">
-            <span className="text-blue-a text-sm font-bold underline cursor-pointer">자세히보기</span>
+            <span className="text-blue-a text-sm font-bold underline cursor-pointer" onClick={deliveryHistoryDetailViewButtonClick}>자세히보기</span>
           </div>
         </div>
 
