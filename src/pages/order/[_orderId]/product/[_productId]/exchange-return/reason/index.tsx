@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { globalModalDefaultModalItemAtom } from "../../../../../../../atoms/global-modal-default.atom";
 import AccessTokenCheck from "../../../../../../../components/auth/access-token-check/access-token-check.component";
+import BottomFixedOrRelativeBox from "../../../../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import Button from "../../../../../../../components/forms/button/button.component";
 import Checkbox from "../../../../../../../components/forms/checkbox/checkbox.component";
 import { ICheckbox } from "../../../../../../../components/forms/checkbox/checkbox.interface";
@@ -34,6 +35,9 @@ const ExchangeReturnReasonPage: NextPage = () => {
 };
 
 const PageContents = () => {
+  const lastBottomElementRef = useRef<HTMLDivElement>(null);
+  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
+
   const router = useRouter();
   const [reasonList, setReasonList] = useState<string[]>([]);
   const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
@@ -65,6 +69,37 @@ const PageContents = () => {
     router.push(applyUrl + urlQueryString);
   }, [reasonList, router, setGlobalModalDefaultModalItem]);
 
+  const windowSizeCheck = useCallback(() => {
+    if (typeof window === undefined) {
+      return;
+    }
+
+    if (lastBottomElementRef.current === null) {
+      return;
+    }
+
+    const windowHeight = window.innerHeight;
+    if (windowHeight - 70 < lastBottomElementRef.current?.getBoundingClientRect().top) {
+      setIsBottomButtonFixed(false);
+    } else {
+      setIsBottomButtonFixed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === undefined) {
+      return;
+    }
+
+    window.removeEventListener('resize', windowSizeCheck);
+    window.addEventListener('resize', windowSizeCheck);
+    windowSizeCheck();
+
+    return () => {
+      window.removeEventListener('resize', windowSizeCheck);
+    };
+  }, [windowSizeCheck]);
+
   return (
     <>
       <WindowSizeContainer>
@@ -94,14 +129,25 @@ const PageContents = () => {
               })
             }
           </List>
-          <div className={[
+          {/* <div className={[
               styles['button-row']
             ].join(' ')}>
             <Button __onClick={nextButtonClick}>
               다음
             </Button>
-          </div>
+          </div> */}
         </ContentArticle>
+        <div ref={lastBottomElementRef}></div>
+        <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+          <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2">
+            <div>
+              <Button __buttonStyle="white-solid-gray-stroke">이전단계</Button>
+            </div>
+            <div>
+              <Button __buttonStyle="white-solid-gray-stroke">다음단계</Button>
+            </div>
+          </div>
+        </BottomFixedOrRelativeBox>
       </WindowSizeContainer>
     </>
   );
