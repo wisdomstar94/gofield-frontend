@@ -4,6 +4,7 @@ import AccessTokenCheck from "../../components/auth/access-token-check/access-to
 import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.component";
 import PreparingBox from "../../components/boxes/preparing-box/preparing-box.component";
 import { ICheckbox } from "../../components/forms/checkbox/checkbox.interface";
+import SwitchToggleButton from "../../components/forms/switch-toggle-button/switch-toggle-button.component";
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
@@ -43,7 +44,7 @@ const PageContents = () => {
                     이벤트 및 혜택 알림
                   </div>
                   <div className="flex flex-wrap items-center justify-end">
-                    ...
+                    <SwitchToggleButton __isActive={true} />
                   </div>
                 </div>
               </>,
@@ -57,7 +58,7 @@ const PageContents = () => {
               menuNameComponent: <>로그아웃</>,
               menuLink: '',
               menuClickCallback: () => {
-                
+
               },
             },
             {
