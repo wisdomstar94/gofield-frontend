@@ -29,44 +29,11 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
-  const lastBottomElementRef = useRef<HTMLDivElement>(null);
-  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
   const cancelReasonListQuery = useCancelReasonListQuery();
 
   const cancelReasonCheckboxChange = useCallback((info: ICheckbox.CheckboxChangeInfo) => {
 
   }, []);
-
-  const windowSizeCheck = useCallback(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    if (lastBottomElementRef.current === null) {
-      return;
-    }
-
-    const windowHeight = window.innerHeight;
-    if (windowHeight - 70 < lastBottomElementRef.current?.getBoundingClientRect().top) {
-      setIsBottomButtonFixed(false);
-    } else {
-      setIsBottomButtonFixed(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    window.removeEventListener('resize', windowSizeCheck);
-    window.addEventListener('resize', windowSizeCheck);
-    windowSizeCheck();
-
-    return () => {
-      window.removeEventListener('resize', windowSizeCheck);
-    };
-  }, [windowSizeCheck]);
 
   return (
     <>
@@ -95,8 +62,8 @@ const PageContents = () => {
             })
           }
         </ul>
-        <div ref={lastBottomElementRef}></div>
-        <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+        
+        <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2">
             <div>
               <Button __buttonStyle="white-solid-gray-stroke">이전단계</Button>

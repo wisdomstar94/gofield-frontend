@@ -35,9 +35,6 @@ const ExchangeReturnReasonPage: NextPage = () => {
 };
 
 const PageContents = () => {
-  const lastBottomElementRef = useRef<HTMLDivElement>(null);
-  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
-
   const router = useRouter();
   const [reasonList, setReasonList] = useState<string[]>([]);
   const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
@@ -68,37 +65,6 @@ const PageContents = () => {
     const urlQueryString = getNextRouterQueryToUrlQueryString(query);
     router.push(applyUrl + urlQueryString);
   }, [reasonList, router, setGlobalModalDefaultModalItem]);
-
-  const windowSizeCheck = useCallback(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    if (lastBottomElementRef.current === null) {
-      return;
-    }
-
-    const windowHeight = window.innerHeight;
-    if (windowHeight - 70 < lastBottomElementRef.current?.getBoundingClientRect().top) {
-      setIsBottomButtonFixed(false);
-    } else {
-      setIsBottomButtonFixed(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    window.removeEventListener('resize', windowSizeCheck);
-    window.addEventListener('resize', windowSizeCheck);
-    windowSizeCheck();
-
-    return () => {
-      window.removeEventListener('resize', windowSizeCheck);
-    };
-  }, [windowSizeCheck]);
 
   return (
     <>
@@ -137,8 +103,8 @@ const PageContents = () => {
             </Button>
           </div> */}
         </ContentArticle>
-        <div ref={lastBottomElementRef}></div>
-        <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+        
+        <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2">
             <div>
               <Button __buttonStyle="white-solid-gray-stroke">이전단계</Button>

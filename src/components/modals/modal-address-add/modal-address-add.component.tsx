@@ -17,9 +17,6 @@ import { ICheckbox } from "../../forms/checkbox/checkbox.interface";
 import BottomFixedOrRelativeBox from "../../boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 
 const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: ForwardedRef<IModalAddressAdd.RefObject>) => {
-  const lastBottomElementRef = useRef<HTMLDivElement>(null);
-  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
-
   const [modalState, setModalState] = useState<IModal.ModalState | undefined>(props.__modalState);
   useEffect(() => { setModalState(props.__modalState) }, [props.__modalState]);
 
@@ -42,7 +39,7 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
   }, []);
 
   useEffect(() => {
-    windowSizeCheck();
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalState]);
 
@@ -78,37 +75,6 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
   const isDefaultAddrChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
     detailInfoRef.current.isDefault = changeInfo.checkState === 'checked';
   }, []);
-
-  const windowSizeCheck = useCallback(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    if (lastBottomElementRef.current === null) {
-      return;
-    }
-
-    const windowHeight = window.innerHeight;
-    if (windowHeight - 50 < lastBottomElementRef.current?.getBoundingClientRect().top) {
-      setIsBottomButtonFixed(false);
-    } else {
-      setIsBottomButtonFixed(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    window.removeEventListener('resize', windowSizeCheck);
-    window.addEventListener('resize', windowSizeCheck);
-    windowSizeCheck();
-
-    return () => {
-      window.removeEventListener('resize', windowSizeCheck);
-    };
-  }, [windowSizeCheck]);
 
   return (
     <>
@@ -160,11 +126,10 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
                   </>,
                 },
               ]} />
-            <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+            <BottomFixedOrRelativeBox __heightToRelative={100}>
               <Button __style={{ marginTop: '20px' }} __buttonStyle="black-solid" __onClick={newAddressAddCompleteButtonClick}>완료</Button>
             </BottomFixedOrRelativeBox>
           </Article>
-          <div ref={lastBottomElementRef}></div>
         </WindowSizeContainer>
       </Modal>
     </>

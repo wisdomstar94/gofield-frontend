@@ -14,8 +14,6 @@ import { IModalAddressAdd } from "../modal-address-add/modal-address-add.interfa
 
 const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: ForwardedRef<IModalAddressBook.RefObject>) => {
   const modalAddressAddRef = useRef<IModalAddressAdd.RefObject>(null);
-  const addressBookItemsLastBottomElementRef = useRef<HTMLDivElement>(null);
-  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
   const [modalState, setModalState] = useState<IModal.ModalState | undefined>(props.__modalState);
   useEffect(() => { setModalState(props.__modalState) }, [props.__modalState]);
 
@@ -32,37 +30,6 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
   const hide = useCallback(() => {
     setModalState('hide');
   }, []);
-
-  const windowSizeCheck = useCallback(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    if (addressBookItemsLastBottomElementRef.current === null) {
-      return;
-    }
-
-    const windowHeight = window.innerHeight;
-    if (windowHeight - 50 < addressBookItemsLastBottomElementRef.current?.getBoundingClientRect().top) {
-      setIsBottomButtonFixed(false);
-    } else {
-      setIsBottomButtonFixed(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    window.removeEventListener('resize', windowSizeCheck);
-    window.addEventListener('resize', windowSizeCheck);
-    windowSizeCheck();
-
-    return () => {
-      window.removeEventListener('resize', windowSizeCheck);
-    };
-  }, [windowSizeCheck]);
   
   const newAddressItemAddButtonClick = useCallback(() => {
     modalAddressAddRef.current?.show();
@@ -80,8 +47,7 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
             }} />
           <AddressBookItem />
           <AddressBookItem />
-          <div ref={addressBookItemsLastBottomElementRef}></div>
-          <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+          <BottomFixedOrRelativeBox __heightToRelative={100}>
             <Button __buttonStyle="black-solid" __onClick={newAddressItemAddButtonClick}>+ 새 주소 추가하기</Button>
           </BottomFixedOrRelativeBox>
         </WindowSizeContainer>

@@ -47,7 +47,7 @@ const PageContents = () => {
           rightComponent: <></>,
         }} />
       <PhoneNumberFormBox ref={formBoxComponentRef} />
-      <BottomFixedOrRelativeBox __heightToRelative={300}>
+      <BottomFixedOrRelativeBox __heightToRelative={100}>
         <Article>
           <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
             인증완료

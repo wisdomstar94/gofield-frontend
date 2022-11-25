@@ -41,9 +41,6 @@ const ExchangeReturnApplyPage: NextPage = () => {
 };
 
 const PageContents = () => {
-  const lastBottomElementRef = useRef<HTMLDivElement>(null);
-  const [isBottomButtonFixed, setIsBottomButtonFixed] = useState<boolean>(false);
-
   const router = useRouter();
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
   const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
@@ -112,37 +109,6 @@ const PageContents = () => {
 
   }, []);
 
-  const windowSizeCheck = useCallback(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    if (lastBottomElementRef.current === null) {
-      return;
-    }
-
-    const windowHeight = window.innerHeight;
-    if (windowHeight - 90 < lastBottomElementRef.current?.getBoundingClientRect().top) {
-      setIsBottomButtonFixed(false);
-    } else {
-      setIsBottomButtonFixed(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === undefined) {
-      return;
-    }
-
-    window.removeEventListener('resize', windowSizeCheck);
-    window.addEventListener('resize', windowSizeCheck);
-    windowSizeCheck();
-
-    return () => {
-      window.removeEventListener('resize', windowSizeCheck);
-    };
-  }, [windowSizeCheck]);
-
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -203,8 +169,7 @@ const PageContents = () => {
           <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '6px 10px' }}>주소 변경하기</Button>
         </div>
 
-        <div ref={lastBottomElementRef}></div>
-        <BottomFixedOrRelativeBox __isFixed={isBottomButtonFixed}>
+        <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2 mt-4">
             <div>
               <Button __buttonStyle="white-solid-gray-stroke">이전단계</Button>

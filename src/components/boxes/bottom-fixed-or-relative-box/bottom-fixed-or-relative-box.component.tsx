@@ -1,57 +1,59 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./bottom-fixed-or-relative-box.component.module.scss";
 import { IBottomFixedOrRelativeBox } from "./bottom-fixed-or-relative-box.interface";
 
 const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
+  const lastBottomElementRef = useRef<HTMLDivElement>(null);
   const [positionState, setPositionState] = useState<IBottomFixedOrRelativeBox.PositionState>('fixed');
-  const [heightToRelative, setHeightToRelative] = useState<number | undefined>();
-  const [isFixed, setIsFixed] = useState<boolean | undefined>(props.__isFixed);
+  const [heightToRelative, setHeightToRelative] = useState<number>(props.__heightToRelative ?? 0);
+  const [isFixed, setIsFixed] = useState<boolean>(true);
 
   useEffect(() => {
-    setHeightToRelative(props.__heightToRelative);
+    setHeightToRelative(props.__heightToRelative ?? 0);
   }, [props.__heightToRelative]);
-
-  useEffect(() => {
-    setIsFixed(props.__isFixed);
-  }, [props.__isFixed]);
 
   useEffect(() => {
     setPositionState(isFixed ? 'fixed' : 'relative');
   }, [isFixed]);
 
-  const checkWindowSize = useCallback(() => {
-    if (isFixed !== undefined) {
-      setPositionState(isFixed ? 'fixed' : 'relative');
+  const windowSizeCheck = useCallback(() => {
+    if (typeof window === undefined) {
       return;
     }
 
-    if (heightToRelative === undefined) {
+    if (lastBottomElementRef.current === null) {
       return;
     }
 
-    if (heightToRelative > window.innerHeight) {
-      setPositionState('relative');
+    const windowHeight = window.innerHeight;
+    if (windowHeight - heightToRelative < lastBottomElementRef.current?.getBoundingClientRect().top) {
+      setIsFixed(false);
     } else {
-      setPositionState('fixed');
+      setIsFixed(true);
     }
-  }, [heightToRelative, isFixed]);
+  }, [heightToRelative]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', checkWindowSize);
-      window.addEventListener('resize', checkWindowSize);
-      checkWindowSize();
+    if (typeof window === undefined) {
+      return;
     }
 
+    window.removeEventListener('resize', windowSizeCheck);
+    window.addEventListener('resize', windowSizeCheck);
+    windowSizeCheck();
+
     return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', checkWindowSize);
-      }
+      window.removeEventListener('resize', windowSizeCheck);
     };
-  }, [checkWindowSize]);
+  }, [windowSizeCheck]);
+
+  useEffect(() => {
+    windowSizeCheck();
+  });
 
   return (
     <>
+      <div className="relative" ref={lastBottomElementRef}></div>
       <div className={styles['container']} style={{ position: positionState }}>
         { props.children }
       </div>

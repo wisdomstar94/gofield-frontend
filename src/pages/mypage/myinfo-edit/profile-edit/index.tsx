@@ -45,7 +45,7 @@ const PageContents = () => {
           rightComponent: <></>,
         }} />
       <ProfileFormBox ref={formBoxComponentRef} />
-      <BottomFixedOrRelativeBox __heightToRelative={640}>
+      <BottomFixedOrRelativeBox __heightToRelative={100}>
         <Article>
           <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
             저장
