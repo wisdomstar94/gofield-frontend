@@ -12,6 +12,14 @@ const MenuRowList = (props: IMenuRowList.Props) => {
   }, [props.__menuItems]);
 
   const menuItemClick = useCallback((item: IMenuRowList.MenuItem) => {
+    if (typeof item.menuClickCallback === 'function') {
+      item.menuClickCallback();
+      return;
+    }
+
+    if (item.menuLink === '') {
+      return;
+    }
     router.push(item.menuLink);
   }, [router]);
 

@@ -42,8 +42,8 @@ const PageContents = () => {
           { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
           { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
           { menuNameComponent: <>취소 반품 교환</>, menuLink: '', },
-          { menuNameComponent: <>고객센터</>, menuLink: '', },
-          { menuNameComponent: <>설정</>, menuLink: '', },
+          { menuNameComponent: <>고객센터</>, menuLink: '/customer-center', },
+          { menuNameComponent: <>설정</>, menuLink: '/setting', },
         ]} />
       <BottomMenuBar
         __activeMenuId="my-page" />
