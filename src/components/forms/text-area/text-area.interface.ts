@@ -5,6 +5,7 @@ export declare namespace ITextArea {
     __value?: string;
     __onChange?: (value: string) => void;
     __style?: CSSProperties;
+    __placeholder?: string;
     children?: React.ReactNode;
   }
 }
