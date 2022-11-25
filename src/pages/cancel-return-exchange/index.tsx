@@ -1,6 +1,7 @@
 import Head from "next/head";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import CancelReturnExchangeRowItem from "../../components/forms/cancel-return-exchange-row-item/cancel-return-exchange-row-item.component";
+import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 
@@ -23,7 +24,7 @@ const CancelReturnExchangePage = () => {
 const PageContents = () => {
   return (
     <>
-      <WindowSizeContainer>
+      <WindowSizeContainer __bgColor="#fff">
         <Topbar
           __layoutTypeA={{
             titleComponent: <>취소/반품/교환</>,
@@ -31,6 +32,10 @@ const PageContents = () => {
         <CancelReturnExchangeRowItem />
         <CancelReturnExchangeRowItem />
         <CancelReturnExchangeRowItem />
+
+        <div className="w-full h-16"></div>
+
+        <BottomMenuBar __activeMenuId="my-page" />
       </WindowSizeContainer>
     </>
   );

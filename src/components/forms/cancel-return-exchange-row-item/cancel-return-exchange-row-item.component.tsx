@@ -1,55 +1,44 @@
-import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
-import EmptyRow from "../../layouts/empty-row/empty-row.component";
-import List, { ListItem } from "../../layouts/list/list.component";
+import BottomMenuBar from "../../layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Button from "../button/button.component";
-import LinkText from "../link-text/link-text.component";
 import styles from "./cancel-return-exchange-row-item.component.module.scss";
 import { ICancelReturnExchangeRowItem } from "./cancel-return-exchange-row-item.interface";
 
 const CancelReturnExchangeRowItem = (props: ICancelReturnExchangeRowItem.Props) => {
   return (
     <>
-      <div className={[
-          styles['cancel-return-exchange-row-item']
-        ].join(' ')}>
-        <List __width="100%" __direction="vertical">
-          <ListItem __marginBottom="24px">
-            <BothSidebox
-              __leftComponent={<>
-                <span style={{ fontSize: '0.8rem', color: '#374553', fontWeight: 'bold' }}>2022/5/7</span>
-              </>}
-              __rightComponent={<>
-                <LinkText __onClick={() => {  }}>취소상세보기</LinkText>
-              </>} />
-          </ListItem>
-          <ListItem __marginBottom="24px">
-            <span style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'normal' }}>
-              페르마 플러스 드라이버 헤드 (9.5도 단품) <br />
-              두줄의경우
-            </span>
-          </ListItem>
-          <ListItem __marginBottom="24px">
-            <EmptyRow __style={{ height: '1px', backgroundColor: '#e9ebee' }} />
-          </ListItem>
-          <ListItem __marginBottom="14px">
-            <BothSidebox
-              __leftComponentStyle={{ width: '70px' }}
-              __rightComponentStyle={{ width: 'calc(100% - 70px)', justifyContent: 'flex-start' }}
-              __leftComponent={<>
-                <span style={{ fontSize: '0.8rem', color: '#374553', fontWeight: 'bold' }}>취소완료</span>
-              </>}
-              __rightComponent={<>
-                <span style={{ fontSize: '0.8rem', color: '#1e2238', fontWeight: 'normal' }}>
-                  5/7(토)이내 카드사 환불 완료 예정
-                </span>
-              </>} />
-          </ListItem>
-          <ListItem>
-            <Button __buttonStyle="small-gray-stroke-radius">
-              장바구니 담기
-            </Button>
-          </ListItem>
-        </List>
+      <div className="w-full block">
+        <div className="block px-6 py-4 box-sizing">
+          
+          <div className="w-full grid grid-cols-2 mb-2">
+            <div className="flex items-center">
+              <span className="text-sm font-bold tracking-tighter">2022.02.01</span>
+            </div>
+            <div className="flex items-center justify-end">
+              <span className="text-sm font-bold tracking-tighter text-blue-a cursor-pointer">취소 상세보기 {'>'}</span>
+            </div>
+          </div>
+
+          <div className="w-full flex mb-2">
+            <span className="text-sm text-black-a tracking-tighter font-normal">페르마 플러스 드라이버 헤드 (9.5도 단품)</span>
+          </div>
+
+          <div className="w-full mb-4 grid grid-cols-12">
+            <div className="col-span-3">
+              <span className="text-sm font-bold tracking-tighter text-blue-a">취소완료</span>
+            </div>
+            <div className="col-span-9">
+              <span className="text-sm text-black-a tracking-tighter font-normal">2022.10.7(토) 이내 카드사 환불 완료 예정</span>
+            </div>
+          </div>
+
+          <div className="w-full flex">
+            <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '6px 14px' }}><span className="text-sm font-bold">장바구니 담기</span></Button>
+          </div>
+
+        </div>
+
+        <div className="block h-px mx-6 bg-gray-a"></div>
+
       </div>
     </>
   );
