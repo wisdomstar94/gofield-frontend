@@ -1,6 +1,6 @@
 import styles from "./product-detail-form-box.component.module.scss";
 import { IProductDetailFormBox } from "./product-detail-form-box.interface";
-import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
+import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
@@ -22,8 +22,12 @@ import ProductDetailImageBox from "../product-detail-image-box/product-detail-im
 import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
 import TitleAndContentRowItem from "../title-and-content-row-item/title-and-content-row-item.component";
 import Image from "next/image";
+import ModalBottomProductOptions from "../../modals/modal-bottom-product-options/modal-bottom-product-options.component";
+import { IModalBottomProductOptions } from "../../modals/modal-bottom-product-options/modal-bottom-product-options.interface";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
+  const modalBottomProductOptionsRef = useRef<IModalBottomProductOptions.RefObject>(null);
+
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
     
@@ -53,6 +57,10 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const productRowItemClick = useCallback(() => {
     router.push('/product/new/576');
   }, [router]);
+
+  const buyButtonClick = useCallback(() => {
+    modalBottomProductOptionsRef.current?.show();
+  }, []);
 
   return (
     <>
@@ -238,8 +246,9 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </Article>
       <EmptyRow __style={{ height: '56px' }} />
       <BottomFixedBox>
-        <BuyButton />
+        <span className="w-full inline-flex" onClick={buyButtonClick}><BuyButton /></span>
       </BottomFixedBox>
+      <ModalBottomProductOptions ref={modalBottomProductOptionsRef} />
     </>
   );
 });
