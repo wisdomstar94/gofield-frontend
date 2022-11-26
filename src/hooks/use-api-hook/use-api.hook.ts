@@ -4,6 +4,7 @@ import { IBanner } from "../../interfaces/banner/banner.interface";
 import { ICode } from "../../interfaces/code/code.interface";
 import { ICommon } from "../../interfaces/common/common.interface";
 import { ILogin } from "../../interfaces/login/login.interface";
+import { IMain } from "../../interfaces/main/main.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
 import { ISignup } from "../../interfaces/signup/signup.interface";
 import { ITerms } from "../../interfaces/terms/terms.interface";
@@ -175,6 +176,22 @@ export const useMainBannerList = () => {
   const getInstance = useCallback(() => {
     return axios.getAxiosInstance<IResponse.CommonResponse<IBanner.BannerListApiData[]>>({
       url: Config().api.main.banner._,
+      method: 'get',
+      isAuth: true,
+    });
+  }, [axios]);
+
+  return {
+    getInstance,
+  };
+};
+
+export const useMainItemList = () => {
+  const axios = useAxios();
+
+  const getInstance = useCallback(() => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<IMain.MainItemApiData>>({
+      url: Config().api.main.item._,
       method: 'get',
       isAuth: true,
     });

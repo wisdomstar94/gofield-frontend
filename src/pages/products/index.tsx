@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import BasketFormBox from "../../components/boxes/basket-form-box/basket-form-box.component";
+import ProductColumnItem from "../../components/boxes/product-column-item/product-column-item.component";
 import SearchFormBox from "../../components/boxes/search-form-box/search-form-box.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
@@ -56,27 +57,18 @@ const PageContents = () => {
             __leftComponent={<><div className={styles['count-text']}>상품 <b>NNN</b>개</div></>}
             __rightComponent={<><ViewFilterBox __optionTypes={["order-by"]} /></>} />
           <GridList __columnCount={2}>
-            <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} />
-            <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} />
-            <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} />
+            <ProductColumnItem
+              __brandNameComponent="테스트"
+              __price={30000}
+              __productNameComponent="테스트" />
+            <ProductColumnItem
+              __brandNameComponent="테스트"
+              __price={30000}
+              __productNameComponent="테스트" />
+            <ProductColumnItem
+              __brandNameComponent="테스트"
+              __price={30000}
+              __productNameComponent="테스트" />
           </GridList>
         </Article>
       </WindowSizeContainer>

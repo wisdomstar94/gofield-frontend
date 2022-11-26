@@ -45,7 +45,7 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
   }, []);
 
   const searchButtonClick = useCallback(() => {
-    router.push('/productGroups?searchValue=' + searchValue);
+    router.push('/products?searchValue=' + searchValue);
   }, [router, searchValue]);
 
   return (

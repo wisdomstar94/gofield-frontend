@@ -7,11 +7,44 @@ import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.co
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
-  const [isHeart, setIsHeart] = useState(props.__isHeart ?? false);
+  const [imageUrl, setImageUrl] = useState(props.__imageUrl);
+  useEffect(() => { setImageUrl(props.__imageUrl) }, [props.__imageUrl]);
 
-  useEffect(() => {
-    setIsHeart(props.__isHeart ?? false);
-  }, [props.__isHeart]);
+  const [isHeart, setIsHeart] = useState(props.__isHeart);
+  useEffect(() => { setIsHeart(props.__isHeart) }, [props.__isHeart]);
+
+  const [isHeartLayout, setIsHeartLayout] = useState(props.__isHeartLayout);
+  useEffect(() => { setIsHeartLayout(props.__isHeartLayout) }, [props.__isHeartLayout]);
+
+  const [brandNameComponent, setBrandNameComponent] = useState(props.__brandNameComponent);
+  useEffect(() => { setBrandNameComponent(props.__brandNameComponent) }, [props.__brandNameComponent]);
+
+  const [productNameComponent, setProductNameComponent] = useState(props.__productNameComponent);
+  useEffect(() => { setProductNameComponent(props.__productNameComponent) }, [props.__productNameComponent]);
+
+  const [newProductPrice, setNewProductPrice] = useState(props.__newProductPrice);
+  useEffect(() => { setNewProductPrice(props.__newProductPrice) }, [props.__newProductPrice]);
+
+  const [oldProductPrice, setOldProductPrice] = useState(props.__oldProductPrice);
+  useEffect(() => { setOldProductPrice(props.__oldProductPrice) }, [props.__oldProductPrice]);
+
+  const [price, setPrice] = useState(props.__price);
+  useEffect(() => { setPrice(props.__price) }, [props.__price]);
+
+  const [reviewCount, setReviewCount] = useState(props.__reviewCount);
+  useEffect(() => { setReviewCount(props.__reviewCount) }, [props.__reviewCount]);
+
+  const [reviewStarPoint, setReviewStarPoint] = useState(props.__reviewStarPoint);
+  useEffect(() => { setReviewStarPoint(props.__reviewStarPoint) }, [props.__reviewStarPoint]);
+
+  // const [isShowNewOrOldPrice, setIsShowNewOrOldPrice] = useState(props.__isShowNewOrOldPrice);
+  // useEffect(() => { setIsShowNewOrOldPrice(props.__isShowNewOrOldPrice) }, [props.__isShowNewOrOldPrice]);  
+
+  // const [isShowReviewInfo, setIsShowReviewInfo] = useState(props.__isShowReviewInfo);
+  // useEffect(() => { setIsShowReviewInfo(props.__isShowReviewInfo) }, [props.__isShowReviewInfo]);  
+
+  // const [isShowPrice, setIsShowPrice] = useState(props.__isShowPrice);
+  // useEffect(() => { setIsShowPrice(props.__isShowPrice) }, [props.__isShowPrice]);  
 
   const itemClick = useCallback(() => {
     if (typeof props.__onClick === 'function') {
@@ -24,40 +57,57 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
       <div className={styles['container']} style={props.__style} onClick={itemClick}>
         <div className={styles['image-area']}>
           <Image
-            src={props.__imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
+            src={imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
             alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="contain" />
-          <div className={styles['icon-area']}>
-            { props.__isHeart ? <SvgHeartOnIcon /> : <SvgHeartOffIcon /> }
-          </div>
+          {
+            isHeartLayout === true ? 
+            <div className={styles['icon-area']}>
+              { isHeart === true ? <SvgHeartOnIcon /> : <SvgHeartOffIcon /> }
+            </div> : <></>
+          }
         </div>
         <div className={styles['brand-name-area']}>
-          { props.__brandNameComponent }
+          { brandNameComponent }
         </div>
         <div className={styles['product-name-area']}>
-          { props.__productNameComponent }
+          { productNameComponent }
         </div>
         <div className={styles['info-area']}>
           <div className={styles['info-area-type-a']}>
-            <div className={styles['row']}>
-              <span className={styles['orange-text']}>
-                새상품 최저가 &nbsp;
-              </span>
-              <span className={styles['price-text']}>
-                { getAddCommaNumberString({ numberValue: props.__infoTypeA?.newProductPrice }) }원
-              </span>
-            </div>
-            <div className={styles['row']}>
-              <span className={styles['orange-text']}>
-                중고상품 최저가 &nbsp;
-              </span>
-              <span className={styles['price-text']}>
-                { getAddCommaNumberString({ numberValue: props.__infoTypeA?.oldProductPrice }) }원
-              </span>
-            </div>
-            <div className={styles['row']}>
-              <span className={styles['star-text']}>★ &nbsp;</span> 
-              <span className={styles['review-info-text']}>4.7 (3)</span>
-            </div>
+            {
+              newProductPrice !== undefined && oldProductPrice !== undefined ?
+              <>
+                <div className={styles['row']}>
+                  <span className={styles['orange-text']}>
+                    새상품 최저가 &nbsp;
+                  </span>
+                  <span className={styles['price-text']}>
+                    { getAddCommaNumberString({ numberValue: newProductPrice }) }원
+                  </span>
+                </div>
+                <div className={styles['row']}>
+                  <span className={styles['orange-text']}>
+                    중고상품 최저가 &nbsp;
+                  </span>
+                  <span className={styles['price-text']}>
+                    { getAddCommaNumberString({ numberValue: oldProductPrice }) }원
+                  </span>
+                </div>
+              </> : <></>
+            }
+            {
+              reviewStarPoint !== undefined && reviewCount !== undefined ? 
+              <div className={styles['row']}>
+                <span className={styles['star-text']}>★ &nbsp;</span> 
+                <span className={styles['review-info-text']}>{reviewStarPoint} ({reviewCount})</span>
+              </div> : <></>
+            }
+            {
+              price !== undefined ? 
+              <div className={styles['row']}>
+                <span className="text-sm text-black-a font-bold">{ getAddCommaNumberString({ numberValue: price }) }원</span>
+              </div> : <></>
+            }
           </div>
         </div>
       </div>

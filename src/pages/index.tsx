@@ -22,6 +22,8 @@ import EmptyColumn from '../components/layouts/empty-column/empty-column.compone
 import { useRouter } from 'next/router';
 import { useMainBannerList } from '../hooks/use-api-hook/use-api.hook';
 import useMainBannerListQuery from '../hooks/use-queries/use-main-banner-list.query';
+import useMainItemListQuery from '../hooks/use-queries/use-main-item.query';
+import ProductColumnItem from '../components/boxes/product-column-item/product-column-item.component';
 
 const Home: NextPage = () => {
   return (
@@ -45,6 +47,7 @@ const PageContents = () => {
   const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
   const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
 
+  const mainItemListQuery = useMainItemListQuery();
   // const mainBannerList = useMainBannerList();
   // useEffect(() => {
   //   mainBannerList.getInstance().then(() => {
@@ -72,16 +75,21 @@ const PageContents = () => {
                 <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
+          <div className="w-full h-3"></div>
           <HorizontalScrollBox>
             <EmptyColumn __style={{ width: '24px' }} />
             {
-              popularityProductList.map((item, index) => {
+              mainItemListQuery.data?.popularBundleList.map((item, index) => {
                 return (
                   <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
-                    __onClick={() => { router.push('/productGroup/33') }}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
+                    __onClick={() => { router.push('/productGroup/' + item.id) }}
+                    __imageUrl={item.thumbnail}
+                    __brandNameComponent={<>{item.brandName}</>}
+                    __productNameComponent={<>{item.name}</>}
+                    __newProductPrice={item.newLowestPrice} 
+                    __oldProductPrice={item.usedLowestPrice}
+                    __reviewCount={item.reviewCount}
+                    __reviewStarPoint={item.reviewScore} />
                 )
               })
             }
@@ -98,16 +106,21 @@ const PageContents = () => {
                 <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
+          <div className="w-full h-3"></div>
           <HorizontalScrollBox>
             <EmptyColumn __style={{ width: '24px' }} />
             {
-              recommendProductList.map((item, index) => {
+              mainItemListQuery.data?.recommendBundleList.map((item, index) => {
                 return (
                   <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
-                    __onClick={() => { router.push('/productGroup/33') }}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
+                    __onClick={() => { router.push('/productGroup/' + item.id) }}
+                    __imageUrl={item.thumbnail}
+                    __brandNameComponent={<>{item.brandName}</>}
+                    __productNameComponent={<>{item.name}</>}
+                    __newProductPrice={item.newLowestPrice} 
+                    __oldProductPrice={item.usedLowestPrice}
+                    __reviewCount={item.reviewCount}
+                    __reviewStarPoint={item.reviewScore} />
                 )
               })
             }
@@ -118,22 +131,62 @@ const PageContents = () => {
           <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
-                <TextProductTypeTitle>최근 등록된 중고 상품</TextProductTypeTitle>
+                <TextProductTypeTitle>OOO님을 위한 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
                 <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
+          <div className="w-full h-3"></div>
           <HorizontalScrollBox>
             <EmptyColumn __style={{ width: '24px' }} />
             {
-              recentOldProductList.map((item, index) => {
+              mainItemListQuery.data?.categoryBundleList.map((item, index) => {
                 return (
                   <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
-                    __onClick={() => { router.push('/productGroup/33') }}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __infoTypeA={{ newProductPrice: 560000, oldProductPrice: 210000, reviewCount: 3, reviewStarPoint: 4.7, }} />
+                    __onClick={() => { router.push('/productGroup/' + item.id) }}
+                    __imageUrl={item.thumbnail}
+                    __brandNameComponent={<>{item.brandName}</>}
+                    __productNameComponent={<>{item.name}</>}
+                    __newProductPrice={item.newLowestPrice} 
+                    __oldProductPrice={item.usedLowestPrice}
+                    __reviewCount={item.reviewCount}
+                    __reviewStarPoint={item.reviewScore} />
+                )
+              })
+            }
+            <EmptyColumn __style={{ width: '24px' }} />
+          </HorizontalScrollBox>
+        </Article>
+        <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
+          <ArticleTopRow>
+            <BothSidebox
+              __leftComponent={<>
+                <TextProductTypeTitle>최근 등록된 상품</TextProductTypeTitle>
+              </>}
+              __rightComponent={<>
+                {/* <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton> */}
+              </>} />
+          </ArticleTopRow>
+          <div className="w-full h-3"></div>
+          <HorizontalScrollBox>
+            <EmptyColumn __style={{ width: '24px' }} />
+            {
+              mainItemListQuery.data?.classificationItemList.map((item, index) => {
+                return (
+                  <ProductColumnItem key={index} __style={{ width: '150px' }}
+                    __onClick={() => { 
+                      if (item.classification === 'NEW') {
+                        router.push('/product/new/' + item.id);
+                      } else {
+                        router.push('/product/old/' + item.id);
+                      }
+                    }}
+                    __imageUrl={item.thumbnail}
+                    __brandNameComponent={<>{item.brandName}</>}
+                    __productNameComponent={<>{item.name}</>}
+                    __price={item.price}
+                    __tags={['test1', 'test2', 'test3', 'test4']} />
                 )
               })
             }
