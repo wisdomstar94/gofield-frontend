@@ -56,27 +56,7 @@ const PageContents = () => {
             __leftComponent={<><div className={styles['count-text']}>상품 <b>NNN</b>개</div></>}
             __rightComponent={<><ViewFilterBox __optionTypes={["order-by"]} /></>} />
           <GridList __columnCount={2}>
-            {/* <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} />
-            <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} />
-            <ProductGroupColumnItem
-              __infoTypeA={{
-                newProductPrice: 30000,
-                oldProductPrice: 2500,
-                reviewCount: 127,
-                reviewStarPoint: 4,
-              }} /> */}
+            
           </GridList>
         </Article>
       </WindowSizeContainer>
