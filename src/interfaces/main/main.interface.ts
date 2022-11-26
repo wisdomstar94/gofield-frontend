@@ -18,7 +18,8 @@ export declare namespace IMain {
     id: number;
     itemNumber: string;
     likeId: number;
-    option: { key: string; value: string }[];
+    // option: { key: string; value: string }[];
+    tags: string[];
     price: number;
     thumbnail: string;
   }

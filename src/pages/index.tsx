@@ -186,7 +186,7 @@ const PageContents = () => {
                     __brandNameComponent={<>{item.brandName}</>}
                     __productNameComponent={<>{item.name}</>}
                     __price={item.price}
-                    __tags={['test1', 'test2', 'test3', 'test4']} />
+                    __tags={item.tags} />
                 )
               })
             }
