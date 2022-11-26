@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
@@ -20,6 +20,8 @@ import TextProductTypeTitle from '../components/texts/text-product-type-title/te
 import TextMoreViewButton from '../components/texts/text-more-view-button/text-more-view-button.component';
 import EmptyColumn from '../components/layouts/empty-column/empty-column.component';
 import { useRouter } from 'next/router';
+import { useMainBannerList } from '../hooks/use-api-hook/use-api.hook';
+import useMainBannerListQuery from '../hooks/use-queries/use-main-banner-list.query';
 
 const Home: NextPage = () => {
   return (
@@ -42,6 +44,13 @@ const PageContents = () => {
   const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
   const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
   const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
+
+  // const mainBannerList = useMainBannerList();
+  // useEffect(() => {
+  //   mainBannerList.getInstance().then(() => {
+
+  //   });
+  // }, []);
 
   return (
     <>

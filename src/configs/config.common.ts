@@ -69,6 +69,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         error: {
           _: baseUrl + `/api/main/${apiVersion}/error`,
         },
+        banner: {
+          _: baseUrl + `/api/main/${apiVersion}/banner`,
+        },
       },
 
       third: {

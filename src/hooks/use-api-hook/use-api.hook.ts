@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Config from "../../configs/config.export";
+import { IBanner } from "../../interfaces/banner/banner.interface";
 import { ICode } from "../../interfaces/code/code.interface";
 import { ICommon } from "../../interfaces/common/common.interface";
 import { ILogin } from "../../interfaces/login/login.interface";
@@ -168,6 +169,21 @@ export const useErrorApi = () => {
   };
 };
 
+export const useMainBannerList = () => {
+  const axios = useAxios();
+
+  const getInstance = useCallback(() => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<IBanner.BannerListApiData[]>>({
+      url: Config().api.main.banner._,
+      method: 'get',
+      isAuth: true,
+    });
+  }, [axios]);
+
+  return {
+    getInstance,
+  };
+};
 
 
 

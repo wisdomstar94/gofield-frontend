@@ -87,6 +87,9 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       };
       
       if (isWillLeftSliding) {
+        if (typeof props.__onChange === 'function') {
+          props.__onChange(currentIndex, nextIndex);
+        }
         translateX = -getSwiperBoxWidth();
         setActivePaginationIndex(nextIndex);
         completeCallback = () => {
@@ -94,12 +97,19 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
           setCurrentIndex(nextIndex);
         };
       } else if (isWillRightSliding) {
+        if (typeof props.__onChange === 'function') {
+          props.__onChange(currentIndex, nextIndex);
+        }
         translateX = getSwiperBoxWidth();
         setActivePaginationIndex(prevIndex);
         completeCallback = () => {
           isSwipping.current = false;
           setCurrentIndex(prevIndex);
         };
+      } else {
+        if (typeof props.__onNotChange === 'function') {
+          props.__onNotChange(currentIndex);
+        }
       }
 
       anime({
