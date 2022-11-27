@@ -9,6 +9,11 @@ export declare namespace IUser {
     weight?: string;
   }
 
+  export interface PhoneNumberChangeDetailInfo {
+    phoneNumber?: string;
+    certNumber?: string;
+  }
+
   export interface ProfileApiData {
     name: string;
     nickName: string;

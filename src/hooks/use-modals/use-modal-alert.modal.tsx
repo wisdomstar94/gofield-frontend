@@ -16,7 +16,7 @@ const useModalAlert = () => {
       },
       negativeButtonState: 'hide',
       positiveButtonState: 'show',
-      contentComponent: <>{ params.content }</>,
+      contentComponent: <><div className="w-full block box-sizing px-6">{ params.content }</div></>,
     };
     setGlobalModalDefaultModalItem(modalItem);
   }, [setGlobalModalDefaultModalItem]);
