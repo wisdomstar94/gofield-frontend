@@ -11,8 +11,8 @@ import GridList from "../../../components/layouts/grid-list/grid-list.component"
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import { ITopbar } from "../../../components/layouts/top-bar/top-bar.interface";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
-import { useProductCategoryValueItems } from "../../../hooks/use-api-hook/use-api.hook";
 import useCategoryListTypeQuery from "../../../hooks/use-queries/use-category-type-list.query";
+import useProductCategoryListQuery from "../../../hooks/use-queries/use-product-category-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 
@@ -37,7 +37,7 @@ const PageContents = () => {
   const topbarRef = useRef<ITopbar.RefObject>(null);
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');
-  const productCategoryValueItems = useProductCategoryValueItems();
+  const productCategoryListQuery = useProductCategoryListQuery();
   const categoryTypeListQuery = useCategoryListTypeQuery(categoryId);
 
   const categoryTypeItemClick = useCallback((valueItem: ICommon.ValueItem) => {
@@ -79,7 +79,7 @@ const PageContents = () => {
         <Topbar
           ref={topbarRef}
           __layoutTypeB={{
-            titleComponent: productCategoryValueItems.find(x => x.value === router.query._categoryId)?.text,
+            titleComponent: productCategoryListQuery.data?.find(x => x.value === router.query._categoryId)?.text,
           }}
           // __onSearchButtonClick={(value) => {topbarRef.current?.searchModalHide(); console.log(value);}} 
           />

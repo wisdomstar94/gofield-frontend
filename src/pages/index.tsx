@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
@@ -13,15 +13,11 @@ import Topbar from '../components/layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../components/layouts/window-size-container/window-size-container.component';
 import BottomMenuBar from '../components/layouts/bottom-menu-bar/bottom-menu-bar.component';
 import EmptyRow from '../components/layouts/empty-row/empty-row.component';
-import ModalSearch from '../components/modals/modal-search/modal-search.component';
-import { IModalSearch } from '../components/modals/modal-search/modal-search.interface';
 import ArticleTopRow from '../components/layouts/article-top-row/article-top-row.component';
 import TextProductTypeTitle from '../components/texts/text-product-type-title/text-product-type-title.component';
 import TextMoreViewButton from '../components/texts/text-more-view-button/text-more-view-button.component';
 import EmptyColumn from '../components/layouts/empty-column/empty-column.component';
 import { useRouter } from 'next/router';
-import { useMainBannerList } from '../hooks/use-api-hook/use-api.hook';
-import useMainBannerListQuery from '../hooks/use-queries/use-main-banner-list.query';
 import useMainItemListQuery from '../hooks/use-queries/use-main-item.query';
 import ProductColumnItem from '../components/boxes/product-column-item/product-column-item.component';
 

@@ -11,7 +11,6 @@ import WindowSizeContainer from "../../../../../../../components/layouts/window-
 import styles from './index.module.scss';
 import Image from 'next/image';
 import EmptyRow from "../../../../../../../components/layouts/empty-row/empty-row.component";
-import { useExchangeReturnReasonValueItems } from "../../../../../../../hooks/use-api-hook/use-api.hook";
 import { useRecoilState } from "recoil";
 import { globalModalDefaultModalItemAtom } from "../../../../../../../atoms/global-modal-default.atom";
 import Titlebox from "../../../../../../../components/layouts/title-box/title-box.component";
@@ -23,6 +22,7 @@ import { IModalAddressManage } from "../../../../../../../components/modals/moda
 import BottomFixedOrRelativeBox from "../../../../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import ProductRowItem3 from "../../../../../../../components/boxes/product-row-item3/product-row-item3.component";
 import { ICheckbox } from "../../../../../../../components/forms/checkbox/checkbox.interface";
+import useExchangeReturnReasonListQuery from "../../../../../../../hooks/use-queries/use-exchange-return-reason-list.query";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -43,7 +43,7 @@ const ExchangeReturnApplyPage: NextPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
-  const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
+  const exchangeReturnReasonListQuery = useExchangeReturnReasonListQuery();
   const [reasonList, setReasonList] = useState<string[]>([]);
   const modalAddressManageComponentRef = useRef<IModalAddressManage.RefObject>(null);
 
@@ -129,7 +129,7 @@ const PageContents = () => {
             교환/빈품 사유
           </div>
           <div className="font-normal text-sm text-gray-b">
-            { reasonList.map((item) => exchangeReturnReasonValueItems.find(x => x.value === item)?.text) }
+            { reasonList.map((item) => exchangeReturnReasonListQuery.data?.find(x => x.value === item)?.text) }
           </div>
         </div>
 

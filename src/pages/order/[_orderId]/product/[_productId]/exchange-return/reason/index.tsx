@@ -14,7 +14,7 @@ import List, { ListItem } from "../../../../../../../components/layouts/list/lis
 import Titlebox from "../../../../../../../components/layouts/title-box/title-box.component";
 import Topbar from "../../../../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../../../../components/layouts/window-size-container/window-size-container.component";
-import { useExchangeReturnReasonValueItems } from "../../../../../../../hooks/use-api-hook/use-api.hook";
+import useExchangeReturnReasonListQuery from "../../../../../../../hooks/use-queries/use-exchange-return-reason-list.query";
 import { getNextRouterQueryToUrlQueryString } from "../../../../../../../librarys/string-util/string-util.library";
 import styles from './index.module.scss';
 
@@ -37,7 +37,7 @@ const ExchangeReturnReasonPage: NextPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const [reasonList, setReasonList] = useState<string[]>([]);
-  const exchangeReturnReasonValueItems = useExchangeReturnReasonValueItems();
+  const exchangeReturnReasonListQuery = useExchangeReturnReasonListQuery();
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
 
   const exchangeReturnReasonCheckboxChanged = useCallback((checkboxChangeInfo: ICheckbox.CheckboxChangeInfo) => {
@@ -81,7 +81,7 @@ const PageContents = () => {
             }} />
           <List __width="100%" __direction="vertical" __defaultItemMarginBottom="24px">
             {
-              exchangeReturnReasonValueItems.map((item, index) => {
+              exchangeReturnReasonListQuery.data?.map((item, index) => {
                 return (
                   <ListItem key={index}>
                     <Checkbox 

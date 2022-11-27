@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useUserLogin } from "../../../hooks/use-api-hook/use-api.hook";
+import useUserLoginApi from "../../../hooks/use-apis/use-user-login.api";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { IResponse } from "../../../interfaces/response/response.interface";
 
@@ -24,7 +24,7 @@ const AuthCallbackPage: NextPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
-  const userLogin = useUserLogin();
+  const userLoginApi = useUserLoginApi();
   const user = useUser();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const PageContents = () => {
       return;
     }
 
-    userLogin.getInstance(router.query.code, router.query.state, router.query.social).then((response) => {
+    userLoginApi.getInstance(router.query.code, router.query.state, router.query.social).then((response) => {
       if (response.data.status !== true) {
         alert(response.data.message);
         return;

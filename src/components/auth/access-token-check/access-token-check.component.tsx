@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useRefreshAccessToken } from "../../../hooks/use-api-hook/use-api.hook";
+import useRefreshAccessTokenApi from "../../../hooks/use-apis/use-refresh-access-token.api";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { ILogin } from "../../../interfaces/login/login.interface";
 import { getJwtPayload, isJwtExpired } from "../../../librarys/jwt-util/jwt-util.library";
@@ -9,7 +9,7 @@ import { IAccessTokenCheck } from "./access-token-check.interface";
 const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
   const [validState, setValidState] = useState<'' | 'valid' | 'invalid'>('');
   const user = useUser();
-  const refreshAccessToken = useRefreshAccessToken();
+  const refreshAccessTokenApi = useRefreshAccessTokenApi();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
 
     if (isJwtExpired(accessToken)) {
       // refresh 시도..
-      refreshAccessToken.start((result) => {
+      refreshAccessTokenApi.start((result) => {
         if (result !== true) {
           accessTokenInvalid('expired');
           return;

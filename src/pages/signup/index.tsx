@@ -8,7 +8,7 @@ import TermsCheck from "../../components/forms/terms-check/terms-check.component
 import Formbox, { FormboxItem } from "../../components/layouts/form-box/form-box.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
-import { useUserSignup } from "../../hooks/use-api-hook/use-api.hook";
+import useUserSignupApi from "../../hooks/use-apis/use-user-sign-up.api";
 import useUser from "../../hooks/use-user-hook/use-user.hook";
 import { ISignup } from "../../interfaces/signup/signup.interface";
 
@@ -30,7 +30,7 @@ const SignupPage: NextPage = () => {
 
 const PageContents = () => {
   const user = useUser(); 
-  const userSignup = useUserSignup();
+  const userSignupApi = useUserSignupApi();
   const router = useRouter();
 
   const [signupButtonState, setSignupButtonState] = useState<'invalid' | 'valid'>('invalid');
@@ -96,7 +96,7 @@ const PageContents = () => {
   }, []);
 
   const signupButtonClick = useCallback(() => {
-    userSignup.getInstance(signupDetailInfoRef.current).then((response) => {
+    userSignupApi.getInstance(signupDetailInfoRef.current).then((response) => {
       if (response.data.status !== true) {
         return;
       }
@@ -109,7 +109,7 @@ const PageContents = () => {
     }).catch((error) => {
 
     });
-  }, [router, user, userSignup]);
+  }, [router, user, userSignupApi]);
 
   return (
     <>

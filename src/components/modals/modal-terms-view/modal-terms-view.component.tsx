@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
-import { useTermList } from '../../../hooks/use-api-hook/use-api.hook';
+import useTermListApi from '../../../hooks/use-apis/use-term-list.api';
 import useAxios from '../../../hooks/use-axios-hook/use-axios.hook';
 import Topbar from '../../layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../../layouts/window-size-container/window-size-container.component';
@@ -23,13 +23,13 @@ const ModalTermsView = forwardRef((props: IModalTermsView.Props, ref: ForwardedR
     setModalState('hide');
   }, []);
 
-  const termList = useTermList();
+  const termListApi = useTermListApi();
 
   const [termHtmlContent, setTermHtmlContent] = useState<string>('');
 
   const [modalState, setModalState] = useState<IModalTermsView.ModalState>('');
   useEffect(() => {
-    termList.getInstance(props.__termType).then((response) => {
+    termListApi.getInstance(props.__termType).then((response) => {
       if (response.data.status !== true) {
         return;
       }
