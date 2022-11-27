@@ -1,17 +1,12 @@
 import Article from "../../layouts/article/article.component";
-import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import styles from "./profile-info-box.component.module.scss";
 import { IProfileInfoBox } from "./profile-info-box.interface";
 import Image from 'next/image';
 import { useEffect, useState } from "react";
+import useUserProfileQuery from "../../../hooks/use-queries/use-user-profile.query";
 
 const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
-  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>();
-  const [profileUserName, setProfileUserName] = useState<string | undefined>();
-
-  useEffect(() => {
-    setProfileUserName('홍길동');
-  }, []);
+  const userProfileQuery = useUserProfileQuery();
 
   return (
     <>
@@ -19,9 +14,9 @@ const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
         <div className={styles['container']}>
           <div className={styles['profile-image-area']}>
             {
-              profileImageUrl !== undefined ? 
+              userProfileQuery.data?.thumbnail !== undefined && userProfileQuery.data?.thumbnail !== null ? 
               <Image
-                src={profileImageUrl}
+                src={userProfileQuery.data?.thumbnail}
                 alt="프로필 이미지"
                 title="프로필 이미지"
                 layout="fill"
@@ -30,7 +25,7 @@ const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
             }
           </div>
           <div className={styles['profile-user-name-area']}>
-            { profileUserName }
+            { userProfileQuery.data?.nickName }
           </div>
         </div>
       </Article>
