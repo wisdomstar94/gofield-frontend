@@ -1,19 +1,13 @@
 import React from "react";
+import { IUser } from "../../../interfaces/user/user.interface";
 
 export declare namespace IProfileFormBox {
   export interface RefObject {
-    getDetailInfo: () => DetailInfo | undefined;
-  }
-
-  export interface DetailInfo {
-    profileName?: string;
-    name?: string;
-    height?: string;
-    weight?: string;
+    getDetailInfo: () => IUser.ProfileDetailInfo | undefined;
   }
 
   export interface Props {
-    __detailInfo?: DetailInfo;
+    __detailInfo?: IUser.ProfileDetailInfo;
 
     children?: React.ReactNode;
   }

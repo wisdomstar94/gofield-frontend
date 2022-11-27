@@ -2,21 +2,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import AccessTokenCheck from "../../../../../../components/auth/access-token-check/access-token-check.component";
-import LinkText from "../../../../../../components/forms/link-text/link-text.component";
-import ProductRowItem from "../../../../../../components/boxes/product-row-item/product-row-item.component";
 import StepItems from "../../../../../../components/forms/step-items/step-items.component";
-import StrokeButtons from "../../../../../../components/forms/stroke-buttons/stroke-buttons.component";
-import BothSidebox from "../../../../../../components/layouts/both-side-box/both-side-box.component";
-import ContentArticle from "../../../../../../components/layouts/content-article/content-article.component";
-import EmptyRow from "../../../../../../components/layouts/empty-row/empty-row.component";
-import List, { ListItem } from "../../../../../../components/layouts/list/list.component";
-import Titlebox from "../../../../../../components/layouts/title-box/title-box.component";
 import Topbar from "../../../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../../../components/layouts/window-size-container/window-size-container.component";
 import ProductRowItem3 from "../../../../../../components/boxes/product-row-item3/product-row-item3.component";
-import { useRecoilState } from "recoil";
-import { globalModalDefaultModalItemAtom } from "../../../../../../atoms/global-modal-default.atom";
-import useModalDeliveryHistoryDetailInfo from "../../../../../../hooks/use-modals/use-modal.hook";
+import useModalDeliveryHistoryDetailInfo from "../../../../../../hooks/use-modals/use-modal-delivery-history-detail-info.modal";
 
 const OrderProductDeliveryStatePage = () => {
   return (

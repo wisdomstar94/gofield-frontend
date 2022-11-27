@@ -6,6 +6,7 @@ import Config from "../../configs/config.export";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { axiosGloballErrorAtom, axiosGlobalResponseAtom } from "../../atoms/axios.atom";
 import { IResponse } from "../../interfaces/response/response.interface";
+import { getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
 
 const useAxios = () => {
   const user = useUser();
@@ -24,8 +25,18 @@ const useAxios = () => {
     instance.interceptors.request.use(
       (config) => {
         if (params?.isAuth === true) {
+          if (getJwtStatus(user.getAccessToken()) === 'valid-jwt') {
+            config.headers = {
+              Authorization: 'Gofield ' + user.getAccessToken(),
+            };
+          } else {
+            config.headers = {
+              Authorization: 'Gofield ' + Config().signNotInUserJwt,
+            };  
+          }
+        } else {
           config.headers = {
-            Authorization: 'Gofield ' + user.getAccessToken(),
+            Authorization: 'Gofield ' + Config().signNotInUserJwt,
           };
         }
         return config;

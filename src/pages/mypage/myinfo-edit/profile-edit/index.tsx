@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useCallback, useRef } from "react";
+import { useRecoilState } from "recoil";
+import { globalModalDefaultModalItemAtom } from "../../../../atoms/global-modal-default.atom";
 import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
 import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import ProfileFormBox from "../../../../components/boxes/profile-form-box/profile-form-box.component";
@@ -8,6 +10,8 @@ import { IProfileFormBox } from "../../../../components/boxes/profile-form-box/p
 import Button from "../../../../components/forms/button/button.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
+import useUserProfileUpdateApi from "../../../../hooks/use-apis/use-user-profile-update.api";
+import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 
 const LoginPage: NextPage = () => {
   return (
@@ -27,15 +31,40 @@ const LoginPage: NextPage = () => {
 
 const PageContents = () => {
   const formBoxComponentRef = useRef<IProfileFormBox.RefObject>(null);
+  const userProfileUpdateApi = useUserProfileUpdateApi();
+  const isProfileUpdaingRef = useRef(false);
+  const modalAlert = useModalAlert();
 
   const saveButtonClick = useCallback(() => {
+    if (isProfileUpdaingRef.current) {
+      return;
+    }
+
     if (formBoxComponentRef.current === null) {
       return;
     }
 
     const detailInfo = formBoxComponentRef.current.getDetailInfo();
-    console.log('detailInfo', detailInfo);
-  }, []);
+    // console.log('detailInfo', detailInfo);
+    
+    if (detailInfo === undefined) {
+      return;
+    }
+
+    isProfileUpdaingRef.current = true;
+    userProfileUpdateApi.getInstance(detailInfo).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '프로필 정보 수정에 실패하였습니다.' });
+        return;
+      }      
+
+      modalAlert.show({ title: '안내', content: '프로필 정보 수정이 완료되었습니다.' });
+    }).catch((error) => {
+
+    }).finally(() => {
+      isProfileUpdaingRef.current = false;
+    });    
+  }, [modalAlert, userProfileUpdateApi]);
 
   return (
     <>

@@ -3,6 +3,7 @@ export declare namespace ICommonConfig {
 
   export interface Params {
     baseUrl: string;
+    signNotInUserJwt: string;
     mode: Mode;
     apiVersion: string;
   }
@@ -11,12 +12,14 @@ export declare namespace ICommonConfig {
 export default function getConfigs(params: ICommonConfig.Params) {
   const {
     baseUrl,
+    signNotInUserJwt,
     mode,
     apiVersion,
   } = params;
 
   return {
     baseUrl,
+    signNotInUserJwt,
     mode,
 
     test: {

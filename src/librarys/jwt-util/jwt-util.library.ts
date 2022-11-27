@@ -36,7 +36,11 @@ export const isJwtExpired = (jwt: string): boolean => {
   return expiredDate <= currentDate;
 };
 
-export const getJwtStatus = (jwt: string): IJwtUtilLibrary.JwtStatus => {
+export const getJwtStatus = (jwt: string | null): IJwtUtilLibrary.JwtStatus => {
+  if (jwt === null) {
+    return 'not-jwt-structure';
+  }
+
   let payload: any = {};
   try {
     payload = jwt_decode(jwt);
