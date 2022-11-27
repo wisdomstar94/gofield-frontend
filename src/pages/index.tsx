@@ -68,7 +68,7 @@ const PageContents = () => {
                 <TextProductTypeTitle>인기 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
-                <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
+                <TextMoreViewButton><Link href="/popular-productGroups">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
           <div className="w-full h-3"></div>
@@ -99,7 +99,7 @@ const PageContents = () => {
                 <TextProductTypeTitle>추천 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
-                <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton>
+                <TextMoreViewButton><Link href="/recommend-productGroups">더보기 &gt;</Link></TextMoreViewButton>
               </>} />
           </ArticleTopRow>
           <div className="w-full h-3"></div>
