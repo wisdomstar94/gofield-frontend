@@ -6,9 +6,25 @@ import TextProductBrandName from "../../texts/text-product-brand-name/text-produ
 import TextProductName from "../../texts/text-product-name/text-product-name.component";
 import TextProductPrice from "../../texts/text-product-price/text-product-price.component";
 import HashTagItem from "../../boxes/hash-tag-item/hash-tag-item.component";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 
 const ProductRowItem2 = (props: IProductRowItem2.Props) => {
+  const [imageUrl, setImageUrl] = useState(props.__imageUrl);
+  useEffect(() => { setImageUrl(props.__imageUrl); }, [props.__imageUrl]);
+
+  const [brandName, setBrandName] = useState(props.__brandName);
+  useEffect(() => { setBrandName(props.__brandName); }, [props.__brandName]);
+
+  const [productName, setProductName] = useState(props.__productName);
+  useEffect(() => { setProductName(props.__productName); }, [props.__productName]);
+
+  const [price, setPrice] = useState(props.__price);
+  useEffect(() => { setPrice(props.__price); }, [props.__price]);
+
+  const [tags, setTags] = useState(props.__tags);
+  useEffect(() => { setTags(props.__tags); }, [props.__tags]);
+
   const itemClick = useCallback(() => {
     if (typeof props.__onClick === 'function') {
       props.__onClick();
@@ -19,30 +35,34 @@ const ProductRowItem2 = (props: IProductRowItem2.Props) => {
     <>
       <div className={styles['container']} style={props.__style} onClick={itemClick}>
         <div className={styles['photo-area']}>
-          <Image
-            src="https://cdn.pixabay.com/photo/2016/04/12/14/31/backpack-1324445__480.jpg"
-            alt="상품 이미지"
-            title="상품 이미지"
-            layout="fill"
-            objectFit="cover" />
+          {
+            imageUrl !== undefined ? 
+            <Image
+              src={imageUrl}
+              alt="상품 이미지"
+              title="상품 이미지"
+              layout="fill"
+              objectFit="cover" />
+            : undefined
+          }
         </div>
         <div className={styles['product-info-area']}>
           <List __defaultItemMarginBottom="4px" __direction="vertical" __width="100%">
             <ListItem>
-              <TextProductBrandName>맥켄리</TextProductBrandName>
+              <TextProductBrandName>{ brandName }</TextProductBrandName>
             </ListItem>
             <ListItem>
-              <TextProductName>페르마 플러스 드라이버 헤드 (9.5도 단품)</TextProductName>
+              <TextProductName>{ productName }</TextProductName>
             </ListItem>
             <ListItem>
-              <TextProductPrice>560,000원</TextProductPrice>
+              <TextProductPrice>{ getAddCommaNumberString({ numberValue: price }) }원</TextProductPrice>
             </ListItem>
             <ListItem>
-              <HashTagItem>중고</HashTagItem>
-              <HashTagItem>상태상</HashTagItem>
-              <HashTagItem>무료배송</HashTagItem>
-              <HashTagItem>아시안스펙</HashTagItem>
-              <HashTagItem>병행수입</HashTagItem>
+              {
+                tags?.map((item, index) => {
+                  return <HashTagItem key={index}>{ item }</HashTagItem>
+                })
+              }
             </ListItem>
           </List>
         </div>

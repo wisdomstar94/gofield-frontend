@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SwiperCustom from "../../../components/forms/swiper-custom/swiper-custom.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
@@ -20,6 +20,8 @@ import BottomFixedBox from "../../../components/boxes/bottom-fixed-box/bottom-fi
 import BuyButton from "../../../components/forms/buy-button/buy-button.component";
 import Head from "next/head";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
+import useItemBundleProductDetailApi from "../../../hooks/use-apis/use-item-bundle-product-detail.api";
+import { IItem } from "../../../interfaces/item/item.interface";
 
 const ProductDetailPage = () => {
   return (
@@ -40,6 +42,9 @@ const ProductDetailPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const modalSearchRef = useRef<IModalSearch.RefObject>(null);
+  const itemBundleProductDetailApi = useItemBundleProductDetailApi();
+  const [detailInfo, setDetailInfo] = useState<IItem.BundleProductDetailApiData>();
+  // const detailInfoRef = useRef<IItem.BundleProductDetailApiData>();
 
   useEffect(() => {
     if (!router.isReady) {
@@ -48,6 +53,15 @@ const PageContents = () => {
 
     const _productGroupId = router.query._productGroupId;
     console.log('_productGroupId', _productGroupId);
+
+    if (typeof _productGroupId?.toString() !== 'string') {
+      return;
+    }
+
+    itemBundleProductDetailApi.getInstance(_productGroupId?.toString()).then((response) => {
+      setDetailInfo(response.data.data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (
@@ -59,30 +73,20 @@ const PageContents = () => {
           }} />
 
         <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>
-          <div style={{ width: '100%', height: '100%' }}>
-            <Image
-              src="https://cdn.pixabay.com/photo/2018/09/18/09/30/golf-3685616__480.jpg"
-              alt="상품 이미지"
-              title="상품 이미지"
-              layout="fill"
-              objectFit="cover" />
-          </div>
-          <div style={{ width: '100%', height: '100%' }}>
-            <Image
-              src="https://cdn.pixabay.com/photo/2020/04/29/02/12/golf-5106917__480.jpg"
-              alt="상품 이미지"
-              title="상품 이미지"
-              layout="fill"
-              objectFit="cover" />
-          </div>
-          <div style={{ width: '100%', height: '100%' }}>
-            <Image
-              src="https://cdn.pixabay.com/photo/2020/04/29/02/12/golf-5106918__480.jpg"
-              alt="상품 이미지"
-              title="상품 이미지"
-              layout="fill"
-              objectFit="cover" />
-          </div>
+          {
+            detailInfo?.images.map((item, index) => {
+              return (
+                <div style={{ width: '100%', height: '100%' }} key={index}>
+                  <Image
+                    src={item}
+                    alt="상품 이미지"
+                    title="상품 이미지"
+                    layout="fill"
+                    objectFit="cover" />
+                </div>
+              )
+            })
+          }
         </SwiperCustom>
 
         <Article __style={{ 
@@ -90,21 +94,21 @@ const PageContents = () => {
           }}>
           <List __defaultItemMarginBottom="5px">
             <ListItem>
-              <span style={{ fontSize: '0.8rem', color: '#646f7c' }}>맥켄리</span>
+              <span style={{ fontSize: '0.8rem', color: '#646f7c' }}>{ detailInfo?.brandName }</span>
             </ListItem>
             <ListItem>
-              <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>페르마 플러스 드라이버 헤드 (9.5도 단품)</span>
+              <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>{ detailInfo?.name }</span>
             </ListItem>
             <ListItem>
               <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
-              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>4.7 (3)</span>
+              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>{ detailInfo?.reviewScore } ({ detailInfo?.reviewCount })</span>
             </ListItem>
             <ListItem>
               <span style={{ display: 'inline-flex', color: '#ff6247', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>
                 새상품 최저가 &nbsp;
               </span>
               <span style={{ display: 'inline-flex', color: '#1e2238', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>
-                { getAddCommaNumberString({ numberValue: 560000 }) }원
+                { getAddCommaNumberString({ numberValue: detailInfo?.newLowestPrice }) }원
               </span>
             </ListItem>
             <ListItem>
@@ -112,17 +116,17 @@ const PageContents = () => {
                 중고상품 최저가 &nbsp;
               </span>
               <span style={{ display: 'inline-flex', color: '#1e2238', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>
-                { getAddCommaNumberString({ numberValue: 560000 }) }원
+                { getAddCommaNumberString({ numberValue: detailInfo?.usedLowestPrice }) }원
               </span>
             </ListItem>
           </List>
         </Article>
 
-        <NewOrOldProductListBox />
+        <NewOrOldProductListBox __items={detailInfo?.items} />
 
         <Article __style={{ marginBottom: '0' }}>
           <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
-          <ReviewBox />
+          <ReviewBox __productGroupDetailInfo={detailInfo} __productGroupId={detailInfo?.id} />
         </Article>
 
         {/* <BottomFixedBox>

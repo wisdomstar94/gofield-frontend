@@ -11,46 +11,53 @@ import HorizontalScrollBox from "../../layouts/horizontal-scroll-box/horizontal-
 import StrokeTabButtonBox from "../stroke-tab-button-box/stroke-tab-button-box.component";
 import styles from "./new-or-old-product-list-box.component.module.scss";
 import { INewOrOldProductListBox } from "./new-or-old-product-list-box.interface";
+import { IItem } from "../../../interfaces/item/item.interface";
 
 const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
   const router = useRouter();
-  const [productId, setProductId] = useState(props.__productId ?? '');
+  
+  const [items, setItems] = useState(props.__items);
+  useEffect(() => { setItems(props.__items); }, [props.__items]);
+
+  const [classification, setClassification] = useState<IItem.Classification>('ALL');
 
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
 
-  useEffect(() => {
-    setProductId(props.__productId ?? '');
-  }, [props.__productId]);
 
   useEffect(() => {
 
   }, []);
 
   const onProductTypeTabClick = useCallback((valueItem: ICommon.ValueItem) => {
-    console.log('onProductTypeTabClick.valueItem', valueItem);
+    // console.log('onProductTypeTabClick.valueItem', valueItem);
+    setClassification(valueItem.value as IItem.Classification);
   }, []);
 
   const orderByItemClick = useCallback((valueItem: ICommon.ValueItem) => {
     setSelectedOrderBy(valueItem.value);
   }, []);
   
-  const productRowItemClick = useCallback(() => {
-    router.push('/product/new/576');
+  const productRowItemClick = useCallback((item: IItem.ProductRowItem) => {
+    if (item.classification === 'USED') {
+      router.push('/product/old/' + item.id);
+    } else {
+      router.push('/product/new/' + item.id);
+    }
   }, [router]);
 
   return (
     <>
       <StrokeTabButtonBox
         __valueItems={[
-          { text: '전체상품 (18)', value: 'all-product' },
-          { text: '새상품 (3)', value: 'new-product' },
-          { text: '중고상품 (15)', value: 'old-product' },
+          { text: `전체상품 (${items?.length})`, value: 'ALL' },
+          { text: `새상품 (${items?.filter(x => x.classification === 'NEW').length})`, value: 'NEW' },
+          { text: `중고상품 (${items?.filter(x => x.classification === 'USED').length})`, value: 'USED' },
         ]}
-        __activeValue="all-product"
+        __activeValue="ALL"
         __onTabClick={onProductTypeTabClick} />
 
-      <HorizontalScrollBox>
+      {/* <HorizontalScrollBox>
         <ul className={styles['order-by-item-list']}>
           {
             newOrOldProductOrderByListQuery.data?.map((item, index) => {
@@ -64,17 +71,41 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
             })
           }
         </ul>
-      </HorizontalScrollBox>
+      </HorizontalScrollBox> */}
 
       <Article __style={{ paddingTop: '12px', paddingBottom: '12px' }}>
         {
+          items?.filter((item) => {
+            switch (classification) {
+              case 'USED': return item.classification === 'USED';
+              case 'NEW': return item.classification === 'NEW';
+              case 'ALL': 
+              default: return true;
+            }
+          }).map((item, index) => {
+            return (
+              <>
+                <ProductRowItem2 
+                  key={item.id} 
+                  __imageUrl={item.thumbnail}
+                  __brandName={item.brandName}
+                  __productName={item.name}
+                  __price={item.price}
+                  __tags={item.tags}
+                  __style={{ marginBottom: '18px' }} 
+                  __onClick={() => productRowItemClick(item)} />    
+              </>
+            );
+          })
+        }
+        {/* {
           Array.from({ length: 5 }).map((item, index) => {
             return (
               <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} __onClick={productRowItemClick} />  
             );
           })
-        }
-        <Button __buttonStyle="gray-stroke">더보기</Button>
+        } */}
+        {/* <Button __buttonStyle="gray-stroke">더보기</Button> */}
       </Article>
     </>
   );
