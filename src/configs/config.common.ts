@@ -80,6 +80,13 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
 
+      item: {
+        _: baseUrl + `/api/item/${apiVersion}`,
+        bundle: {
+          _: baseUrl + `/api/item/${apiVersion}/bundle`,
+        },
+      },
+
       third: {
         ready: {
           _: baseUrl + `/api/third/${apiVersion}/ready`,
@@ -119,6 +126,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
       code: {
         code: {
           _: baseUrl + `/api/code/${apiVersion}/code`,
+        },
+        category: {
+          _: baseUrl + `/api/code/${apiVersion}/category`,
         },
       },
     },

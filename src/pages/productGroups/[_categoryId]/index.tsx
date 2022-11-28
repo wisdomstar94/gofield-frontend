@@ -11,9 +11,13 @@ import GridList from "../../../components/layouts/grid-list/grid-list.component"
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import { ITopbar } from "../../../components/layouts/top-bar/top-bar.interface";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
-import useCategoryListTypeQuery from "../../../hooks/use-queries/use-category-type-list.query";
+import useItemCategoryBundleProductListApi from "../../../hooks/use-apis/use-item-category-bundle-product-list.api";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import useCodeSubCategoryListQuery from "../../../hooks/use-queries/use-code-sub-category-list.query";
 import useProductCategoryListQuery from "../../../hooks/use-queries/use-product-category-list.query";
+import { IScrollCheckHook } from "../../../hooks/use-scroll-check/use-scroll-check.interface";
 import { ICommon } from "../../../interfaces/common/common.interface";
+import { IItem } from "../../../interfaces/item/item.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 
 const ProductGroupsPage = () => {
@@ -34,48 +38,104 @@ const ProductGroupsPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const modalAlert = useModalAlert();
   const topbarRef = useRef<ITopbar.RefObject>(null);
+
+  const isGettingListRef = useRef(false);
+  const isNotMoreDataRef = useRef(false);
+  const [list, setList] = useState<IItem.BundleProductItem[]>([]);
+  const [page, setPage] = useState(1);
+  const [size, seSize] = useState(20);
   const [categoryId, setCategoryId] = useState('');
   const [categoryTypeId, setCategoryTypeId] = useState('');
+
+  const codeSubCategoryListQuery = useCodeSubCategoryListQuery(router.query._categoryId?.toString());
   const productCategoryListQuery = useProductCategoryListQuery();
-  const categoryTypeListQuery = useCategoryListTypeQuery(categoryId);
+
+  const itemCategoryBundleProductListApi = useItemCategoryBundleProductListApi();
 
   const categoryTypeItemClick = useCallback((valueItem: ICommon.ValueItem) => {
-    const urlQueryString = getNextRouterQueryToUrlQueryString({
-      ...router.query,
-      categoryTypeId: valueItem.value,
-    });
+    isNotMoreDataRef.current = false;
+    setPage(1);
+    setList([]);
     setCategoryTypeId(valueItem.value);
-    router.push(router.asPath.split('?')[0] + urlQueryString, undefined, { shallow: true });
-  }, [router]);
+  }, []);
 
-  const ProductGroupColumnItemClick = useCallback(() => {
-    router.push('/productGroup/33');
+  const productGroupColumnItemClick = useCallback((item: IItem.BundleProductItem) => {
+    router.push('/productGroup/' + item.id);
   }, [router]);
 
   useEffect(() => {
-    console.log('categoryTypeId 바뀜!', categoryTypeId);
-  }, [categoryTypeId]);
+    if (!router.isReady) return;
+    if (router.query._categoryId?.toString() !== undefined) {
+      setCategoryId(router.query._categoryId?.toString());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
 
   useEffect(() => {
-    if (!router.isReady) {
+    if (!codeSubCategoryListQuery.isFetched) {
       return;
     }
 
-    if (typeof router.query._categoryId === 'string') {
-      setCategoryId(router.query._categoryId);
+    if (codeSubCategoryListQuery.data !== undefined) {
+      if (codeSubCategoryListQuery.data[0]?.value !== undefined) {
+        console.log('@@@');
+        setCategoryTypeId(codeSubCategoryListQuery.data[0]?.value + '');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codeSubCategoryListQuery.isFetched])
+
+  useEffect(() => {
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, size, categoryId, categoryTypeId]);
+
+  const getList = useCallback(() => {
+    if (isGettingListRef.current) {
+      return;
     }
 
-    if (typeof router.query.categoryTypeId === 'string') {
-      setCategoryTypeId(router.query.categoryTypeId);
-    } else {
-      setCategoryTypeId('');
+    if (page === 0) return;
+    if (size === 0) return;
+    if (categoryId === '') return;
+    if (categoryTypeId === '') return;
+
+    isGettingListRef.current = true;
+    const query = {
+      page: page.toString(), size: size.toString(), categoryId, subCategoryId: categoryTypeId
+    };
+    itemCategoryBundleProductListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '목록을 가져오는데 실패하얐습니다.' });
+        return;
+      }
+
+      if (response.data.data.length === 0) {
+        isNotMoreDataRef.current = true;
+        return;
+      }
+
+      setList(list.concat(response.data.data));
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [categoryId, categoryTypeId, itemCategoryBundleProductListApi, list, modalAlert, page, size]);
+
+  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingListRef.current || isNotMoreDataRef.current) {
+      return;
     }
-  }, [router]);
+
+    if (info.isLastScrollArea) {
+      setPage(page + 1);
+    }
+  }, [page]);
 
   return (
     <>
-      <WindowSizeContainer __bgColor="#fff">
+      <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
         <Topbar
           ref={topbarRef}
           __layoutTypeB={{
@@ -84,7 +144,7 @@ const PageContents = () => {
           // __onSearchButtonClick={(value) => {topbarRef.current?.searchModalHide(); console.log(value);}} 
           />
         <CategoryTypeHorizontalList
-          __valueItems={categoryTypeListQuery.data}
+          __valueItems={codeSubCategoryListQuery.data}
           __activeValue={categoryTypeId}
           __onItemClick={categoryTypeItemClick} />
         <Article>
@@ -93,21 +153,22 @@ const PageContents = () => {
             __rightComponentStyle={{ width: '100%' }}
             __leftComponent={<></>}
             __rightComponent={<>
-              <ViewFilterBox __optionTypes={['order-by']} />
+              {/* <ViewFilterBox __optionTypes={['order-by']} /> */}
             </>} />
           <GridList>
             {
-              Array.from({ length: 14 }).map((value, index) => {
+              list.map((item, index) => {
                 return (
                   <ProductGroupColumnItem
-                    key={index}
-                    __onClick={ProductGroupColumnItemClick}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __newProductPrice={560000}
-                    __oldProductPrice={210000}
-                    __reviewCount={3}
-                    __reviewStarPoint={4.7} />      
+                    key={item.id}
+                    __onClick={() => productGroupColumnItemClick(item)}
+                    __imageUrl={item.thumbnail}
+                    __brandNameComponent={<>{ item.brandName }</>}
+                    __productNameComponent={<>{ item.name }</>}
+                    __newProductPrice={item.newLowestPrice}
+                    __oldProductPrice={item.usedLowestPrice}
+                    __reviewCount={item.reviewCount}
+                    __reviewStarPoint={item.reviewScore} />      
                 );
               })
             }
