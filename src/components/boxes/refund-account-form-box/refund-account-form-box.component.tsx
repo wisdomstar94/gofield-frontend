@@ -1,6 +1,6 @@
 import styles from "./refund-account-form-box.component.module.scss";
 import { IRefundAccountFormBox } from "./refund-account-form-box.interface";
-import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react";
+import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Article from "../../layouts/article/article.component";
 import FormListBox from "../form-list-box/form-list-box.component";
 import Input from "../../forms/input/input.component";
@@ -8,30 +8,64 @@ import useBankList from "../../../hooks/use-queries/use-bank-list.query";
 import SelectBox from "../../forms/select-box/select-box.component";
 import TermItem from "../term-item/term-item.component";
 import EmptyRow from "../../layouts/empty-row/empty-row.component";
+import useUserRefundAccountApi from "../../../hooks/use-apis/use-user-refund-account.api";
+import useCodeBankListQuery from "../../../hooks/use-queries/use-code-bank-list.query";
+import { IAccount } from "../../../interfaces/account/account.interface";
 
 const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref: ForwardedRef<IRefundAccountFormBox.RefObject>) => {
-  const detailInfoRef = useRef<IRefundAccountFormBox.DetailInfo>(props.__detailInfo ?? {});
-  const bankListQuery = useBankList();
-
+  const userRefundAccountApi = useUserRefundAccountApi();
+  const detailInfoRef = useRef<IAccount.RefundAccountDetailInfo>(props.__detailInfo ?? {});
+  // const bankListQuery = useBankList();
+  const codeBankListQuery = useCodeBankListQuery();
+  const [timestamp, setTimestamp] = useState(0);
+  
   useEffect(() => {
-    detailInfoRef.current = props.__detailInfo ?? {};
-  }, [props.__detailInfo]);
+    if (codeBankListQuery.isFetched !== true) {
+      return;
+    }
+
+    userRefundAccountApi.getInstance().then((response) => {
+      detailInfoRef.current = {
+        accountHolderName: response.data.data.bankHolderName ?? '',
+        accountNumber: response.data.data.bankAccountNumber ?? '',
+        bankValueItem: codeBankListQuery.data?.find(x => x.value === response.data.data.bankCode),
+        privacyTermAgree: false,
+      };
+      setTimestamp(new Date().getTime());
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codeBankListQuery.isFetched]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
-    
+    getDetailInfo,
+    clear,
   }));
 
+  const getDetailInfo = useCallback(() => {
+    return detailInfoRef.current;
+  }, []);
+
+  const clear = useCallback(() => {
+    detailInfoRef.current = {};
+    setTimestamp(new Date().getTime());
+  }, []);
+
   const accountHolderNameChange = useCallback((value: string) => {
-
+    detailInfoRef.current.accountHolderName = value;
   }, []);
 
-  const bankrNameChange = useCallback((value: string) => {
-
-  }, []);
+  const bankChange = useCallback((value: string) => {
+    const target = codeBankListQuery.data?.find(x => x.value === value);
+    detailInfoRef.current.bankValueItem = target;
+  }, [codeBankListQuery.data]);
 
   const accountNumberChange = useCallback((value: string) => {
+    detailInfoRef.current.accountNumber = value;
+  }, []);
 
+  const privacyTermAgreeChange = useCallback((value: boolean) => {
+    detailInfoRef.current.privacyTermAgree = value;
   }, []);
 
   return (
@@ -48,7 +82,7 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
             },
             {
               titleComponent: <>입금은행</>,
-              contentComponent: <><SelectBox __placeholder="입금 은행을 선택해주세요" __valueItems={bankListQuery.data} __onChange={bankrNameChange} /></>,
+              contentComponent: <><SelectBox __placeholder="입금 은행을 선택해주세요" __valueItems={codeBankListQuery.data} __onChange={bankChange} /></>,
             },
             {
               titleComponent: <>계좌번호</>,
@@ -59,22 +93,8 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
         <TermItem
           __termName="개인정보 수집 및 이용 동의"
           __detailContentComponent={<>개인정보 수집 및 이용 동의 !!!</>}
-          __isChecked={false}
-          // __childTermItems={[
-          //   {
-          //     termName: '약관1',
-          //     isChecked: false,
-          //     isCheckBoxShow: true,
-          //     detailContentComponent: <>약관1 내용!!</>
-          //   },
-          //   {
-          //     termName: '약관2',
-          //     isChecked: false,
-          //     isCheckBoxShow: true,
-          //     detailContentComponent: <>약관2 내용!!</>
-          //   }
-          // ]} 
-          />
+          __isChecked={detailInfoRef.current.privacyTermAgree ?? false}
+          __onChange={privacyTermAgreeChange} />
       </Article>
     </>
   );

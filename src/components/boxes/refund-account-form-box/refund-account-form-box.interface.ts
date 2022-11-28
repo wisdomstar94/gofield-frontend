@@ -1,19 +1,15 @@
 import React from "react";
+import { IAccount } from "../../../interfaces/account/account.interface";
+import { ICommon } from "../../../interfaces/common/common.interface";
 
 export declare namespace IRefundAccountFormBox {
   export interface RefObject {
-    
-  }
-
-  export interface DetailInfo {
-    accountHolderName?: string;
-    bankId?: string;
-    accountNumber?: string;
-    privacyTermAgree?: boolean;
+    getDetailInfo: () => IAccount.RefundAccountDetailInfo;
+    clear: () => void;
   }
 
   export interface Props {
-    __detailInfo?: DetailInfo;
+    __detailInfo?: IAccount.RefundAccountDetailInfo;
 
     children?: React.ReactNode;
   }

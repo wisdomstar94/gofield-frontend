@@ -23,6 +23,8 @@ export declare namespace ITermItem {
     __termName?: React.ReactNode;
     __isChecked?: boolean;
     __isOpened?: boolean;
+    __onChange?: (value: boolean) => void;
+
     children?: React.ReactNode;
   }
 }

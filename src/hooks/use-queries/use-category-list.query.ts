@@ -10,7 +10,7 @@ const QUERY_KEY = 'categoryList';
 const useCategoryListQuery = () => {
   const axios = useAxios();
 
-  return useQuery(QUERY_KEY, () => axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
+  return useQuery(QUERY_KEY, () => axios.getAxiosInstance<IResponse.CommonResponse<ICode.CategoryCodeItem[]>>({
     url: Config().api.user.category._,
     method: 'get',
     isAuth: true,

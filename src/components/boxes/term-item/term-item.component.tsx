@@ -53,7 +53,10 @@ const TermItem = forwardRef((props: ITermItem.Props, ref: ForwardedRef<ITermItem
   const mainRowClick = useCallback(() => {
     const nextValue = !isChecked;
     setIsChecked(nextValue);
-  }, [isChecked]);
+    if (typeof props.__onChange === 'function') {
+      props.__onChange(nextValue);
+    }
+  }, [isChecked, props]);
 
   const mainRowDetailViewButtonClick = useCallback(() => {
     if (childTermItems === undefined) {
