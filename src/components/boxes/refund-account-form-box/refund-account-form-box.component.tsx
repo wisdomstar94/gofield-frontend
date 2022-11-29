@@ -82,7 +82,7 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
             },
             {
               titleComponent: <>입금은행</>,
-              contentComponent: <><SelectBox __placeholder="입금 은행을 선택해주세요" __valueItems={codeBankListQuery.data} __onChange={bankChange} /></>,
+              contentComponent: <><SelectBox __placeholder="입금 은행을 선택해주세요" __valueItems={codeBankListQuery.data} __value={detailInfoRef.current.bankValueItem?.value} __onChange={bankChange} /></>,
             },
             {
               titleComponent: <>계좌번호</>,

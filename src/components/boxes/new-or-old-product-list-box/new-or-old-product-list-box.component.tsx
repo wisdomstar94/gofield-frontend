@@ -40,9 +40,9 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
   
   const productRowItemClick = useCallback((item: IItem.ProductRowItem) => {
     if (item.classification === 'USED') {
-      router.push('/product/old/' + item.id);
+      router.push('/product/old/' + item.itemNumber);
     } else {
-      router.push('/product/new/' + item.id);
+      router.push('/product/new/' + item.itemNumber);
     }
   }, [router]);
 

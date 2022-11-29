@@ -4,7 +4,7 @@ import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, 
 import { useRouter } from "next/router";
 import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
-import { getClasses } from "../../../librarys/string-util/string-util.library";
+import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
 import BuyButton from "../../forms/buy-button/buy-button.component";
 import ProductRowItem2 from "../../boxes/product-row-item2/product-row-item2.component";
@@ -24,30 +24,69 @@ import TitleAndContentRowItem from "../title-and-content-row-item/title-and-cont
 import Image from "next/image";
 import ModalBottomProductOptions from "../../modals/modal-bottom-product-options/modal-bottom-product-options.component";
 import { IModalBottomProductOptions } from "../../modals/modal-bottom-product-options/modal-bottom-product-options.interface";
+import useItemProductDetailApi from "../../../hooks/use-apis/use-item-product-detail.api";
+import { IItem } from "../../../interfaces/item/item.interface";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import { goToScroll } from "../../../librarys/client-util/client-util.library";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
+  const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
+  const productInfoTitleRef = useRef<HTMLDivElement>(null);
+  const productDescriptionImageTitleRef = useRef<HTMLDivElement>(null);
+  const itemProductDetailApi = useItemProductDetailApi();
   const modalBottomProductOptionsRef = useRef<IModalBottomProductOptions.RefObject>(null);
+  const [detailInfo, setDetailInfo] = useState<IItem.ItemDetailInfoApiData>();
+  const router = useRouter();
+  const modalAlert = useModalAlert();
+  const [selectedOrderBy, setSelectedOrderBy] = useState('');
+  const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
     
   }));
 
-  const [productType, setProductType] = useState<IProductDetailFormBox.ProductType | undefined>(props.__productType);
   useEffect(() => {
-    setProductType(props.__productType);
-  }, [props.__productType]);
+    if (!router.isReady){
+      return;
+    }
 
-  const router = useRouter();
-  const [selectedOrderBy, setSelectedOrderBy] = useState('');
-  const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
+    const itemNumber = router.query._itemNumber?.toString();
+    if (itemNumber === undefined) {
+      return;
+    }
+
+    itemProductDetailApi.getInstance(itemNumber).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
+        return;
+      }
+
+      setDetailInfo(response.data.data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
 
   const shareButtonClick = useCallback(() => {
 
   }, []);
 
   const onTabClick = useCallback((valueItem: ICommon.ValueItem) => {
+    /*
+      { text: '상품 정보', value: 'product-info' },
+      { text: '상품 설명', value: 'product-description' },
+      { text: '상품 문의', value: 'product-question' },
+    */
 
+    if (valueItem.value === 'product-info') {
+      goToScroll({ scrollContainerElement: virtualScrollContainerElementRef.current?.parentElement, targetElement: productInfoTitleRef.current });
+      return;
+    }
+
+    if (valueItem.value === 'product-description') {
+      goToScroll({ scrollContainerElement: virtualScrollContainerElementRef.current?.parentElement, targetElement: productDescriptionImageTitleRef.current });
+      return;
+    }
   }, []);
 
   const orderByItemClick = useCallback((valueItem: ICommon.ValueItem) => {
@@ -64,31 +103,22 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
 
   return (
     <>
+      <div ref={virtualScrollContainerElementRef}></div>
       <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>
-        <div style={{ width: '100%', height: '100%' }}>
-          <Image
-            src="https://cdn.pixabay.com/photo/2018/09/18/09/30/golf-3685616__480.jpg"
-            alt="상품 이미지"
-            title="상품 이미지"
-            layout="fill"
-            objectFit="cover" />
-        </div>
-        <div style={{ width: '100%', height: '100%' }}>
-          <Image
-            src="https://cdn.pixabay.com/photo/2020/04/29/02/12/golf-5106917__480.jpg"
-            alt="상품 이미지"
-            title="상품 이미지"
-            layout="fill"
-            objectFit="cover" />
-        </div>
-        <div style={{ width: '100%', height: '100%' }}>
-          <Image
-            src="https://cdn.pixabay.com/photo/2020/04/29/02/12/golf-5106918__480.jpg"
-            alt="상품 이미지"
-            title="상품 이미지"
-            layout="fill"
-            objectFit="cover" />
-        </div>
+        {
+          detailInfo?.images.map((item, index) => {
+            return (
+              <div style={{ width: '100%', height: '100%' }} key={index}>
+                <Image
+                  src={item}
+                  alt="상품 이미지"
+                  title="상품 이미지"
+                  layout="fill"
+                  objectFit="cover" />
+              </div>
+            )
+          })
+        }
       </SwiperCustom>
 
       <Article __style={{ 
@@ -96,30 +126,29 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
         }}>
         <List __defaultItemMarginBottom="5px" __direction="vertical" __width="100%">
           <ListItem>
-            <span style={{ fontSize: '0.8rem', color: '#646f7c' }}>맥켄리</span>
+            <span style={{ fontSize: '0.8rem', color: '#646f7c' }}>{ detailInfo?.brandName }</span>
           </ListItem>
           <ListItem>
-            <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>페르마 플러스 드라이버 헤드 (9.5도 단품)</span>
+            <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>{ detailInfo?.name }</span>
           </ListItem>
           {
-            productType === 'new' ? 
+            detailInfo?.classification === 'NEW' ? 
             <ListItem>
               <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
-              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>4.7 (3)</span>
+              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>{ '파라미터 없음' } ({ '파라미터 없음' })</span>
             </ListItem> :
             <ListItem __marginBottom="0"><></></ListItem>
           }
           <ListItem>
-            <span style={{ color: '#13162b', fontSize: '1.3rem', display: 'inline-flex', fontWeight: 'bold' }}>210,000원</span> 
+            <span style={{ color: '#13162b', fontSize: '1.3rem', display: 'inline-flex', fontWeight: 'bold' }}>{ getAddCommaNumberString({ numberValue: detailInfo?.price }) }원</span> 
           </ListItem>
           <ListItem>
             <BothSidebox
               __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
               __leftComponent={<>
-                <HashTagItem>새상품</HashTagItem>
-                <HashTagItem>아시안 스펙</HashTagItem>
-                <HashTagItem>병행 수입</HashTagItem>
-                <HashTagItem>무료배송</HashTagItem>
+                {
+                  detailInfo?.tags.map((item, index) => <HashTagItem key={index}>{ item }</HashTagItem>)
+                }
               </>}
               __rightComponentStyle={{ width: '30px' }}
               __rightComponent={<>
@@ -132,7 +161,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </Article>
       <StrokeTabButtonBox
         __valueItems={
-          productType === 'new' ? 
+          detailInfo?.classification === 'NEW' ? 
           [
             { text: '상품 정보', value: 'product-info' },
             { text: '상품 설명', value: 'product-description' },
@@ -145,69 +174,30 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
         }
         __onTabClick={onTabClick} />
       <Article>
-        <div className={styles['article-title-row']}>
+        <div className={styles['article-title-row']} ref={productInfoTitleRef}>
           상품 정보
         </div>
         <List __width="100%" __direction="vertical" __defaultItemMarginBottom="6px">
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>상품명</>}
-              __content={<>페르마 플러스 드라이버 헤드 BM1052</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>브랜드</>}
-              __content={<>브랜드</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>제조사/원산지</>}
-              __content={<>Nike/미국</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>정품여부</>}
-              __content={<>병행수입</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>성별</>}
-              __content={<>남성용</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>로프드각</>}
-              __content={<>10.5도</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>샤프트</>}
-              __content={<>기본 샤프트</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>AS 가능여부</>}
-              __content={<>가능</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>상태</>}
-              __content={<>새상품</>} />
-          </ListItem>
-          <ListItem>
-            <TitleAndContentRowItem
-              __title={<>라인</>}
-              __content={<>입문 초급</>} />
-          </ListItem>
+          {
+            detailInfo?.option.map((item) => {
+              return (
+                <ListItem key={item.key}>
+                  <TitleAndContentRowItem
+                    __title={<>{ item.key }</>}
+                    __content={<>{ item.value }</>} />
+                </ListItem>      
+              )
+            })
+          }
         </List>
       </Article>
       <div className={styles['deco-line']}></div>
       <Article>
-        <div className={getClasses([styles['article-title-row'], styles['not-margin-bottom']])}>
+        <div className={getClasses([styles['article-title-row'], styles['not-margin-bottom']])} ref={productDescriptionImageTitleRef}> 
           상품 설명
         </div>
       </Article>
-      <ProductDetailImageBox />
+      <ProductDetailImageBox __imageUrl={detailInfo?.thumbnail} />
       <MenuRowItem __isEnableTopBorder={true} __onClick={() => { /* ... */ }}>
         상품문의
       </MenuRowItem>
@@ -216,7 +206,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </MenuRowItem>
       <Article __style={{ paddingBottom: '0' }}>
         <div className={getClasses([styles['article-title-row'], styles['not-margin-bottom']])}>
-          { productType === 'old' ? '다른 ' : '' } 중고상품
+          { detailInfo?.classification === 'USED' ? '다른 ' : '' } 중고상품
         </div>
       </Article>
       <HorizontalScrollBox>

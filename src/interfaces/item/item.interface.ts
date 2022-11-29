@@ -1,5 +1,14 @@
 export declare namespace IItem {
   export type Classification = 'ALL' | 'USED' | 'NEW';
+  export type Spec = 'BEST' | 'UPPER' | 'MIDDLE' | 'LOWER';
+  export type Gender = 'MALE' | 'FEMALE';
+  export type Delivery = 'FREE' | 'PAY';
+  export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
+
+  export interface OptionItem {
+    key: string;
+    value: string;
+  }
 
   export interface BundleProductItem {
     id: number;
@@ -34,7 +43,7 @@ export declare namespace IItem {
     price: number;
     likeId: null | number;
     classification: Classification;
-    gender: "MALE" | "FEMALE";
+    gender: Gender;
     tags: string[];
   }
 
@@ -51,5 +60,42 @@ export declare namespace IItem {
     usedItemCount: number;
     images: string[];
     items: ProductRowItem[];
+  }
+
+  export interface ShippingTemplate {
+    id: number;
+    sellerId: number;
+    title: string;
+    isCondition: boolean;
+    condition: number;
+    chargeType: ChargeType;
+    charge: number;
+    isPaid: boolean;
+    exchangeCourierName: string;
+    exchangeCharge: number;
+    takebackCharge: number;
+    isFee: boolean;
+    feeJeju: number;
+    feeJejuBesides: number;
+    shippingComment: string;
+  }
+
+  export interface ItemDetailInfoApiData {
+    id: number;
+    name: string;
+    brandName: string;
+    thumbnail: string;
+    itemNumber: string;
+    price: number;
+    qty: number;
+    likeId: null | number;
+    classification: Classification;
+    spec: Spec;
+    delivery: Delivery;
+    gender: Gender;
+    images: string[];
+    option: OptionItem[];
+    tags: string[];
+    shippingTemplate: ShippingTemplate;
   }
 }
