@@ -86,7 +86,7 @@ const QnaRowItem = (props: IQnaRowItem.Props) => {
                 }
               </div>
               {
-                detailInfo?.answer !== undefined && isAnswerShow ? 
+                typeof detailInfo?.answer === 'string' && isAnswerShow ? 
                 <div className="w-full flex flex-wrap mt-2 box-sizing pl-2">
                   <div className="w-full flex flex-wrap mb-1">
                     <span className="text-sm text-gray-b tracking-tighter">{ detailInfo?.answer }</span>

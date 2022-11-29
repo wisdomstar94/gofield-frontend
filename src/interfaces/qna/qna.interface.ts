@@ -11,6 +11,12 @@ export declare namespace IQna {
     nickName: string;
   }
 
+  export interface QnaForm {
+    description?: string;
+    isVisible?: boolean;
+    title?: string;
+  }
+
   export interface QnaDetailInfoApiData {
     qnaId: number;
     title: string;
