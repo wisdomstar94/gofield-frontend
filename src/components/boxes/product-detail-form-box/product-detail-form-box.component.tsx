@@ -87,7 +87,11 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       goToScroll({ scrollContainerElement: virtualScrollContainerElementRef.current?.parentElement, targetElement: productDescriptionImageTitleRef.current });
       return;
     }
-  }, []);
+
+    if (valueItem.value === 'product-question') {
+      router.push('/qna/' + detailInfo?.id);
+    }
+  }, [detailInfo?.id, router]);
 
   const orderByItemClick = useCallback((valueItem: ICommon.ValueItem) => {
     setSelectedOrderBy(valueItem.value);
@@ -132,12 +136,12 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
             <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>{ detailInfo?.name }</span>
           </ListItem>
           {
-            detailInfo?.classification === 'NEW' ? 
-            <ListItem>
-              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
-              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>{ '파라미터 없음' } ({ '파라미터 없음' })</span>
-            </ListItem> :
-            <ListItem __marginBottom="0"><></></ListItem>
+            // detailInfo?.classification === 'NEW' ? 
+            // <ListItem>
+            //   <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
+            //   <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>{ '파라미터 없음' } ({ '파라미터 없음' })</span>
+            // </ListItem> :
+            // <ListItem __marginBottom="0"><></></ListItem>
           }
           <ListItem>
             <span style={{ color: '#13162b', fontSize: '1.3rem', display: 'inline-flex', fontWeight: 'bold' }}>{ getAddCommaNumberString({ numberValue: detailInfo?.price }) }원</span> 
@@ -198,7 +202,9 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
         </div>
       </Article>
       <ProductDetailImageBox __imageUrl={detailInfo?.thumbnail} />
-      <MenuRowItem __isEnableTopBorder={true} __onClick={() => { /* ... */ }}>
+      <MenuRowItem __isEnableTopBorder={true} __onClick={() => { 
+        router.push('/qna/' + detailInfo?.id);
+       }}>
         상품문의
       </MenuRowItem>
       <MenuRowItem __onClick={() => { /* ... */ }}>
