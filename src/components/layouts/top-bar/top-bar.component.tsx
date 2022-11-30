@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { ForwardedRef, forwardRef, useCallback } from 'react';
+import useCartCountApi from '../../../hooks/use-apis/use-cart-count.api';
+import useCartCountQuery from '../../../hooks/use-queries/use-cart-count.query';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import SvgBackIcon from '../../svgs/svg-back-icon/svg-back-icon.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
@@ -9,6 +11,7 @@ import { ITopbar } from './top-bar.interface';
 
 const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefObject>) => {
   const router = useRouter();
+  const cartCountQuery = useCartCountQuery();
 
   // useImperativeHandle(ref, () => ({
   //   searchModalHide,
@@ -30,6 +33,10 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
 
   const searchIconClick = useCallback(() => {
     router.push('/search');
+  }, [router]);
+
+  const basketIconClick = useCallback(() => {
+    router.push('/basket');
   }, [router]);
 
   return (
@@ -78,8 +85,14 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
                   props.__layoutTypeB.rightComponent !== undefined ? 
                   props.__layoutTypeB.rightComponent : 
                   <>
-                    <div className={styles['button-item']}>
+                    <div className={styles['button-item']} onClick={basketIconClick}>
                       <SvgShoppingCartIcon />
+                      {
+                        cartCountQuery.data !== undefined && cartCountQuery.data > 0 ? 
+                        <div className={styles['cart-count-text-area']}>
+                          { cartCountQuery.data }
+                        </div> : <></>
+                      }                      
                     </div>
                     <div className={getClasses([styles['button-item']])} onClick={searchIconClick}>
                       <SvgMagnifyingGlassIcon />

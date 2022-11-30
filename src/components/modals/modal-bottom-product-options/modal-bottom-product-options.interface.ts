@@ -9,6 +9,9 @@ export declare namespace IModalBottomProductOptions {
 
   export interface Props {
     __modalState?: IModalBottom.ModalState;
+    __itemId?: string;
+    __itemNumber?: string;
+    __price?: number;
     children?: React.ReactNode;
   }
 }

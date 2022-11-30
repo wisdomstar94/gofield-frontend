@@ -86,7 +86,7 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
             return (
               <>
                 <ProductRowItem2 
-                  key={item.id} 
+                  key={item.itemNumber} 
                   __imageUrl={item.thumbnail}
                   __brandName={item.brandName}
                   __productName={item.name}

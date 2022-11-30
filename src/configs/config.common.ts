@@ -80,6 +80,10 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
 
+      cart: {
+        _: baseUrl + `/api/cart/${apiVersion}`,
+      },
+
       item: {
         _: baseUrl + `/api/item/${apiVersion}`,
         bundle: {

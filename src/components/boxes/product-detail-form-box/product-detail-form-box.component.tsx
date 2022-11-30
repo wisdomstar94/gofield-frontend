@@ -316,7 +316,11 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       <BottomFixedBox>
         <span className="w-full inline-flex" onClick={buyButtonClick}><BuyButton /></span>
       </BottomFixedBox>
-      <ModalBottomProductOptions ref={modalBottomProductOptionsRef} />
+      <ModalBottomProductOptions 
+        ref={modalBottomProductOptionsRef} 
+        __itemId={detailInfo?.id.toString()}
+        __itemNumber={detailInfo?.itemNumber.toString()}
+        __price={detailInfo?.price} />
     </>
   );
 });

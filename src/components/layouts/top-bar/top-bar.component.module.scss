@@ -174,3 +174,21 @@ button.back-button {
   padding: 2px;
   cursor: pointer;
 }
+
+.cart-count-text-area {
+  background-color: #0c8af5;
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  font-size: 0.65rem;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  white-space: nowrap;
+  bottom: -4px;
+  right: -7px;
+}

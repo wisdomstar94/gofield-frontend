@@ -6,7 +6,7 @@ export declare namespace ISelectBox {
     __valueItems?: ICommon.ValueItem[];
     __value?: string;
     __placeholder?: string;
-    __onChange?: (value: string) => void;
+    __onChange?: (value: string, valueItem?: ICommon.ValueItem) => void;
 
     children?: React.ReactNode;
   }

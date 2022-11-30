@@ -31,9 +31,9 @@ const SelectBox = (props: ISelectBox.Props) => {
     setValue(selectedValue);
 
     if (typeof props.__onChange === 'function') {
-      props.__onChange(selectedValue);
+      props.__onChange(selectedValue, valueItems?.find(x => x.value === selectedValue));
     }
-  }, [props]);
+  }, [props, valueItems]);
 
   return (
     <>
@@ -46,7 +46,8 @@ const SelectBox = (props: ISelectBox.Props) => {
             <SvgArrowBottomIcon />
           </div>
         </div>
-        <select className={styles['hidden-select-box']} onChange={selectChange}>
+        <select className={styles['hidden-select-box']} onChange={selectChange} value={value}>
+          <option></option>
           {
             valueItems?.map((item, index) => {
               return (

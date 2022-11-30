@@ -4,6 +4,8 @@ export declare namespace IItem {
   export type Gender = 'MALE' | 'FEMALE';
   export type Delivery = 'FREE' | 'PAY';
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
+  export type OptionType = 'COMBINATION' | 'SIMPLE';
+  export type OptionStatus = 'SOLD_OUT' | 'SALE';
 
   export interface OptionItem {
     key: string;
@@ -98,5 +100,39 @@ export declare namespace IItem {
     option: OptionItem[];
     tags: string[];
     shippingTemplate: ShippingTemplate;
+  }
+
+  export interface OptionGroup {
+    name: string;
+    price: number;
+  }
+
+  export interface OptionGroupItem {
+    id: number;
+    groupTitle: string;
+    optionType: OptionType;
+    optionGroup: OptionGroup[];
+    priceGroup: number[];
+    isEssential: boolean;
+    createDate: string;
+  }
+
+  export interface OptionItem {
+    id: number;
+    itemId: number;
+    itemNumber: string;
+    name: string[];
+    optionType: OptionType;
+    status: OptionStatus;
+    price: number;
+    optionPrice: number;
+    qty: number;
+    isUse: boolean;
+    createDate: string;
+  }
+
+  export interface ProductOptionGroupListApiData {
+    optionGroupList: OptionGroupItem[] | null;
+    optionList: OptionItem[] | null;
   }
 }
