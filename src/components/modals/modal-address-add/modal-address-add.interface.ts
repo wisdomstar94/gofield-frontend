@@ -1,4 +1,5 @@
 import React from "react";
+import { IAddress } from "../../../interfaces/address/address.interface";
 import { IModal } from "../../forms/modal/modal.interface";
 
 export declare namespace IModalAddressAdd {
@@ -7,18 +8,22 @@ export declare namespace IModalAddressAdd {
     hide: () => void;
   }
 
-  export interface DetailInfo {
-    getterName?: string;
-    cp?: string;
-    postNumber?: string;
-    addrBasic?: string;
-    addrDetail?: string;
-    isDefault?: boolean;
-  }
+  export type Mode = 'new' | 'edit';
+
+  // export interface DetailInfo {
+  //   getterName?: string;
+  //   cp?: string;
+  //   postNumber?: string;
+  //   addrBasic?: string;
+  //   addrDetail?: string;
+  //   isDefault?: boolean;
+  // }
 
   export interface Props {
-    __detailInfo?: DetailInfo;
+    __mode?: Mode;
+    __detailInfo?: IAddress.AddressForm;
     __modalState?: IModal.ModalState;
+    __onSubmitComplete?: () => void;
 
     children?: React.ReactNode;
   }

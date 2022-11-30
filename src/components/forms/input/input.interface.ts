@@ -15,6 +15,7 @@ export declare namespace IInput {
     __disable?: boolean;
     __placeholder?: string;
     __value?: string;
+    __maxLength?: number;
     __rightLabel?: RightLabel;
     __onChange: (value: string) => void;
   }

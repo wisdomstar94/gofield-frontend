@@ -1,9 +1,9 @@
 import Head from "next/head";
-import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
-import BasketFormBox from "../../components/boxes/basket-form-box/basket-form-box.component";
-import OrderFormBox from "../../components/boxes/order-form-box/order-form-box.component";
-import Topbar from "../../components/layouts/top-bar/top-bar.component";
-import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
+import BasketFormBox from "../../../../components/boxes/basket-form-box/basket-form-box.component";
+import OrderFormBox from "../../../../components/boxes/order-form-box/order-form-box.component";
+import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
+import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 
 const ProductNewPage = () => {
   return (

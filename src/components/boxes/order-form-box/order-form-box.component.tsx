@@ -1,5 +1,6 @@
 import Script from "next/script";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { IAddress } from "../../../interfaces/address/address.interface";
 import { IDaum } from "../../../interfaces/daum/daum.interface";
 import Button from "../../forms/button/button.component";
 import Checkbox from "../../forms/checkbox/checkbox.component";
@@ -65,6 +66,10 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
     modalAddressBookRef.current?.show();
   }, []);
 
+  const onAddressSelected = useCallback((item: IAddress.AddressItem) => {
+    
+  }, []);
+
   return (
     <>
       <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
@@ -93,9 +98,9 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
               titleComponent: <>우편번호</>,
               contentComponent: <>
                 <BothSidebox
-                  __leftComponentStyle={{ width: 'calc(100% - 128px)' }}
+                  __leftComponentStyle={{ width: 'calc(100% - 132px)' }}
                   __leftComponent={<><Input __type="number" __disable={true} __placeholder="00000" __value={detailInfoRef.current.postNumber ?? ''} __onChange={postNumberChange} /></>}
-                  __rightComponentStyle={{ width: '128px' }}
+                  __rightComponentStyle={{ width: '132px' }}
                   __rightComponent={<>
                     <Button __style={{ width: 'calc(100% - 8px)', padding: '12px 14px' }} __buttonStyle="black-solid-radius" __onClick={postNumberSearchButtonClick}>
                       우편번호 검색
@@ -167,7 +172,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
           __rightComponent={<><div className={styles['price-info-content-text-big']}>154,600원</div></>} />
       </Article>
       <Button __buttonStyle="black-solid">결제하기</Button>
-      <ModalAddressBook ref={modalAddressBookRef} />
+      <ModalAddressBook ref={modalAddressBookRef} __onSelected={onAddressSelected} />
     </>
   );
 };

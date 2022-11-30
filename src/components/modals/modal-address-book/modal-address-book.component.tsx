@@ -11,11 +11,19 @@ import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import ModalAddressAdd from "../modal-address-add/modal-address-add.component";
 import { IModalAddressAdd } from "../modal-address-add/modal-address-add.interface";
+import useUserAddressListApi from "../../../hooks/use-apis/use-user-address-list.api";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import { IAddress } from "../../../interfaces/address/address.interface";
 
 const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: ForwardedRef<IModalAddressBook.RefObject>) => {
+  const userAddressListApi = useUserAddressListApi();
   const modalAddressAddRef = useRef<IModalAddressAdd.RefObject>(null);
+  const modalAlert = useModalAlert();
+  const isGettingListRef = useRef(false);
   const [modalState, setModalState] = useState<IModal.ModalState | undefined>(props.__modalState);
   useEffect(() => { setModalState(props.__modalState) }, [props.__modalState]);
+  
+  const [list, setList] = useState<IAddress.AddressItem[]>([]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -35,6 +43,47 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
     modalAddressAddRef.current?.show();
   }, []);
 
+  const getList = useCallback(() => {
+    if (isGettingListRef.current) {
+      return;
+    }
+
+    isGettingListRef.current = true;
+    userAddressListApi.getInstance().then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '주소록 목록을 가져오는데 실패하였습니다.' });
+        return;
+      }
+
+      setList(response.data.data);
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [modalAlert, userAddressListApi]);
+
+  useEffect(() => {
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onAddSubmitComplete = useCallback(() => {
+    getList();
+  }, [getList]);
+
+  const onDeleteComplete = useCallback((item: IAddress.AddressItem) => {
+    getList();
+  }, [getList]);
+
+  const onEditComplete = useCallback((item: IAddress.AddressItem) => {
+    getList();
+  }, [getList]);
+
+  const onSelectButtonClick = useCallback((item: IAddress.AddressItem) => {
+    if (typeof props.__onSelected === 'function') {
+      props.__onSelected(item);
+    }
+  }, [props]);
+
   return (
     <>
       <Modal __modalState={modalState}>
@@ -45,14 +94,28 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
               titleComponent: <>주소록</>,
               rightComponent: <></>,
             }} />
-          <AddressBookItem />
-          <AddressBookItem />
+          <div className="w-full relative">
+            {
+              list.map((item, index) => {
+                return (
+                  <AddressBookItem 
+                    key={index}
+                    __item={item}
+                    __onDeleteComplete={onDeleteComplete}
+                    __onEditComplete={onEditComplete}
+                    __onSelectButtonClick={onSelectButtonClick} />
+                );  
+              })
+            }
+          </div>
+          {/* <AddressBookItem />
+          <AddressBookItem /> */}
           <BottomFixedOrRelativeBox __heightToRelative={100}>
             <Button __buttonStyle="black-solid" __onClick={newAddressItemAddButtonClick}>+ 새 주소 추가하기</Button>
           </BottomFixedOrRelativeBox>
         </WindowSizeContainer>
       </Modal>
-      <ModalAddressAdd ref={modalAddressAddRef} />
+      <ModalAddressAdd ref={modalAddressAddRef} __onSubmitComplete={onAddSubmitComplete} />
     </>
   );
 });

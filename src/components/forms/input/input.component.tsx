@@ -70,7 +70,8 @@ const Input = (props: IInput.Props) => {
           placeholder={props.__placeholder}
           readOnly={props.__disable}
           onChange={valueChange}
-          type={props.__type} />
+          type={props.__type}
+          maxLength={props.__maxLength} />
         {
           props.__rightLabel !== undefined ? 
           <>

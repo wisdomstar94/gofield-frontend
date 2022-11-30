@@ -105,7 +105,7 @@ export default function getConfigs(params: ICommonConfig.Params) {
           _: baseUrl + `/api/user/${apiVersion}/account`,
         },
         address: {
-          _: baseUrl + `/api/user/${apiVersion}/account`,
+          _: baseUrl + `/api/user/${apiVersion}/address`,
         },
         category: {
           _: baseUrl + `/api/user/${apiVersion}/category`,
