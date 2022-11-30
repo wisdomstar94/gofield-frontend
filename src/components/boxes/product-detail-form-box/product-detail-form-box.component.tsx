@@ -4,7 +4,7 @@ import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, 
 import { useRouter } from "next/router";
 import useNewOrOldProductOrderByListQuery from "../../../hooks/use-queries/use-new-or-old-product-order-by-list.query";
 import { ICommon } from "../../../interfaces/common/common.interface";
-import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
+import { getAddCommaNumberString, getClasses, getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
 import BuyButton from "../../forms/buy-button/buy-button.component";
 import ProductRowItem2 from "../../boxes/product-row-item2/product-row-item2.component";
@@ -28,6 +28,8 @@ import useItemProductDetailApi from "../../../hooks/use-apis/use-item-product-de
 import { IItem } from "../../../interfaces/item/item.interface";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import { goToScroll } from "../../../librarys/client-util/client-util.library";
+import useItemProductOtherListApi from "../../../hooks/use-apis/use-item-product-other-list.api";
+import useRender from "../../../hooks/use-render/use-render.hook";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -40,11 +42,30 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const modalAlert = useModalAlert();
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
+  const itemProductOtherListApi = useItemProductOtherListApi();
+  const render = useRender();
+
+  const isGettingListRef = useRef(false);
+  const isNoneMoreDataRef = useRef(false);
+  const itemProductOtherListApiSearchOptionsRef = useRef({
+    page: '1',
+    size: '20',
+    classification: 'USED',
+  });
+  const productOtherListRef = useRef<IItem.ProductRowItem[]>([]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
     
   }));
+
+  useEffect(() => {
+    productOtherListRef.current = [];
+
+    () => {
+      productOtherListRef.current = [];
+    };
+  }, []);
 
   useEffect(() => {
     if (!router.isReady){
@@ -56,6 +77,11 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       return;
     }
 
+    if (isGettingListRef.current) {
+      return;
+    }
+
+    isGettingListRef.current = true;
     itemProductDetailApi.getInstance(itemNumber).then((response) => {
       if (response.data.status !== true) {
         modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
@@ -63,9 +89,41 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       }
 
       setDetailInfo(response.data.data);
+      return response.data.data;
+    }).then((value) => {
+      getProductOtherList(value);
+    }).finally(() => {
+      isGettingListRef.current = false;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
+
+  const getProductOtherList = useCallback((detailInfo: IItem.ItemDetailInfoApiData | undefined) => {
+    if (detailInfo === undefined) return;
+    if (isNoneMoreDataRef.current) return;
+
+    itemProductOtherListApi.getInstance(
+      detailInfo.bundleId?.toString() + '', 
+      detailInfo.id?.toString() + '', 
+      getNextRouterQueryToUrlQueryString(itemProductOtherListApiSearchOptionsRef.current),
+    ).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      if (response.data.data.length === 0) {
+        isNoneMoreDataRef.current = true;
+        return;
+      }
+
+      if (response.data.data.length < Number(itemProductOtherListApiSearchOptionsRef.current.size)) {
+        isNoneMoreDataRef.current = true;
+      }
+
+      productOtherListRef.current = productOtherListRef.current.concat(response.data.data);
+      render.render();
+    });
+  }, [itemProductOtherListApi, render]);
 
   const shareButtonClick = useCallback(() => {
 
@@ -97,13 +155,19 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
     setSelectedOrderBy(valueItem.value);
   }, []);
 
-  const productRowItemClick = useCallback(() => {
-    router.push('/product/new/576');
+  const productRowItemClick = useCallback((item: IItem.ProductRowItem) => {
+    router.push('/product/old/' + item.itemNumber);
   }, [router]);
 
   const buyButtonClick = useCallback(() => {
     modalBottomProductOptionsRef.current?.show();
   }, []);
+
+  const otherProductsMoreViewButtonClick = useCallback(() => {
+    if (isGettingListRef.current) return;
+    itemProductOtherListApiSearchOptionsRef.current.page = (Number(itemProductOtherListApiSearchOptionsRef.current.page) + 1).toString();
+    getProductOtherList(detailInfo);
+  }, [detailInfo, getProductOtherList]);
 
   return (
     <>
@@ -215,7 +279,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
           { detailInfo?.classification === 'USED' ? '다른 ' : '' } 중고상품
         </div>
       </Article>
-      <HorizontalScrollBox>
+      {/* <HorizontalScrollBox>
         <ul className={styles['order-by-item-list']}>
           {
             newOrOldProductOrderByListQuery.data?.map((item, index) => {
@@ -229,16 +293,24 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
             })
           }
         </ul>
-      </HorizontalScrollBox>
+      </HorizontalScrollBox> */}
       <Article __style={{ paddingTop: '12px', paddingBottom: '12px' }}>
         {
-          Array.from({ length: 5 }).map((item, index) => {
+          productOtherListRef.current.map((item, index) => {
             return (
-              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} __onClick={productRowItemClick} />  
+              <ProductRowItem2 
+                key={index} 
+                __style={{ marginBottom: '18px' }} 
+                __onClick={() => productRowItemClick(item)}
+                __imageUrl={item.thumbnail}
+                __brandName={item.brandName}
+                __price={item.price}
+                __productName={item.name}
+                __tags={item.tags} />  
             );
           })
         }
-        <Button __buttonStyle="gray-stroke">더보기</Button>
+        { !isNoneMoreDataRef.current ? <Button __buttonStyle="gray-stroke" __onClick={otherProductsMoreViewButtonClick}>더보기</Button> : <></> }
       </Article>
       <EmptyRow __style={{ height: '56px' }} />
       <BottomFixedBox>

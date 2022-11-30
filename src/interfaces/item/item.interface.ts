@@ -82,6 +82,7 @@ export declare namespace IItem {
 
   export interface ItemDetailInfoApiData {
     id: number;
+    bundleId: number;
     name: string;
     brandName: string;
     thumbnail: string;

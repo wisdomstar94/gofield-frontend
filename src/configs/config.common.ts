@@ -85,6 +85,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         bundle: {
           _: baseUrl + `/api/item/${apiVersion}/bundle`,
         },
+        other: {
+          _: baseUrl + `/api/item/${apiVersion}/other`,
+        },  
       },
 
       third: {
