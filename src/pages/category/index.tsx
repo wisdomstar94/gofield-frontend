@@ -5,6 +5,7 @@ import MenuRowItem from "../../components/boxes/menu-row-item/menu-row-item.comp
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import useCategoryListQuery from "../../hooks/use-queries/use-category-list.query";
 
 const ProductNewPage = () => {
   return (
@@ -24,6 +25,7 @@ const ProductNewPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const categoryListQuery = useCategoryListQuery();
 
   return (
     <>
@@ -32,17 +34,11 @@ const PageContents = () => {
           __layoutTypeB={{
             titleComponent: '카테고리'
           }}/>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/golf'); }}>골프</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/bicycle'); }}>자전거</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/health'); }}>헬스</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/mountain'); }}>등산</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/tennis'); }}>테니스</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/soccer'); }}>축구</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/baseball'); }}>야구</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/swimming'); }}>수영</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/clothing'); }}>의류</MenuRowItem>
-        <MenuRowItem __onClick={() => { router.push('/productGroups/etc'); }}>기타</MenuRowItem>
-
+        {
+          categoryListQuery.data?.map((item, index) => {
+            return <MenuRowItem key={item.value} __onClick={() => { router.push('/productGroups/' + item.value); }}>{ item.text }</MenuRowItem>
+          })
+        }
         <BottomMenuBar __activeMenuId="category" />
       </WindowSizeContainer>
     </>
