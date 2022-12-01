@@ -6,6 +6,7 @@ export declare namespace IItem {
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'COMBINATION' | 'SIMPLE';
   export type OptionStatus = 'SOLD_OUT' | 'SALE';
+  export type ItemStatus = 'SOLD_OUT' | 'SALE';
 
   export interface OptionItem {
     key: string;
@@ -100,6 +101,7 @@ export declare namespace IItem {
     option: OptionItem[];
     tags: string[];
     shippingTemplate: ShippingTemplate;
+    status: ItemStatus;
   }
 
   export interface OptionGroup {

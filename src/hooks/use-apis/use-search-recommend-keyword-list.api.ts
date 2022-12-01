@@ -1,16 +1,15 @@
 import { useCallback } from "react";
 import Config from "../../configs/config.export";
-import { IItem } from "../../interfaces/item/item.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
 import { ISearch } from "../../interfaces/search/search.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
 
-const useSearchListApi = () => {
+const useSearchRecommendKeywordListApi = () => {
   const axios = useAxios();
 
   const getInstance = useCallback((queryString: string) => {
-    return axios.getAxiosInstance<IResponse.CommonResponse<ISearch.SearchListApiData>>({
-      url: Config().api.search._ + queryString,
+    return axios.getAxiosInstance<IResponse.CommonResponse<ISearch.KeywordItem[]>>({
+      url: Config().api.search.keyword._ + queryString,
       method: 'get',
       isAuth: true,
     });
@@ -21,4 +20,4 @@ const useSearchListApi = () => {
   };
 };
 
-export default useSearchListApi;
+export default useSearchRecommendKeywordListApi;

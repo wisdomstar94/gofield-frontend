@@ -1,5 +1,9 @@
 import { useRouter } from 'next/router';
 import { ChangeEvent, ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import useSearchRecommendKeywordListApi from '../../../hooks/use-apis/use-search-recommend-keyword-list.api';
+import useSearchRecommendKeywordListQuery from '../../../hooks/use-queries/use-search-recommend-keyword-list.query';
+import useRecentKeyword from '../../../hooks/use-recent-keyword/use-recent-keyword.hook';
+import { ISearch } from '../../../interfaces/search/search.interface';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import HashTagItem from '../../boxes/hash-tag-item/hash-tag-item.component';
 import Modal from '../../forms/modal/modal.component';
@@ -15,8 +19,11 @@ import { IModalSearch } from "./modal-search.interface";
 
 const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IModalSearch.RefObject>) => {
   const router = useRouter();
+  const recentKeyword = useRecentKeyword();
   const modalRef = useRef<IModal.RefObject>(null);
   const [searchValue, setSearchValue] = useState(props.__searchValue ?? '');
+  
+  const searchRecommendKeywordListQuery = useSearchRecommendKeywordListQuery();
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -45,8 +52,13 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
   }, []);
 
   const searchButtonClick = useCallback(() => {
-    router.push('/products?searchValue=' + searchValue);
-  }, [router, searchValue]);
+    recentKeyword.addKeyword(searchValue);
+    router.push('/products?page=1&size=20&keyword=' + searchValue);
+  }, [recentKeyword, router, searchValue]);
+
+  const hashTagItemClick = useCallback((item: ISearch.KeywordItem) => {
+    router.push('/products?page=1&size=20&keyword=' + item.keyword);
+  }, [router]);
 
   return (
     <>
@@ -73,9 +85,15 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
                 최근 검색어
               </div>
               <div className={styles['hash-tag-row']}>
-                <HashTagItem>골프장갑</HashTagItem>
-                <HashTagItem>골프장갑</HashTagItem>
-                <HashTagItem>골프장갑</HashTagItem>
+                {
+                  recentKeyword.getKeywords().length === 0 ?
+                  <>
+                    <span className="text-xs text-gray-b">최근 검색어가 없습니다.</span>
+                  </> : 
+                  recentKeyword.getKeywords().map((item, index) => {
+                    return <HashTagItem key={item.id} __onClick={() => hashTagItemClick(item)}>{ item.keyword }</HashTagItem>
+                  })
+                }
               </div>
             </Article>
             <Article>
@@ -83,9 +101,11 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
                 인기 검색어
               </div>
               <div className={styles['hash-tag-row']}>
-                <HashTagItem>골프장갑</HashTagItem>
-                <HashTagItem>골프장갑</HashTagItem>
-                <HashTagItem>골프장갑</HashTagItem>
+                {
+                  searchRecommendKeywordListQuery.data?.map((item) => {
+                    return <HashTagItem key={item.id} __onClick={() => hashTagItemClick(item)}>{ item.keyword }</HashTagItem>
+                  })
+                }
               </div>
             </Article>
             {/* <ul className={styles['search-result-list']}>
