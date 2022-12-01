@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./bottom-fixed-or-relative-box.component.module.scss";
 import { IBottomFixedOrRelativeBox } from "./bottom-fixed-or-relative-box.interface";
 
@@ -51,10 +51,25 @@ const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
     windowSizeCheck();
   });
 
+  const getStyles = useCallback(() => {
+    let obj: CSSProperties = {
+      position: positionState,
+    };
+
+    if (props.__style !== undefined) {
+      obj = {
+        ...obj,
+        ...props.__style,
+      };
+    }
+
+    return obj;
+  }, [positionState, props.__style]);
+
   return (
     <>
       <div className="relative" ref={lastBottomElementRef}></div>
-      <div className={styles['container']} style={{ position: positionState }}>
+      <div className={styles['container']} style={getStyles()}>
         { props.children }
       </div>
     </>

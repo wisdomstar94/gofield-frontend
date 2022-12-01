@@ -63,7 +63,7 @@ const PageContents = () => {
             },
             {
               menuNameComponent: <>회원탈퇴</>,
-              menuLink: '/sign-out',
+              menuLink: '/signOut',
             },
           ]} />
         <BottomMenuBar __activeMenuId="my-page" />
