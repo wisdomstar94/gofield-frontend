@@ -37,7 +37,7 @@ const PageContents = () => {
       <MenuRowList
         __menuItems={[
           { menuNameComponent: <>나의 정보 수정</>, menuLink: '/mypage/myinfo-edit', },
-          { menuNameComponent: <>주문/배송 조회</>, menuLink: '', },
+          { menuNameComponent: <>주문/배송 조회</>, menuLink: '/order/history', },
           { menuNameComponent: <>관심상품</>, menuLink: '', },
           { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
           { menuNameComponent: <>리뷰 관리</>, menuLink: '', },

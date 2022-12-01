@@ -68,6 +68,10 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
       
+      search: {
+        _: baseUrl + `/api/search/${apiVersion}`,
+      },
+
       main: {
         error: {
           _: baseUrl + `/api/main/${apiVersion}/error`,

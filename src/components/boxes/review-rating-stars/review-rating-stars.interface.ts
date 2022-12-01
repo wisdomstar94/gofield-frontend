@@ -8,6 +8,7 @@ export declare namespace IReviewRatingStars {
   export interface Props {
     __style?: CSSProperties;
     __reviewScore?: number;
+    __onReviewScoreChange?: (score: number) => void;
     children?: React.ReactNode;
   }
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
@@ -8,11 +9,17 @@ import styles from "./product-row-item3.component.module.scss";
 import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
+  const router = useRouter();
+
   const [buttonLayoutType, setButtonLayoutType] = useState<IProductRowItem3.ButtonLayoutType>(props.__buttonLayoutType ?? 'exchange-refund-review');
   useEffect(() => { setButtonLayoutType(props.__buttonLayoutType ?? 'exchange-refund-review') }, [props.__buttonLayoutType]);
 
   const [isTopRowShow, setIsTopRowShow] = useState(props.__isTopRowShow);
   useEffect(() => { setIsTopRowShow(props.__isTopRowShow) }, [props.__isTopRowShow]);
+
+  const reviewWriteButtonClick = useCallback(() => {
+    router.push('/review/write/e35asb-1193506-1344/A0001');
+  }, [router]);
 
   return (
     <>
@@ -87,7 +94,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
               </div>
 
               <div className="w-full box-border">
-                <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }}>
+                <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={reviewWriteButtonClick}>
                   <span className="text-sm font-bold">상품 리뷰 쓰기</span>
                 </Button>
               </div>

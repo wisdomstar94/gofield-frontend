@@ -173,9 +173,9 @@ const PageContents = () => {
                   <ProductColumnItem key={index} __style={{ width: '150px' }}
                     __onClick={() => { 
                       if (item.classification === 'NEW') {
-                        router.push('/product/new/' + item.id);
+                        router.push('/product/new/' + item.itemNumber);
                       } else {
-                        router.push('/product/old/' + item.id);
+                        router.push('/product/old/' + item.itemNumber);
                       }
                     }}
                     __imageUrl={item.thumbnail}

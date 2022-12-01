@@ -9,6 +9,8 @@ export declare namespace IReviewStar {
     __starMode?: StarMode;
     __starSizeType?: StarSizeType;
     __style?: CSSProperties;
+    __onClick?: () => void;
+    __onMouseEnter?: () => void;
     children?: React.ReactNode;
   }
 }

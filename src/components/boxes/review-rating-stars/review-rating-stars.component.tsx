@@ -1,6 +1,6 @@
 import styles from "./review-rating-stars.component.module.scss";
 import { IReviewRatingStars } from "./review-rating-stars.interface";
-import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
 import ReviewStar from "../review-star/review-star.component";
 
 const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: ForwardedRef<IReviewRatingStars.RefObject>) => {
@@ -12,6 +12,13 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
     
   }));
 
+  const starClick = useCallback((index: number) => {
+    setReviewScore(index + 1);
+    if (typeof props.__onReviewScoreChange === 'function') {
+      props.__onReviewScoreChange(index + 1);
+    }
+  }, [props]);
+
   return (
     <>
       <div className={styles['container']} style={props.__style}>
@@ -21,8 +28,8 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
               <>
                 {
                   index + 1 <= Math.floor(reviewScore ?? 0) ? 
-                  <ReviewStar __style={{ marginRight: index !== 4 ? '8px' : '0' }} /> : 
-                  <ReviewStar __style={{ marginRight: index !== 4 ? '8px' : '0' }} __starMode="stroke" />  
+                  <ReviewStar __style={{ marginRight: index !== 4 ? '8px' : '0' }} __onClick={() => starClick(index)} /> : 
+                  <ReviewStar __style={{ marginRight: index !== 4 ? '8px' : '0' }} __onClick={() => starClick(index)} __starMode="stroke" />  
                 }
               </>
             )

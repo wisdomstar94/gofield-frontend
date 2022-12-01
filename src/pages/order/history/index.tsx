@@ -1,9 +1,6 @@
 import Head from "next/head";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import OrderRowItem from "../../../components/boxes/order-row-item/order-row-item.component";
-import ProductRowItem from "../../../components/boxes/product-row-item/product-row-item.component";
-import ProductRowItem2 from "../../../components/boxes/product-row-item2/product-row-item2.component";
-import ProductRowItem3 from "../../../components/boxes/product-row-item3/product-row-item3.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 
