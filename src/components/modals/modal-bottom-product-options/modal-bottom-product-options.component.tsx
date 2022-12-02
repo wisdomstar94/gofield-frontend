@@ -14,17 +14,22 @@ import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import useCartContainApi from "../../../hooks/use-apis/use-cart-contain.api";
 import useCartCountQuery from "../../../hooks/use-queries/use-cart-count.query";
+import useOrderSheetCreateApi from "../../../hooks/use-apis/use-order-sheet-create.api";
+import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
 
 const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.Props, ref: ForwardedRef<IModalBottomProductOptions.RefObject>) => {
   const router = useRouter();
   const modalAlert = useModalAlert();
+  const productOrder = useProductOrder();
   const [modalState, setModalState] = useState<IModalBottom.ModalState>(props.__modalState ?? '');
   const itemProductOptionListApi = useItemProductOptionListApi();
   const cartContainApi = useCartContainApi();
+  const orderSheetCreateApi = useOrderSheetCreateApi();
   
   const cartCountQuery = useCartCountQuery();
 
   const isCartContainingRef = useRef(false);
+  const isOrderSheetCreatingRef = useRef(false);
 
   const [optionGroupList, setOptionGroupList] = useState<IItem.OptionGroupItem[]>([]);
   const optionListRef = useRef<IItem.OptionItem[]>([]);
@@ -32,25 +37,28 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   // const optionGroupSelectInfoRef = useRef<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
   const [optionGroupSelectInfo, setOptionGroupSelectInfo] = useState<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
 
-  const [price, setPrice] = useState(props.__price);
-  useEffect(() => { setPrice(props.__price); }, [props.__price]);
+  const [detailInfo, setDetailInfo] = useState(props.__detailInfo);
+  useEffect(() => { setDetailInfo(props.__detailInfo); }, [props.__detailInfo]);
 
-  const [itemId, setItemId] = useState(props.__itemId);
-  useEffect(() => { setItemId(props.__itemId); }, [props.__itemId]);
+  // const [price, setPrice] = useState(props.__price);
+  // useEffect(() => { setPrice(props.__price); }, [props.__price]);
 
-  const [itemNumber, setItemNumber] = useState(props.__itemNumber);
-  useEffect(() => { setItemNumber(props.__itemNumber); }, [props.__itemNumber]);
+  // const [itemId, setItemId] = useState(props.__itemId);
+  // useEffect(() => { setItemId(props.__itemId); }, [props.__itemId]);
+
+  // const [itemNumber, setItemNumber] = useState(props.__itemNumber);
+  // useEffect(() => { setItemNumber(props.__itemNumber); }, [props.__itemNumber]);
 
   useEffect(() => {
     if (!router.isReady) {
       return;
     }
 
-    if (typeof itemId !== 'string') {
+    if (typeof detailInfo?.id !== 'string') {
       return;
     }
 
-    itemProductOptionListApi.getInstance(itemId).then((response) => {
+    itemProductOptionListApi.getInstance(detailInfo.id).then((response) => {
       if (response.data.data.optionGroupList === null || response.data.data.optionList === null) {
         return;
       }
@@ -60,7 +68,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       optionListRef.current = response.data.data.optionList;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, itemId]);
+  }, [router.isReady, detailInfo]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -94,18 +102,17 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     setOptionGroupSelectInfo(new Map());
   }, [hide]);
 
-  const containBasketButtonClick = useCallback(() => {
+  const getTargetItemNumber = useCallback(() => {
     let targetItemNumber = '';
-
     if (optionGroupList.length > 0) {
       if (!isRequiredOptionSelected()) {
         modalAlert.show({ title: '안내', content: '옵션을 모두 선택해주세요.' });
-        return;
+        return '';
       }
 
       if (isCartContainingRef.current) {
         modalAlert.show({ title: '안내', content: '잠시 후 다시 시도해주세요.' });
-        return;
+        return '';
       }
 
       // console.log('optionGroupSelectInfoRef.current', optionGroupSelectInfoRef.current);
@@ -122,18 +129,24 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       });
       if (targetOptionItem === undefined) {
         modalAlert.show({ title: '안내', content: '옵션과 일치하는 상품이 없습니다.' });
-        return;
+        return '';
       }
       targetItemNumber = targetOptionItem.itemNumber;
     } else if (optionGroupList.length === 0) {
-      if (typeof itemNumber !== 'string' || itemNumber?.trim() === '') {
+      if (typeof detailInfo?.itemNumber !== 'string' || detailInfo?.itemNumber.trim() === '') {
         modalAlert.show({ title: '안내', content: '상품 정보를 가져오지 못했습니다.' });
-        return;
+        return '';
       }
-      targetItemNumber = itemNumber;
+      targetItemNumber = detailInfo.itemNumber;
     }
+    return targetItemNumber;
+  }, [detailInfo?.itemNumber, isRequiredOptionSelected, modalAlert, optionGroupList.length, optionGroupSelectInfo]);
 
-    // console.log('targetOptionItem', targetOptionItem);
+  const containBasketButtonClick = useCallback(() => {
+    const targetItemNumber = getTargetItemNumber();
+    if (targetItemNumber === '') {
+      return;
+    }
 
     // 장바구니 담기..
     isCartContainingRef.current = true;
@@ -149,21 +162,55 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {
       isCartContainingRef.current = false;
     });
-  }, [cartContainApi, cartCountQuery, clear, isRequiredOptionSelected, itemNumber, modalAlert, optionGroupList.length, optionGroupSelectInfo]);
+  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert]);
 
   const getTotalPrice = useCallback(() => {
-    if (price === undefined) {
+    if (detailInfo?.price === undefined) {
       return 'null';
     }
 
-    let returnPrice = price;
+    let returnPrice = detailInfo.price;
     optionGroupSelectInfo.forEach((value, key) => {
       const p = Number(value?.value.split('@@_@@')[1]);
       returnPrice += p;
     });
 
     return getAddCommaNumberString({ numberValue: returnPrice });
-  }, [optionGroupSelectInfo, price]);
+  }, [detailInfo?.price, optionGroupSelectInfo]);
+
+  const nowPayButtonClick = useCallback(() => {
+    if (isOrderSheetCreatingRef.current) {
+      return;
+    }
+
+    const targetItemNumber = getTargetItemNumber();
+    if (targetItemNumber === '') {
+      return;
+    }
+
+    if (detailInfo?.shippingTemplate === undefined || detailInfo?.shippingTemplate === null) {
+      return;
+    }
+
+    const getPriceTotalInfo = productOrder.getTotalPriceInfo([{ charge: detailInfo.shippingTemplate.charge, condition: detailInfo.shippingTemplate.condition, price: detailInfo.price, qty: 1 }]);
+
+    isOrderSheetCreatingRef.current = true;
+    orderSheetCreateApi.getInstance({
+      isCart: false,
+      items: [{ cartId: null, itemNumber: targetItemNumber, qty: 1 }],
+      totalDelivery: getPriceTotalInfo.totalCharge,
+      totalPrice: getPriceTotalInfo.totalPrice,
+    }).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '주문 정보를 생성하지 못했습니다. 잠시 후 다시 시도해주세요.' });
+        return;
+      }
+
+      router.push('/order/submit/' + response.data.data.code);
+    }).finally(() => {  
+      isOrderSheetCreatingRef.current = false;
+    });
+  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, orderSheetCreateApi, productOrder, router]);
 
   return (
     <>
@@ -219,7 +266,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
             <Button __buttonStyle="white-solid-gray-stroke" __onClick={containBasketButtonClick}>장바구니 담기</Button>
           </div>
           <div>
-            <Button __buttonStyle="black-solid">바로 구매하기</Button>
+            <Button __buttonStyle="black-solid" __onClick={nowPayButtonClick}>바로 구매하기</Button>
           </div>
         </div>
       </ModalBottom>

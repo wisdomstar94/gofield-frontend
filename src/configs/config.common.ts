@@ -110,6 +110,13 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
 
+      order: {
+        _: baseUrl + `/api/order/${apiVersion}`,
+        sheet: {
+          _: baseUrl + `/api/order/${apiVersion}/sheet`,
+        },
+      },
+
       third: {
         ready: {
           _: baseUrl + `/api/third/${apiVersion}/ready`,

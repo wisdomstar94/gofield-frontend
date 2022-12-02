@@ -353,9 +353,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </BottomFixedBox>
       <ModalBottomProductOptions 
         ref={modalBottomProductOptionsRef} 
-        __itemId={detailInfo?.id.toString()}
-        __itemNumber={detailInfo?.itemNumber.toString()}
-        __price={detailInfo?.price} />
+        __detailInfo={detailInfo} />
     </>
   );
 });

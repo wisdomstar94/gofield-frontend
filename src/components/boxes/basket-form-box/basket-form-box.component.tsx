@@ -2,7 +2,10 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useCartItemDeleteApi from "../../../hooks/use-apis/use-cart-item-delete.api";
 import useCartListApi from "../../../hooks/use-apis/use-cart-list.api";
+import useOrderSheetCreateApi from "../../../hooks/use-apis/use-order-sheet-create.api";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
+import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
 import { ICart } from "../../../interfaces/cart/cart.interface";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
@@ -17,19 +20,19 @@ import { IBasketFormBox } from "./basket-form-box.interface";
 
 const BasketFormBox = (props: IBasketFormBox.Props) => {
   const router = useRouter();
+  const orderSheetCreateApi = useOrderSheetCreateApi();
   const cartListApi = useCartListApi();
   const cartItemDeleteApi = useCartItemDeleteApi();
   const modalAlert = useModalAlert();
+  const modalConfirm = useModalConfirm();
+  const productOrder = useProductOrder();
 
   const [isAllChecked, setIsAllChecked] = useState(true);
   const [list, setList] = useState<ICart.CartItem[]>([]);
 
+  const isOrderSheetCreatingRef = useRef(false);
   const isDeletingRef = useRef(false);
   const isGettingListRef = useRef(false);
-
-  const ProductGroupColumnItemClick = useCallback(() => {
-    router.push('/productGroup/33');
-  }, [router]);
 
   const allCheckChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
     const nextValue = changeInfo.checkState === 'checked';
@@ -71,30 +74,13 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
   }, [router.isReady]);
 
   const getTotalPriceInfo = useCallback(() => {
-    let totalPrice = 0;
-    let totalCharge = 0;
-    let totalPaySubmitPrice = 0;
-
-    list.forEach((item) => {
-      if (item.isChecked !== true) {
-        return;
-      }
-
-      totalPrice += item.price * item.qty;
-
-      if (item.qty * item.price < item.condition) {
-        totalCharge += item.charge;
-      }
-    });
-
-    totalPaySubmitPrice = totalPrice + totalCharge;
-
-    return {
-      totalPrice,
-      totalCharge,
-      totalPaySubmitPrice,
-    };
-  }, [list]);
+    return productOrder.getTotalPriceInfo(list.filter(item => item.isChecked === true).map(item => ({ 
+      charge: item.charge, 
+      condition: item.condition, 
+      price: item.price,
+      qty: item.qty,
+    })));
+  }, [list, productOrder]);
 
   const onCheckboxChange = useCallback((item: ICart.CartItem, isChecked: boolean) => {
     const newList = [ ...list ];
@@ -144,9 +130,50 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
     });
   }, [cartItemDeleteApi, list, modalAlert]);
 
+  const getCheckedItems = useCallback(() => {
+    return list.filter(item => item.isChecked === true);
+  }, [list]);
+
   const nowBuyButtonClick = useCallback(() => {
-    modalAlert.show({ title: '안내', content: 'API 연동 전입니다.' });
-  }, [modalAlert]);
+    if (isOrderSheetCreatingRef.current) {
+      modalAlert.show({ title: '안내', content: '잠시 후 다시 시도해주세요.' });
+      return;
+    }
+
+    // modalAlert.show({ title: '안내', content: 'API 연동 전입니다.' });
+    const checkedItems = getCheckedItems();
+
+    if (checkedItems.length === 0) {
+      modalAlert.show({ title: '안내', content: '선택된 상품이 없습니다.' });
+      return;
+    }
+
+    const getPriceTotalInfo = productOrder.getTotalPriceInfo(checkedItems.map(item => ({ charge: item.charge, condition: item.condition, price: item.price, qty: item.qty })));
+
+    modalConfirm.show({
+      title: '안내',
+      content: `선택하신 상품의 구매를 진행하시겠습니까?`,
+      positiveCallback(hide, modalItem) {
+        isOrderSheetCreatingRef.current = true;
+        orderSheetCreateApi.getInstance({
+          isCart: true,
+          items: checkedItems.map((item) => ({ cartId: item.id, itemNumber: item.itemNumber, qty: item.qty })),
+          totalDelivery: getPriceTotalInfo.totalCharge,
+          totalPrice: getPriceTotalInfo.totalPrice,
+        }).then((response) => {
+          if (response.data.status !== true) {
+            modalAlert.show({ title: '안내', content: '주문 정보를 생성하지 못했습니다. 잠시 후 다시 시도해주세요.' });
+            return;
+          }
+
+          router.push('/order/submit/' + response.data.data.code);
+        }).finally(() => {  
+          isOrderSheetCreatingRef.current = false;
+        });
+        hide(modalItem);
+      },
+    })    
+  }, [getCheckedItems, modalAlert, modalConfirm, orderSheetCreateApi, productOrder, router]);
 
   return (
     <>
