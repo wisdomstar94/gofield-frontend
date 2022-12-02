@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
@@ -10,6 +10,11 @@ import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-
 import GridList from "../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import useItemRecommendListApi from "../../hooks/use-apis/use-item-recommend-list.api";
+import useRender from "../../hooks/use-render/use-render.hook";
+import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
+import { IItem } from "../../interfaces/item/item.interface";
+import { getNextRouterQueryToUrlQueryString } from "../../librarys/string-util/string-util.library";
 
 const ProductNewPage = () => {
   return (
@@ -29,14 +34,69 @@ const ProductNewPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const render = useRender();
+  const itemRecommendListApi = useItemRecommendListApi();
 
-  const ProductGroupColumnItemClick = useCallback(() => {
-    router.push('/productGroup/33');
+  const isGettingListRef = useRef(false);
+  const isNoneMoreDataRef = useRef(false);
+  const searchOptionsRef = useRef({
+    page: '1',
+    size: '20',
+  });
+  const [list, setList] = useState<IItem.BundleProductItem[]>([]);
+
+  const ProductGroupColumnItemClick = useCallback((item: IItem.BundleProductItem) => {
+    router.push('/productGroup/' + item.id);
   }, [router]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  const getList = useCallback(() => {
+    if (isGettingListRef.current || isNoneMoreDataRef.current) {
+      return;
+    }
+
+    isGettingListRef.current = true;
+    itemRecommendListApi.getInstance(getNextRouterQueryToUrlQueryString({ ...searchOptionsRef.current })).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      if (response.data.data.length === 0) {
+        isNoneMoreDataRef.current = true;
+        render.render();
+        return;
+      } else if (response.data.data.length < Number(searchOptionsRef.current.size)) {
+        isNoneMoreDataRef.current = true;
+      }
+
+      setList(list.concat(response.data.data));
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [itemRecommendListApi, list, render]);
+
+  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingListRef.current || isNoneMoreDataRef.current) {
+      return;
+    }
+
+    if (info.isLastScrollArea) {
+      searchOptionsRef.current.page = (Number(searchOptionsRef.current.page) + 1).toString();
+      getList()
+    }
+  }, [getList]);
 
   return (
     <>
-      <WindowSizeContainer __bgColor="#fff">
+      <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
         <Topbar
           __layoutTypeB={{
             titleComponent: '추천상품',
@@ -48,26 +108,28 @@ const PageContents = () => {
             __rightComponentStyle={{ width: '100%' }}
             __leftComponent={<></>}
             __rightComponent={<>
-              <ViewFilterBox __optionTypes={['order-by']} />
+              {/* <ViewFilterBox __optionTypes={['order-by']} /> */}
             </>} />
           <GridList>
             {
-              Array.from({ length: 14 }).map((value, index) => {
+              list.map((item) => {
                 return (
                   <ProductGroupColumnItem
-                    key={index}
-                    __onClick={ProductGroupColumnItemClick}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __newProductPrice={560000}
-                    __oldProductPrice={210000}
-                    __reviewCount={3}
-                    __reviewStarPoint={4.7} />      
+                    key={item.id}
+                    __itemId={item.id}
+                    __imageUrl={item.thumbnail}
+                    __onClick={() => ProductGroupColumnItemClick(item)}
+                    __brandNameComponent={<>{ item.brandName }</>}
+                    __productNameComponent={<>{ item.name }</>}
+                    __newProductPrice={item.newLowestPrice}
+                    __oldProductPrice={item.usedLowestPrice}                  
+                    __isHeartLayout={false} /> 
                 );
               })
             }
           </GridList>
         </Article>
+        <div className="w-full h-12"></div>
         <BottomMenuBar />
       </WindowSizeContainer>
     </>

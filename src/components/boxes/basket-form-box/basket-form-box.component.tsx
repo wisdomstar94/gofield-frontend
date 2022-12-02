@@ -150,44 +150,54 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
 
   return (
     <>
-      <Article __style={{ borderBottom: '1px solid #e9ebee' }}>
-        <Checkbox __name="all-check" __value="all" __checkState={isAllChecked ? 'checked' : 'none-checked'} __onChange={allCheckChange}>
-          전체 선택
-        </Checkbox>
-      </Article>
-      <div className="w-full relative">
-        {
-          list.map((item) => {
-            return (
-              <BasketProductRowItem
-                key={item.id}
-                __item={item}
-                __onCheckboxChange={isChecked => onCheckboxChange(item, isChecked)}
-                __onCountChange={count => onCountChange(item, count)}
-                __onDeleteButtonClick={() => onDeleteButtonClick(item)} />
-            )
-          })
-        }
-      </div>
-      <div className={styles['total-price-info-box']}>
-        <BothSidebox
-          __style={{ marginBottom: '8px' }}
-          __leftComponent={<><span className={styles['title-text']}>총 상품 금액</span></>}
-          __rightComponent={<><span className={styles['price-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPrice }) }원</span></>} />
-        <BothSidebox
-          __leftComponent={<><span className={styles['title-text']}>총 배송료</span></>}
-          __rightComponent={<><span className={styles['price-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalCharge }) }원</span></>} />
-        <div className={styles['deco-line']} style={{ marginTop: '16px', marginBottom: '16px' }}></div>
-        <BothSidebox
-          __leftComponent={<><span className={styles['title-final-text']}>총 결제금액</span></>}
-          __rightComponent={<><span className={styles['price-final-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</span></>} />
-      </div>
+      {
+        list.length === 0 ? 
+        <div className="w-full relative px-6 py-12">
+          <div className="w-full box-sizing flex justify-center items-center">
+            <span className="text-black-b text-sm">장바구니가 비었습니다.</span>
+          </div>
+        </div> : 
+        <>
+          <Article __style={{ borderBottom: '1px solid #e9ebee' }}>
+            <Checkbox __name="all-check" __value="all" __checkState={isAllChecked ? 'checked' : 'none-checked'} __onChange={allCheckChange}>
+              전체 선택
+            </Checkbox>
+          </Article>
+          <div className="w-full relative">
+            {
+              list.map((item) => {
+                return (
+                  <BasketProductRowItem
+                    key={item.id}
+                    __item={item}
+                    __onCheckboxChange={isChecked => onCheckboxChange(item, isChecked)}
+                    __onCountChange={count => onCountChange(item, count)}
+                    __onDeleteButtonClick={() => onDeleteButtonClick(item)} />
+                )
+              })
+            }
+          </div>
+          <div className={styles['total-price-info-box']}>
+            <BothSidebox
+              __style={{ marginBottom: '8px' }}
+              __leftComponent={<><span className={styles['title-text']}>총 상품 금액</span></>}
+              __rightComponent={<><span className={styles['price-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPrice }) }원</span></>} />
+            <BothSidebox
+              __leftComponent={<><span className={styles['title-text']}>총 배송료</span></>}
+              __rightComponent={<><span className={styles['price-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalCharge }) }원</span></>} />
+            <div className={styles['deco-line']} style={{ marginTop: '16px', marginBottom: '16px' }}></div>
+            <BothSidebox
+              __leftComponent={<><span className={styles['title-final-text']}>총 결제금액</span></>}
+              __rightComponent={<><span className={styles['price-final-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</span></>} />
+          </div>
 
-      <BottomFixedOrRelativeBox __heightToRelative={100}>
-        <BothSidebox
-          __leftComponent={<><Button __buttonStyle="white-solid-gray-stroke">합계 : { getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</Button></>}
-          __rightComponent={<><Button __buttonStyle="black-solid" __onClick={nowBuyButtonClick}>바로 구매하기</Button></>} />
-      </BottomFixedOrRelativeBox>
+          <BottomFixedOrRelativeBox __heightToRelative={100}>
+            <BothSidebox
+              __leftComponent={<><Button __buttonStyle="white-solid-gray-stroke">합계 : { getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</Button></>}
+              __rightComponent={<><Button __buttonStyle="black-solid" __onClick={nowBuyButtonClick}>바로 구매하기</Button></>} />
+          </BottomFixedOrRelativeBox>
+        </> 
+      }
     </>
   );
 };

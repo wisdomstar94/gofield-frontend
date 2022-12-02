@@ -77,7 +77,7 @@ const PageContents = () => {
             {
               mainItemListQuery.data?.popularBundleList.map((item, index) => {
                 return (
-                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px', marginRight: '12px' }}
                     __onClick={() => { router.push('/productGroup/' + item.id) }}
                     __imageUrl={item.thumbnail}
                     __brandNameComponent={<>{item.brandName}</>}
@@ -108,7 +108,7 @@ const PageContents = () => {
             {
               mainItemListQuery.data?.recommendBundleList.map((item, index) => {
                 return (
-                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px', marginRight: '12px' }}
                     __onClick={() => { router.push('/productGroup/' + item.id) }}
                     __imageUrl={item.thumbnail}
                     __brandNameComponent={<>{item.brandName}</>}
@@ -123,7 +123,7 @@ const PageContents = () => {
             <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
-        <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
+        {/* <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
           <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
@@ -139,7 +139,7 @@ const PageContents = () => {
             {
               mainItemListQuery.data?.categoryBundleList.map((item, index) => {
                 return (
-                  <ProductGroupColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductGroupColumnItem key={index} __style={{ width: '150px', marginRight: '12px' }}
                     __onClick={() => { router.push('/productGroup/' + item.id) }}
                     __imageUrl={item.thumbnail}
                     __brandNameComponent={<>{item.brandName}</>}
@@ -153,7 +153,7 @@ const PageContents = () => {
             }
             <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
-        </Article>
+        </Article> */}
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
           <ArticleTopRow>
             <BothSidebox
@@ -170,7 +170,7 @@ const PageContents = () => {
             {
               mainItemListQuery.data?.classificationItemList.map((item, index) => {
                 return (
-                  <ProductColumnItem key={index} __style={{ width: '150px' }}
+                  <ProductColumnItem key={index} __style={{ width: '150px', marginRight: '12px' }}
                     __onClick={() => { 
                       if (item.classification === 'NEW') {
                         router.push('/product/new/' + item.itemNumber);

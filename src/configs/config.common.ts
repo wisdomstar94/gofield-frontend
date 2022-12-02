@@ -102,6 +102,12 @@ export default function getConfigs(params: ICommonConfig.Params) {
         like: {
           _: baseUrl + `/api/item/${apiVersion}/like`,
         },
+        popular: {
+          _: baseUrl + `/api/item/${apiVersion}/popular`,
+        },
+        recommend: {
+          _: baseUrl + `/api/item/${apiVersion}/recommend`,
+        },
       },
 
       third: {
