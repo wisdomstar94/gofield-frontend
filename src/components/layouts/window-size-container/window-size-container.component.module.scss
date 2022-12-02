@@ -8,6 +8,7 @@
   top: 0;
   left: 0;
   overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #f7f8f9;
   box-sizing: border-box;
 
@@ -19,5 +20,16 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  &.pc {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    left: calc((100% - (100vh * 0.56)) / 2);
+    border: 1px solid #333;
+  }
+
+  &.mobile {
+    margin: 0;
   }
 }

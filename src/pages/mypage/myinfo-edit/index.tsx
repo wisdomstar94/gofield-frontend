@@ -4,6 +4,7 @@ import AccessTokenCheck from "../../../components/auth/access-token-check/access
 import MenuRowList from "../../../components/boxes/menu-row-list/menu-row-list.component";
 import BottomMenuBar from "../../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
+import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -24,19 +25,21 @@ const LoginPage: NextPage = () => {
 const PageContents = () => {
   return (
     <>
-      <Topbar
-        __layoutTypeB={{
-          titleComponent: <>내 정보  수정</>,
-          rightComponent: <></>,
-        }} />
-      <MenuRowList
-        __menuItems={[
-          { menuNameComponent: <>프로필 수정</>, menuLink: '/mypage/myinfo-edit/profile-edit', },
-          { menuNameComponent: <>휴대폰 번호 변경</>, menuLink: '/mypage/myinfo-edit/phone-number-change', },
-          { menuNameComponent: <>환불 계좌 관리</>, menuLink: '/mypage/myinfo-edit/refund-account-management', },
-        ]} />
-      <BottomMenuBar
-        __activeMenuId="my-page" />
+      <WindowSizeContainer __bgColor="#fff">
+        <Topbar
+          __layoutTypeB={{
+            titleComponent: <>내 정보  수정</>,
+            rightComponent: <></>,
+          }} />
+        <MenuRowList
+          __menuItems={[
+            { menuNameComponent: <>프로필 수정</>, menuLink: '/mypage/myinfo-edit/profile-edit', },
+            { menuNameComponent: <>휴대폰 번호 변경</>, menuLink: '/mypage/myinfo-edit/phone-number-change', },
+            { menuNameComponent: <>환불 계좌 관리</>, menuLink: '/mypage/myinfo-edit/refund-account-management', },
+          ]} />
+        <BottomMenuBar
+          __activeMenuId="my-page" />
+      </WindowSizeContainer>
     </>
   );
 };

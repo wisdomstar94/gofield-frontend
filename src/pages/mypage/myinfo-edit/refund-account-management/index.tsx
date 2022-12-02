@@ -8,6 +8,7 @@ import { IRefundAccountFormBox } from "../../../../components/boxes/refund-accou
 import Button from "../../../../components/forms/button/button.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
+import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 import useUserRefundAccountUpdateApi from "../../../../hooks/use-apis/use-user-refund-account-update.api";
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 
@@ -81,20 +82,22 @@ const PageContents = () => {
 
   return (
     <>
-      <Topbar
-        __layoutTypeB={{
-          titleComponent: <>환불계좌 관리</>,
-          rightComponent: <></>,
-        }} />
-      {/* <ProfileFormBox ref={formBoxComponentRef} /> */}
-      <RefundAccountFormBox ref={formBoxComponentRef} />
-      <BottomFixedOrRelativeBox __heightToRelative={560}>
-        <Article>
-          <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
-            저장
-          </Button>
-        </Article>
-      </BottomFixedOrRelativeBox>
+      <WindowSizeContainer __bgColor="#fff">
+        <Topbar
+          __layoutTypeB={{
+            titleComponent: <>환불계좌 관리</>,
+            rightComponent: <></>,
+          }} />
+        {/* <ProfileFormBox ref={formBoxComponentRef} /> */}
+        <RefundAccountFormBox ref={formBoxComponentRef} />
+        <BottomFixedOrRelativeBox __heightToRelative={560}>
+          <Article>
+            <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
+              저장
+            </Button>
+          </Article>
+        </BottomFixedOrRelativeBox>
+      </WindowSizeContainer>
     </>
   );
 };

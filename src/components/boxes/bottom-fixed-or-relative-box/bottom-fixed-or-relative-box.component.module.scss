@@ -5,4 +5,14 @@
   position: fixed;
   left: 0;
   bottom: 0;
+
+  &.pc {
+    width: calc((100vh * 0.56) - 2px);
+    // height: 100%;
+    left: calc((100% - (100vh * 0.56) + 2px) / 2);
+  }
+
+  &.mobile {
+    margin: 0;
+  }
 }

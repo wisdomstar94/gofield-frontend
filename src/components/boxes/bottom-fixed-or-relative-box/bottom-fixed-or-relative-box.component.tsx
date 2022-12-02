@@ -1,4 +1,7 @@
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { deviceTypeAtom } from "../../../atoms/device-type.atom";
+import { getClasses } from "../../../librarys/string-util/string-util.library";
 import styles from "./bottom-fixed-or-relative-box.component.module.scss";
 import { IBottomFixedOrRelativeBox } from "./bottom-fixed-or-relative-box.interface";
 
@@ -7,6 +10,7 @@ const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
   const [positionState, setPositionState] = useState<IBottomFixedOrRelativeBox.PositionState>('fixed');
   const [heightToRelative, setHeightToRelative] = useState<number>(props.__heightToRelative ?? 0);
   const [isFixed, setIsFixed] = useState<boolean>(true);
+  const [deviceType, setDeviceType] = useRecoilState(deviceTypeAtom);
 
   useEffect(() => {
     setHeightToRelative(props.__heightToRelative ?? 0);
@@ -69,7 +73,10 @@ const BottomFixedOrRelativeBox = (props: IBottomFixedOrRelativeBox.Props) => {
   return (
     <>
       <div className="relative" ref={lastBottomElementRef}></div>
-      <div className={styles['container']} style={getStyles()}>
+      <div className={getClasses([
+        styles['container'],
+        styles[deviceType],
+      ])} style={getStyles()}>
         { props.children }
       </div>
     </>

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import ProfileInfoBox from "../../components/boxes/profile-info-box/profile-info-box.component";
 import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.component";
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
+import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -28,25 +29,27 @@ const LoginPage: NextPage = () => {
 const PageContents = () => {
   return (
     <>
-      <Topbar
-        __layoutTypeB={{
-          titleComponent: <>마이페이지</>,
-          rightComponent: <></>,
-        }} />
-      <ProfileInfoBox />
-      <MenuRowList
-        __menuItems={[
-          { menuNameComponent: <>나의 정보 수정</>, menuLink: '/mypage/myinfo-edit', },
-          { menuNameComponent: <>주문/배송 조회</>, menuLink: '/order/history', },
-          { menuNameComponent: <>관심상품</>, menuLink: '', },
-          { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
-          { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
-          { menuNameComponent: <>취소 반품 교환</>, menuLink: '', },
-          { menuNameComponent: <>고객센터</>, menuLink: '/customer-center', },
-          { menuNameComponent: <>설정</>, menuLink: '/setting', },
-        ]} />
-      <BottomMenuBar
-        __activeMenuId="my-page" />
+      <WindowSizeContainer __bgColor="#fff">
+        <Topbar
+          __layoutTypeB={{
+            titleComponent: <>마이페이지</>,
+            rightComponent: <></>,
+          }} />
+        <ProfileInfoBox />
+        <MenuRowList
+          __menuItems={[
+            { menuNameComponent: <>나의 정보 수정</>, menuLink: '/mypage/myinfo-edit', },
+            { menuNameComponent: <>주문/배송 조회</>, menuLink: '/order/history', },
+            { menuNameComponent: <>관심상품</>, menuLink: '', },
+            { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
+            { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
+            { menuNameComponent: <>취소 반품 교환</>, menuLink: '', },
+            { menuNameComponent: <>고객센터</>, menuLink: '/customer-center', },
+            { menuNameComponent: <>설정</>, menuLink: '/setting', },
+          ]} />
+        <BottomMenuBar
+          __activeMenuId="my-page" />
+      </WindowSizeContainer>
     </>
   );
 };

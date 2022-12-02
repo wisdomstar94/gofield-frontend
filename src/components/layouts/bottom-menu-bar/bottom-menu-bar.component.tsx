@@ -8,10 +8,13 @@ import SvgBottomMenuOldProductIcon from '../../svgs/svg-bottom-menu-old-product-
 import { IBottomMenuBar } from './bottom-menu-bar.interface';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { deviceTypeAtom } from '../../../atoms/device-type.atom';
 
 const BottomMenuBar = (props: IBottomMenuBar.Props) => {
   const router = useRouter();
 
+  const [deviceType, setDeviceType] = useRecoilState(deviceTypeAtom);
   const [activeMenuId, setActiveMenuId] = useState<IBottomMenuBar.MenuId | undefined>();
   const [menuItems, setMenuItems] = useState<IBottomMenuBar.MenuItem[]>([
     {
@@ -56,7 +59,10 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
 
   return (
     <>
-      <div className={styles['container']} style={props.__style}>
+      <div className={getClasses([
+        styles['container'],
+        styles[deviceType],
+      ])} style={props.__style}>
         <ul className={styles['menu-list']}>
           {
             menuItems.map((item, index) => {

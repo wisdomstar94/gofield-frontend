@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { deviceTypeAtom } from "../../../atoms/device-type.atom";
+import { getClasses } from "../../../librarys/string-util/string-util.library";
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import styles from "./buy-button.component.module.scss";
 import { IBuyButton } from "./buy-button.interface";
 
 const BuyButton = (props: IBuyButton.Props) => {
+  const [deviceType, setDeviceType] = useRecoilState(deviceTypeAtom);
+
   const [isHeart, setIsHeart] = useState(props.__isHeart);
   useEffect(() => { setIsHeart(props.__isHeart); }, [props.__isHeart]);
 
@@ -22,7 +27,10 @@ const BuyButton = (props: IBuyButton.Props) => {
 
   return (
     <>
-      <div className={styles['container']}>
+      <div className={getClasses([
+        styles['container'],
+        styles[deviceType],
+      ])}>
         <div className={styles['heart-area']} onClick={heartClick}>
           {
             isHeart === true ? 

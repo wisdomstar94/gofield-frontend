@@ -10,6 +10,7 @@ import { IProfileFormBox } from "../../../../components/boxes/profile-form-box/p
 import Button from "../../../../components/forms/button/button.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
+import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -41,19 +42,21 @@ const PageContents = () => {
 
   return (
     <>
-      <Topbar
-        __layoutTypeB={{
-          titleComponent: <>휴대폰 번호 변경</>,
-          rightComponent: <></>,
-        }} />
-      <PhoneNumberFormBox ref={formBoxComponentRef} />
-      <BottomFixedOrRelativeBox __heightToRelative={100}>
-        <Article>
-          <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
-            인증완료
-          </Button>
-        </Article>
-      </BottomFixedOrRelativeBox>
+      <WindowSizeContainer __bgColor="#fff">
+        <Topbar
+          __layoutTypeB={{
+            titleComponent: <>휴대폰 번호 변경</>,
+            rightComponent: <></>,
+          }} />
+        <PhoneNumberFormBox ref={formBoxComponentRef} />
+        <BottomFixedOrRelativeBox __heightToRelative={100}>
+          <Article>
+            <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
+              인증완료
+            </Button>
+          </Article>
+        </BottomFixedOrRelativeBox>
+      </WindowSizeContainer>
     </>
   );
 };

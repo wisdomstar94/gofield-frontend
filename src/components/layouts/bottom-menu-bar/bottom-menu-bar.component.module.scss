@@ -3,12 +3,23 @@
   display: flex;
   flex-wrap: wrap;
   position: fixed;
+  // position: absolute;
   bottom: 0;
   left: 0;
   z-index: 6;
   background-color: #fff;
   border-top: 1px solid #dfebf7;
   
+  &.pc {
+    width: calc((100vh * 0.56) - 2px);
+    // height: 100%;
+    left: calc((100% - (100vh * 0.56) + 2px) / 2);
+  }
+
+  &.mobile {
+    margin: 0;
+  }
+
   ul.menu-list {
     width: 100%;
     display: inline-flex;

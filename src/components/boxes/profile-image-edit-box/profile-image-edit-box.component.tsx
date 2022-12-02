@@ -29,7 +29,7 @@ const ProfileImageEditBox = (props: IProfileImageEditBox.Props) => {
         <div className={styles['profile-image-box']}>
           <div className={styles['image-box']}>
             { 
-              imageUrl !== undefined ? 
+              imageUrl !== undefined && imageUrl !== null ? 
               <Image
                 src={imageUrl}
                 alt="프로필 이미지"

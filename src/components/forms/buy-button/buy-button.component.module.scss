@@ -6,6 +6,16 @@
   position: relative;
   box-sizing: border-box;
 
+  &.pc {
+    width: calc((100vh * 0.56) - 2px);
+    // height: 100%;
+    left: calc((100% - (100vh * 0.56) + 2px) / 2);
+  }
+
+  &.mobile {
+    margin: 0;
+  }
+
   .heart-area {
     width: 50px;
     height: 100%;
