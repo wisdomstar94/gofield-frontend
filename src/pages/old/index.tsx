@@ -113,10 +113,14 @@ const PageContents = () => {
                 return (
                   <ProductGroupColumnItem
                     key={item.itemNumber}
+                    __itemId={item.id}
+                    __isHeart={item.likeId !== null}
                     __imageUrl={item.thumbnail}
                     __onClick={() => ProductColumnItemClick(item)}
                     __brandNameComponent={<>{ item.brandName }</>}
-                    __productNameComponent={<>{ item.name }</>} /> 
+                    __productNameComponent={<>{ item.name }</>}
+                    __isHeartLayout={true}
+                    __price={item.price} /> 
                 );
               })
             }

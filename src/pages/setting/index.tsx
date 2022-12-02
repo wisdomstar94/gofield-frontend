@@ -1,5 +1,6 @@
 import Head from "next/head";
-import React, { useCallback } from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useRef } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.component";
 import PreparingBox from "../../components/boxes/preparing-box/preparing-box.component";
@@ -8,6 +9,9 @@ import SwitchToggleButton from "../../components/forms/switch-toggle-button/swit
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import useUserLogoutApi from "../../hooks/use-apis/use-user-logout.api";
+import useModalConfirm from "../../hooks/use-modals/use-modal-confirm.modal";
+import useUser from "../../hooks/use-user-hook/use-user.hook";
 
 const ProductNewPage = () => {
   return (
@@ -26,6 +30,12 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+  const modalConfirm = useModalConfirm();
+  const userLogoutApi = useUserLogoutApi();
+  const user = useUser();
+  const isLogoutingRef = useRef(false);
+
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -58,7 +68,23 @@ const PageContents = () => {
               menuNameComponent: <>로그아웃</>,
               menuLink: '',
               menuClickCallback: () => {
+                if (isLogoutingRef.current) {
+                  return;
+                }
 
+                modalConfirm.show({
+                  title: '안내',
+                  content: '정말 로그아웃하시겠습니끼?',
+                  positiveCallback(hide, modalItem) {
+                    isLogoutingRef.current = true;
+                    userLogoutApi.getInstance().finally(() => {
+                      isLogoutingRef.current = false;
+                      user.removeAll();
+                      hide(modalItem);
+                      router.push('/');
+                    });
+                  },
+                });
               },
             },
             {

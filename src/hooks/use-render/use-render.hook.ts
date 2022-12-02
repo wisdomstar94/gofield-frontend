@@ -10,6 +10,7 @@ const useRender = () => {
 
   return {
     render,
+    value,
   };
 };
 

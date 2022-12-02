@@ -1,5 +1,7 @@
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useItemBundleProductReviewListApi from "../../../hooks/use-apis/use-item-bundle-product-review-list.api";
+import useRender from "../../../hooks/use-render/use-render.hook";
 import { IItem } from "../../../interfaces/item/item.interface";
 import Button from "../../forms/button/button.component";
 import List, { ListItem } from "../../layouts/list/list.component";
@@ -10,36 +12,46 @@ import styles from "./review-box.component.module.scss";
 import { IReviewBox } from "./review-box.interface";
 
 const ReviewBox = (props: IReviewBox.Props) => {
+  const router = useRouter();
+  const render = useRender();
   const [productGroupId, setProductGroupId] = useState(props.__productGroupId);
   useEffect(() => { setProductGroupId(props.__productGroupId); }, [props.__productGroupId]);
 
   const itemBundleProductReviewListApi = useItemBundleProductReviewListApi();
 
+  const searchOptionsRef = useRef({
+    page: '1',
+    size: '20',
+  });
   const isGettingListRef = useRef(false);
   const isNoneMoreDataRef = useRef(false);
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(20);
+  // const [page, setPage] = useState(1);
+  // const [size, setSize] = useState(20);
   const [list, setList] = useState<IItem.ReviewItem[]>([]);
 
   useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
     getList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, productGroupId]);
+  }, [router.isReady, productGroupId]);
 
   const getList = useCallback(() => {
     if (isGettingListRef.current || isNoneMoreDataRef.current) return;
-    if (page === 0) return;
-    if (size === 0) return;
     if (productGroupId === undefined) return;
 
     isGettingListRef.current = true;
     itemBundleProductReviewListApi.getInstance(productGroupId?.toString()).then((response) => {
       if (response.data.data.length === 0) {
+        console.log('!!@@@@')
         isNoneMoreDataRef.current = true;
+        render.render();
         return;
       }
 
-      if (response.data.data.length < size) {
+      if (response.data.data.length < Number(searchOptionsRef.current.size)) {
         isNoneMoreDataRef.current = true;
       }
 
@@ -47,12 +59,14 @@ const ReviewBox = (props: IReviewBox.Props) => {
     }).finally(() => {
       isGettingListRef.current = false;
     });
-  }, [itemBundleProductReviewListApi, list, page, productGroupId, size]);
+  }, [itemBundleProductReviewListApi, list, productGroupId, render]);
 
   const moreViewButtonClick = useCallback(() => {
     if (isGettingListRef.current || isNoneMoreDataRef.current) return;
-    setPage(page + 1);
-  }, [page]);
+    searchOptionsRef.current.page = (Number(searchOptionsRef.current.page) + 1).toString();
+    // setPage(page + 1);
+    getList();
+  }, [getList]);
 
   return (
     <>

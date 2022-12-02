@@ -67,7 +67,7 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
         <div className={styles['review-title']}>
           상품은 만족하셨나요?
         </div>
-        <ReviewRatingStars />
+        <ReviewRatingStars __isAllowScoreControl={true} />
       </Article>
       <Article>
         <FormListBox

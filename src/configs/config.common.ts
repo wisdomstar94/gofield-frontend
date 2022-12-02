@@ -98,7 +98,10 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
         other: {
           _: baseUrl + `/api/item/${apiVersion}/other`,
-        },  
+        },
+        like: {
+          _: baseUrl + `/api/item/${apiVersion}/like`,
+        },
       },
 
       third: {

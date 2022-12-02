@@ -1,12 +1,16 @@
 import styles from './product-group-column-item.component.module.scss';
 import { IProductGroupColumnItem } from "./product-group-column-item.interface";
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import useItemLikeApi from '../../../hooks/use-apis/use-item-like.api';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
+  const [itemId, setItemId] = useState(props.__itemId);
+  useEffect(() => { setItemId(props.__itemId) }, [props.__itemId]);
+
   const [imageUrl, setImageUrl] = useState(props.__imageUrl);
   useEffect(() => { setImageUrl(props.__imageUrl) }, [props.__imageUrl]);
 
@@ -37,6 +41,8 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const [reviewStarPoint, setReviewStarPoint] = useState(props.__reviewStarPoint);
   useEffect(() => { setReviewStarPoint(props.__reviewStarPoint) }, [props.__reviewStarPoint]);
 
+  const isHeartingRef = useRef(false);
+  const itemLikeApi = useItemLikeApi();
   // const [isShowNewOrOldPrice, setIsShowNewOrOldPrice] = useState(props.__isShowNewOrOldPrice);
   // useEffect(() => { setIsShowNewOrOldPrice(props.__isShowNewOrOldPrice) }, [props.__isShowNewOrOldPrice]);  
 
@@ -52,27 +58,49 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
     }
   }, [props]);
 
+  const heartIconClick = useCallback(() => {
+    if (itemId === undefined) {
+      return;
+    }
+    
+    if (isHeartingRef.current) {
+      return;
+    }
+
+    isHeartingRef.current = true;
+    itemLikeApi.getInstance(itemId, !isHeart).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      setIsHeart(!isHeart);
+    }).finally(() => {
+      isHeartingRef.current = false;
+    });
+  }, [isHeart, itemId, itemLikeApi]);
+
   return (
     <>
-      <div className={styles['container']} style={props.__style} onClick={itemClick}>
+      <div className={styles['container']} style={props.__style}>
         <div className={styles['image-area']}>
           <Image
+            onClick={itemClick}
             src={imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
             alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="contain" />
           {
             isHeartLayout === true ? 
-            <div className={styles['icon-area']}>
+            <div className={styles['icon-area']} onClick={heartIconClick}>
               { isHeart === true ? <SvgHeartOnIcon /> : <SvgHeartOffIcon /> }
             </div> : <></>
           }
         </div>
-        <div className={styles['brand-name-area']}>
+        <div className={styles['brand-name-area']} onClick={itemClick}>
           { brandNameComponent }
         </div>
-        <div className={styles['product-name-area']}>
+        <div className={styles['product-name-area']} onClick={itemClick}>
           { productNameComponent }
         </div>
-        <div className={styles['info-area']}>
+        <div className={styles['info-area']} onClick={itemClick}>
           <div className={styles['info-area-type-a']}>
             {
               newProductPrice !== undefined && oldProductPrice !== undefined ?

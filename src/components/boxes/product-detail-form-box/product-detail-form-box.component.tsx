@@ -30,6 +30,7 @@ import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import { goToScroll } from "../../../librarys/client-util/client-util.library";
 import useItemProductOtherListApi from "../../../hooks/use-apis/use-item-product-other-list.api";
 import useRender from "../../../hooks/use-render/use-render.hook";
+import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,9 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
   const itemProductOtherListApi = useItemProductOtherListApi();
   const render = useRender();
+  const itemLikeApi = useItemLikeApi();
+  
+  const isHeartingRef = useRef(false);
 
   const isGettingListRef = useRef(false);
   const isNoneMoreDataRef = useRef(false);
@@ -72,29 +76,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       return;
     }
 
-    const itemNumber = router.query._itemNumber?.toString();
-    if (itemNumber === undefined) {
-      return;
-    }
-
-    if (isGettingListRef.current) {
-      return;
-    }
-
-    isGettingListRef.current = true;
-    itemProductDetailApi.getInstance(itemNumber).then((response) => {
-      if (response.data.status !== true) {
-        modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
-        return;
-      }
-
-      setDetailInfo(response.data.data);
-      return response.data.data;
-    }).then((value) => {
-      getProductOtherList(value);
-    }).finally(() => {
-      isGettingListRef.current = false;
-    });
+    getDetailInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
@@ -124,6 +106,32 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       render.render();
     });
   }, [itemProductOtherListApi, render]);
+
+  const getDetailInfo = useCallback(() => {
+    const itemNumber = router.query._itemNumber?.toString();
+    if (itemNumber === undefined) {
+      return;
+    }
+
+    if (isGettingListRef.current) {
+      return;
+    }
+
+    isGettingListRef.current = true;
+    itemProductDetailApi.getInstance(itemNumber).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
+        return;
+      }
+
+      setDetailInfo(response.data.data);
+      return response.data.data;
+    }).then((value) => {
+      getProductOtherList(value);
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [getProductOtherList, itemProductDetailApi, modalAlert, router.query._itemNumber]);
 
   const shareButtonClick = useCallback(() => {
 
@@ -168,6 +176,30 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
     itemProductOtherListApiSearchOptionsRef.current.page = (Number(itemProductOtherListApiSearchOptionsRef.current.page) + 1).toString();
     getProductOtherList(detailInfo);
   }, [detailInfo, getProductOtherList]);
+
+  const onHeartButtonClick = useCallback(() => {
+    if (typeof detailInfo?.id !== 'number') {
+      return;
+    }
+
+    if (isHeartingRef.current) {
+      return;
+    }
+
+    const currentIsHeart = detailInfo.likeId !== null;
+
+    isHeartingRef.current = true;
+    itemLikeApi.getInstance(detailInfo.id, !currentIsHeart).then((response) => {
+      if (response.data.status !== true) {
+        // ...
+        return;
+      }
+
+      getDetailInfo();
+    }).finally(() => {
+      isHeartingRef.current = false;
+    });
+  }, [detailInfo?.id, detailInfo?.likeId, getDetailInfo, itemLikeApi]);
 
   return (
     <>
@@ -271,7 +303,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
        }}>
         상품문의
       </MenuRowItem>
-      <MenuRowItem __onClick={() => { /* ... */ }}>
+      <MenuRowItem __onClick={() => { router.push('/delivery-exchange-return-notice') }}>
         배송/교환/반품 안내
       </MenuRowItem>
       <Article __style={{ paddingBottom: '0' }}>
@@ -314,7 +346,9 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </Article>
       <EmptyRow __style={{ height: '56px' }} />
       <BottomFixedBox>
-        <span className="w-full inline-flex" onClick={buyButtonClick}><BuyButton /></span>
+        <span className="w-full inline-flex">
+          <BuyButton __onBuyButtonClick={buyButtonClick} __isHeart={detailInfo?.likeId !== null} __onHeartButtonClick={onHeartButtonClick} />
+        </span>
       </BottomFixedBox>
       <ModalBottomProductOptions 
         ref={modalBottomProductOptionsRef} 

@@ -84,27 +84,18 @@ const NewOrOldProductListBox = (props: INewOrOldProductListBox.Props) => {
             }
           }).map((item, index) => {
             return (
-              <>
-                <ProductRowItem2 
-                  key={item.itemNumber} 
-                  __imageUrl={item.thumbnail}
-                  __brandName={item.brandName}
-                  __productName={item.name}
-                  __price={item.price}
-                  __tags={item.tags}
-                  __style={{ marginBottom: '18px' }} 
-                  __onClick={() => productRowItemClick(item)} />    
-              </>
+              <ProductRowItem2 
+                key={item.itemNumber} 
+                __imageUrl={item.thumbnail}
+                __brandName={item.brandName}
+                __productName={item.name}
+                __price={item.price}
+                __tags={item.tags}
+                __style={{ marginBottom: '18px' }} 
+                __onClick={() => productRowItemClick(item)} />    
             );
           })
         }
-        {/* {
-          Array.from({ length: 5 }).map((item, index) => {
-            return (
-              <ProductRowItem2 key={index} __style={{ marginBottom: '18px' }} __onClick={productRowItemClick} />  
-            );
-          })
-        } */}
         {/* <Button __buttonStyle="gray-stroke">더보기</Button> */}
       </Article>
     </>

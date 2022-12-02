@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 
 export declare namespace IProductGroupColumnItem {
   export interface Props {
+    __itemId?: number;
     __imageUrl?: string;
     __isHeart?: boolean;
     __isHeartLayout?: boolean;
