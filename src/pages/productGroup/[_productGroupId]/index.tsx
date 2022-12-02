@@ -79,6 +79,7 @@ const PageContents = () => {
                 <div style={{ width: '100%', height: '100%' }} key={index}>
                   <Image
                     src={item}
+                    draggable={false}
                     alt="상품 이미지"
                     title="상품 이미지"
                     layout="fill"
