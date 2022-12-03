@@ -18,7 +18,7 @@ const useOrderSheetCreateApi = () => {
       method: 'post',
       isAuth: true,
       data: {
-        items: params.items,
+        items: params.items, 
         isCart: params.isCart,
         totalDelivery: params.totalDelivery,
         totalPrice: params.totalPrice,

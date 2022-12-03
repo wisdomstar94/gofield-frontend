@@ -97,6 +97,10 @@ export const List = (props: IList.Props) => {
     <ul className={getListClasses()} style={getListStyles()}>
       {
         React.Children.map(props.children, function(_item) {
+          if (_item === undefined || _item === null) {
+            return;
+          }
+
           const item = _item as { props: IList.ItemProps };
           return (
             <li className={styles['item']} style={getListItemStyles(item.props)}>

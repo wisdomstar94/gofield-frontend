@@ -115,6 +115,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         sheet: {
           _: baseUrl + `/api/order/${apiVersion}/sheet`,
         },
+        payment: {
+          _: baseUrl + `/api/order/${apiVersion}/payment`,
+        },
       },
 
       third: {

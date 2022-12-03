@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
@@ -10,6 +11,25 @@ import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const router = useRouter();
+
+  const [imageUrl, setimageUrl] = useState(props.__imageUrl);
+  useEffect(() => { setimageUrl(props.__imageUrl); }, [props.__imageUrl]);
+
+  const [productName, setProductName] = useState(props.__productName);
+  useEffect(() => { setProductName(props.__productName); }, [props.__productName]);
+
+  const [price, setPrice] = useState(props.__price);
+  useEffect(() => { setPrice(props.__price); }, [props.__price]);
+
+  const [deliveryPrice, setDeliveryPrice] = useState(props.__deliveryPrice);
+  useEffect(() => { setDeliveryPrice(props.__deliveryPrice); }, [props.__deliveryPrice]);
+
+  const [optionNames, setoptionNames] = useState(props.__optionNames);
+  useEffect(() => { setoptionNames(props.__optionNames); }, [props.__optionNames]);
+
+  const [qty, setQty] = useState(props.__qty);
+  useEffect(() => { setQty(props.__qty); }, [props.__qty]);
+
 
   const [buttonLayoutType, setButtonLayoutType] = useState<IProductRowItem3.ButtonLayoutType>(props.__buttonLayoutType ?? 'exchange-refund-review');
   useEffect(() => { setButtonLayoutType(props.__buttonLayoutType ?? 'exchange-refund-review') }, [props.__buttonLayoutType]);
@@ -49,13 +69,17 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
           __leftComponent={<>
             <div className={styles['product-image-box']}>
               <div className="next-image-wrapper">
-                <Image
-                  src={"https://cdn.pixabay.com/photo/2018/06/12/19/59/football-3471371__480.jpg"}
-                  alt="상품 썸네일 이미지"
-                  title="상품 썸네일 이미지"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="top" />
+                {
+                  typeof imageUrl === 'string' ? 
+                  <Image
+                    src={imageUrl}
+                    alt="상품 썸네일 이미지"
+                    title="상품 썸네일 이미지"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="top" /> : 
+                  <></>
+                }
               </div>
             </div>
           </>}
@@ -63,16 +87,23 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
           __rightComponent={<>
             <List __width="100%" __direction="vertical" __defaultItemMarginBottom="4px">
               <ListItem>
-                <div className="text-sm text-black-a font-normal tracking-tighter break-keep">페르마 플러스 드라이버 헤드 (9.5도 단품)</div>
+                <div className="text-sm text-black-a font-normal tracking-tighter break-keep">{ productName }</div>
               </ListItem>
               <ListItem>
-                <div className="text-sm text-black-a font-bold tracking-tight">560,000원</div>
+                <div className="text-sm text-black-a font-bold tracking-tight">{ getAddCommaNumberString({ numberValue: price }) }원</div>
               </ListItem>
-              <ListItem>
-                <div className="text-xs text-black-a tracking-tight">옵션 : {'Black'}</div>
+              {
+                Array.isArray(optionNames) && optionNames.length > 0 ? 
+                <ListItem>
+                  <div className="text-xs text-black-a tracking-tight">옵션 : { optionNames?.join(', ') }</div>
+                </ListItem>
+                : undefined
+              }
+              <ListItem __marginBottom="0">
+                <div className="text-xs text-black-a tracking-tight">수량 : { qty }</div>
               </ListItem>
               <ListItem __marginBottom="0">
-                <div className="text-xs text-black-a tracking-tight">수량 : 1</div>
+                <div className="text-xs text-black-a tracking-tight">배송료 : { getAddCommaNumberString({ numberValue: deliveryPrice }) }원</div>
               </ListItem>
             </List>
           </>} />

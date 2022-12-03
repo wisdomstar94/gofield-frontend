@@ -6,6 +6,14 @@ export declare namespace IProductRowItem3 {
   export interface Props {
     __isTopRowShow?: boolean;
     __buttonLayoutType?: ButtonLayoutType;
+
+    __imageUrl?: string;
+    __productName?: string;
+    __price?: number;
+    __deliveryPrice?: number;
+    __optionNames?: string[];
+    __qty?: number;
+
     children?: React.ReactNode;
   }
 }

@@ -81,8 +81,9 @@ const ModalAddressBook = forwardRef((props: IModalAddressBook.Props, ref: Forwar
   const onSelectButtonClick = useCallback((item: IAddress.AddressItem) => {
     if (typeof props.__onSelected === 'function') {
       props.__onSelected(item);
+      hide();
     }
-  }, [props]);
+  }, [hide, props]);
 
   return (
     <>

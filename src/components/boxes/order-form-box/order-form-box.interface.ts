@@ -1,25 +1,13 @@
 import React from "react";
+import { IOrder } from "../../../interfaces/order/order.interface";
 
 export declare namespace IOrderFormBox {
-  export type PaymentMethod = 'card' | 'deposit-without-bankbook' | 'bank-transfer';
-
   export interface ProductItem {
 
   }
 
-  export interface DetailInfo {
-    getterName?: string;
-    cp?: string;
-    postNumber?: string;
-    addrBasic?: string;
-    addrDetail?: string;
-    requestMessage?: string;
-    paymentMethod?: PaymentMethod;
-    productItems?: ProductItem;
-  }
-
   export interface Props {
-    __detailInfo?: DetailInfo;
+    __detailInfo?: IOrder.OrderFormDetailInfo;
     children?: React.ReactNode;
   }
 }
