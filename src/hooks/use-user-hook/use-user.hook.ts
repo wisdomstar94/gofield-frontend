@@ -1,5 +1,5 @@
 import { ILogin } from "../../interfaces/login/login.interface";
-import { getJwtPayload } from "../../librarys/jwt-util/jwt-util.library";
+import { getJwtPayload, getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
 
 const useUser = () => {
   // const axios = useAxios();
@@ -11,6 +11,25 @@ const useUser = () => {
     removeRefreshToken();
   }
   
+
+
+  function isLogined() {
+    const accessToken = getAccessToken();
+    
+    if (accessToken === null) {
+      return false;
+    }
+    
+    if (accessToken.trim() === '') {
+      return false;
+    }
+
+    if (getJwtStatus(accessToken) === 'not-jwt-structure') {
+      return false;
+    }
+
+    return true;
+  }
 
 
 
@@ -60,6 +79,7 @@ const useUser = () => {
     removeRefreshToken,
     removeAll,
     getAccessTokenPayload,
+    isLogined,
   };
 };
 

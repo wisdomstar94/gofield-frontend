@@ -38,6 +38,10 @@ function isValid(jsonString: any) {
 
 const useRecentKeyword = () => {
   const getKeywords = useCallback((): ISearch.KeywordItem[] => {
+    if (typeof localStorage === 'undefined') {
+      return [];
+    }
+
     const keywordsString = localStorage.getItem(key);
     if (isValid(keywordsString)) {
       return JSON.parse(keywordsString!);
@@ -46,6 +50,10 @@ const useRecentKeyword = () => {
   }, []);
 
   const addKeyword = useCallback((keyword: string) => {
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
     const keywords = getKeywords();
     if (keywords.length > 20) {
       keywords.shift();

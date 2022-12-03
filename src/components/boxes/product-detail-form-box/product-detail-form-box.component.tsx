@@ -31,6 +31,7 @@ import { goToScroll } from "../../../librarys/client-util/client-util.library";
 import useItemProductOtherListApi from "../../../hooks/use-apis/use-item-product-other-list.api";
 import useRender from "../../../hooks/use-render/use-render.hook";
 import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
+import useUser from "../../../hooks/use-user-hook/use-user.hook";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -46,6 +47,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const itemProductOtherListApi = useItemProductOtherListApi();
   const render = useRender();
   const itemLikeApi = useItemLikeApi();
+  const user = useUser();
   
   const isHeartingRef = useRef(false);
 

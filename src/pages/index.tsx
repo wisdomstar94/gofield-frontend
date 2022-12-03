@@ -30,26 +30,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AccessTokenCheck __checkTarget="signup-complete-user">
-        <PageContents />
-      </AccessTokenCheck>
+      {/* <AccessTokenCheck __checkTarget="signup-complete-user"> */}
+      <PageContents />
+      {/* </AccessTokenCheck> */}
     </>
   )
 };
 
 const PageContents = () => {
   const router = useRouter();
-  const [popularityProductList, setPopularityProductList] = useState([1, 2, 3, 4, 5]);
-  const [recommendProductList, setRecommendProductList] = useState([1, 2, 3, 4, 5]);
-  const [recentOldProductList, setRecentOldProductList] = useState([1, 2, 3, 4, 5]);
 
   const mainItemListQuery = useMainItemListQuery();
-  // const mainBannerList = useMainBannerList();
-  // useEffect(() => {
-  //   mainBannerList.getInstance().then(() => {
-
-  //   });
-  // }, []);
 
   return (
     <>

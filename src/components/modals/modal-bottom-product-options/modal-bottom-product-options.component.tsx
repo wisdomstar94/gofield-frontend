@@ -16,6 +16,7 @@ import useCartContainApi from "../../../hooks/use-apis/use-cart-contain.api";
 import useCartCountQuery from "../../../hooks/use-queries/use-cart-count.query";
 import useOrderSheetCreateApi from "../../../hooks/use-apis/use-order-sheet-create.api";
 import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
+import useUser from "../../../hooks/use-user-hook/use-user.hook";
 
 const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.Props, ref: ForwardedRef<IModalBottomProductOptions.RefObject>) => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   const itemProductOptionListApi = useItemProductOptionListApi();
   const cartContainApi = useCartContainApi();
   const orderSheetCreateApi = useOrderSheetCreateApi();
+  const user = useUser();
   
   const cartCountQuery = useCartCountQuery();
 
@@ -143,6 +145,11 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   }, [detailInfo?.itemNumber, isRequiredOptionSelected, modalAlert, optionGroupList.length, optionGroupSelectInfo]);
 
   const containBasketButtonClick = useCallback(() => {
+    if (!user.isLogined()) {
+      router.push('/login');
+      return;
+    }
+
     const targetItemNumber = getTargetItemNumber();
     if (targetItemNumber === '') {
       return;
@@ -162,7 +169,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {
       isCartContainingRef.current = false;
     });
-  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert]);
+  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert, router, user]);
 
   const getTotalPrice = useCallback(() => {
     if (detailInfo?.price === undefined) {
@@ -179,6 +186,11 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   }, [detailInfo?.price, optionGroupSelectInfo]);
 
   const nowPayButtonClick = useCallback(() => {
+    if (!user.isLogined()) {
+      router.push('/login');
+      return;
+    }
+
     if (isOrderSheetCreatingRef.current) {
       return;
     }
@@ -210,7 +222,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {  
       isOrderSheetCreatingRef.current = false;
     });
-  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, orderSheetCreateApi, productOrder, router]);
+  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, orderSheetCreateApi, productOrder, router, user]);
 
   return (
     <>

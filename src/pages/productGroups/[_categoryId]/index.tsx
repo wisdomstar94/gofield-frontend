@@ -29,9 +29,9 @@ const ProductGroupsPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AccessTokenCheck __checkTarget="signup-complete-user">
-        <PageContents />
-      </AccessTokenCheck>
+      {/* <AccessTokenCheck __checkTarget="signup-complete-user"> */}
+      <PageContents />
+      {/* </AccessTokenCheck> */}
     </>
   );
 };

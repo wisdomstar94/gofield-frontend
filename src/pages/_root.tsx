@@ -15,6 +15,8 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
 
   const modalDefaultComponentRef = useRef<IModalDefault.RefObject>(null);
 
+  const notShowErrorCode = useRef(new Set(['F4300']));
+
   useEffect(() => {
     if (axiosGloballError === null) {
       return;
@@ -23,6 +25,10 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
     const code = axiosGloballError.response?.data.error?.code;
     const message = axiosGloballError.response?.data.error?.message;
     
+    if (notShowErrorCode.current.has(code + '')) {
+      return;
+    }
+
     modalDefaultComponentRef.current?.show({
       titleStyleA: {
         component: code,

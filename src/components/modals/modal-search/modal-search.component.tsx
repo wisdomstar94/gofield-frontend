@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { ChangeEvent, ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import useSearchRecommendKeywordListApi from '../../../hooks/use-apis/use-search-recommend-keyword-list.api';
+import useRecentKeywordListQuery from '../../../hooks/use-queries/use-recent-keyword-list.query';
 import useSearchRecommendKeywordListQuery from '../../../hooks/use-queries/use-search-recommend-keyword-list.query';
 import useRecentKeyword from '../../../hooks/use-recent-keyword/use-recent-keyword.hook';
 import { ISearch } from '../../../interfaces/search/search.interface';
@@ -20,6 +21,7 @@ import { IModalSearch } from "./modal-search.interface";
 const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IModalSearch.RefObject>) => {
   const router = useRouter();
   const recentKeyword = useRecentKeyword();
+  const recentKeywordListQuery = useRecentKeywordListQuery();
   const modalRef = useRef<IModal.RefObject>(null);
   const [searchValue, setSearchValue] = useState(props.__searchValue ?? '');
   
@@ -86,11 +88,11 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
               </div>
               <div className={styles['hash-tag-row']}>
                 {
-                  recentKeyword.getKeywords().length === 0 ?
+                  recentKeywordListQuery.data?.length === 0 ?
                   <>
                     <span className="text-xs text-gray-b">최근 검색어가 없습니다.</span>
                   </> : 
-                  recentKeyword.getKeywords().map((item, index) => {
+                  recentKeywordListQuery.data?.map((item, index) => {
                     return <HashTagItem key={item.id} __onClick={() => hashTagItemClick(item)}>{ item.keyword }</HashTagItem>
                   })
                 }
