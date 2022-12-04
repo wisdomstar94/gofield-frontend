@@ -56,11 +56,11 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       return;
     }
 
-    if (typeof detailInfo?.id !== 'string') {
+    if (detailInfo?.id === undefined || detailInfo?.id === null) {
       return;
     }
 
-    itemProductOptionListApi.getInstance(detailInfo.id).then((response) => {
+    itemProductOptionListApi.getInstance(detailInfo.id + '').then((response) => {
       if (response.data.data.optionGroupList === null || response.data.data.optionList === null) {
         return;
       }
