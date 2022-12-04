@@ -180,6 +180,11 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   }, [detailInfo, getProductOtherList]);
 
   const onHeartButtonClick = useCallback(() => {
+    if (!user.isLogined()) {
+      router.push('/login');
+      return;
+    }
+
     if (typeof detailInfo?.id !== 'number') {
       return;
     }
@@ -201,7 +206,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
     }).finally(() => {
       isHeartingRef.current = false;
     });
-  }, [detailInfo?.id, detailInfo?.likeId, getDetailInfo, itemLikeApi]);
+  }, [detailInfo?.id, detailInfo?.likeId, getDetailInfo, itemLikeApi, router, user]);
 
   return (
     <>
