@@ -4,6 +4,8 @@ export declare namespace IOrder {
   export type PaymentMethod = 'card' | 'deposit-without-bankbook' | 'bank-transfer';
   export type Environment = 'LOCAL' | 'DEV' | 'PROD';
   export type PaymentType = 'CARD' | 'EASYPAY' | 'BANK';
+  export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
+  export type OptionType = 'SIMPLE' | 'COMBINATION';
 
   export interface OrderSheetItem {
     cartId?: number | null;
@@ -29,13 +31,22 @@ export declare namespace IOrder {
 
   export interface orderSheetListItem {
     brandName: string;
+    charge: number;
+    chargeType: ChargeType;
+    condition: number;
     deliveryPrice: number;
+    feeJeju: number;
+    feeJejuBesides: number;
     id: number;
+    isOption: boolean;
     itemNumber: string;
     name: string;
+    optionId: number;
     optionName: string[];
+    optionType: OptionType;
     price: number;
     qty: number;
+    sellerId: number;
     thumbnail: string;
   }
 
