@@ -1,19 +1,8 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
-import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
-import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
-import Article from "../../components/layouts/article/article.component";
-import BothSidebox from "../../components/layouts/both-side-box/both-side-box.component";
-import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
-import GridList from "../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
-import useItemListApi from "../../hooks/use-apis/use-item-list.api";
-import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
-import { IItem } from "../../interfaces/item/item.interface";
-import { getNextRouterQueryToUrlQueryString } from "../../librarys/string-util/string-util.library";
 
 const ProductNewPage = () => {
   return (
@@ -24,9 +13,9 @@ const ProductNewPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AccessTokenCheck __checkTarget="signup-complete-user">
-        <PageContents />
-      </AccessTokenCheck>
+      {/* <AccessTokenCheck __checkTarget="signup-complete-user"> */}
+      <PageContents />
+      {/* </AccessTokenCheck> */}
     </>
   );
 };

@@ -6,8 +6,13 @@ import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.compo
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import useItemLikeApi from '../../../hooks/use-apis/use-item-like.api';
+import useUser from '../../../hooks/use-user-hook/use-user.hook';
+import { useRouter } from 'next/router';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
+  const user = useUser();
+  const router = useRouter();
+
   const [itemId, setItemId] = useState(props.__itemId);
   useEffect(() => { setItemId(props.__itemId) }, [props.__itemId]);
 
@@ -59,6 +64,11 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   }, [props]);
 
   const heartIconClick = useCallback(() => {
+    if (!user.isLogined()) {
+      router.push('/login');
+      return;
+    }
+
     if (itemId === undefined) {
       return;
     }
@@ -77,7 +87,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
     }).finally(() => {
       isHeartingRef.current = false;
     });
-  }, [isHeart, itemId, itemLikeApi]);
+  }, [isHeart, itemId, itemLikeApi, router, user]);
 
   return (
     <>
