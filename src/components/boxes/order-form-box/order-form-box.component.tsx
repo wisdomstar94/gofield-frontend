@@ -24,6 +24,7 @@ import EmptyRow from "../../layouts/empty-row/empty-row.component";
 import List, { ListItem } from "../../layouts/list/list.component";
 import ModalAddressBook from "../../modals/modal-address-book/modal-address-book.component";
 import { IModalAddressBook } from "../../modals/modal-address-book/modal-address-book.interface";
+import CustomSuspense from "../custom-suspense/custom-suspense.component";
 import FormListBox from "../form-list-box/form-list-box.component";
 import ProductRowItem2 from "../product-row-item2/product-row-item2.component";
 import ProductRowItem3 from "../product-row-item3/product-row-item3.component";
@@ -47,6 +48,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
     });
   }, [props.__detailInfo]);
 
+  const [isContentShow, setIsContentShow] = useState(false);
   const [orderSheetInfo, setOrderSheetInfo] = useState<IOrder.OrderSheetInfo>();
 
   const codeShippingCommentListQuery = useCodeShippingCommentListQuery();
@@ -70,6 +72,8 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
       if (response.data.status !== true) {
         return;
       }
+
+      setIsContentShow(true);
 
       setOrderSheetInfo(response.data.data);
       if (response.data.data.shippingAddress !== null) {
@@ -266,173 +270,175 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
   }, [detailInfo, modalAlert, orderPaymentApi]);
 
   return (
-    <>
-      <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
-      <Article>
-        <div className={styles['big-title-row']}>
-          <BothSidebox
-            __style={{ alignItems: 'flex-start' }}
-            __leftComponent={<>배송정보</>}
-            __rightComponent={<>
-              <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '10px 16px' }} __onClick={addressBookButtonClick}>
-                주소록
-              </Button>
-            </>} />
-        </div>
-        <FormListBox
-          __formItems={[
-            {
-              titleComponent: <>수령인</>,
-              contentComponent: <><Input __type="text" __placeholder="이름을 입력해 주세요" __value={detailInfo.shippingAddress?.name ?? ''} __onChange={getterNameChange} /></>,
-            },
-            {
-              titleComponent: <>휴대폰번호</>,
-              contentComponent: <><Input __type="number" __placeholder="01000000000" __value={detailInfo.shippingAddress?.tel ?? ''} __onChange={cpChange} /></>,
-            },
-            {
-              titleComponent: <>우편번호</>,
-              contentComponent: <>
-                <BothSidebox
-                  __leftComponentStyle={{ width: 'calc(100% - 132px)' }}
-                  __leftComponent={<><Input __type="number" __disable={true} __placeholder="00000" __value={detailInfo.shippingAddress?.zipCode ?? ''} __onChange={postNumberChange} /></>}
-                  __rightComponentStyle={{ width: '132px' }}
-                  __rightComponent={<>
-                    <Button __style={{ width: 'calc(100% - 8px)', padding: '12px 14px' }} __buttonStyle="black-solid-radius" __onClick={postNumberSearchButtonClick}>
-                      우편번호 검색
-                    </Button>
-                  </>}/>
-              </>,
-            },
-            {
-              titleComponent: <>주소</>,
-              contentComponent: <>
-                <Input __type="text" __disable={true} __placeholder="기본 주소" __value={detailInfo.shippingAddress?.address ?? ''} __onChange={() => {  }} />
-                <EmptyRow __style={{ height: '10px' }} />
-                <Input __type="text" __placeholder="나머지 주소를 입력해주세요" __value={detailInfo.shippingAddress?.addressExtra ?? ''} __onChange={addrDetailChange} />
-                <EmptyRow __style={{ height: '10px' }} />
-                <SelectBox 
-                  __valueItems={codeShippingCommentListQuery.data} 
-                  __placeholder="배송 요청 사항을 선택해주세요."
-                  __onChange={(value) => {
-                    setDetailInfo(prev => ({
-                      ...prev,
-                      shippingAddress: {
-                        ...prev.shippingAddress,
-                        shippingCode: value,
-                      },
-                    }))
-                  }} />
-                <EmptyRow __style={{ height: '10px' }} />
-                {
-                  detailInfo.shippingAddress?.shippingCode === '00028' ? 
-                  <Input
-                    __type="text" 
-                    __placeholder="배송시 요청사항을 입력해주세요." 
-                    __value={detailInfo.shippingAddress?.shippingComment ?? ''} 
-                    __onChange={requestMessageChange} /> :
-                  <></>
-                }
-              </>,
-            },
-          ]} />
-      </Article>
-      <div className={styles['deco-line']}></div>
+    <CustomSuspense __isShow={isContentShow}>
+      <>
+        <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
+        <Article>
+          <div className={styles['big-title-row']}>
+            <BothSidebox
+              __style={{ alignItems: 'flex-start' }}
+              __leftComponent={<>배송정보</>}
+              __rightComponent={<>
+                <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '10px 16px' }} __onClick={addressBookButtonClick}>
+                  주소록
+                </Button>
+              </>} />
+          </div>
+          <FormListBox
+            __formItems={[
+              {
+                titleComponent: <>수령인</>,
+                contentComponent: <><Input __type="text" __placeholder="이름을 입력해 주세요" __value={detailInfo.shippingAddress?.name ?? ''} __onChange={getterNameChange} /></>,
+              },
+              {
+                titleComponent: <>휴대폰번호</>,
+                contentComponent: <><Input __type="number" __placeholder="01000000000" __value={detailInfo.shippingAddress?.tel ?? ''} __onChange={cpChange} /></>,
+              },
+              {
+                titleComponent: <>우편번호</>,
+                contentComponent: <>
+                  <BothSidebox
+                    __leftComponentStyle={{ width: 'calc(100% - 132px)' }}
+                    __leftComponent={<><Input __type="number" __disable={true} __placeholder="00000" __value={detailInfo.shippingAddress?.zipCode ?? ''} __onChange={postNumberChange} /></>}
+                    __rightComponentStyle={{ width: '132px' }}
+                    __rightComponent={<>
+                      <Button __style={{ width: 'calc(100% - 8px)', padding: '12px 14px' }} __buttonStyle="black-solid-radius" __onClick={postNumberSearchButtonClick}>
+                        우편번호 검색
+                      </Button>
+                    </>}/>
+                </>,
+              },
+              {
+                titleComponent: <>주소</>,
+                contentComponent: <>
+                  <Input __type="text" __disable={true} __placeholder="기본 주소" __value={detailInfo.shippingAddress?.address ?? ''} __onChange={() => {  }} />
+                  <EmptyRow __style={{ height: '10px' }} />
+                  <Input __type="text" __placeholder="나머지 주소를 입력해주세요" __value={detailInfo.shippingAddress?.addressExtra ?? ''} __onChange={addrDetailChange} />
+                  <EmptyRow __style={{ height: '10px' }} />
+                  <SelectBox 
+                    __valueItems={codeShippingCommentListQuery.data} 
+                    __placeholder="배송 요청 사항을 선택해주세요."
+                    __onChange={(value) => {
+                      setDetailInfo(prev => ({
+                        ...prev,
+                        shippingAddress: {
+                          ...prev.shippingAddress,
+                          shippingCode: value,
+                        },
+                      }))
+                    }} />
+                  <EmptyRow __style={{ height: '10px' }} />
+                  {
+                    detailInfo.shippingAddress?.shippingCode === '00028' ? 
+                    <Input
+                      __type="text" 
+                      __placeholder="배송시 요청사항을 입력해주세요." 
+                      __value={detailInfo.shippingAddress?.shippingComment ?? ''} 
+                      __onChange={requestMessageChange} /> :
+                    <></>
+                  }
+                </>,
+              },
+            ]} />
+        </Article>
+        <div className={styles['deco-line']}></div>
 
-      <Article __style={{ paddingBottom: '0' }}>
-        <div className={styles['big-title-row']}>
-          <BothSidebox
-            __style={{ alignItems: 'flex-start' }}
-            __leftComponent={<>주문상품 정보</>}
-            __rightComponent={<></>} />
-        </div>
-      </Article>
+        <Article __style={{ paddingBottom: '0' }}>
+          <div className={styles['big-title-row']}>
+            <BothSidebox
+              __style={{ alignItems: 'flex-start' }}
+              __leftComponent={<>주문상품 정보</>}
+              __rightComponent={<></>} />
+          </div>
+        </Article>
 
-      <div data-name="product-list-area" className="w-full block">
-        {
-          orderSheetInfo?.orderSheet.orderSheetList.map((item, index) => {
-            return (
-              <ProductRowItem3
-                key={index}  
-                __imageUrl={item.thumbnail}
-                __qty={item.qty}
-                __price={item.price * item.qty}
-                __optionNames={item.optionName}
-                __productName={item.name}
-                __buttonLayoutType="none"
-                __deliveryPrice={item.deliveryPrice}
-                __isTopRowShow={false} />
-            )
-          })
-        }
-      </div>
-
-      <div className={styles['deco-line']}></div>
-      <Article>
-        <div className={styles['big-title-row']}>
-          <BothSidebox
-            __style={{ alignItems: 'flex-start' }}
-            __leftComponent={<>결제 정보</>}
-            __rightComponent={<></>} />
-        </div>
-        <List __width="100%" __direction="vertical" __defaultItemMarginBottom="14px">
+        <div data-name="product-list-area" className="w-full block">
           {
-            codePaymentMethodListQuery.data?.map((item, index) => {
+            orderSheetInfo?.orderSheet.orderSheetList.map((item, index) => {
               return (
-                <ListItem key={index}>
-                  <Checkbox 
-                    __name="pay-method" 
-                    __value={item.value} 
-                    __checkState={detailInfo.paymentType === item.value ? 'checked' : 'none-checked'} 
-                    __onChange={payMethodChange}>{ item.text }</Checkbox>
-                </ListItem>      
-              );
+                <ProductRowItem3
+                  key={index}  
+                  __imageUrl={item.thumbnail}
+                  __qty={item.qty}
+                  __price={item.price * item.qty}
+                  __optionNames={item.optionName}
+                  __productName={item.name}
+                  __buttonLayoutType="none"
+                  __deliveryPrice={item.deliveryPrice}
+                  __isTopRowShow={false} />
+              )
             })
           }
-        </List>
-        <div className="w-full relative">
-          {
-            detailInfo.paymentType === 'CARD' ? 
-            <SelectBox
-              __valueItems={codePaymentCardListQuery.data}
-              __placeholder="결제 은행사를 선택해주세요."
-              __value={detailInfo.companyCode}
-              __onChange={companyCodeChange} /> : undefined
-          }
-          {
-            detailInfo.paymentType === 'EASYPAY' ? 
-            <SelectBox
-              __valueItems={codePaymentEasypayListQuery.data}
-              __placeholder="간편 결제 종류를 선택해주세요."
-              __value={detailInfo.companyCode}
-              __onChange={companyCodeChange} /> : undefined
-          }
         </div>
-      </Article>
-      <div className={styles['deco-line']}></div>
-      <Article>
-        <div className={styles['big-title-row']}>
-          <BothSidebox
-            __style={{ alignItems: 'flex-start' }}
-            __leftComponent={<>최종 결제 금액</>}
-            __rightComponent={<></>} />
-        </div>
-        <BothSidebox
-          __leftComponent={<><div className={styles['price-info-title-text']}>총 상품 금액</div></>}
-          __rightComponent={<><div className={styles['price-info-content-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPrice }) }원</div></>} />
-        <EmptyRow __style={{ height: '8px' }} />
-        <BothSidebox
-          __leftComponent={<><div className={styles['price-info-title-text']}>총 배송료</div></>}
-          __rightComponent={<><div className={styles['price-info-content-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalDelivery }) }원</div></>} />
-        <EmptyRow __style={{ height: '16px' }} />
+
         <div className={styles['deco-line']}></div>
-        <EmptyRow __style={{ height: '16px' }} />
-        <BothSidebox
-          __leftComponent={<><div className={styles['price-info-title-text-big']}>총 결제 금액</div></>}
-          __rightComponent={<><div className={styles['price-info-content-text-big']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().total }) }원</div></>} />
-      </Article>
-      <Button __buttonStyle="black-solid" __onClick={submitButtonClick}>결제하기</Button>
-      <ModalAddressBook ref={modalAddressBookRef} __onSelected={onAddressSelected} />
-    </>
+        <Article>
+          <div className={styles['big-title-row']}>
+            <BothSidebox
+              __style={{ alignItems: 'flex-start' }}
+              __leftComponent={<>결제 정보</>}
+              __rightComponent={<></>} />
+          </div>
+          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="14px">
+            {
+              codePaymentMethodListQuery.data?.map((item, index) => {
+                return (
+                  <ListItem key={index}>
+                    <Checkbox 
+                      __name="pay-method" 
+                      __value={item.value} 
+                      __checkState={detailInfo.paymentType === item.value ? 'checked' : 'none-checked'} 
+                      __onChange={payMethodChange}>{ item.text }</Checkbox>
+                  </ListItem>      
+                );
+              })
+            }
+          </List>
+          <div className="w-full relative">
+            {
+              detailInfo.paymentType === 'CARD' ? 
+              <SelectBox
+                __valueItems={codePaymentCardListQuery.data}
+                __placeholder="결제 은행사를 선택해주세요."
+                __value={detailInfo.companyCode}
+                __onChange={companyCodeChange} /> : undefined
+            }
+            {
+              detailInfo.paymentType === 'EASYPAY' ? 
+              <SelectBox
+                __valueItems={codePaymentEasypayListQuery.data}
+                __placeholder="간편 결제 종류를 선택해주세요."
+                __value={detailInfo.companyCode}
+                __onChange={companyCodeChange} /> : undefined
+            }
+          </div>
+        </Article>
+        <div className={styles['deco-line']}></div>
+        <Article>
+          <div className={styles['big-title-row']}>
+            <BothSidebox
+              __style={{ alignItems: 'flex-start' }}
+              __leftComponent={<>최종 결제 금액</>}
+              __rightComponent={<></>} />
+          </div>
+          <BothSidebox
+            __leftComponent={<><div className={styles['price-info-title-text']}>총 상품 금액</div></>}
+            __rightComponent={<><div className={styles['price-info-content-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPrice }) }원</div></>} />
+          <EmptyRow __style={{ height: '8px' }} />
+          <BothSidebox
+            __leftComponent={<><div className={styles['price-info-title-text']}>총 배송료</div></>}
+            __rightComponent={<><div className={styles['price-info-content-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalDelivery }) }원</div></>} />
+          <EmptyRow __style={{ height: '16px' }} />
+          <div className={styles['deco-line']}></div>
+          <EmptyRow __style={{ height: '16px' }} />
+          <BothSidebox
+            __leftComponent={<><div className={styles['price-info-title-text-big']}>총 결제 금액</div></>}
+            __rightComponent={<><div className={styles['price-info-content-text-big']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().total }) }원</div></>} />
+        </Article>
+        <Button __buttonStyle="black-solid" __onClick={submitButtonClick}>결제하기</Button>
+        <ModalAddressBook ref={modalAddressBookRef} __onSelected={onAddressSelected} />
+      </>
+    </CustomSuspense>
   );
 };
 

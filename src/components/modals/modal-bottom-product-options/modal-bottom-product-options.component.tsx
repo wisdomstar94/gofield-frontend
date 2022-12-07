@@ -34,7 +34,8 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   const isOrderSheetCreatingRef = useRef(false);
 
   const [optionGroupList, setOptionGroupList] = useState<IItem.OptionGroupItem[]>([]);
-  const optionListRef = useRef<IItem.OptionItem[]>([]);
+  const [optionList, setOptionList] = useState<IItem.OptionItem[]>([]);
+  // const optionListRef = useRef<IItem.OptionItem[]>([]);
 
   // const optionGroupSelectInfoRef = useRef<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
   const [optionGroupSelectInfo, setOptionGroupSelectInfo] = useState<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
@@ -67,7 +68,8 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
 
       // console.log('res', response);
       setOptionGroupList(response.data.data.optionGroupList);
-      optionListRef.current = response.data.data.optionList;
+      setOptionList(response.data.data.optionList);
+      // optionListRef.current = response.data.data.optionList;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, detailInfo]);
@@ -123,7 +125,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       const optionGroupSelectOptionNames = Array.from(optionGroupSelectInfo.values()).map(item => item?.text + '');
       console.log('optionGroupSelectOptionNames', optionGroupSelectOptionNames);
 
-      const targetOptionItem = optionListRef.current.find((item) => {
+      const targetOptionItem = optionList?.find((item) => {
         const result = item.name.every((item) => {
           return optionGroupSelectOptionNames.includes(item);
         });
@@ -142,7 +144,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       targetItemNumber = detailInfo.itemNumber;
     }
     return targetItemNumber;
-  }, [detailInfo?.itemNumber, isRequiredOptionSelected, modalAlert, optionGroupList.length, optionGroupSelectInfo]);
+  }, [detailInfo?.itemNumber, isRequiredOptionSelected, modalAlert, optionGroupList.length, optionGroupSelectInfo, optionList]);
 
   const containBasketButtonClick = useCallback(() => {
     if (!user.isLogined()) {
@@ -204,7 +206,15 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       return;
     }
 
-    const getPriceTotalInfo = productOrder.getTotalPriceInfo([{ charge: detailInfo.shippingTemplate.charge, condition: detailInfo.shippingTemplate.condition, price: detailInfo.price, qty: 1 }]);
+    let price = 0;
+    let targetItem = optionList.find(x => x.itemNumber === targetItemNumber);
+    if (targetItem === undefined) {
+      price = detailInfo.price;
+    } else {
+      price = targetItem.price;
+    }
+
+    const getPriceTotalInfo = productOrder.getTotalPriceInfo([{ charge: detailInfo.shippingTemplate.charge, condition: detailInfo.shippingTemplate.condition, price: price, qty: 1 }]);
 
     isOrderSheetCreatingRef.current = true;
     orderSheetCreateApi.getInstance({
@@ -222,7 +232,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {  
       isOrderSheetCreatingRef.current = false;
     });
-  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, orderSheetCreateApi, productOrder, router, user]);
+  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, optionList, orderSheetCreateApi, productOrder, router, user]);
 
   return (
     <>

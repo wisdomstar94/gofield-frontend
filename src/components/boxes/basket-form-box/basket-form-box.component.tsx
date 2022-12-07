@@ -6,6 +6,7 @@ import useOrderSheetCreateApi from "../../../hooks/use-apis/use-order-sheet-crea
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
+import useCartCountQuery from "../../../hooks/use-queries/use-cart-count.query";
 import { ICart } from "../../../interfaces/cart/cart.interface";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
@@ -26,6 +27,7 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
   const modalAlert = useModalAlert();
   const modalConfirm = useModalConfirm();
   const productOrder = useProductOrder();
+  const cartCountQuery = useCartCountQuery();
 
   const [isAllChecked, setIsAllChecked] = useState(true);
   const [list, setList] = useState<ICart.CartItem[]>([]);
@@ -125,10 +127,11 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
       }
 
       setList(list.filter(inItem => inItem !== item));
+      cartCountQuery.refetch();
     }).finally(() => {
       isDeletingRef.current = false;
     });
-  }, [cartItemDeleteApi, list, modalAlert]);
+  }, [cartCountQuery, cartItemDeleteApi, list, modalAlert]);
 
   const getCheckedItems = useCallback(() => {
     return list.filter(item => item.isChecked === true);

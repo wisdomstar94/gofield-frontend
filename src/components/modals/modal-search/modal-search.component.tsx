@@ -10,6 +10,7 @@ import HashTagItem from '../../boxes/hash-tag-item/hash-tag-item.component';
 import Modal from '../../forms/modal/modal.component';
 import { IModal } from '../../forms/modal/modal.interface';
 import Article from '../../layouts/article/article.component';
+import BottomMenuBar from '../../layouts/bottom-menu-bar/bottom-menu-bar.component';
 import List, { ListItem } from '../../layouts/list/list.component';
 import Topbar from '../../layouts/top-bar/top-bar.component';
 import WindowSizeContainer from '../../layouts/window-size-container/window-size-container.component';
@@ -116,6 +117,7 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
               </li>
             </ul> */}
           </div>
+          <BottomMenuBar />
         </WindowSizeContainer>
       </Modal>
     </>

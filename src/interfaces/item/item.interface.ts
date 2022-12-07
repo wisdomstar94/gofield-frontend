@@ -98,6 +98,7 @@ export declare namespace IItem {
     delivery: Delivery;
     gender: Gender;
     images: string[];
+    isOption: boolean;
     option: OptionItem[];
     tags: string[];
     shippingTemplate: ShippingTemplate;
