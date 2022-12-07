@@ -85,6 +85,11 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
             ...response.data.data.shippingAddress,
           },
         }));
+      } else {
+        setDetailInfo(prev => ({
+          ...prev,
+          uuid: orderCode,
+        }));
       }
     }).finally(() => {
 
