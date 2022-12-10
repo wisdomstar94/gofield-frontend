@@ -60,7 +60,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
   }, [props.__activeMenuId]);
 
   const menuItemClick = useCallback((item: IBottomMenuBar.MenuItem) => {
-    if (item.menuId === 'my-page') {
+    if (item.menuId === 'my-page' || item.menuId === 'likes') {
       if (!user.isLogined()) {
         modalSignupNoticeRef.current?.show();
         return;

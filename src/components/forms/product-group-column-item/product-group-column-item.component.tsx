@@ -8,10 +8,13 @@ import { getAddCommaNumberString } from "../../../librarys/string-util/string-ut
 import useItemLikeApi from '../../../hooks/use-apis/use-item-like.api';
 import useUser from '../../../hooks/use-user-hook/use-user.hook';
 import { useRouter } from 'next/router';
+import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
+import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const user = useUser();
   const router = useRouter();
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
 
   const [itemId, setItemId] = useState(props.__itemId);
   useEffect(() => { setItemId(props.__itemId) }, [props.__itemId]);
@@ -65,7 +68,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
 
   const heartIconClick = useCallback(() => {
     if (!user.isLogined()) {
-      router.push('/login');
+      modalSignupNoticeRef.current?.show();
       return;
     }
 
@@ -87,7 +90,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
     }).finally(() => {
       isHeartingRef.current = false;
     });
-  }, [isHeart, itemId, itemLikeApi, router, user]);
+  }, [isHeart, itemId, itemLikeApi, user]);
 
   return (
     <>
@@ -149,6 +152,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
           </div>
         </div>
       </div>
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 };

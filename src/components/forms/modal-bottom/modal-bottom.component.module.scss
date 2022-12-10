@@ -12,12 +12,28 @@ $animationSpeed: 300ms;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.7);
 
-  &.hide {
-    animation-name: backgroundHide;
+  &.pc {
+    left: calc((100% - (100vh * 0.56)) / 2);
+
+    &.hide {
+      animation-name: backgroundHidePc;
+    }
+  
+    &.show {
+      animation-name: backgroundShowPc;
+    }
   }
 
-  &.show {
-    animation-name: backgroundShow;
+  &.mobile {
+    margin: 0;
+
+    &.hide {
+      animation-name: backgroundHide;
+    }
+  
+    &.show {
+      animation-name: backgroundShow;
+    }
   }
 }
 
@@ -57,6 +73,42 @@ $animationSpeed: 300ms;
   }
 }
 
+@keyframes backgroundShowPc {
+  0% {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    opacity: 0;
+  }
+  1% {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes backgroundHidePc {
+  0% {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    opacity: 1;
+  }
+  99% {
+    width: calc(100vh * 0.56);
+    height: 100%;
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
 .modal {
   width: 100%;
   height: auto;
@@ -69,35 +121,87 @@ $animationSpeed: 300ms;
   border-radius: 10px 10px 0 0;
   z-index: 10;
 
-  &.hide {
-    animation-name: modalHide;
+  &.pc {
+    left: calc((100% - (100vh * 0.56)) / 2);
+
+    &.hide {
+      animation-name: modalHidePc;
+    }
+  
+    &.show {
+      animation-name: modalShowPc;
+    }
   }
 
-  &.show {
-    animation-name: modalShow;
+  &.mobile {
+    margin: 0;
+
+    &.hide {
+      animation-name: modalHide;
+    }
+  
+    &.show {
+      animation-name: modalShow;
+    }
   }
 }
 
 @keyframes modalShow {
   0% {
+    width: 100%;
     bottom: -100%;
   }
   1% {
+    width: 100%;
     bottom: -100%;
   }
   100% {
+    width: 100%;
     bottom: 0;
   }
 }
 
 @keyframes modalHide {
   0% {
+    width: 100%;
     bottom: 0;
   }
   99% {
+    width: 100%;
     bottom: -100%;
   }
   100% {
+    width: 0;
+    bottom: -100%;
+  }
+}
+
+@keyframes modalShowPc {
+  0% {
+    width: calc(100vh * 0.56);
+    bottom: -100%;
+  }
+  1% {
+    width: calc(100vh * 0.56);
+    bottom: -100%;
+  }
+  100% {
+    width: calc(100vh * 0.56);
+    bottom: 0;
+  }
+}
+
+@keyframes modalHidePc {
+  0% {
+    width: calc(100vh * 0.56);
+    bottom: 0;
+  }
+  99% {
+    width: calc(100vh * 0.56);
+    bottom: -100%;
+  }
+  100% {
+    width: 0;
     bottom: -100%;
   }
 }

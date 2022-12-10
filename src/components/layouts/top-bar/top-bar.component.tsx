@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router';
-import { ForwardedRef, forwardRef, useCallback } from 'react';
+import { ForwardedRef, forwardRef, useCallback, useRef } from 'react';
 import useCartCountApi from '../../../hooks/use-apis/use-cart-count.api';
 import useCartCountQuery from '../../../hooks/use-queries/use-cart-count.query';
+import useUser from '../../../hooks/use-user-hook/use-user.hook';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
+import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
+import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
 import SvgBackIcon from '../../svgs/svg-back-icon/svg-back-icon.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
 import SvgShoppingCartIcon from '../../svgs/svg-shopping-cart-icon/svg-shopping-cart-icon.component';
@@ -11,7 +14,9 @@ import { ITopbar } from './top-bar.interface';
 
 const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefObject>) => {
   const router = useRouter();
+  const user = useUser();
   const cartCountQuery = useCartCountQuery();
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
 
   // useImperativeHandle(ref, () => ({
   //   searchModalHide,
@@ -36,8 +41,13 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
   }, [router]);
 
   const basketIconClick = useCallback(() => {
+    if (!user.isLogined()) {
+      modalSignupNoticeRef.current?.show();
+      return;
+    }
+
     router.push('/basket');
-  }, [router]);
+  }, [router, user]);
 
   return (
     <>
@@ -105,6 +115,7 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
           : <></>
         }
       </div>
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 });

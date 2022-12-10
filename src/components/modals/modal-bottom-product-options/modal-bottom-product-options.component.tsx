@@ -17,6 +17,8 @@ import useCartCountQuery from "../../../hooks/use-queries/use-cart-count.query";
 import useOrderSheetCreateApi from "../../../hooks/use-apis/use-order-sheet-create.api";
 import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
+import { IModalSignupNotice } from "../modal-signup-notice/modal-signup-notice.interface";
+import ModalSignupNotice from "../modal-signup-notice/modal-signup-notice.component";
 
 const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.Props, ref: ForwardedRef<IModalBottomProductOptions.RefObject>) => {
   const router = useRouter();
@@ -27,6 +29,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   const cartContainApi = useCartContainApi();
   const orderSheetCreateApi = useOrderSheetCreateApi();
   const user = useUser();
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
   
   const cartCountQuery = useCartCountQuery();
 
@@ -148,7 +151,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
 
   const containBasketButtonClick = useCallback(() => {
     if (!user.isLogined()) {
-      router.push('/login');
+      modalSignupNoticeRef.current?.show();
       return;
     }
 
@@ -171,7 +174,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {
       isCartContainingRef.current = false;
     });
-  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert, router, user]);
+  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert, user]);
 
   const getTotalPrice = useCallback(() => {
     if (detailInfo?.price === undefined) {
@@ -189,7 +192,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
 
   const nowPayButtonClick = useCallback(() => {
     if (!user.isLogined()) {
-      router.push('/login');
+      modalSignupNoticeRef.current?.show();
       return;
     }
 
@@ -292,6 +295,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
           </div>
         </div>
       </ModalBottom>
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 });

@@ -32,6 +32,8 @@ import useItemProductOtherListApi from "../../../hooks/use-apis/use-item-product
 import useRender from "../../../hooks/use-render/use-render.hook";
 import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
+import ModalSignupNotice from "../../modals/modal-signup-notice/modal-signup-notice.component";
+import { IModalSignupNotice } from "../../modals/modal-signup-notice/modal-signup-notice.interface";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -48,6 +50,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const render = useRender();
   const itemLikeApi = useItemLikeApi();
   const user = useUser();
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
   
   const isHeartingRef = useRef(false);
 
@@ -181,7 +184,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
 
   const onHeartButtonClick = useCallback(() => {
     if (!user.isLogined()) {
-      router.push('/login');
+      modalSignupNoticeRef.current?.show();
       return;
     }
 
@@ -206,7 +209,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
     }).finally(() => {
       isHeartingRef.current = false;
     });
-  }, [detailInfo?.id, detailInfo?.likeId, getDetailInfo, itemLikeApi, router, user]);
+  }, [detailInfo?.id, detailInfo?.likeId, getDetailInfo, itemLikeApi, user]);
 
   return (
     <>
@@ -361,6 +364,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       <ModalBottomProductOptions 
         ref={modalBottomProductOptionsRef} 
         __detailInfo={detailInfo} />
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 });
