@@ -1,3 +1,4 @@
+import Config from "../../configs/config.export";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { getJwtPayload, getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
 
@@ -29,6 +30,23 @@ const useUser = () => {
     }
 
     return true;
+  }
+
+
+  function getLoginRequestUrl(socialType: ILogin.SocialType) {
+    let environment = '';
+    switch (Config().mode) {
+      case 'local': environment = 'LOCAL'; break;
+      case 'development': environment = 'DEV'; break;
+      case 'production': environment = 'PROD'; break;
+    }
+    if (environment === '') {
+      alert('유효하지 않은 요청입니다.');
+      return;
+    }
+
+    const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
+    return url;
   }
 
 
@@ -80,6 +98,7 @@ const useUser = () => {
     removeAll,
     getAccessTokenPayload,
     isLogined,
+    getLoginRequestUrl,
   };
 };
 

@@ -1,4 +1,6 @@
 export declare namespace ILogin {
+  export type SocialType = 'KAKAO' | 'NAVER';
+
   export interface LoginData {
     accessToken: string;
     accessTokenExpiresIn: number;
@@ -22,6 +24,6 @@ export declare namespace ILogin {
     jti: string;
     exp: number;
     isSign: boolean;
-    social: 'KAKAO' | 'NAVER';
+    social: SocialType;
   }
 }

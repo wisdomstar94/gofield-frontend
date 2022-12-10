@@ -9,6 +9,7 @@ import SvgSocialSymbolNaver from "../../components/svgs/svg-social-symbol-naver/
 import { useCallback } from "react";
 import Config from "../../configs/config.export";
 import NotLoginCheck from "../../components/auth/not-login-check/not-login-check.component";
+import { ILogin } from "../../interfaces/login/login.interface";
 
 const LoginPage: NextPage = () => {
   return (
@@ -27,7 +28,7 @@ const LoginPage: NextPage = () => {
 };  
 
 const PageContents = () => {
-  const socialLoginButtonClick = useCallback((socialType: 'KAKAO' | 'NAVER') => {
+  const socialLoginButtonClick = useCallback((socialType: ILogin.SocialType) => {
     let environment = '';
     switch (Config().mode) {
       case 'local': environment = 'LOCAL'; break;

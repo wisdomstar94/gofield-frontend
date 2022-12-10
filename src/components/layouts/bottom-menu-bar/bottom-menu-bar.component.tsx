@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './bottom-menu-bar.component.module.scss';
 import SvgBottomMenuCategoryIcon from '../../svgs/svg-bottom-menu-category-icon/svg-bottom-menu-category-icon.component';
 import SvgBottomMenuHomeIcon from '../../svgs/svg-bottom-menu-home-icon/svg-bottom-menu-home-icon.component';
@@ -10,9 +10,15 @@ import { getClasses } from '../../../librarys/string-util/string-util.library';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { deviceTypeAtom } from '../../../atoms/device-type.atom';
+import useUser from '../../../hooks/use-user-hook/use-user.hook';
+import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
+import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
 
 const BottomMenuBar = (props: IBottomMenuBar.Props) => {
   const router = useRouter();
+  const user = useUser();
+
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
 
   const [deviceType, setDeviceType] = useRecoilState(deviceTypeAtom);
   const [activeMenuId, setActiveMenuId] = useState<IBottomMenuBar.MenuId | undefined>();
@@ -54,8 +60,15 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
   }, [props.__activeMenuId]);
 
   const menuItemClick = useCallback((item: IBottomMenuBar.MenuItem) => {
+    if (item.menuId === 'my-page') {
+      if (!user.isLogined()) {
+        modalSignupNoticeRef.current?.show();
+        return;
+      }
+    }
+
     router.push(item.menuLink);
-  }, [router]);
+  }, [router, user]);
 
   return (
     <>
@@ -81,6 +94,7 @@ const BottomMenuBar = (props: IBottomMenuBar.Props) => {
           }
         </ul>
       </div>
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 };
