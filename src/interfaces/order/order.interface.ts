@@ -6,6 +6,10 @@ export declare namespace IOrder {
   export type PaymentType = 'CARD' | 'EASYPAY' | 'BANK';
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'SIMPLE' | 'COMBINATION';
+  export type OrderStatus = 'ORDER_CREATE' | 'ORDER_CANCEL' | 'ORDER_APPROVAL' | 'ORDER_COMPLETE' | 'ORDER_DELETE';
+  export type OrderShippingStatus = 'ORDER_SHIPPING_CHECK' | 'ORDER_SHIPPING_CANCEL' | 'ORDER_SHIPPING_CHECK_COMPLETE' | 'ORDER_SHIPPING_READY' | 'ORDER_SHIPPING_DELIVERY' | 'ORDER_SHIPPING_DELIVERY_COMPLETE' | 'ORDER_SHIPPING_COMPLETE' | 'ORDER_SHIPPING_DELETE';
+  export type Classification = 'ALL' | 'USED' | 'NEW';
+  export type OrderShippingOrderItemStatus = 'ORDER_ITEM_RECEIPT' | 'ORDER_ITEM_APPROVE' | 'ORDER_ITEM_RECEIPT_CANCEL' | 'ORDER_ITEM_APPROVE_CANCEL';  
 
   export interface OrderSheetItem {
     cartId?: number | null;
@@ -77,5 +81,58 @@ export declare namespace IOrder {
     paymentType?: PaymentType;
     shippingAddress?: ShippingAddress;
     uuid?: string;
+  }
+
+  export interface OrderShippingOrderItem {
+    id: number;
+    itemId: number;
+    itemOptionId: number;
+    itemNumber: string;
+    name: string;
+    optionName: string[];
+    classification: Classification;
+    thumbnail: string;
+    status: OrderShippingOrderItemStatus;
+    isReview: boolean;
+    price: number;
+    qty: number;
+  }
+
+  export interface OrderShippingListItem {
+    id: number;
+    shippingNumber: string;
+    status: OrderShippingStatus;
+    trackingNumber: string | null;
+    chargeType: ChargeType;
+    deliveryPrice: number;
+    carrier: string | null;
+    createDate: string;
+    cancelDate: string | null;
+    deliveryDate: string | null;
+    deliveredDate: string | null;
+    orderItems: OrderShippingOrderItem[];
+  }
+
+  export interface OrderDetailInfo {
+    id: number;
+    orderNumber: string;
+    // totalPrice: number;
+    totalItem: number;
+    totalAmount: number;
+    totalDiscount: number;
+    totalDelivery: number;
+    paymentCompany: string;
+    status: OrderStatus;
+    createDate: string;
+    cancelDate: string | null;
+    confirmDate: string | null;
+    finishDate: string | null;
+    tel: string;
+    name: string;
+    zipCode: string;
+    address: string;
+    addressExtra: string;
+    shippingComment: string | null;
+    orderShippingList: OrderShippingListItem[];
   }
 }

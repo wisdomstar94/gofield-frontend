@@ -97,7 +97,13 @@ const PageContents = () => {
         <div className="mx-6 h-px bg-gray-a mb-4"></div>
         
         <div className="block mb-4">
-          <ProductRowItem3 __buttonLayoutType="order-delicery-cancel" />
+          <ProductRowItem3 
+            __showButtonTypes={[
+              { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
+              { buttonType: 'exchange-refund', buttonWidthType: 'half' },
+              // { buttonType: 'review-write', buttonWidthType: 'full' }, 
+            ]}
+            />
         </div>
 
         <div className="block mx-6 mb-1">

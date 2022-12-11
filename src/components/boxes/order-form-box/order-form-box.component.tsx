@@ -261,6 +261,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
       return;
     }
 
+    // return;
     isPaymentingRef.current = true;
     orderPaymentApi.getInstance(detailInfo).then((response) => {
       if (response.data.status !== true) {
@@ -323,12 +324,13 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
                   <SelectBox 
                     __valueItems={codeShippingCommentListQuery.data} 
                     __placeholder="배송 요청 사항을 선택해주세요."
-                    __onChange={(value) => {
+                    __onChange={(value, valueItem) => {
                       setDetailInfo(prev => ({
                         ...prev,
                         shippingAddress: {
                           ...prev.shippingAddress,
                           shippingCode: value,
+                          shippingComment: valueItem?.text,
                         },
                       }))
                     }} />
@@ -368,7 +370,6 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
                   __price={item.price * item.qty}
                   __optionNames={item.optionName}
                   __productName={item.name}
-                  __buttonLayoutType="none"
                   __deliveryPrice={item.deliveryPrice}
                   __isTopRowShow={false} />
               )

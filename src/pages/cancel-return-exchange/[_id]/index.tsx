@@ -63,7 +63,7 @@ const PageContents = () => {
           </div>
         </div>
 
-        <ProductRowItem3 __isTopRowShow={false} __buttonLayoutType="none" />
+        <ProductRowItem3 __isTopRowShow={false} />
 
         <div className="block px-6 box-sizing mt-4">
           <div className="w-full flex mb-1">

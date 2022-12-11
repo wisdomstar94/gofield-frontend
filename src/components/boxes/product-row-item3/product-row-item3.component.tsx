@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import useCodeOrderItemStatusListQuery from "../../../hooks/use-queries/use-code-order-item-status-list.query";
+import useCodeOrderShippingStatusListQuery from "../../../hooks/use-queries/use-code-order-shipping-status-list.query";
+import { day } from "../../../librarys/date-util/date-util.library";
+import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
@@ -11,6 +14,8 @@ import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const router = useRouter();
+  const codeOrderShippingStatusListQuery = useCodeOrderShippingStatusListQuery();
+  const codeOrderItemStatusListQuery = useCodeOrderItemStatusListQuery();
 
   const [imageUrl, setimageUrl] = useState(props.__imageUrl);
   useEffect(() => { setimageUrl(props.__imageUrl); }, [props.__imageUrl]);
@@ -30,9 +35,17 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const [qty, setQty] = useState(props.__qty);
   useEffect(() => { setQty(props.__qty); }, [props.__qty]);
 
+  const [estimatedArriveDate, setEstimatedArriveDate] = useState(props.__estimatedArriveDate);
+  useEffect(() => { setEstimatedArriveDate(props.__estimatedArriveDate); }, [props.__estimatedArriveDate]);
 
-  const [buttonLayoutType, setButtonLayoutType] = useState<IProductRowItem3.ButtonLayoutType>(props.__buttonLayoutType ?? 'exchange-refund-review');
-  useEffect(() => { setButtonLayoutType(props.__buttonLayoutType ?? 'exchange-refund-review') }, [props.__buttonLayoutType]);
+  const [orderShippingStatus, setOrderShippingStatus] = useState(props.__orderShippingStatus);
+  useEffect(() => { setOrderShippingStatus(props.__orderShippingStatus); }, [props.__orderShippingStatus]);
+
+  const [orderItemStatus, setOrderItemStatus] = useState(props.__orderItemStatus);
+  useEffect(() => { setOrderItemStatus(props.__orderItemStatus); }, [props.__orderItemStatus]);
+
+  const [showButtonTypes, setShowButtonTypes] = useState(props.__showButtonTypes);
+  useEffect(() => { setShowButtonTypes(props.__showButtonTypes); }, [props.__showButtonTypes]);
 
   const [isTopRowShow, setIsTopRowShow] = useState(props.__isTopRowShow);
   useEffect(() => { setIsTopRowShow(props.__isTopRowShow) }, [props.__isTopRowShow]);
@@ -50,14 +63,19 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
             __style={{ marginBottom: '8px' }}
             __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
             __leftComponent={<>
-              <div className="text-sm font-bold text-blue-a">배송완료</div>
+              <div className="text-sm font-bold text-blue-a mr-4">{ codeOrderShippingStatusListQuery.data?.find(x => x.value === orderShippingStatus)?.text }</div>
+              <div className="text-sm font-bold text-orange-a mr-4">{ codeOrderItemStatusListQuery.data?.find(x => x.value === orderItemStatus)?.text }</div>
               &nbsp;&nbsp;
-              <div className="text-sm text-black-a font-normal">2022.6.3(월) 도착</div>
+              {
+                typeof estimatedArriveDate === 'string' ? 
+                <div className="text-sm text-black-a font-normal">{ day(new Date(estimatedArriveDate)).format('YYYY-MM-DD') } 도착</div> : 
+                <></>
+              }
             </>}
             __rightComponentStyle={{ width: '30px' }}
             __rightComponent={<>
               <div className={styles['more-button-icon']}>
-                <SvgCategoryEtcIcon />
+                {/* <SvgCategoryEtcIcon /> */}
               </div>
             </>} /> :
             ''
@@ -102,46 +120,51 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
               <ListItem __marginBottom="0">
                 <div className="text-xs text-black-a tracking-tight">수량 : { qty }</div>
               </ListItem>
-              <ListItem __marginBottom="0">
-                <div className="text-xs text-black-a tracking-tight">배송료 : { getAddCommaNumberString({ numberValue: deliveryPrice }) }원</div>
-              </ListItem>
+              {
+                deliveryPrice !== undefined ? 
+                <ListItem __marginBottom="0">
+                  <div className="text-xs text-black-a tracking-tight">배송료 : { getAddCommaNumberString({ numberValue: deliveryPrice }) }원</div>
+                </ListItem> : 
+                undefined
+              }
             </List>
           </>} />
         
-          {
-            buttonLayoutType === 'exchange-refund-review' ?
-            <>
-              <div className="w-full box-border grid grid-cols-2 gap-2 my-2">
-                <div>
-                  <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
-                    <span className="text-sm font-bold">교환 반품 신청</span>
-                  </Button>
-                </div>
-                <div>
-                  <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
-                    <span className="text-sm font-bold">배송 조회</span>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="w-full box-border">
-                <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={reviewWriteButtonClick}>
-                  <span className="text-sm font-bold">상품 리뷰 쓰기</span>
-                </Button>
-              </div>
-            </>
-            : <></>
-          }
-
-          {
-            buttonLayoutType === 'order-delicery-cancel' ?
-            <>
-              <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }}>
-                <span className="text-sm font-bold">주문 배송 취소</span>
-              </Button>
-            </>
-            : <></>
-          }
+        {
+          showButtonTypes !== undefined && showButtonTypes?.length > 0 ? 
+          <div data-name="bottom-button-list-row" className="w-full grid grid-cols-2 gap-2 relative">
+            {
+              showButtonTypes.map((item, index) => {
+                return (
+                  <div key={index}
+                    className={getClasses([
+                      item.buttonWidthType === 'full' ? 'col-span-2' : '',
+                      item.buttonWidthType === 'half' ? '' : '',
+                    ])}>
+                    {
+                      item.buttonType === 'exchange-refund' ? 
+                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                        <span className="text-sm font-bold">교환 반품 신청</span>
+                      </Button> : undefined
+                    }
+                    {
+                      item.buttonType === 'delivery-check' ? 
+                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                        <span className="text-sm font-bold">배송 조회</span>
+                      </Button> : undefined
+                    }
+                    {
+                      item.buttonType === 'review-write' ? 
+                      <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={reviewWriteButtonClick}>
+                        <span className="text-sm font-bold">상품 리뷰 쓰기</span>
+                      </Button> : undefined
+                    }
+                  </div>    
+                )
+              })
+            }
+          </div> : undefined
+        }
       </div>
       <div className="block mx-4 h-px bg-gray-a"></div>
     </>

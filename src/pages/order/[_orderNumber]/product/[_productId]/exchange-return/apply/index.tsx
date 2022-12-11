@@ -122,7 +122,7 @@ const PageContents = () => {
             선택한 상품 1건
           </div>
         </div>
-        <ProductRowItem3 __buttonLayoutType="none" __isTopRowShow={false} />
+        <ProductRowItem3 __isTopRowShow={false} />
 
         <div className="block mx-6 mt-4">
           <div className="font-bold text-sm text-black-a mb-1">

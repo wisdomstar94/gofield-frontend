@@ -1,7 +1,10 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import useModalAlert from "../../hooks/use-modals/use-modal-alert.modal";
 
 const ProductNewPage = () => {
   return (
@@ -20,6 +23,24 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+  const modalAlert = useModalAlert();
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    const orderNumber = router.query._orderNumber;
+    if (typeof orderNumber !== 'string') {
+      modalAlert.show({ title: '안내', content: '잘못된 접근입니다.' });
+      return;
+    }
+
+    router.push('/order/' + orderNumber + '?originType=byOrder');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -28,7 +49,7 @@ const PageContents = () => {
             titleComponent: <>주문 완료</>,
             rightComponent: <></>,
           }} />
-        ...
+        
       </WindowSizeContainer>
     </>
   );
