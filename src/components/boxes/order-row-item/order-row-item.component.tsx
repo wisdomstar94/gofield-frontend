@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { IOrder } from "../../../interfaces/order/order.interface";
 import { day } from "../../../librarys/date-util/date-util.library";
 import ProductRowItem3 from "../product-row-item3/product-row-item3.component";
+import { IProductRowItem3 } from "../product-row-item3/product-row-item3.interface";
 import styles from "./order-row-item.component.module.scss";
 import { IOrderRowItem } from "./order-row-item.interface";
 
@@ -17,6 +19,19 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
 
     router.push('/order/' + orderListItem.orderNumber);
   }, [orderListItem, router]);
+
+  const getShowButtonTypes = useCallback((shippingItem: IOrder.OrderShippingListItem, orderItem: IOrder.OrderShippingOrderItem) => {
+    const buttons: IProductRowItem3.ShowButtonTypeItem[] = [
+      { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
+      { buttonType: 'exchange-refund', buttonWidthType: 'half' },
+    ];
+
+    if (!orderItem.isReview) {
+      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
+    }
+
+    return buttons;
+  }, []);
 
   return (
     <div className="w-full block">
@@ -46,11 +61,7 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
                 __optionNames={orderItem.optionName}
                 __carrierId={shippingItem.carrier}
                 __trackId={shippingItem.trackingNumber}
-                __showButtonTypes={[
-                  { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
-                  { buttonType: 'exchange-refund', buttonWidthType: 'half' },
-                  { buttonType: 'review-write', buttonWidthType: 'full' }, 
-                ]}
+                __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
               />
             )
           })
