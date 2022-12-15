@@ -1,8 +1,15 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import OrderRowItem from "../../../components/boxes/order-row-item/order-row-item.component";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
+import useOrderListApi from "../../../hooks/use-apis/use-order-list.api";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import { IScrollCheckHook } from "../../../hooks/use-scroll-check/use-scroll-check.interface";
+import { IOrder } from "../../../interfaces/order/order.interface";
+import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 
 const ProductNewPage = () => {
   return (
@@ -21,15 +28,83 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+  const orderListApi = useOrderListApi();
+  const [list, setList] = useState<IOrder.OrderListItem[]>([]);
+  const modalAlert = useModalAlert();
+
+  const isNoneMoreDataRef = useRef(false);
+  const isGettingListRef = useRef(false);
+  const searchOptionRef = useRef({
+    page: '1',
+    size: '10',
+  });
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  const getList = useCallback(() => {
+    if (isGettingListRef.current || isNoneMoreDataRef.current) {
+      return;
+    }
+    
+    const newQuery = {
+      ...router.query,
+      ...searchOptionRef.current,
+    };
+
+    isGettingListRef.current = true;
+    orderListApi.getInstance(getNextRouterQueryToUrlQueryString(newQuery)).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '주문 목록을 불러오지 못했습니다.' });
+        return;
+      }
+
+      if (response.data.data.list.length === 0) {
+        isNoneMoreDataRef.current = true;
+        return;
+      }
+
+      if (response.data.data.list.length < Number(searchOptionRef.current.size)) {
+        isNoneMoreDataRef.current = true;
+      }
+
+      setList(prev => prev.concat(response.data.data.list));
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [modalAlert, orderListApi, router.query]);
+
+  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingListRef.current || isNoneMoreDataRef.current) {
+      return;
+    }
+
+    if (info.isLastScrollArea) {
+      searchOptionRef.current.page = (Number(searchOptionRef.current.page) + 1).toString();
+      getList()
+    }
+  }, [getList]);
+
   return (
     <>
-      <WindowSizeContainer __bgColor="#fff">
+      <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
         <Topbar
           __layoutTypeB={{
             titleComponent: '주문목록',
             rightComponent: <></>,
           }} />
-        <OrderRowItem />
+        {
+          list.map((item) => {
+            return <OrderRowItem key={item.orderNumber} __orderListItem={item} />
+          })
+        }
       </WindowSizeContainer>
     </>
   );

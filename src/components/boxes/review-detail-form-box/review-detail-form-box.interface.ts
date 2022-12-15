@@ -14,6 +14,8 @@ export declare namespace IReviewDetailFormBox {
 
   export interface Props {
     __detailInfo?: DetailInfo;
+    __orderItemId?: string | number;
+    __orderNumber?: string;
     children?: React.ReactNode;
   }
 }

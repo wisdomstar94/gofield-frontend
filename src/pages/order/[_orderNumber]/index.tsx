@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import ProductRowItem3 from "../../../components/boxes/product-row-item3/product-row-item3.component";
+import { IProductRowItem3 } from "../../../components/boxes/product-row-item3/product-row-item3.interface";
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 import useOrderDetailApi from "../../../hooks/use-apis/use-order-detail.api";
@@ -64,6 +65,19 @@ const PageContents = () => {
   const backButtonClick = useCallback(() => {
     router.push('/');
   }, [router]);
+
+  const getShowButtonTypes = useCallback((shippingItem: IOrder.OrderShippingListItem, orderItem: IOrder.OrderShippingOrderItem) => {
+    const buttons: IProductRowItem3.ShowButtonTypeItem[] = [
+      { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
+      { buttonType: 'exchange-refund', buttonWidthType: 'half' },
+    ];
+
+    if (!orderItem.isReview) {
+      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
+    }
+
+    return buttons;
+  }, []);
 
   return (
     <>
@@ -162,6 +176,8 @@ const PageContents = () => {
               return (
                 <ProductRowItem3 
                   key={orderItem.id} 
+                  __orderNumber={orderDetailInfo.orderNumber}
+                  __orderItemId={orderItem.id}
                   __imageUrl={orderItem.thumbnail}
                   __productName={orderItem.name}
                   __price={orderItem.price}
@@ -170,11 +186,9 @@ const PageContents = () => {
                   __orderShippingStatus={shippingItem.status}
                   __orderItemStatus={orderItem.status}
                   __optionNames={orderItem.optionName}
-                  __showButtonTypes={[
-                    { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
-                    { buttonType: 'exchange-refund', buttonWidthType: 'half' },
-                    { buttonType: 'review-write', buttonWidthType: 'full' }, 
-                  ]}
+                  __carrierId={shippingItem.carrier}
+                  __trackId={shippingItem.trackingNumber}
+                  __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
                   // __buttonLayoutType={'none'}
                 />
               )

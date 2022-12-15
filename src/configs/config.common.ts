@@ -118,6 +118,25 @@ export default function getConfigs(params: ICommonConfig.Params) {
         payment: {
           _: baseUrl + `/api/order/${apiVersion}/payment`,
         },
+        carrier: {
+          _: baseUrl + `/api/order/${apiVersion}/carrier`,
+          track: {
+            _: (carrierId: number | string, trackId: number | string) => {
+              return baseUrl + `/api/order/${apiVersion}/carrier/${carrierId}/track/${trackId}`;
+            },
+          }
+        },
+        review: {
+          _: baseUrl + `/api/order/${apiVersion}/review`,
+          write: (orderItemId: number | string) => {
+            return baseUrl + `/api/order/${apiVersion}/review/${orderItemId}`;
+          },
+        },
+        item: {
+          orderItem: (orderNumber: string, orderItemId: string | number) => {
+            return baseUrl + `/api/order/${apiVersion}/${orderNumber}/item/${orderItemId}`;
+          },
+        },
       },
 
       third: {

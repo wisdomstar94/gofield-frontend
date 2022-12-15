@@ -135,4 +135,23 @@ export declare namespace IOrder {
     shippingComment: string | null;
     orderShippingList: OrderShippingListItem[];
   }
+
+  export interface OrderListItem {
+    id: number;
+    orderNumber: string;
+    status: OrderStatus;
+    createDate: string;
+    cancelDate: string | null;
+    confirmDate: string | null;
+    finishDate: string | null;
+    orderShippingList: OrderShippingListItem[];
+  }
+
+  export interface OrderListApiData {
+    list: OrderListItem[];
+  }
+
+  export interface OrderCarrierTrackApiData {
+    nextUrl: string;
+  }
 }

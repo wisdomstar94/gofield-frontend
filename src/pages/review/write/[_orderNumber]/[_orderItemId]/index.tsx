@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import AccessTokenCheck from "../../../../../components/auth/access-token-check/access-token-check.component";
 import ReviewDetailFormBox from "../../../../../components/boxes/review-detail-form-box/review-detail-form-box.component";
 import Topbar from "../../../../../components/layouts/top-bar/top-bar.component";
@@ -21,6 +23,25 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+  const [orderItemId, setOrderItemId] = useState<string>();
+  const [orderNumber, setOrderNumber] = useState<string>();
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    if (typeof router.query._orderItemId === 'string') {
+      setOrderItemId(router.query._orderItemId);
+    }
+
+    if (typeof router.query._orderNumber === 'string') {
+      setOrderNumber(router.query._orderNumber);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -29,7 +50,9 @@ const PageContents = () => {
             titleComponent: <>상품 리뷰 작성</>,
             rightComponent: <></>,
           }} />
-        <ReviewDetailFormBox />
+        <ReviewDetailFormBox
+          __orderNumber={orderNumber}
+          __orderItemId={orderItemId} />
       </WindowSizeContainer>
     </>
   );

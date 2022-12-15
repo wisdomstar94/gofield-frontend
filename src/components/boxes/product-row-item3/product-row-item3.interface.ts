@@ -19,7 +19,7 @@ export declare namespace IProductRowItem3 {
     // __isDeliveryCheckButtonShow?: boolean;
     // __isReviewWriteButtonShow?: boolean;
     __showButtonTypes?: ShowButtonTypeItem[];
-
+    __orderNumber?: string;
     __imageUrl?: string;
     __productName?: string;
     __price?: number;
@@ -29,6 +29,9 @@ export declare namespace IProductRowItem3 {
     __estimatedArriveDate?: string;
     __orderShippingStatus?: IOrder.OrderShippingStatus;
     __orderItemStatus?: IOrder.OrderShippingOrderItemStatus;
+    __orderItemId?: string | number;
+    __carrierId?: string | number | null;
+    __trackId?: string | number | null;
 
     children?: React.ReactNode;
   }

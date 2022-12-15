@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useOrderCarrierTrack from "../../../hooks/use-apis/use-order-carrier-track.api";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useCodeOrderItemStatusListQuery from "../../../hooks/use-queries/use-code-order-item-status-list.query";
 import useCodeOrderShippingStatusListQuery from "../../../hooks/use-queries/use-code-order-shipping-status-list.query";
 import { day } from "../../../librarys/date-util/date-util.library";
@@ -16,6 +18,11 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const router = useRouter();
   const codeOrderShippingStatusListQuery = useCodeOrderShippingStatusListQuery();
   const codeOrderItemStatusListQuery = useCodeOrderItemStatusListQuery();
+  const orderCarrierTrack = useOrderCarrierTrack();
+  const modalAlert = useModalAlert();
+
+  const [orderNumber, setOrderNumber] = useState(props.__orderNumber);
+  useEffect(() => { setOrderNumber(props.__orderNumber); }, [props.__orderNumber]);
 
   const [imageUrl, setimageUrl] = useState(props.__imageUrl);
   useEffect(() => { setimageUrl(props.__imageUrl); }, [props.__imageUrl]);
@@ -50,9 +57,55 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const [isTopRowShow, setIsTopRowShow] = useState(props.__isTopRowShow);
   useEffect(() => { setIsTopRowShow(props.__isTopRowShow) }, [props.__isTopRowShow]);
 
+  const [orderItemId, setOrderItemId] = useState(props.__orderItemId);
+  useEffect(() => { setOrderItemId(props.__orderItemId) }, [props.__orderItemId]);
+
+  const [carrierId, setCarrierId] = useState(props.__carrierId);
+  useEffect(() => { setCarrierId(props.__carrierId); }, [props.__carrierId]);
+
+  const [trackId, setTrackId] = useState(props.__trackId);
+  useEffect(() => { setTrackId(props.__trackId); }, [props.__trackId]);
+
+
+
+
+
   const reviewWriteButtonClick = useCallback(() => {
-    router.push('/review/write/e35asb-1193506-1344/A0001');
-  }, [router]);
+    if (orderNumber === undefined) {
+      console.error('orderNumber 가 없습니다.');
+      return;
+    }
+
+    if (orderItemId === undefined) {
+      console.error('orderItemId 가 없습니다.');
+      return;
+    }
+
+    router.push('/review/write/' + orderNumber + '/' + orderItemId);
+  }, [orderItemId, orderNumber, router]);
+
+  const deliveryStatusViewButtonClick = useCallback(() => {
+    if (carrierId === undefined || carrierId === null) {
+      console.error('carrierId 가 없습니다.');
+      return;
+    }
+
+    if (trackId === undefined || trackId === null) {
+      console.error('trackId 가 없습니다.');
+      return;
+    }
+
+    orderCarrierTrack.getInstance(carrierId, trackId).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '배송 정보를 가져오는데 실패하였습니다.' });
+        return;
+      }
+
+      window.open(response.data.data.nextUrl, '_blank');
+    }).finally(() => {
+      
+    });
+  }, [carrierId, modalAlert, orderCarrierTrack, trackId]);
 
   return (
     <>
@@ -149,7 +202,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                     }
                     {
                       item.buttonType === 'delivery-check' ? 
-                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }} __onClick={deliveryStatusViewButtonClick}>
                         <span className="text-sm font-bold">배송 조회</span>
                       </Button> : undefined
                     }
