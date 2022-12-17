@@ -7,7 +7,7 @@ export declare namespace ISwiperCustom {
     __currentIndex?: number;
     __isLoop?: boolean;
     __onChange?: (currentIndex: number, nextCurrentIndex: number) => void;
-    __onNotChange?: (currentIndex: number) => void;
+    __onItemClick?: (targetIndex: number) => void;
 
     children?: React.ReactNode;
   }

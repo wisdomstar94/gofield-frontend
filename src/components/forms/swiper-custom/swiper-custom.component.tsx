@@ -11,6 +11,8 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
   const isSwipping = useRef(false);
   const [currentIndex, setCurrentIndex] = useState(props.__currentIndex ?? 0);
   const [activePaginationIndex, setActivePaginationIndex] = useState(props.__currentIndex ?? 0);
+  const touchStartTimeRef = useRef(0);
+  const touchEndTimeRef = useRef(0);
 
   useEffect(() => {
     setCurrentIndex(props.__currentIndex ?? 0);
@@ -35,7 +37,7 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
 
   useDrag(swiperCustomDivRef, {
     onDragStart(dragInfo) {
-      
+      touchStartTimeRef.current = new Date().getTime();
     },
     onDragging(dragInfo) {
       if (isSwipping.current) {
@@ -57,6 +59,8 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       if (isSwipping.current) {
         return;
       }
+
+      touchEndTimeRef.current = new Date().getTime();
 
       const slideItemElements = getSlideItemElements();
       const childrenCount = Children.count(props.children);
@@ -107,8 +111,10 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
           setCurrentIndex(prevIndex);
         };
       } else {
-        if (typeof props.__onNotChange === 'function') {
-          props.__onNotChange(currentIndex);
+        if (touchEndTimeRef.current - touchStartTimeRef.current < 100) {
+          if (typeof props.__onItemClick === 'function') {
+            props.__onItemClick(currentIndex);
+          }
         }
       }
 

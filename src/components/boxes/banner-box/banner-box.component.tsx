@@ -13,8 +13,7 @@ const BannerBox = (props: IBannerBox.Props) => {
     // console.log('@@swiperChange', { currentIndex, nextCurrentIndex });
   }, []);
 
-  const swiperNotChange = useCallback((currentIndex: number) => {
-    // console.log('@@swiperNotChange', { currentIndex });
+  const onItemClick = useCallback((currentIndex: number) => {
     if (mainBannerListQuery.data === undefined) {
       return;
     }
@@ -26,7 +25,7 @@ const BannerBox = (props: IBannerBox.Props) => {
       <div className={[
           styles['banner-box'],
         ].join(' ')}>
-        <SwiperCustom __onChange={swiperChange} __onNotChange={swiperNotChange}>
+        <SwiperCustom __onChange={swiperChange} __onItemClick={onItemClick}>
           {
             mainBannerListQuery?.data?.map((item, index) => {
               return (
