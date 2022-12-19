@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import useOrderCarrierTrack from "../../../hooks/use-apis/use-order-carrier-track.api";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useCodeOrderItemStatusListQuery from "../../../hooks/use-queries/use-code-order-item-status-list.query";
 import useCodeOrderShippingStatusListQuery from "../../../hooks/use-queries/use-code-order-shipping-status-list.query";
 import { day } from "../../../librarys/date-util/date-util.library";
@@ -20,6 +21,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const codeOrderItemStatusListQuery = useCodeOrderItemStatusListQuery();
   const orderCarrierTrack = useOrderCarrierTrack();
   const modalAlert = useModalAlert();
+  const modalConfirm = useModalConfirm();
 
   const [orderNumber, setOrderNumber] = useState(props.__orderNumber);
   useEffect(() => { setOrderNumber(props.__orderNumber); }, [props.__orderNumber]);
@@ -83,6 +85,17 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
 
     router.push('/review/write/' + orderNumber + '/' + orderItemId);
   }, [orderItemId, orderNumber, router]);
+
+  const orderDeliveryCancelButtonClick = useCallback(() => {
+    modalConfirm.show({
+      title: '안내',
+      content: '해당 상품의 주문/배송 취소 신청을 진행하시겠습니까?',
+      positiveCallback: (hide, modalItem) => {
+        router.push(`/order-cancel/${orderItemId}/reason/`);
+        hide(modalItem);
+      },
+    })
+  }, [modalConfirm, orderItemId, router]);
 
   const deliveryStatusViewButtonClick = useCallback(() => {
     if (carrierId === undefined || carrierId === null) {
@@ -210,6 +223,12 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                       item.buttonType === 'review-write' ? 
                       <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={reviewWriteButtonClick}>
                         <span className="text-sm font-bold">상품 리뷰 쓰기</span>
+                      </Button> : undefined
+                    }
+                    {
+                      item.buttonType === 'order-delivery-cancel' ? 
+                      <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={orderDeliveryCancelButtonClick}>
+                        <span className="text-sm font-bold">주문/베송 취소</span>
                       </Button> : undefined
                     }
                   </div>    

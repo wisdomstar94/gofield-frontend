@@ -133,9 +133,13 @@ export default function getConfigs(params: ICommonConfig.Params) {
           },
         },
         item: {
+          _: baseUrl + `/api/order/${apiVersion}/item`,
           orderItem: (orderNumber: string, orderItemId: string | number) => {
             return baseUrl + `/api/order/${apiVersion}/${orderNumber}/item/${orderItemId}`;
           },
+        },
+        cancel: {
+          _: baseUrl + `/api/order/${apiVersion}/cancel`,
         },
       },
 
@@ -182,6 +186,10 @@ export default function getConfigs(params: ICommonConfig.Params) {
         category: {
           _: baseUrl + `/api/code/${apiVersion}/category`,
         },
+      },
+
+      enum: {
+        _: baseUrl + `/api/enum/${apiVersion}`,
       },
     },
   };

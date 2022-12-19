@@ -7,6 +7,7 @@ import { IProductRowItem3 } from "../../../components/boxes/product-row-item3/pr
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 import useOrderDetailApi from "../../../hooks/use-apis/use-order-detail.api";
+import useOrder from "../../../hooks/use-order/use-order.hook";
 import { IOrder } from "../../../interfaces/order/order.interface";
 import { day } from "../../../librarys/date-util/date-util.library";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
@@ -30,6 +31,7 @@ const ProductNewPage = () => {
 const PageContents = () => {
   const orderDetailApi = useOrderDetailApi();
   const router = useRouter();
+  const order = useOrder();
   const [orderDetailInfo, setOrderDetailInfo] = useState<IOrder.OrderDetailInfo>();
   const [originType, setOriginType] = useState('');
 
@@ -76,8 +78,12 @@ const PageContents = () => {
       buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
     }
 
+    if (order.isCancelPosible(shippingItem)) {
+      buttons.push({ buttonType: 'order-delivery-cancel', buttonWidthType: 'full' });
+    }
+
     return buttons;
-  }, []);
+  }, [order]);
 
   return (
     <>

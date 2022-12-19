@@ -4,7 +4,7 @@ import { IOrder } from "../../../interfaces/order/order.interface";
 export declare namespace IProductRowItem3 {
   // export type ButtonLayoutType = 'none' | 'exchange-refund-review' | 'order-delicery-cancel';
   export type ButtonWidthType = 'full' | 'half';
-  export type ButtonType = 'exchange-refund' | 'delivery-check' | 'review-write';
+  export type ButtonType = 'exchange-refund' | 'delivery-check' | 'review-write' | 'order-delivery-cancel';
 
   export interface ShowButtonTypeItem {
     buttonType: ButtonType;

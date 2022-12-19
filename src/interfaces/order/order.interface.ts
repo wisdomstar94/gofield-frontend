@@ -7,9 +7,39 @@ export declare namespace IOrder {
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'SIMPLE' | 'COMBINATION';
   export type OrderStatus = 'ORDER_CREATE' | 'ORDER_CANCEL' | 'ORDER_APPROVAL' | 'ORDER_COMPLETE' | 'ORDER_DELETE';
-  export type OrderShippingStatus = 'ORDER_SHIPPING_CHECK' | 'ORDER_SHIPPING_CANCEL' | 'ORDER_SHIPPING_CHECK_COMPLETE' | 'ORDER_SHIPPING_READY' | 'ORDER_SHIPPING_DELIVERY' | 'ORDER_SHIPPING_DELIVERY_COMPLETE' | 'ORDER_SHIPPING_COMPLETE' | 'ORDER_SHIPPING_DELETE';
+  export type OrderShippingStatus = 
+    'ORDER_SHIPPING_CHECK' | 
+    'ORDER_SHIPPING_CANCEL' | // 취소불가
+    'ORDER_SHIPPING_CHECK_COMPLETE' | 
+    'ORDER_SHIPPING_READY' | 
+    'ORDER_SHIPPING_DELIVERY' | 
+    'ORDER_SHIPPING_DELIVERY_COMPLETE' | // 취소불가
+    'ORDER_SHIPPING_COMPLETE' | // 취소불가
+    'ORDER_SHIPPING_DELETE' // 취소불가
+  ;
   export type Classification = 'ALL' | 'USED' | 'NEW';
   export type OrderShippingOrderItemStatus = 'ORDER_ITEM_RECEIPT' | 'ORDER_ITEM_APPROVE' | 'ORDER_ITEM_RECEIPT_CANCEL' | 'ORDER_ITEM_APPROVE_CANCEL';  
+  export type OrderCancelReasonEnum = 
+    'CANCEL_REASON_900' | 
+    'CANCEL_REASON_300' |
+    'CANCEL_REASON_101' |
+    'CANCEL_REASON_102' |
+    'CANCEL_REASON_103' |
+    'CANCEL_REASON_104' |
+    'CANCEL_REASON_201' |
+    'CANCEL_REASON_202' |
+    'CANCEL_REASON_203' |
+    'CANCEL_REASON_204' |
+    'CANCEL_REASON_205' |
+    'CANCEL_REASON_206' | 
+    'CANCEL_REASON_207'
+  ;
+  export type OrderItemCancelStatus = 
+    'ORDER_ITEM_RECEIPT' |
+    'ORDER_ITEM_APPROVE' |
+    'ORDER_ITEM_RECEIPT_CANCEL' |
+    'ORDER_ITEM_APPROVE_CANCEL' 
+  ;
 
   export interface OrderSheetItem {
     cartId?: number | null;
@@ -153,5 +183,34 @@ export declare namespace IOrder {
 
   export interface OrderCarrierTrackApiData {
     nextUrl: string;
+  }
+
+  export interface OrderItemCancelDetailInfo {
+    cardNumber: string;
+    cardType: string;
+    deliveryPrice: number;
+    discountPrice: number;
+    id: number;
+    installmentPlanMonth: number;
+    isOption: boolean;
+    itemId: number;
+    itemNumber: string;
+    itemOptionId: number;
+    itemPrice: number;
+    name: string;
+    optionName: string[];
+    orderId: number;
+    paymentCompany: string;
+    paymentType: string;
+    qty: number;
+    reason: OrderCancelReasonEnum;
+    refundAccount: string;
+    refundBank: string;
+    refundName: string;
+    refundPrice: number;
+    shippingTemplateId: number;
+    status: OrderItemCancelStatus;
+    thumbnail: string;
+    totalAmount: number;
   }
 }

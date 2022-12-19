@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useOrder from "../../../hooks/use-order/use-order.hook";
 import { IOrder } from "../../../interfaces/order/order.interface";
 import { day } from "../../../librarys/date-util/date-util.library";
 import ProductRowItem3 from "../product-row-item3/product-row-item3.component";
@@ -9,6 +10,7 @@ import { IOrderRowItem } from "./order-row-item.interface";
 
 const OrderRowItem = (props: IOrderRowItem.Props) => {
   const router = useRouter();
+  const order = useOrder();
   const [orderListItem, setOrderListItem] = useState(props.__orderListItem);
   useEffect(() => { setOrderListItem(props.__orderListItem); }, [props.__orderListItem]);
 
@@ -30,8 +32,12 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
       buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
     }
 
+    if (order.isCancelPosible(shippingItem)) {
+      buttons.push({ buttonType: 'order-delivery-cancel', buttonWidthType: 'full' });
+    }
+
     return buttons;
-  }, []);
+  }, [order]);
 
   return (
     <div className="w-full block">
