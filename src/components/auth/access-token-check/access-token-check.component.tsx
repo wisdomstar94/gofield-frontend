@@ -17,6 +17,11 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
     // const refreshToken = user.getRefreshToken();
 
     if (typeof accessToken !== 'string') {
+      if (props.__checkTarget === 'not-login-or-sign-true') {
+        setValidState('valid');
+        return;
+      }
+
       accessTokenInvalid('empty-jwt');
       return;
     }
@@ -68,14 +73,26 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
 
   const accessTokenCheck = useCallback(() => {
     const accessToken = user.getAccessToken();
+    console.log('accessToken', accessToken);
 
     if (typeof accessToken !== 'string') {
+      if (props.__checkTarget === 'not-login-or-sign-true') {
+        setValidState('valid');
+        return;
+      }
+
       accessTokenInvalid('empty-jwt');
       return;
     }
 
     const payload = getJwtPayload<ILogin.JwtPayload>(accessToken);
+    console.log('payload', payload);
     if (payload === null) {
+      if (props.__checkTarget === 'not-login-or-sign-true') {
+        setValidState('valid');
+        return;
+      }
+
       accessTokenInvalid('empty-jwt');
       return;
     }
@@ -88,6 +105,12 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
       }
     } else if (props.__checkTarget === 'signup-complete-user') {
       if (payload.isSign !== false) {
+        setValidState('valid');
+      } else {
+        accessTokenInvalid('not-signup-complete-user');
+      }
+    } else if (props.__checkTarget === 'not-login-or-sign-true') {
+      if (payload.isSign === true) {
         setValidState('valid');
       } else {
         accessTokenInvalid('not-signup-complete-user');

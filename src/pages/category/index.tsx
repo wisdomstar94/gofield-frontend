@@ -16,9 +16,9 @@ const ProductNewPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <AccessTokenCheck __checkTarget="signup-complete-user"> */}
-      <PageContents />
-      {/* </AccessTokenCheck> */}
+      <AccessTokenCheck __checkTarget="not-login-or-sign-true">
+        <PageContents />
+      </AccessTokenCheck>
     </>
   );
 };
