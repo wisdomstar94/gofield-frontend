@@ -1,5 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
+import { IOrder } from "../../../interfaces/order/order.interface";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import Checkbox from "../../forms/checkbox/checkbox.component";
 import { ICheckbox } from "../../forms/checkbox/checkbox.interface";
@@ -8,8 +11,12 @@ import styles from "./basket-product-row-item.component.module.scss";
 import { IBasketProductRowItem } from "./basket-product-row-item.interface";
 
 const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
+  const productOrder = useProductOrder();
+  const router = useRouter();
   const [item, setItem] = useState(props.__item);
   useEffect(() => { setItem(props.__item); }, [props.__item]);
+
+  const [totalPriceInfo, setTotalPriceInfo] = useState<IOrder.TotalPriceInfo>();
 
   const checkboxChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
     if (typeof props.__onCheckboxChange === 'function') {
@@ -36,17 +43,63 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
       nextQty -= 1;
     }
 
-    setItem({ ...item, qty: nextQty });
+    const newItem = { ...item, qty: nextQty };
+    setItem(newItem);
+
+    setTotalPriceInfo(productOrder.getTotalPriceInfo([{
+      charge: newItem.charge,
+      condition: newItem.condition,
+      delivery: newItem.delivery,
+      deliveryPrice: newItem.deliveryPrice,
+      price: newItem.price,
+      qty: newItem.qty,
+    }]));
+
     if (typeof props.__onCountChange === 'function' && nextQty !== currentQty) {
       props.__onCountChange(nextQty);
     }
-  }, [item, props]);
+  }, [item, productOrder, props]);
 
   const deleteCartItemButtonClick = useCallback(() => {
     if (typeof props.__onDeleteButtonClick === 'function' && item !== undefined) {
       props.__onDeleteButtonClick(item);
     }
   }, [item, props]);
+
+  // useEffect(() => {
+  //   if (item === undefined) {
+  //     return;
+  //   }
+
+  //   setTotalPriceInfo(productOrder.getTotalPriceInfo([{
+  //     charge: item.charge,
+  //     condition: item.condition,
+  //     delivery: item.delivery,
+  //     deliveryPrice: item.deliveryPrice,
+  //     price: item.price,
+  //     qty: item.qty,
+  //   }]));
+  // }, [item, productOrder]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    if (item === undefined) {
+      return;
+    }
+
+    setTotalPriceInfo(productOrder.getTotalPriceInfo([{
+      charge: item.charge,
+      condition: item.condition,
+      delivery: item.delivery,
+      deliveryPrice: item.deliveryPrice,
+      price: item.price,
+      qty: item.qty,
+    }]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
     
   return (
     <>
@@ -106,7 +159,7 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
                   {
                     item !== undefined ? 
                     <span className={styles['is-delivery-free-or-pay-area']}>
-                      { item.qty * item.price >= item.condition ? '무료배송' : '배송료 ' + getAddCommaNumberString({ numberValue: item.charge }) } 
+                      { totalPriceInfo?.totalCharge === 0 ? '무료배송' : '배송료 ' + getAddCommaNumberString({ numberValue: totalPriceInfo?.totalCharge }) } 
                     </span> : 
                     <></>
                   }

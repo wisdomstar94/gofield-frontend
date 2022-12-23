@@ -10,8 +10,19 @@ const useProductOrder = () => {
     list.forEach((item) => {
       totalPrice += item.price * item.qty;
 
-      if (item.qty * item.price < item.condition) {
-        totalCharge += item.charge;
+      // 배송료 계산
+      switch (item.delivery) {
+        case 'FREE': {
+
+        } break;
+        case 'PAY': {
+          totalCharge += item.deliveryPrice;
+        } break;
+        case 'CONDITION': {
+          if (item.qty * item.price < item.condition) {
+            totalCharge += item.charge;
+          }
+        } break;
       }
     });
 

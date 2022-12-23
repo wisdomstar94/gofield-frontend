@@ -79,6 +79,8 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
     return productOrder.getTotalPriceInfo(list.filter(item => item.isChecked === true).map(item => ({ 
       charge: item.charge, 
       condition: item.condition, 
+      delivery: item.delivery,
+      deliveryPrice: item.deliveryPrice,
       price: item.price,
       qty: item.qty,
     })));
@@ -151,7 +153,14 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
       return;
     }
 
-    const getPriceTotalInfo = productOrder.getTotalPriceInfo(checkedItems.map(item => ({ charge: item.charge, condition: item.condition, price: item.price, qty: item.qty })));
+    const getPriceTotalInfo = productOrder.getTotalPriceInfo(checkedItems.map(item => ({ 
+      charge: item.charge, 
+      condition: item.condition, 
+      delivery: item.delivery,
+      deliveryPrice: item.deliveryPrice,
+      price: item.price, 
+      qty: item.qty 
+    })));
 
     modalConfirm.show({
       title: '안내',
@@ -221,7 +230,7 @@ const BasketFormBox = (props: IBasketFormBox.Props) => {
               __rightComponent={<><span className={styles['price-final-text']}>{ getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</span></>} />
           </div>
 
-          <BottomFixedOrRelativeBox __heightToRelative={100}>
+          <BottomFixedOrRelativeBox __heightToRelative={60}>
             <BothSidebox
               __leftComponent={<><Button __buttonStyle="white-solid-gray-stroke">합계 : { getAddCommaNumberString({ numberValue: getTotalPriceInfo().totalPaySubmitPrice }) }원</Button></>}
               __rightComponent={<><Button __buttonStyle="black-solid" __onClick={nowBuyButtonClick}>바로 구매하기</Button></>} />

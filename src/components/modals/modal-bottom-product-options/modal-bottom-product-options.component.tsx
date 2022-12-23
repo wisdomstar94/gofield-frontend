@@ -217,7 +217,14 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       price = targetItem.price;
     }
 
-    const getPriceTotalInfo = productOrder.getTotalPriceInfo([{ charge: detailInfo.shippingTemplate.charge, condition: detailInfo.shippingTemplate.condition, price: price, qty: 1 }]);
+    const getPriceTotalInfo = productOrder.getTotalPriceInfo([{ 
+      charge: detailInfo.shippingTemplate.charge, 
+      condition: detailInfo.shippingTemplate.condition, 
+      delivery: detailInfo.delivery,
+      deliveryPrice: detailInfo.deliveryPrice,
+      price: price, 
+      qty: 1 
+    }]);
 
     isOrderSheetCreatingRef.current = true;
     orderSheetCreateApi.getInstance({
@@ -235,7 +242,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }).finally(() => {  
       isOrderSheetCreatingRef.current = false;
     });
-  }, [detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, optionList, orderSheetCreateApi, productOrder, router, user]);
+  }, [detailInfo?.delivery, detailInfo?.deliveryPrice, detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, optionList, orderSheetCreateApi, productOrder, router, user]);
 
   return (
     <>

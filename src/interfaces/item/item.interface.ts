@@ -2,7 +2,11 @@ export declare namespace IItem {
   export type Classification = 'ALL' | 'USED' | 'NEW';
   export type Spec = 'BEST' | 'UPPER' | 'MIDDLE' | 'LOWER';
   export type Gender = 'MALE' | 'FEMALE';
-  export type Delivery = 'FREE' | 'PAY' | 'CONDITION';
+  export type Delivery = 
+    'FREE' | // 무료배송
+    'PAY' | // 유료배송
+    'CONDITION' // 조건부배송
+  ;
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'COMBINATION' | 'SIMPLE';
   export type OptionStatus = 'SOLD_OUT' | 'SALE';

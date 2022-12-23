@@ -1,4 +1,5 @@
 import { IAddress } from "../address/address.interface";
+import { IItem } from "../item/item.interface";
 
 export declare namespace IOrder {
   export type PaymentMethod = 'card' | 'deposit-without-bankbook' | 'bank-transfer';
@@ -53,6 +54,8 @@ export declare namespace IOrder {
 
   export interface PriceInfoItem {
     price: number;
+    delivery: IItem.Delivery;
+    deliveryPrice: number;
     qty: number;
     condition: number;
     charge: number;
@@ -212,5 +215,11 @@ export declare namespace IOrder {
     status: OrderItemCancelStatus;
     thumbnail: string;
     totalAmount: number;
+  }
+
+  export interface TotalPriceInfo {
+    totalPrice: number;
+    totalCharge: number;
+    totalPaySubmitPrice: number;
   }
 }

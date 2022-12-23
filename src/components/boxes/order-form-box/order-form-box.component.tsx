@@ -330,7 +330,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
                         shippingAddress: {
                           ...prev.shippingAddress,
                           shippingCode: value,
-                          shippingComment: valueItem?.text,
+                          shippingComment: value === '00028' ? '' : valueItem?.text,
                         },
                       }))
                     }} />
