@@ -113,7 +113,9 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
       if (payload.isSign === true) {
         setValidState('valid');
       } else {
-        accessTokenInvalid('not-signup-complete-user');
+        user.removeAll();
+        setValidState('valid');
+        // accessTokenInvalid('not-signup-complete-user');
       }
     }
   }, [accessTokenInvalid, props.__checkTarget, user]);

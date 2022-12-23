@@ -125,6 +125,7 @@ const PageContents = () => {
       <WindowSizeContainer>
         <Topbar
           __backButtonClickCallback={() => {
+            user.removeAll();
             router.push('/login');
           }}
           __layoutTypeA={{
