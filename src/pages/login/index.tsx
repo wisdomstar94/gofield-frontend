@@ -6,10 +6,11 @@ import SvgGofieldLogo from "../../components/svgs/svg-gofield-logo/svg-gofield-l
 import List, { ListItem } from "../../components/layouts/list/list.component";
 import SvgSocialSymbolKakao from "../../components/svgs/svg-social-symbol-kakao/svg-social-symbol-kakao.component";
 import SvgSocialSymbolNaver from "../../components/svgs/svg-social-symbol-naver/svg-social-symbol-naver.component";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Config from "../../configs/config.export";
 import NotLoginCheck from "../../components/auth/not-login-check/not-login-check.component";
 import { ILogin } from "../../interfaces/login/login.interface";
+import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../hooks/use-queries/use-is-singup-page-accessed.query";
 
 const LoginPage: NextPage = () => {
   return (
@@ -28,6 +29,8 @@ const LoginPage: NextPage = () => {
 };  
 
 const PageContents = () => {
+  const isSignupPageAccessedQuery = useIsSignupPageAccessedQuery();
+
   const socialLoginButtonClick = useCallback((socialType: ILogin.SocialType) => {
     let environment = '';
     switch (Config().mode) {
@@ -42,6 +45,12 @@ const PageContents = () => {
 
     const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
     location.href = url;
+  }, []);
+
+  useEffect(() => {
+    setIsSignupPageAccessed(false);
+    isSignupPageAccessedQuery.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
