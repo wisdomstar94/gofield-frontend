@@ -124,6 +124,9 @@ const PageContents = () => {
     <>
       <WindowSizeContainer>
         <Topbar
+          __backButtonClickCallback={() => {
+            router.push('/login');
+          }}
           __layoutTypeA={{
             titleComponent: <>회원가입</>,
             bgColorTransparency: true,

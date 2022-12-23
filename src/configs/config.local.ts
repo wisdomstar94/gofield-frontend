@@ -9,6 +9,8 @@ const kakaoSdkJavascriptUrl = 'https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.
 const kakaoSdkJavascriptIntegrity = 'sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx';
 const kakaoSdkJavascriptCrossOrigin = 'anonymous';
 const kakaoJavascriptKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY ?? '';
+const naverSdkJavascriptUrl = 'https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js';
+const naverSdkJavascriptRequiredJqueryUrl = 'http://code.jquery.com/jquery-1.11.3.min.js';
 const naverClientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? '';
 
 const configLocal = getConfigs({
@@ -21,6 +23,8 @@ const configLocal = getConfigs({
   kakaoSdkJavascriptIntegrity,
   kakaoSdkJavascriptCrossOrigin,
   kakaoJavascriptKey,
+  naverSdkJavascriptUrl,
+  naverSdkJavascriptRequiredJqueryUrl,
   naverClientId,
 });
 

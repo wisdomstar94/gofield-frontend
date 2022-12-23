@@ -10,11 +10,12 @@ import { ILogin } from "../../../interfaces/login/login.interface";
 import Script from "next/script";
 import useKakaoLoginSdk from "../../../hooks/use-kakao-login-sdk/use-kakao-login-sdk.hook";
 import Config from "../../../configs/config.export";
+import useNaverLoginSdk from "../../../hooks/use-naver-login-sdk/use-naver-login-sdk.hook";
 
 const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: ForwardedRef<IModalSignupNotice.RefObject>) => {
   const [modalState, setModalState] = useState<IModal.ModalState>(props.__modalState ?? '');
-  const user = useUser();
   const kakaoLoginSdk = useKakaoLoginSdk();
+  const naverLoginSdk = useNaverLoginSdk();
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -42,13 +43,11 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
       return;
     }
 
-    // const url = user.getLoginRequestUrl(socialType);
-    // if (url === undefined) {
-    //   return;
-    // }
-
-    // location.href = url;
-  }, [kakaoLoginSdk]);
+    if (socialType === 'NAVER') {
+      naverLoginSdk.naverLoginStart();
+      return;
+    }
+  }, [kakaoLoginSdk, naverLoginSdk]);
 
   return (
     <>
@@ -58,6 +57,22 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
         crossOrigin={Config().kakaoSdkJavascriptCrossOrigin}
         defer
         onLoad={() => kakaoLoginSdk.init()}></Script>
+      <Script 
+        defer
+        type="text/javascript" 
+        src={Config().naverSdkJavascriptRequiredJqueryUrl}></Script>
+      <Script
+        defer 
+        type="text/javascript" 
+        src={Config().naverSdkJavascriptUrl}
+        onLoad={() => naverLoginSdk.init({
+          clientId: Config().naver.sdk.clientId,
+          callbackUrl: Config().naver.redirectUrl,
+        })}></Script>
+
+      <div  
+        id="naver_id_login" 
+        className={styles['hide-button']}></div>
 
       <Modal __modalState={modalState}>
         <WindowSizeContainer __bgColor="rgba(0, 0, 0, 0.7)">

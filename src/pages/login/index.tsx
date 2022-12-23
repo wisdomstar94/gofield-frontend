@@ -6,18 +6,16 @@ import SvgGofieldLogo from "../../components/svgs/svg-gofield-logo/svg-gofield-l
 import List, { ListItem } from "../../components/layouts/list/list.component";
 import SvgSocialSymbolKakao from "../../components/svgs/svg-social-symbol-kakao/svg-social-symbol-kakao.component";
 import SvgSocialSymbolNaver from "../../components/svgs/svg-social-symbol-naver/svg-social-symbol-naver.component";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Config from "../../configs/config.export";
-import NotLoginCheck from "../../components/auth/not-login-check/not-login-check.component";
 import { ILogin } from "../../interfaces/login/login.interface";
-import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../hooks/use-queries/use-is-singup-page-accessed.query";
 import Script from "next/script";
 import { useRouter } from "next/router";
 import useKakaoLoginSdk from "../../hooks/use-kakao-login-sdk/use-kakao-login-sdk.hook";
+import useNaverLoginSdk from "../../hooks/use-naver-login-sdk/use-naver-login-sdk.hook";
+import useUser from "../../hooks/use-user-hook/use-user.hook";
 
 const LoginPage: NextPage = () => {
-  const kakaoLoginSdk = useKakaoLoginSdk();
-
   return (
     <>
       <Head>
@@ -25,24 +23,17 @@ const LoginPage: NextPage = () => {
         <meta name="description" content="고필드 로그인 페이지 입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Script 
-        src={Config().kakaoSdkJavascriptUrl} 
-        integrity={Config().kakaoSdkJavascriptIntegrity} 
-        crossOrigin={Config().kakaoSdkJavascriptCrossOrigin}
-        defer
-        onLoad={() => kakaoLoginSdk.init()}></Script>
       
-      <NotLoginCheck>
-        <PageContents />
-      </NotLoginCheck>
+      <PageContents />
     </>
   );
 };  
 
 const PageContents = () => {
-  const isSignupPageAccessedQuery = useIsSignupPageAccessedQuery();
   const router = useRouter();
   const kakaoLoginSdk = useKakaoLoginSdk();
+  const naverLoginSdk = useNaverLoginSdk();
+  const user = useUser();
 
   const socialLoginButtonClick = useCallback((socialType: ILogin.SocialType) => {
     if (socialType === 'KAKAO') {
@@ -52,33 +43,42 @@ const PageContents = () => {
       return;
     }
 
-    // let environment = '';
-    // switch (Config().mode) {
-    //   case 'local': environment = 'LOCAL'; break;
-    //   case 'development': environment = 'DEV'; break;
-    //   case 'production': environment = 'PROD'; break;
-    // }
-    // if (environment === '') {
-    //   alert('유효하지 않은 요청입니다.');
-    //   return;
-    // }
-
-    // const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
-    // location.href = url;
-  }, [kakaoLoginSdk]);
+    if (socialType === 'NAVER') {
+      naverLoginSdk.naverLoginStart();
+      return;
+    }
+  }, [kakaoLoginSdk, naverLoginSdk]);
 
   useEffect(() => {
     if (!router.isReady) {
       return;
     }
 
-    setIsSignupPageAccessed(false);
-    isSignupPageAccessedQuery.refetch();
+    user.removeAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   return (
     <>
+      <Script 
+        src={Config().kakaoSdkJavascriptUrl} 
+        integrity={Config().kakaoSdkJavascriptIntegrity} 
+        crossOrigin={Config().kakaoSdkJavascriptCrossOrigin}
+        defer
+        onLoad={() => kakaoLoginSdk.init()}></Script>
+      <Script 
+        defer
+        type="text/javascript" 
+        src={Config().naverSdkJavascriptRequiredJqueryUrl}></Script>
+      <Script
+        defer 
+        type="text/javascript" 
+        src={Config().naverSdkJavascriptUrl}
+        onLoad={() => naverLoginSdk.init({
+          clientId: Config().naver.sdk.clientId,
+          callbackUrl: Config().naver.redirectUrl,
+        })}></Script>
+
       <WindowSizeContainer>
         <div className={styles['top-row']}>
           <SvgGofieldLogo />
@@ -104,7 +104,9 @@ const PageContents = () => {
               </button>
             </ListItem>
             <ListItem __marginBottom="10px">
-              <button className={[
+              <button 
+                // id="naver_id_login" 
+                className={[
                   styles['social-login-button'],
                   styles['naver'],
                 ].join(' ')}
@@ -120,6 +122,9 @@ const PageContents = () => {
                   </div>
                 </div>
               </button>
+              <button
+                id="naver_id_login" 
+                className={styles['hide-button']}></button>
             </ListItem>
           </List>
         </div>

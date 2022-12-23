@@ -11,6 +11,8 @@ export declare namespace ICommonConfig {
     kakaoSdkJavascriptIntegrity: string;
     kakaoSdkJavascriptCrossOrigin: string;
     kakaoJavascriptKey: string;
+    naverSdkJavascriptUrl: string;
+    naverSdkJavascriptRequiredJqueryUrl: string;
     naverClientId: string;
   }
 }  
@@ -26,6 +28,8 @@ export default function getConfigs(params: ICommonConfig.Params) {
     kakaoSdkJavascriptIntegrity,
     kakaoSdkJavascriptCrossOrigin,
     kakaoJavascriptKey,
+    naverSdkJavascriptUrl,
+    naverSdkJavascriptRequiredJqueryUrl,
     naverClientId,
   } = params;
 
@@ -37,6 +41,8 @@ export default function getConfigs(params: ICommonConfig.Params) {
     kakaoSdkJavascriptUrl,
     kakaoSdkJavascriptIntegrity,
     kakaoSdkJavascriptCrossOrigin,
+    naverSdkJavascriptUrl,
+    naverSdkJavascriptRequiredJqueryUrl,
 
     kakao: {
       redirectUrl: redirectUrl + '/auth/kakao/callback',
