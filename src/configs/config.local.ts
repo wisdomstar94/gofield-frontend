@@ -10,7 +10,7 @@ const kakaoSdkJavascriptIntegrity = 'sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQj
 const kakaoSdkJavascriptCrossOrigin = 'anonymous';
 const kakaoJavascriptKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY ?? '';
 const naverSdkJavascriptUrl = 'https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js';
-const naverSdkJavascriptRequiredJqueryUrl = 'http://code.jquery.com/jquery-1.11.3.min.js';
+const naverSdkJavascriptRequiredJqueryUrl = '/js/jquery/jquery-1.11.3.min.js';
 const naverClientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? '';
 
 const configLocal = getConfigs({
