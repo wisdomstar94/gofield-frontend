@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useUserLoginApi from "../../../hooks/use-apis/use-user-login.api";
+import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../../hooks/use-queries/use-is-singup-page-accessed.query";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { IResponse } from "../../../interfaces/response/response.interface";
 
@@ -26,9 +27,22 @@ const PageContents = () => {
   const router = useRouter();
   const userLoginApi = useUserLoginApi();
   const user = useUser();
+  const isSignupPageAccessedQuery = useIsSignupPageAccessedQuery();
 
   useEffect(() => {
     if (router.isReady !== true) {
+      return;
+    }
+
+    console.log('@@@ isSignupPageAccessedQuery.data', isSignupPageAccessedQuery.data);
+    if (isSignupPageAccessedQuery.data === null) {
+      return;
+    }
+
+    if (isSignupPageAccessedQuery.data === true) {
+      setIsSignupPageAccessed(false);
+      isSignupPageAccessedQuery.refetch();
+      user.removeAll();
       return;
     }
 
@@ -56,8 +70,11 @@ const PageContents = () => {
       user.setAccessToken(response.data.data.accessToken);
       user.setRefreshToken(response.data.data.refreshToken);
 
-      if (response.data.data.isFirst) {
+      console.log('response.data.data', response.data.data);
+
+      if (!response.data.data.isSign) {
         // 회원 가입 페이지로 이동..
+        console.log('회원 가입 페이지로 이동..');
         router.push('/signup');
         return;
       }

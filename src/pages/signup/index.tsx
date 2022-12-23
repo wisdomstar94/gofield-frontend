@@ -12,6 +12,7 @@ import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 import useUserSignupApi from "../../hooks/use-apis/use-user-sign-up.api";
 import useCategoryListQuery from "../../hooks/use-queries/use-category-list.query";
+import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../hooks/use-queries/use-is-singup-page-accessed.query";
 import useUser from "../../hooks/use-user-hook/use-user.hook";
 import { ISignup } from "../../interfaces/signup/signup.interface";
 
@@ -36,6 +37,7 @@ const PageContents = () => {
   const userSignupApi = useUserSignupApi();
   const router = useRouter();
   const categoryListQuery = useCategoryListQuery();
+  const isSignupPageAccessedQuery = useIsSignupPageAccessedQuery();
 
   const [signupButtonState, setSignupButtonState] = useState<'invalid' | 'valid'>('invalid');
   const signupDetailInfoRef = useRef<ISignup.SingupDetailInfo>({
@@ -111,6 +113,12 @@ const PageContents = () => {
 
     });
   }, [router, user, userSignupApi]);
+
+  useEffect(() => {
+    setIsSignupPageAccessed(true);
+    isSignupPageAccessedQuery.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

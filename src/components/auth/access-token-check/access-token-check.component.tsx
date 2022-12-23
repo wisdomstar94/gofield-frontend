@@ -73,7 +73,7 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
 
   const accessTokenCheck = useCallback(() => {
     const accessToken = user.getAccessToken();
-    console.log('accessToken', accessToken);
+    // console.log('accessToken', accessToken);
 
     if (typeof accessToken !== 'string') {
       if (props.__checkTarget === 'not-login-or-sign-true') {
@@ -86,7 +86,7 @@ const AccessTokenCheck = (props: IAccessTokenCheck.Props) => {
     }
 
     const payload = getJwtPayload<ILogin.JwtPayload>(accessToken);
-    console.log('payload', payload);
+    // console.log('payload', payload);
     if (payload === null) {
       if (props.__checkTarget === 'not-login-or-sign-true') {
         setValidState('valid');

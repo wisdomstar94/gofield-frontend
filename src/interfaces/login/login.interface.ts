@@ -5,7 +5,7 @@ export declare namespace ILogin {
     accessToken: string;
     accessTokenExpiresIn: number;
     grantType: 'Gofield',
-    isFirst: boolean;
+    isSign: boolean;
     refreshToken: string;
     refreshTokenExpiresIn: number;
   }
