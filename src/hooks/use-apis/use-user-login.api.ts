@@ -7,13 +7,13 @@ import useAxios from "../use-axios-hook/use-axios.hook";
 const useUserLoginApi = () => {
   const axios = useAxios();
 
-  const getInstance = useCallback((code: string, state: string, social: string) => {
+  const getInstance = useCallback((code: string, social: string) => {
     return axios.getAxiosInstance<IResponse.CommonResponse<ILogin.LoginData>>({
       url: Config().api.auth.login._,
       method: 'post',
       data: {
         code,
-        state,
+        state: '',
         social,
       },
     });

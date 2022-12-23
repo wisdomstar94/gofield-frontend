@@ -2,10 +2,10 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import useUserLoginApi from "../../../hooks/use-apis/use-user-login.api";
-import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../../hooks/use-queries/use-is-singup-page-accessed.query";
-import useUser from "../../../hooks/use-user-hook/use-user.hook";
-import { IResponse } from "../../../interfaces/response/response.interface";
+import useUserLoginApi from "../../../../hooks/use-apis/use-user-login.api";
+import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../../../hooks/use-queries/use-is-singup-page-accessed.query";
+import useUser from "../../../../hooks/use-user-hook/use-user.hook";
+import { IResponse } from "../../../../interfaces/response/response.interface";
 
 const AuthCallbackPage: NextPage = () => {
   return (
@@ -34,34 +34,39 @@ const PageContents = () => {
       return;
     }
 
-    console.log('@@@ isSignupPageAccessedQuery.data', isSignupPageAccessedQuery.data);
-    if (isSignupPageAccessedQuery.data === null) {
-      return;
-    }
+    // console.log('@@@ isSignupPageAccessedQuery.data', isSignupPageAccessedQuery.data);
+    // if (isSignupPageAccessedQuery.data === null) {
+    //   return;
+    // }
 
-    if (isSignupPageAccessedQuery.data === true) {
-      setIsSignupPageAccessed(false);
-      isSignupPageAccessedQuery.refetch();
-      user.removeAll();
-      return;
-    }
+    // if (isSignupPageAccessedQuery.data === true) {
+    //   setIsSignupPageAccessed(false);
+    //   isSignupPageAccessedQuery.refetch();
+    //   user.removeAll();
+    //   return;
+    // }
 
     if (typeof router.query.code !== 'string') {
       alert('유효하지 않은 접근입니다. [-1]');
       return;
     }
 
-    if (typeof router.query.state !== 'string') {
-      alert('유효하지 않은 접근입니다. [-2]');
-      return;
-    }
+    // if (typeof router.query.state !== 'string') {
+    //   alert('유효하지 않은 접근입니다. [-2]');
+    //   return;
+    // }
 
-    if (typeof router.query.social !== 'string') {
+    if (typeof router.query._social !== 'string') {
       alert('유효하지 않은 접근입니다. [-3]');
       return;
     }
 
-    userLoginApi.getInstance(router.query.code, router.query.state, router.query.social).then((response) => {
+    if (!new Set(['kakao', 'naver']).has(router.query._social)) {
+      alert('유효하지 않은 접근입니다. [-4]');
+      return;
+    }
+
+    userLoginApi.getInstance(router.query.code, router.query._social.toUpperCase()).then((response) => {
       if (response.data.status !== true) {
         alert(response.data.message);
         return;

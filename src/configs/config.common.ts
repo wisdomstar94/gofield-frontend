@@ -4,8 +4,14 @@ export declare namespace ICommonConfig {
   export interface Params {
     baseUrl: string;
     signNotInUserJwt: string;
+    redirectUrl: string;
     mode: Mode;
     apiVersion: string;
+    kakaoSdkJavascriptUrl: string;
+    kakaoSdkJavascriptIntegrity: string;
+    kakaoSdkJavascriptCrossOrigin: string;
+    kakaoJavascriptKey: string;
+    naverClientId: string;
   }
 }  
 
@@ -13,14 +19,38 @@ export default function getConfigs(params: ICommonConfig.Params) {
   const {
     baseUrl,
     signNotInUserJwt,
+    redirectUrl,
     mode,
     apiVersion,
+    kakaoSdkJavascriptUrl,
+    kakaoSdkJavascriptIntegrity,
+    kakaoSdkJavascriptCrossOrigin,
+    kakaoJavascriptKey,
+    naverClientId,
   } = params;
 
   return {
     baseUrl,
     signNotInUserJwt,
+    redirectUrl,
     mode,
+    kakaoSdkJavascriptUrl,
+    kakaoSdkJavascriptIntegrity,
+    kakaoSdkJavascriptCrossOrigin,
+
+    kakao: {
+      redirectUrl: redirectUrl + '/auth/kakao/callback',
+      sdk: {
+        javascriptKey: kakaoJavascriptKey,
+      },
+    },
+
+    naver: {
+      redirectUrl: redirectUrl + '/auth/naver/callback',
+      sdk: {
+        clientId: naverClientId,
+      },
+    },
 
     test: {
       var1: 'apple',

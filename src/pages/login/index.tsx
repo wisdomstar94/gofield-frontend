@@ -11,8 +11,13 @@ import Config from "../../configs/config.export";
 import NotLoginCheck from "../../components/auth/not-login-check/not-login-check.component";
 import { ILogin } from "../../interfaces/login/login.interface";
 import useIsSignupPageAccessedQuery, { setIsSignupPageAccessed } from "../../hooks/use-queries/use-is-singup-page-accessed.query";
+import Script from "next/script";
+import { useRouter } from "next/router";
+import useKakaoLoginSdk from "../../hooks/use-kakao-login-sdk/use-kakao-login-sdk.hook";
 
 const LoginPage: NextPage = () => {
+  const kakaoLoginSdk = useKakaoLoginSdk();
+
   return (
     <>
       <Head>
@@ -20,7 +25,13 @@ const LoginPage: NextPage = () => {
         <meta name="description" content="고필드 로그인 페이지 입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Script 
+        src={Config().kakaoSdkJavascriptUrl} 
+        integrity={Config().kakaoSdkJavascriptIntegrity} 
+        crossOrigin={Config().kakaoSdkJavascriptCrossOrigin}
+        defer
+        onLoad={() => kakaoLoginSdk.init()}></Script>
+      
       <NotLoginCheck>
         <PageContents />
       </NotLoginCheck>
@@ -30,28 +41,41 @@ const LoginPage: NextPage = () => {
 
 const PageContents = () => {
   const isSignupPageAccessedQuery = useIsSignupPageAccessedQuery();
+  const router = useRouter();
+  const kakaoLoginSdk = useKakaoLoginSdk();
 
   const socialLoginButtonClick = useCallback((socialType: ILogin.SocialType) => {
-    let environment = '';
-    switch (Config().mode) {
-      case 'local': environment = 'LOCAL'; break;
-      case 'development': environment = 'DEV'; break;
-      case 'production': environment = 'PROD'; break;
-    }
-    if (environment === '') {
-      alert('유효하지 않은 요청입니다.');
+    if (socialType === 'KAKAO') {
+      kakaoLoginSdk.kakaoLoginStart({
+        redirectUri: Config().kakao.redirectUrl,
+      });
       return;
     }
 
-    const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
-    location.href = url;
-  }, []);
+    // let environment = '';
+    // switch (Config().mode) {
+    //   case 'local': environment = 'LOCAL'; break;
+    //   case 'development': environment = 'DEV'; break;
+    //   case 'production': environment = 'PROD'; break;
+    // }
+    // if (environment === '') {
+    //   alert('유효하지 않은 요청입니다.');
+    //   return;
+    // }
+
+    // const url = Config().api.third.ready._ + `?environment=${environment}&social=${socialType}`;
+    // location.href = url;
+  }, [kakaoLoginSdk]);
 
   useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
     setIsSignupPageAccessed(false);
     isSignupPageAccessedQuery.refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.isReady]);
 
   return (
     <>

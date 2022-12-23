@@ -7,10 +7,14 @@ import { IModal } from "../../forms/modal/modal.interface";
 import BottomFixedOrRelativeBox from "../../boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { ILogin } from "../../../interfaces/login/login.interface";
+import Script from "next/script";
+import useKakaoLoginSdk from "../../../hooks/use-kakao-login-sdk/use-kakao-login-sdk.hook";
+import Config from "../../../configs/config.export";
 
 const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: ForwardedRef<IModalSignupNotice.RefObject>) => {
   const [modalState, setModalState] = useState<IModal.ModalState>(props.__modalState ?? '');
   const user = useUser();
+  const kakaoLoginSdk = useKakaoLoginSdk();
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -31,16 +35,30 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
   }, [hide]);
 
   const snsLoginButtonClick = useCallback((socialType: ILogin.SocialType) => {
-    const url = user.getLoginRequestUrl(socialType);
-    if (url === undefined) {
+    if (socialType === 'KAKAO') {
+      kakaoLoginSdk.kakaoLoginStart({
+        redirectUri: Config().kakao.redirectUrl,
+      });
       return;
     }
 
-    location.href = url;
-  }, [user]);
+    // const url = user.getLoginRequestUrl(socialType);
+    // if (url === undefined) {
+    //   return;
+    // }
+
+    // location.href = url;
+  }, [kakaoLoginSdk]);
 
   return (
     <>
+      <Script 
+        src={Config().kakaoSdkJavascriptUrl} 
+        integrity={Config().kakaoSdkJavascriptIntegrity} 
+        crossOrigin={Config().kakaoSdkJavascriptCrossOrigin}
+        defer
+        onLoad={() => kakaoLoginSdk.init()}></Script>
+
       <Modal __modalState={modalState}>
         <WindowSizeContainer __bgColor="rgba(0, 0, 0, 0.7)">
           <div data-name="close-button" className="absolute top-4 right-4 text-white cursor-pointer text-xl" onClick={closeButtonClick}>
