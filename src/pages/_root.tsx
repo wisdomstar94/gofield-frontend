@@ -56,7 +56,7 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
   useEffect(() => {
     function onResize() {
       const deviceInfo = getDeviceInfo();
-      console.log('deviceInfo', deviceInfo);
+      // console.log('deviceInfo', deviceInfo);
 
       if (deviceInfo.type === undefined) {
         // pc

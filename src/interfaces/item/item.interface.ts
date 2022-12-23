@@ -2,7 +2,7 @@ export declare namespace IItem {
   export type Classification = 'ALL' | 'USED' | 'NEW';
   export type Spec = 'BEST' | 'UPPER' | 'MIDDLE' | 'LOWER';
   export type Gender = 'MALE' | 'FEMALE';
-  export type Delivery = 'FREE' | 'PAY';
+  export type Delivery = 'FREE' | 'PAY' | 'CONDITION';
   export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'COMBINATION' | 'SIMPLE';
   export type OptionStatus = 'SOLD_OUT' | 'SALE';
@@ -48,6 +48,8 @@ export declare namespace IItem {
     classification: Classification;
     gender: Gender;
     tags: string[];
+    delivery: Delivery;
+    deliveryPrice: number;
   }
 
   export interface BundleProductDetailApiData {
@@ -96,6 +98,7 @@ export declare namespace IItem {
     classification: Classification;
     spec: Spec;
     delivery: Delivery;
+    deliveryPrice: number;
     gender: Gender;
     images: string[];
     isOption: boolean;

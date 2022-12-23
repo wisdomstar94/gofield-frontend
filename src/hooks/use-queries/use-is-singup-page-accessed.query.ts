@@ -13,7 +13,7 @@ const getIsSignupPageAccessed = (): boolean | null => {
   }
 
   if (isSignupPageAccessed === 'false') {
-    return true;
+    return false;
   }
 
   return null;

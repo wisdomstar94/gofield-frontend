@@ -26,5 +26,7 @@ export declare namespace ICart {
     feeJejuBesides: number;
     price: number;
     isChecked: boolean;
+    delivery: IItem.Delivery;
+    deliveryPrice: number;
   }
 }

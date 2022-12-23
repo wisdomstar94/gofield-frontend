@@ -24,8 +24,8 @@ const queryClient = new QueryClient({
       }
     },
     onSuccess: data => {
-      console.log(data);
-      console.log('데이터를 정상적으로 캐싱했어요!');
+      // console.log(data);
+      // console.log('데이터를 정상적으로 캐싱했어요!');
     },
   }),
 });
