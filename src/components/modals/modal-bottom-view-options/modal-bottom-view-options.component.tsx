@@ -16,20 +16,22 @@ const ModalBottomViewOptions = forwardRef((props: IModalBottomViewOptions.Props,
   const useViewFilterOptionProductStatusItemListQuery = useViewFilterOptionItemListQuery('product-status');
 
   const [selectedCategory, setSelectedCategory] = useState(props.__selectedCategory ?? 'all');
-  const [selectedOrderBy, setSelectedOrderBy] = useState(props.__selectedOrderBy ?? 'recommend');
+  useEffect(() => { setSelectedCategory(props.__selectedCategory ?? 'all') }, [props.__selectedCategory]);
+  
+  const [selectedOrderBy, setSelectedOrderBy] = useState(props.__selectedOrderBy);
+  useEffect(() => { setSelectedOrderBy(props.__selectedOrderBy) }, [props.__selectedOrderBy]);
+
   const [selectedProductStatus, setSelectedProductStatus] = useState(props.__selectedProductStatus ?? '');
+  useEffect(() => { setSelectedProductStatus(props.__selectedProductStatus ?? '') }, [props.__selectedProductStatus]);  
 
-  useEffect(() => {
-    setSelectedCategory(props.__selectedCategory ?? 'all');
-  }, [props.__selectedCategory]);
+  const [orderByValueItems, setOrderByValueItems] = useState(props.__orderByValueItems);
+  useEffect(() => { setOrderByValueItems(props.__orderByValueItems) }, [props.__orderByValueItems]);
 
-  useEffect(() => {
-    setSelectedOrderBy(props.__selectedOrderBy ?? 'recommend');
-  }, [props.__selectedOrderBy]);
+  // useEffect(() => {
+  //   console.log('@@ ?? selectedOrderBy', selectedOrderBy); // RECOMMEND
+  // }, [selectedOrderBy]);
 
-  useEffect(() => {
-    setSelectedProductStatus(props.__selectedProductStatus ?? '');
-  }, [props.__selectedProductStatus]);
+
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -123,9 +125,14 @@ const ModalBottomViewOptions = forwardRef((props: IModalBottomViewOptions.Props,
                 </div>
                 <ul className={styles['option-type-item-list']}>
                   {
-                    useViewFilterOptionOrderByItemListQuery.data?.map((item, index) => {
+                    orderByValueItems?.map((item, index) => {
                       return (
-                        <li key={item.value} className={getClasses([styles['item'], item.value === selectedOrderBy ? styles['active'] : ''])} onClick={e => orderByItemClick(item)}>
+                        <li key={item.value} 
+                          className={getClasses([
+                            styles['item'], 
+                            item.value === selectedOrderBy ? styles['active'] : ''
+                          ])} 
+                          onClick={e => orderByItemClick(item)}>
                           { item.text }
                         </li>
                       )

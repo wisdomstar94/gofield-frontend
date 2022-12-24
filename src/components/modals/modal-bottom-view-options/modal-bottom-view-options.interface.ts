@@ -1,4 +1,5 @@
 import React from "react";
+import { ICommon } from "../../../interfaces/common/common.interface";
 import { IViewFilterBox } from "../../boxes/view-filter-box/view-filter-box.interface";
 import { IModalBottom } from "../../forms/modal-bottom/modal-bottom.interface";
 
@@ -10,7 +11,7 @@ export declare namespace IModalBottomViewOptions {
 
   export interface OutputInfo {
     selectedCategory: string;
-    selectedOrderBy: string;
+    selectedOrderBy?: string;
     selectedProductStatus: string;
   }
 
@@ -18,6 +19,7 @@ export declare namespace IModalBottomViewOptions {
     __modalState?: IModalBottom.ModalState;
     __optionTypes?: IViewFilterBox.OptionType[];
     __selectedCategory?: string;
+    __orderByValueItems?: ICommon.ValueItem[];
     __selectedOrderBy?: string;
     __selectedProductStatus?: string;
     __onChanged?: (info: OutputInfo) => void;

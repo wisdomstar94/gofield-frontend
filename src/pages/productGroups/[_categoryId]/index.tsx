@@ -11,9 +11,11 @@ import GridList from "../../../components/layouts/grid-list/grid-list.component"
 import Topbar from "../../../components/layouts/top-bar/top-bar.component";
 import { ITopbar } from "../../../components/layouts/top-bar/top-bar.interface";
 import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
+import { IModalBottomViewOptions } from "../../../components/modals/modal-bottom-view-options/modal-bottom-view-options.interface";
 import useItemCategoryBundleProductListApi from "../../../hooks/use-apis/use-item-category-bundle-product-list.api";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useCodeSubCategoryListQuery from "../../../hooks/use-queries/use-code-sub-category-list.query";
+import useEnumBundleItemSortListQuery from "../../../hooks/use-queries/use-enum-bundle-item-sort-list.query";
 import useProductCategoryListQuery from "../../../hooks/use-queries/use-product-category-list.query";
 import { IScrollCheckHook } from "../../../hooks/use-scroll-check/use-scroll-check.interface";
 import { ICommon } from "../../../interfaces/common/common.interface";
@@ -40,6 +42,7 @@ const PageContents = () => {
   const router = useRouter();
   const modalAlert = useModalAlert();
   const topbarRef = useRef<ITopbar.RefObject>(null);
+  const enumBundleItemSortListQuery = useEnumBundleItemSortListQuery();
 
   const isGettingListRef = useRef(false);
   const isNotMoreDataRef = useRef(false);
@@ -85,6 +88,26 @@ const PageContents = () => {
   }, [router.isReady]);
 
   useEffect(() => {
+    if (!enumBundleItemSortListQuery.isFetched) {
+      return;
+    }
+
+    if (enumBundleItemSortListQuery.data !== undefined) {
+      if (typeof enumBundleItemSortListQuery.data[0].value === 'string' && listOptions.sort === '') {
+        setListOptions((prev) => {
+          const newValue = {
+            ...prev,
+            sort: enumBundleItemSortListQuery.data[0].value,
+          };
+          getList(newValue);
+          return newValue;
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enumBundleItemSortListQuery.isFetched]);
+
+  useEffect(() => {
     if (!codeSubCategoryListQuery.isFetched) {
       return;
     }
@@ -115,6 +138,7 @@ const PageContents = () => {
     if (options.size === '') return;
     if (options.categoryId === '') return;
     if (options.subCategoryId === '') return;
+    if (options.sort === '') return;
 
     isGettingListRef.current = true;
     const query = {
@@ -122,6 +146,7 @@ const PageContents = () => {
       size: options.size, 
       categoryId: options.categoryId, 
       subCategoryId: options.subCategoryId,
+      sort: options.sort,
     };
     itemCategoryBundleProductListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
       if (response.data.status !== true) {
@@ -167,14 +192,30 @@ const PageContents = () => {
     if (info.isLastScrollArea) {
       const nextPage = Number(listOptions.page) + 1;
       setListOptions((prev) => {
-        console.log('setListOptions 5 ');
-        return {
+        const newValue = {
           ...prev,
           page: nextPage.toString(),
         };
+        getList(newValue);
+        return newValue;
       });
     }
-  }, [listOptions.page]);
+  }, [getList, listOptions.page]);
+
+  const viewFilterChange = useCallback((info: IModalBottomViewOptions.OutputInfo) => {
+    if (typeof info.selectedOrderBy === 'string') {
+      setListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          page: '1',
+          sort: info.selectedOrderBy + '',
+          list: [],
+        };
+        getList(newValue);
+        return newValue;
+      });
+    }
+  }, [getList]);
 
   return (
     <>
@@ -197,7 +238,11 @@ const PageContents = () => {
             __rightComponentStyle={{ width: '100%' }}
             __leftComponent={<></>} 
             __rightComponent={<>
-              <ViewFilterBox __optionTypes={['order-by']} />
+              <ViewFilterBox 
+                __optionTypes={['order-by']}
+                __selectedOrderBy={listOptions.sort}
+                __orderByValueItems={enumBundleItemSortListQuery.data}
+                __onChange={viewFilterChange} />
             </>} />
           <GridList>
             {
