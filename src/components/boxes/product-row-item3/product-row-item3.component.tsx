@@ -97,6 +97,10 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
     })
   }, [modalConfirm, orderItemId, router]);
 
+  const exchangeReturnApplyButtonClick = useCallback(() => {
+    router.push(`/exchange-return/${orderItemId}/reason`);
+  }, [orderItemId, router]);
+
   const deliveryStatusViewButtonClick = useCallback(() => {
     if (carrierId === undefined || carrierId === null) {
       console.error('carrierId 가 없습니다.');
@@ -209,7 +213,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                     ])}>
                     {
                       item.buttonType === 'exchange-refund' ? 
-                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }}>
+                      <Button __buttonStyle="gray-solid-radius" __style={{ padding: '8px 10px' }} __onClick={exchangeReturnApplyButtonClick}>
                         <span className="text-sm font-bold">교환 반품 신청</span>
                       </Button> : undefined
                     }

@@ -61,11 +61,11 @@ const PageContents = () => {
       return;
     }
 
-    const orderId = router.query._orderId;
-    if (typeof orderId !== 'string') {
+    const orderItemId = router.query._orderItemId;
+    if (typeof orderItemId !== 'string') {
       return;
     }
-    setOrderItemId(orderId);
+    setOrderItemId(orderItemId);
 
     const cancelReason = router.query.cancelReason as IOrder.OrderCancelReasonEnum;
     if (typeof cancelReason !== 'string') {
@@ -73,7 +73,7 @@ const PageContents = () => {
     }
     setCancelReason(cancelReason);
     
-    getDetailInfo(orderId, cancelReason);
+    getDetailInfo(orderItemId, cancelReason);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 

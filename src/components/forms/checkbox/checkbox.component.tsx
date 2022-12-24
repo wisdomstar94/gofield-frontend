@@ -7,28 +7,27 @@ import { ICheckbox } from "./checkbox.interface";
 
 const Checkbox = (props: ICheckbox.Props) => {
   const [checkMode, setCheckMode] = useState<ICheckbox.CheckMode>(props.__checkMode ?? 'multiple');
+  
   const [checkState, setCheckState] = useState<ICheckbox.CheckState>(props.__checkState ?? 'none-checked');
+  useEffect(() => { setCheckState(props.__checkState) }, [props.__checkState]);
+
   const [checkboxChangeInfo, setCheckboxChangeInfo] = useRecoilState(checkboxChangeInfoAtom);
 
-  useEffect(() => {
-    setCheckState(props.__checkState);
-  }, [props.__checkState]);
+  // useEffect(() => {
+  //   if (checkboxChangeInfo === null) {
+  //     return;
+  //   }
 
-  useEffect(() => {
-    if (checkboxChangeInfo === null) {
-      return;
-    }
+  //   if (checkMode === 'single') {
+  //     if (checkboxChangeInfo.value === props.__value) {
+  //       setCheckState('checked');
+  //     } else {
+  //       setCheckState('none-checked');
+  //     }
+  //   } else {
 
-    if (checkMode === 'single') {
-      if (checkboxChangeInfo.value === props.__value) {
-        setCheckState('checked');
-      } else {
-        setCheckState('none-checked');
-      }
-    } else {
-
-    }
-  }, [checkboxChangeInfo, checkMode, props.__value]);
+  //   }
+  // }, [checkboxChangeInfo, checkMode, props.__value]);
 
   const checkboxItemClick = useCallback(() => {
     let newCheckState: ICheckbox.CheckState = 'checked';
