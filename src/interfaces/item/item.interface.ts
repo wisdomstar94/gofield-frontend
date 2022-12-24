@@ -154,4 +154,11 @@ export declare namespace IItem {
     optionGroupList: OptionGroupItem[] | null;
     optionList: OptionItem[] | null;
   }
+  
+  export interface UsedItemListOptions {
+    page: string;
+    size: string;
+    sort: string;
+    list: IItem.ProductRowItem[];
+  }
 }

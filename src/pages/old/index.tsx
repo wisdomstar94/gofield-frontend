@@ -10,7 +10,9 @@ import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-
 import GridList from "../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import { IModalBottomViewOptions } from "../../components/modals/modal-bottom-view-options/modal-bottom-view-options.interface";
 import useItemListApi from "../../hooks/use-apis/use-item-list.api";
+import useEnumUsedItemSortListQuery from "../../hooks/use-queries/use-enum-used-item-sort-list.query";
 import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
 import { IItem } from "../../interfaces/item/item.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../librarys/string-util/string-util.library";
@@ -34,26 +36,56 @@ const ProductNewPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const itemListApi = useItemListApi();
-  const [list, setList] = useState<IItem.ProductRowItem[]>([]);
-  const searchOptionsRef = useRef({
-    page: '1',
-    size: '20',
-    classification: 'USED',
-  });
+  const enumUsedItemSortListQuery = useEnumUsedItemSortListQuery();
   const isGettingListRef = useRef(false);
   const isNoneMoreDataRef = useRef(false);
+
+  useEffect(() => {
+    if (!enumUsedItemSortListQuery.isFetched) {
+      return;
+    }
+
+    if (enumUsedItemSortListQuery.data !== undefined) {
+      if (typeof enumUsedItemSortListQuery.data[0].value === 'string' && listOptions.sort === '') {
+        setListOptions((prev) => {
+          const newValue = {
+            ...prev,
+            sort: enumUsedItemSortListQuery.data[0].value,
+          };
+          getList(newValue);
+          return newValue;
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enumUsedItemSortListQuery.isFetched]);
+
+  const [listOptions, setListOptions] = useState<IItem.UsedItemListOptions>({
+    page: '1',
+    size: '20',
+    sort: '',
+    list: [],
+  });
 
   const ProductColumnItemClick = useCallback((item: IItem.ProductRowItem) => {
     router.push('/product/old/' + item.itemNumber);
   }, [router]);
 
-  const getList = useCallback(() => {
+  const getList = useCallback((options: IItem.UsedItemListOptions) => {
     if (isGettingListRef.current || isNoneMoreDataRef.current) {
       return;
     }
 
+    if (options.sort === '') return;
+
     isGettingListRef.current = true;
-    itemListApi.getInstance(getNextRouterQueryToUrlQueryString({ ...searchOptionsRef.current })).then((response) => {
+    console.log('getList.options', options);
+    const query = {
+      page: options.page,
+      size: options.size,
+      sort: options.sort,
+    };
+    itemListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
       if (response.data.status !== true) {
         return;
       }
@@ -61,24 +93,22 @@ const PageContents = () => {
       if (response.data.data.length === 0) {
         isNoneMoreDataRef.current = true;
         return;
-      } else if (response.data.data.length < Number(searchOptionsRef.current.size)) {
+      } else if (response.data.data.length < Number(listOptions.size)) {
         isNoneMoreDataRef.current = true;
       }
 
-      setList(list.concat(response.data.data));
+      // setList(list.concat(response.data.data));
+      setListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          list: prev.list.concat(response.data.data),
+        };
+        return newValue;
+      });
     }).finally(() => {
       isGettingListRef.current = false;
     });
-  }, [itemListApi, list]);
-
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-
-    getList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
+  }, [itemListApi, listOptions.size]);
 
   const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
     if (isGettingListRef.current || isNoneMoreDataRef.current) {
@@ -86,9 +116,32 @@ const PageContents = () => {
     }
 
     if (info.isLastScrollArea) {
-      searchOptionsRef.current.page = (Number(searchOptionsRef.current.page) + 1).toString();
-      getList()
+      const nextPage = Number(listOptions.page) + 1;
+      setListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          page: nextPage.toString(),
+        };
+        getList(newValue);
+        return newValue;
+      })
     }
+  }, [getList, listOptions.page]);
+
+  const viewFilterChange = useCallback((info: IModalBottomViewOptions.OutputInfo) => {
+    // console.log('viewFilterChange', info);
+    isNoneMoreDataRef.current = false;
+    setListOptions((prev) => {
+      const newValue = {
+        ...prev,
+        page: '1',
+        sort: info.selectedOrderBy + '',
+        list: [],
+      };
+      // console.log('getList 호출했...는데?', newValue);
+      getList(newValue);
+      return newValue;
+    });
   }, [getList]);
 
   return (
@@ -101,15 +154,20 @@ const PageContents = () => {
           }} />
         <Article>
           <BothSidebox
+            __style={{ marginBottom: '12px' }}
             __leftComponentStyle={{ width: '0' }}
             __rightComponentStyle={{ width: '100%' }}
             __leftComponent={<></>}
             __rightComponent={<>
-              {/* <ViewFilterBox __optionTypes={['order-by']} /> */}
+              <ViewFilterBox 
+                __optionTypes={['order-by']}
+                __selectedOrderBy={listOptions.sort}
+                __orderByValueItems={enumUsedItemSortListQuery.data}
+                __onChange={viewFilterChange} />
             </>} />
           <GridList>
             {
-              list.map((item) => {
+              listOptions.list.map((item) => {
                 return (
                   <ProductGroupColumnItem
                     key={item.itemNumber}
@@ -124,22 +182,6 @@ const PageContents = () => {
                 );
               })
             }
-
-            {/* {
-              Array.from({ length: 14 }).map((value, index) => {
-                return (
-                  <ProductGroupColumnItem
-                    key={index}
-                    __onClick={ProductGroupColumnItemClick}
-                    __brandNameComponent={<>맥켄리</>}
-                    __productNameComponent={<>페르마 플러스 드라이버 헤드 (9.5도 단품)</>}
-                    __newProductPrice={560000}
-                    __oldProductPrice={210000}
-                    __reviewCount={3}
-                    __reviewStarPoint={4.7} />      
-                );
-              })
-            } */}
           </GridList>
         </Article>
         <div className="w-full h-12"></div>

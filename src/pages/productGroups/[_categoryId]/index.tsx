@@ -204,6 +204,7 @@ const PageContents = () => {
 
   const viewFilterChange = useCallback((info: IModalBottomViewOptions.OutputInfo) => {
     if (typeof info.selectedOrderBy === 'string') {
+      isNotMoreDataRef.current = false;
       setListOptions((prev) => {
         const newValue = {
           ...prev,
