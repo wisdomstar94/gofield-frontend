@@ -43,23 +43,25 @@ const PageContents = () => {
 
   const isGettingListRef = useRef(false);
   const isNotMoreDataRef = useRef(false);
-  const [list, setList] = useState<IItem.BundleProductItem[]>([]);
-  const [page, setPage] = useState(1);
-  const [size, seSize] = useState(20);
-  const [categoryId, setCategoryId] = useState('');
-  const [categoryTypeId, setCategoryTypeId] = useState('');
+  // const [list, setList] = useState<IItem.BundleProductItem[]>([]);
+
+  const [listOptions, setListOptions] = useState<IItem.BundleProductItemListOptions>({
+    page: '1',
+    size: '20',
+    categoryId: '',
+    subCategoryId: '',
+    sort: '',
+    list: [],
+  });
+  // const [page, setPage] = useState(1);
+  // const [size, seSize] = useState(20);
+  // const [categoryId, setCategoryId] = useState('');
+  // const [categoryTypeId, setCategoryTypeId] = useState('');
 
   const codeSubCategoryListQuery = useCodeSubCategoryListQuery(router.query._categoryId?.toString());
   const productCategoryListQuery = useProductCategoryListQuery();
 
   const itemCategoryBundleProductListApi = useItemCategoryBundleProductListApi();
-
-  const categoryTypeItemClick = useCallback((valueItem: ICommon.ValueItem) => {
-    isNotMoreDataRef.current = false;
-    setPage(1);
-    setList([]);
-    setCategoryTypeId(valueItem.value);
-  }, []);
 
   const productGroupColumnItemClick = useCallback((item: IItem.BundleProductItem) => {
     router.push('/productGroup/' + item.id);
@@ -67,8 +69,17 @@ const PageContents = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (router.query._categoryId?.toString() !== undefined) {
-      setCategoryId(router.query._categoryId?.toString());
+    if (typeof router.query._categoryId === 'string' && listOptions.categoryId === '') {
+      const categoryId = router.query._categoryId;
+      // setCategoryId(router.query._categoryId?.toString());
+      setListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          categoryId,
+        };
+        getList(newValue);
+        return newValue;
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
@@ -79,32 +90,38 @@ const PageContents = () => {
     }
 
     if (codeSubCategoryListQuery.data !== undefined) {
-      if (codeSubCategoryListQuery.data[0]?.value !== undefined) {
-        console.log('@@@');
-        setCategoryTypeId(codeSubCategoryListQuery.data[0]?.value + '');
+      if (codeSubCategoryListQuery.data[0]?.value !== undefined && listOptions.subCategoryId === '') {
+        const subCategoryId = codeSubCategoryListQuery.data[0].value;
+
+        setListOptions((prev) => {
+          const newValue = {
+            ...prev,
+            subCategoryId,
+          };
+          getList(newValue);
+          return newValue; 
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeSubCategoryListQuery.isFetched])
 
-  useEffect(() => {
-    getList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, categoryId, categoryTypeId]);
-
-  const getList = useCallback(() => {
+  const getList = useCallback((options: IItem.BundleProductItemListOptions) => { 
     if (isGettingListRef.current) {
-      return;
+      return; 
     }
 
-    if (page === 0) return;
-    if (size === 0) return;
-    if (categoryId === '') return;
-    if (categoryTypeId === '') return;
+    if (options.page === '') return;
+    if (options.size === '') return;
+    if (options.categoryId === '') return;
+    if (options.subCategoryId === '') return;
 
     isGettingListRef.current = true;
     const query = {
-      page: page.toString(), size: size.toString(), categoryId, subCategoryId: categoryTypeId
+      page: options.page, 
+      size: options.size, 
+      categoryId: options.categoryId, 
+      subCategoryId: options.subCategoryId,
     };
     itemCategoryBundleProductListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
       if (response.data.status !== true) {
@@ -117,11 +134,30 @@ const PageContents = () => {
         return;
       }
 
-      setList(list.concat(response.data.data));
+      setListOptions((prev) => {
+        return {
+          ...prev,
+          list: prev.list.concat(response.data.data),
+        };
+      });
     }).finally(() => {
       isGettingListRef.current = false;
     });
-  }, [categoryId, categoryTypeId, itemCategoryBundleProductListApi, list, modalAlert, page, size]);
+  }, [itemCategoryBundleProductListApi, modalAlert]);
+
+  const categoryTypeItemClick = useCallback((valueItem: ICommon.ValueItem) => {
+    isNotMoreDataRef.current = false;
+    setListOptions((prev) => {
+      const newValue = {
+        ...prev,
+        page: '1',
+        subCategoryId: valueItem.value,
+        list: [],
+      };
+      getList(newValue);
+      return newValue;
+    });
+  }, [getList]);
 
   const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
     if (isGettingListRef.current || isNotMoreDataRef.current) {
@@ -129,9 +165,16 @@ const PageContents = () => {
     }
 
     if (info.isLastScrollArea) {
-      setPage(page + 1);
+      const nextPage = Number(listOptions.page) + 1;
+      setListOptions((prev) => {
+        console.log('setListOptions 5 ');
+        return {
+          ...prev,
+          page: nextPage.toString(),
+        };
+      });
     }
-  }, [page]);
+  }, [listOptions.page]);
 
   return (
     <>
@@ -145,19 +188,20 @@ const PageContents = () => {
           />
         <CategoryTypeHorizontalList
           __valueItems={codeSubCategoryListQuery.data}
-          __activeValue={categoryTypeId}
+          __activeValue={listOptions.subCategoryId}
           __onItemClick={categoryTypeItemClick} />
         <Article>
           <BothSidebox
+            __style={{ marginBottom: '12px' }}
             __leftComponentStyle={{ width: '0' }}
             __rightComponentStyle={{ width: '100%' }}
-            __leftComponent={<></>}
+            __leftComponent={<></>} 
             __rightComponent={<>
-              {/* <ViewFilterBox __optionTypes={['order-by']} /> */}
+              <ViewFilterBox __optionTypes={['order-by']} />
             </>} />
           <GridList>
             {
-              list.map((item, index) => {
+              listOptions.list.map((item, index) => {
                 return (
                   <ProductGroupColumnItem
                     key={item.id}

@@ -28,6 +28,15 @@ export declare namespace IItem {
     usedLowestPrice: number;
   }
 
+  export interface BundleProductItemListOptions {
+    page: string;
+    size: string;
+    categoryId: string;
+    subCategoryId: string;
+    sort: string;
+    list: BundleProductItem[];
+  }
+
   export interface ReviewItem {
     id: number;
     name: string;

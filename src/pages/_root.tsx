@@ -22,7 +22,7 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
       return;
     }
     
-    if (axiosGloballError.response?.status === 502) {
+    if (axiosGloballError.response?.status === 502 || axiosGloballError.code === 'ERR_NETWORK') {
       modalDefaultComponentRef.current?.show({
         titleStyleA: {
           component: '안내',
