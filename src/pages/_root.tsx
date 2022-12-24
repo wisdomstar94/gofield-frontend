@@ -22,6 +22,18 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
       return;
     }
     
+    if (axiosGloballError.response?.status === 502) {
+      modalDefaultComponentRef.current?.show({
+        titleStyleA: {
+          component: '안내',
+        },
+        contentComponent: `서버 점검 중입니다. 잠시 후 다시 시도해 주세요.`,
+        negativeButtonState: 'hide',
+        positiveButtonState: 'show',
+      });  
+      return;
+    }
+
     const code = axiosGloballError.response?.data.error?.code;
     const message = axiosGloballError.response?.data.error?.message;
     
