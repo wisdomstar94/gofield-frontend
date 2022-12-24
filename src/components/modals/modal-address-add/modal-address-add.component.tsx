@@ -152,6 +152,7 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
         if (typeof props.__onSubmitComplete === 'function') {
           props.__onSubmitComplete();
         }
+        hide();
         clear();
       }).finally(() => {
         isUploadingRef.current = false;
@@ -172,7 +173,7 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
         isUploadingRef.current = false;
       });
     }
-  }, [clear, modalAlert, mode, props, submitText, userAddressEditApi, userAddressUploadApi]);
+  }, [clear, hide, modalAlert, mode, props, submitText, userAddressEditApi, userAddressUploadApi]);
 
   const getterNameChange = useCallback((value: string) => {
     detailInfoRef.current.name = value;
