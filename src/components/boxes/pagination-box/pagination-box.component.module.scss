@@ -11,8 +11,9 @@
     > li.item {
       list-style-type: none;
       cursor: pointer;
-      padding: 4px 8px;
+      padding: 4px 10px;
       color: #222;
+      font-size: 0.8rem;
 
       &.active, &:hover {
         background-color: #222;

@@ -61,12 +61,12 @@ const PageContents = () => {
       return;
     }
 
-    const orderId = router.query._orderId;
-    if (typeof orderId !== 'string') {
+    const orderItemId = router.query._orderItemId;
+    if (typeof orderItemId !== 'string') {
       return;
     }
 
-    setOrderItemId(orderId);
+    setOrderItemId(orderItemId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
