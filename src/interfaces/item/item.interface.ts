@@ -1,3 +1,5 @@
+import { IPage } from "../page/page.interface";
+
 export declare namespace IItem {
   export type Classification = 'ALL' | 'USED' | 'NEW';
   export type Spec = 'BEST' | 'UPPER' | 'MIDDLE' | 'LOWER';
@@ -160,5 +162,10 @@ export declare namespace IItem {
     size: string;
     sort: string;
     list: IItem.ProductRowItem[];
+  }
+
+  export interface BundleProductItemReviewListApiData {
+    list: ReviewItem[];
+    page: IPage.Page;
   }
 }

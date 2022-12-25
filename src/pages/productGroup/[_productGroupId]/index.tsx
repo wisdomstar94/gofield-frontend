@@ -127,7 +127,7 @@ const PageContents = () => {
 
         <Article __style={{ marginBottom: '0' }}>
           <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
-          <ReviewBox __productGroupDetailInfo={detailInfo} __productGroupId={detailInfo?.id} />
+          <ReviewBox __productGroupDetailInfo={detailInfo} __bundleId={detailInfo?.id.toString() ?? ''} />
         </Article>
 
         {/* <BottomFixedBox>

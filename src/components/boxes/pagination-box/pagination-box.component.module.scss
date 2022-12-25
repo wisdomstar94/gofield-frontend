@@ -1,0 +1,23 @@
+.pagination-box {
+  display: inline-flex;
+  flex-wrap: wrap;
+  position: relative;
+
+  ul.pagination-item-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    > li.item {
+      list-style-type: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      color: #222;
+
+      &.active, &:hover {
+        background-color: #222;
+        color: #fff;
+      }
+    }
+  }
+}

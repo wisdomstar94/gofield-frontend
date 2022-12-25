@@ -1,71 +1,82 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useItemBundleProductReviewListApi from "../../../hooks/use-apis/use-item-bundle-product-review-list.api";
-import useRender from "../../../hooks/use-render/use-render.hook";
-import { IItem } from "../../../interfaces/item/item.interface";
-import Button from "../../forms/button/button.component";
+import { IReview } from "../../../interfaces/review/review.interface";
+import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 import List, { ListItem } from "../../layouts/list/list.component";
-import ReviewRatingStarBox from "../review-rating-star-box/review-rating-star-box.component";
+import PaginationBox from "../pagination-box/pagination-box.component";
+import { IPaginationBox } from "../pagination-box/pagination-box.interface";
 import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
 import ReviewRowItem from "../review-row-item/review-row-item.component";
 import styles from "./review-box.component.module.scss";
 import { IReviewBox } from "./review-box.interface";
 
 const ReviewBox = (props: IReviewBox.Props) => {
+  const paginationBoxRef = useRef<IPaginationBox.RefObject>(null);
   const router = useRouter();
-  const render = useRender();
-  const [productGroupId, setProductGroupId] = useState(props.__productGroupId);
-  useEffect(() => { setProductGroupId(props.__productGroupId); }, [props.__productGroupId]);
-
   const itemBundleProductReviewListApi = useItemBundleProductReviewListApi();
 
-  const searchOptionsRef = useRef({
+  const [listOptions, setListOptions] = useState<IReview.ReviewListOptions>({
     page: '1',
-    size: '20',
+    size: '5',
+    bundleId: props.__bundleId ?? '',
+    list: [],
   });
   const isGettingListRef = useRef(false);
-  const isNoneMoreDataRef = useRef(false);
-  // const [page, setPage] = useState(1);
-  // const [size, setSize] = useState(20);
-  const [list, setList] = useState<IItem.ReviewItem[]>([]);
+
+  useEffect(() => {
+    setListOptions(prev => {
+      const newValue = {
+        ...prev,
+        bundleId: props.__bundleId ?? '',
+      };
+      getList(newValue);
+      return newValue;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.__bundleId]);
 
   useEffect(() => {
     if (!router.isReady) {
       return;
     }
 
-    getList();
+    getList(listOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, productGroupId]);
+  }, [router.isReady]);
 
-  const getList = useCallback(() => {
-    if (isGettingListRef.current || isNoneMoreDataRef.current) return;
-    if (productGroupId === undefined) return;
+  const getList = useCallback((options: IReview.ReviewListOptions) => {
+    if (isGettingListRef.current) return;
+    if (typeof options.bundleId !== 'string' || options.bundleId === '') return;
 
     isGettingListRef.current = true;
-    itemBundleProductReviewListApi.getInstance(productGroupId?.toString()).then((response) => {
-      if (response.data.data.length === 0) {
-        console.log('!!@@@@')
-        isNoneMoreDataRef.current = true;
-        render.render();
-        return;
-      }
-
-      if (response.data.data.length < Number(searchOptionsRef.current.size)) {
-        isNoneMoreDataRef.current = true;
-      }
-
-      setList(list.concat(response.data.data));
+    const query = {
+      page: options.page,
+      size: options.size,
+    };
+    itemBundleProductReviewListApi.getInstance(options.bundleId?.toString(), getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      setListOptions(prev => {
+        const newValue = {
+          ...prev,
+          list: response.data.data.list,
+        };
+        return newValue;
+      });
+      paginationBoxRef.current?.setPage(response.data.data.page);
     }).finally(() => {
       isGettingListRef.current = false;
     });
-  }, [itemBundleProductReviewListApi, list, productGroupId, render]);
+  }, [itemBundleProductReviewListApi]);
 
-  const moreViewButtonClick = useCallback(() => {
-    if (isGettingListRef.current || isNoneMoreDataRef.current) return;
-    searchOptionsRef.current.page = (Number(searchOptionsRef.current.page) + 1).toString();
-    // setPage(page + 1);
-    getList();
+  const onPageClick = useCallback((page: number) => {
+    setListOptions(prev => {
+      const newValue = {
+        ...prev,
+        page: page.toString(),
+      };
+      getList(newValue);
+      return newValue;
+    });
   }, [getList]);
 
   return (
@@ -83,17 +94,17 @@ const ReviewBox = (props: IReviewBox.Props) => {
         </ListItem>
       </List>
       {
-        list.map((item, index) => {
+        listOptions.list.map((item, index) => {
           return (
             <ReviewRowItem key={index} __style={{ marginBottom: '24px' }} __item={item} />
           );
         })
       }
-      {
-        !isNoneMoreDataRef.current ? 
-        <Button __buttonStyle="gray-stroke" __onClick={moreViewButtonClick}>더보기</Button>
-        : undefined
-      }
+      <div className="w-full flex flex-wrap justify-center">
+        <PaginationBox 
+          ref={paginationBoxRef}
+          __onPageClick={onPageClick} />
+      </div>  
     </>
   );
 };

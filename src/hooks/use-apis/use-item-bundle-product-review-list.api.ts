@@ -7,9 +7,9 @@ import useAxios from "../use-axios-hook/use-axios.hook";
 const useItemBundleProductReviewListApi = () => {
   const axios = useAxios();
 
-  const getInstance = useCallback((bundleId: string) => {
-    return axios.getAxiosInstance<IResponse.CommonResponse<IItem.ReviewItem[]>>({
-      url: Config().api.item.bundle._ + '/' + bundleId + '/review',
+  const getInstance = useCallback((bundleId: string, queryString: string) => {
+    return axios.getAxiosInstance<IResponse.CommonResponse<IItem.BundleProductItemReviewListApiData>>({
+      url: Config().api.item.bundle._ + '/' + bundleId + '/review' + queryString,
       method: 'get',
       isAuth: true,
     });
