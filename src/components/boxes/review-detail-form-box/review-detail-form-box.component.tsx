@@ -1,9 +1,7 @@
 import styles from "./review-detail-form-box.component.module.scss";
 import { IReviewDetailFormBox } from "./review-detail-form-box.interface";
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
-import ProductRowItem from "../product-row-item/product-row-item.component";
 import Article from "../../layouts/article/article.component";
-import ReviewRatingStarBox from "../review-rating-star-box/review-rating-star-box.component";
 import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
 import FormListBox from "../form-list-box/form-list-box.component";
 import Input from "../../forms/input/input.component";
@@ -11,7 +9,6 @@ import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import TextArea from "../../forms/text-area/text-area.component";
 import EmptyRow from "../../layouts/empty-row/empty-row.component";
 import Button from "../../forms/button/button.component";
-import ModalDefault from "../../modals/modal-default/modal-default.component";
 import { useRecoilState } from "recoil";
 import { globalModalDefaultModalItemAtom } from "../../../atoms/global-modal-default.atom";
 import { useRouter } from "next/router";
@@ -22,10 +19,11 @@ import ProductRowItem3 from "../product-row-item3/product-row-item3.component";
 import BottomFixedOrRelativeBox from "../bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import { IReview } from "../../../interfaces/review/review.interface";
 import useOrderReviewWriteApi from "../../../hooks/use-apis/use-order-review-write.api";
+import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
+import { IFile } from "../../../interfaces/file/file.interface";
 
 const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: ForwardedRef<IReviewDetailFormBox.RefObject>) => {
   const router = useRouter();
-  const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
   const orderItemInfoApi = useOrderItemInfoApi();
   const isDetailInfoGettingRef = useRef(false);
   const modalAlert = useModalAlert();
@@ -40,11 +38,6 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
   useEffect(() => { setOrderNumber(props.__orderNumber) }, [props.__orderNumber]);
 
   const [reviewFormInfo, setReviewFormInfo] = useState<IReview.ReviewFormInfo>({});
-
-  // const detailInfoRef = useRef<IReviewDetailFormBox.DetailInfo>(props.__detailInfo ?? {});
-  // useEffect(() => {
-  //   detailInfoRef.current = props.__detailInfo ?? {};
-  // }, [props.__detailInfo]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -82,20 +75,28 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
     }));
   }, []);
 
+  const onImageItemsChange = useCallback((items: IFile.FileInfo[] | undefined) => {
+    setReviewFormInfo(prev => ({
+      ...prev,
+      imageFileItems: items,
+    }));
+  }, []);
+
   const uploadButtonClick = useCallback(() => {
     if (isWritingRef.current) {
       return;
     }
 
-    if (typeof reviewFormInfo.weight !== 'string') {
-      modalAlert.show({ title: '안내', content: '몸무게를 입력해주세요.' });
-      return;
-    }
+    // 몸무게와 키는 선택 값으로 변경 (필수 아님)
+    // if (typeof reviewFormInfo.weight !== 'string') {
+    //   modalAlert.show({ title: '안내', content: '몸무게를 입력해주세요.' });
+    //   return;
+    // }
 
-    if (typeof reviewFormInfo.height !== 'string') {
-      modalAlert.show({ title: '안내', content: '키를 입력해주세요.' });
-      return;
-    }
+    // if (typeof reviewFormInfo.height !== 'string') {
+    //   modalAlert.show({ title: '안내', content: '키를 입력해주세요.' });
+    //   return;
+    // }
 
     if (reviewFormInfo.reviewScore === undefined) {
       modalAlert.show({ title: '안내', content: '리뷰 점수를 지정해주세요.' });
@@ -176,11 +177,32 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
           __formItems={[
             {
               titleComponent: <>키</>,
-              contentComponent: <><Input __type="number" __value={reviewFormInfo?.height ?? ''} __onChange={heightChange} __rightLabel={{ width: 50, component: <>cm</> }} /></>,
+              contentComponent: <>
+                <Input 
+                  __type="number" 
+                  __placeholder="optional (필수 아님)"
+                  __value={reviewFormInfo?.height ?? ''} 
+                  __onChange={heightChange} 
+                  __rightLabel={{ width: 50, component: <>cm</> }} />
+              </>,
             },
             {
               titleComponent: <>몸무게</>,
-              contentComponent: <><Input __type="number" __value={reviewFormInfo?.weight ?? ''} __onChange={weightChange} __rightLabel={{ width: 50, component: <>kg</> }} /></>,
+              contentComponent: <>
+                <Input 
+                  __type="number" 
+                  __placeholder="optional (필수 아님)"
+                  __value={reviewFormInfo?.weight ?? ''} 
+                  __onChange={weightChange} 
+                  __rightLabel={{ width: 50, component: <>kg</> }} />
+              </>,
+            },
+            {
+              titleComponent: <>사진</>,
+              contentComponent: <>
+                <SmallImageFormBox
+                  __onChange={onImageItemsChange} />
+              </>,
             },
             {
               titleComponent: <><BothSidebox __leftComponent={<>내용</>} __rightComponent={<span className={styles['char-check-text']}>0/200자</span>} /></>,

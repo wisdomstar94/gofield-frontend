@@ -1,3 +1,4 @@
+import { IFile } from "../file/file.interface";
 import { IItem } from "../item/item.interface";
 
 export declare namespace IReview {
@@ -7,6 +8,7 @@ export declare namespace IReview {
     height?: string;
     reviewScore?: number;
     content?: string;
+    imageFileItems?: IFile.FileInfo[];
   }
 
   export interface ReviewListOptions {

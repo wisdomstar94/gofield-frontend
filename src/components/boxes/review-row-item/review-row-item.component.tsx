@@ -1,13 +1,39 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { IItem } from "../../../interfaces/item/item.interface";
 import { day } from "../../../librarys/date-util/date-util.library";
 import List, { ListItem } from "../../layouts/list/list.component";
 import ReviewStar from "../review-star/review-star.component";
+import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
 import styles from "./review-row-item.component.module.scss";
 import { IReviewRowItem } from "./review-row-item.interface";
 
 const ReviewRowItem = (props: IReviewRowItem.Props) => {
   const [item, setItem] = useState(props.__item);
   useEffect(() => { setItem(props.__item); }, [props.__item]);
+
+  const isBodyInfoExist = useCallback((item: IItem.ReviewItem | undefined) => {
+    if (item === undefined) {
+      return false;
+    }
+
+    return item.height !== null || item.weight !== null;
+  }, []);
+
+  const isImageExist = useCallback((item: IItem.ReviewItem | undefined) => {
+    if (item === undefined) {
+      return false;
+    }
+
+    if (item.images === undefined || item.images === null) {
+      return false;
+    }
+
+    if (item.images.length === 0) {
+      return false;
+    }
+
+    return true;
+  }, []);
 
   return (
     <>
@@ -28,12 +54,31 @@ const ReviewRowItem = (props: IReviewRowItem.Props) => {
         </ListItem>
         <ListItem __marginBottom="6px">
           <span className={styles['buy-options-text']}>
-            { item?.height + 'cm' }, { item?.weight + 'kg' } <br />
+            {
+              isBodyInfoExist(item) ? 
+              <>
+                { item?.height !== null ? <>{ item?.height + 'cm'}&nbsp;&nbsp;</> : '' } 
+                { item?.weight !== null ? item?.weight + 'kg' : '' } <br />
+              </> : <></>
+            }
             { item?.optionName }
             {/* 남성, 175cm, 75kg <br />
             10.5 SR 구매 */}
           </span>
         </ListItem>
+        {
+          isImageExist(item) ? 
+          <ListItem __marginBottom="8px">
+            <SmallImageFormBox
+              __isEditable={false}
+              __imageItems={item?.images.map((v) => {
+                return {
+                  fileUrl: v,
+                };
+              })} />
+          </ListItem> : 
+          undefined
+        }
         <ListItem>
           <span className={styles['review-content-text']}>
             { item?.description }

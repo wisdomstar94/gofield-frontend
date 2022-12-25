@@ -52,6 +52,9 @@ const InputFileHidden = forwardRef((props: IInputFileHidden.Props, ref: Forwarde
       };
       setFileInfo(fileInfo);
       props.__onChange(fileInfo);
+      if (inputFileElementRef.current !== null) {
+        inputFileElementRef.current.value = '';
+      }
     }
   }, [props]);
 

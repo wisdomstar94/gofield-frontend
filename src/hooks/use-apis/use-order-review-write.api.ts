@@ -17,6 +17,13 @@ const useOrderReviewWriteApi = () => {
       content: data.content,
     };
     formData.append('review', new Blob([JSON.stringify(review)],{ type: "application/json" }));
+    if (data.imageFileItems !== undefined && data.imageFileItems.length > 0) {
+      data.imageFileItems.forEach((item) => {
+        if (item.file) {
+          formData.append('images', item.file);
+        }
+      });
+    } 
 
     return axios.getAxiosInstance<IResponse.CommonResponse<null>>({
       url: Config().api.order.review.write(data?.orderItemId ?? ''),
