@@ -95,7 +95,6 @@ const PageContents = () => {
       const newValue = {
         ...prev,
         page: '1',
-        list: [],
         isMe: changeInfo.checkState === 'checked' ? 'true' : 'false',
       };
       getList(newValue);
