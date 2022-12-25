@@ -10,7 +10,7 @@ const useItemProductQnaListApi = () => {
 
   const getInstance = useCallback((itemId: string, queryString?: string) => {
     if (queryString === undefined) queryString = '';
-    return axios.getAxiosInstance<IResponse.CommonResponse<IQna.QnaItem[]>>({
+    return axios.getAxiosInstance<IResponse.CommonResponse<IQna.QnaListApiData>>({
       url: Config().api.item._ + '/' + itemId + '/qna' + queryString,
       method: 'get',
       isAuth: true,

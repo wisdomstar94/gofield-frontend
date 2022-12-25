@@ -1,3 +1,5 @@
+import { IPage } from "../page/page.interface";
+
 export declare namespace IQna {
   export type Status = 'COMPLETE' | 'RECEIPT';
 
@@ -27,5 +29,18 @@ export declare namespace IQna {
     isMe: boolean;
     answerDate: null | string;
     createDate: string;
+  }
+
+  export interface QnaListApiData {
+    list: QnaItem[];
+    page: IPage.Page;
+  }
+
+  export interface QnaListOptions {
+    page: string;
+    size: string;
+    itemId: string;
+    isMe: string;
+    list: QnaItem[];
   }
 }

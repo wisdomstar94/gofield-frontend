@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import BottomFixedOrRelativeBox from "../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
+import PaginationBox from "../../../components/boxes/pagination-box/pagination-box.component";
+import { IPaginationBox } from "../../../components/boxes/pagination-box/pagination-box.interface";
 import QnaRowItem from "../../../components/boxes/qna-row-item/qna-row-item.component";
 import Button from "../../../components/forms/button/button.component";
 import Checkbox from "../../../components/forms/checkbox/checkbox.component";
@@ -35,24 +37,70 @@ const PageContents = () => {
   const router = useRouter();
   const itemProductQnaListApi = useItemProductQnaListApi();
   const modalAlert = useModalAlert();
+  const paginationBoxRef = useRef<IPaginationBox.RefObject>(null);
 
   const isGettingListRef = useRef(false);
-  const isNoneMoreDataRef = useRef(false);
+  // const isNoneMoreDataRef = useRef(false);
+  // const [itemId, setItemId] = useState<string>('');
+  // const [page, setPage] = useState(1);
+  // const [size, setSize] = useState(20);
+  // const [isMe, setIsMe] = useState<'true' | 'false'>('false');
+  // const [list, setList] = useState<IQna.QnaItem[]>([]);
 
-  const [itemId, setItemId] = useState<string>('');
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(20);
-  const [isMe, setIsMe] = useState<'true' | 'false'>('false');
-  
-  const [list, setList] = useState<IQna.QnaItem[]>([]);
+  const [listOptions, setListOptions] = useState<IQna.QnaListOptions>({
+    page: '1',
+    size: '5',
+    itemId: '',
+    isMe: 'false',
+    list: [],
+  });
+
+  const getList = useCallback((options: IQna.QnaListOptions) => {
+    if (options.itemId === '') return;
+    if (isGettingListRef.current) return;
+
+    isGettingListRef.current = true;
+    // const queryString = getNextRouterQueryToUrlQueryString({ ...router.query, page: page.toString(), size: size.toString(), isMe });
+    const query = {
+      page: options.page,
+      size: options.size,
+      isMe: options.isMe,
+    };
+    itemProductQnaListApi.getInstance(options.itemId, getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: 'Q&A 목록을 가져오는데 실패하였습니다.' });
+        return;
+      }
+
+      setListOptions(prev => {
+        return {
+          ...prev,
+          list: response.data.data.list,
+        };
+      });
+      paginationBoxRef.current?.setPage(response.data.data.page);
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [itemProductQnaListApi, modalAlert]);
 
   const isMyWriteOnlyShowCheckboxChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
-    isNoneMoreDataRef.current = false;
-    setPage(1);
-    setList([]);
-    console.log('changeInfo', changeInfo);
-    setIsMe(changeInfo.checkState === 'checked' ? 'true' : 'false');
-  }, []);
+    // isNoneMoreDataRef.current = false;
+    // setPage(1);
+    // setList([]);
+    // console.log('changeInfo', changeInfo);
+    // setIsMe(changeInfo.checkState === 'checked' ? 'true' : 'false');
+    setListOptions(prev => {
+      const newValue = {
+        ...prev,
+        page: '1',
+        list: [],
+        isMe: changeInfo.checkState === 'checked' ? 'true' : 'false',
+      };
+      getList(newValue);
+      return newValue;
+    });
+  }, [getList]);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -60,65 +108,39 @@ const PageContents = () => {
     }
 
     const itemId = router.query._itemId?.toString();
-    if (typeof itemId !== 'string') {
-      return;
+    if (typeof itemId === 'string' && listOptions.itemId === '') {
+      setListOptions(prev => {
+        const newValue = {
+          ...prev,
+          itemId,
+        };
+        getList(newValue);
+        return newValue;
+      });
     }
-    
-    setPage(1);
-    setList([]);
-    setItemId(itemId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
+  // const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    
+  // }, []);
 
-    getList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemId, page, size, isMe]);
-
-  const getList = useCallback(() => {
-    if (itemId === '') return;
-    if (isGettingListRef.current || isNoneMoreDataRef.current) return;
-
-    isGettingListRef.current = true;
-    const queryString = getNextRouterQueryToUrlQueryString({ ...router.query, page: page.toString(), size: size.toString(), isMe });
-    itemProductQnaListApi.getInstance(itemId, queryString).then((response) => {
-      if (response.data.status !== true) {
-        modalAlert.show({ title: '안내', content: 'Q&A 목록을 가져오는데 실패하였습니다.' });
-        return;
-      }
-
-      if (response.data.data.length === 0) {
-        isNoneMoreDataRef.current = true;
-        return;
-      }
-
-      if (response.data.data.length < size) {
-        isNoneMoreDataRef.current = true;
-      }
-
-      setList(list.concat(response.data.data));
-    }).finally(() => {
-      isGettingListRef.current = false;
+  const onPageClick = useCallback((page: number) => {
+    setListOptions(prev => {
+      const newValue = {
+        ...prev,
+        page: page.toString(),
+      };
+      getList(newValue);
+      return newValue;
     });
-  }, [isMe, itemId, itemProductQnaListApi, list, modalAlert, page, router.query, size]);
-
-  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
-    if (isGettingListRef.current || isNoneMoreDataRef.current) {
-      return;
-    }
-
-    if (info.isLastScrollArea) {
-      setPage(page + 1);
-    }
-  }, [page]);
+  }, [getList]);
 
   return (
     <>
-      <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
+      <WindowSizeContainer __bgColor="#fff" 
+        // __onScroll={onScroll}
+        >
         <Topbar
           __layoutTypeB={{
             titleComponent: <>Q&A</>,
@@ -133,7 +155,7 @@ const PageContents = () => {
           </Checkbox>
         </div>
         {
-          list.map((item) => {
+          listOptions.list.map((item) => {
             return (
               <QnaRowItem 
                 key={item.id} 
@@ -141,10 +163,15 @@ const PageContents = () => {
             )
           })
         }
+        <div className="w-full flex flex-wrap justify-center mb-4">
+          <PaginationBox 
+            ref={paginationBoxRef}
+            __onPageClick={onPageClick} />
+        </div>
         <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full block box-sizing px-6 py-6">
             <Button __buttonStyle="black-solid" __onClick={() => {
-              router.push('/inquiry/' + itemId);
+              router.push('/inquiry/' + listOptions.itemId);
             }}>문의하기</Button>
           </div>
         </BottomFixedOrRelativeBox>

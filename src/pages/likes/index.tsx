@@ -118,6 +118,14 @@ const PageContents = () => {
             __rightComponent={<>
               {/* <ViewFilterBox __optionTypes={['order-by']} /> */}
             </>} />
+          {
+            list.length === 0 ? 
+            <div className="w-full relative px-6 py-12">
+              <div className="w-full box-sizing flex justify-center items-center">
+                <span className="text-black-b text-sm">좋아요 내역이 없습니다.</span>
+              </div>
+            </div> : <></>
+          }
           <GridList>
             {
               list.map((item) => {

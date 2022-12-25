@@ -60,10 +60,10 @@ const PageContents = () => {
               </>,
               menuLink: '',
             },
-            {
-              menuNameComponent: <>SNS로그인 설정</>,
-              menuLink: '/sns-login-setting',
-            },
+            // {
+            //   menuNameComponent: <>SNS로그인 설정</>,
+            //   menuLink: '/sns-login-setting',
+            // },
             {
               menuNameComponent: <>로그아웃</>,
               menuLink: '',

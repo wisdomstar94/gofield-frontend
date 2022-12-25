@@ -40,7 +40,7 @@ const PageContents = () => {
           __menuItems={[
             { menuNameComponent: <>나의 정보 수정</>, menuLink: '/mypage/myinfo-edit', },
             { menuNameComponent: <>주문/배송 조회</>, menuLink: '/order/history', },
-            { menuNameComponent: <>관심상품</>, menuLink: '', },
+            { menuNameComponent: <>좋아요</>, menuLink: '/likes', },
             { menuNameComponent: <>최근 본 상품</>, menuLink: '', },
             { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
             { menuNameComponent: <>취소 반품 교환</>, menuLink: '', },
