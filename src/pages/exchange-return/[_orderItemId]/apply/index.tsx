@@ -18,6 +18,8 @@ import { IAddress } from "../../../../interfaces/address/address.interface";
 import TextArea from "../../../../components/forms/text-area/text-area.component";
 import { IExchangeReturn } from "../../../../interfaces/exchange-return/exchange-return.interface";
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
+import useOrderItemDetailApi from "../../../../hooks/use-apis/use-order-item-detail.api";
+import { IOrder } from "../../../../interfaces/order/order.interface";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -37,10 +39,13 @@ const ExchangeReturnApplyPage: NextPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const orderItemDetailApi = useOrderItemDetailApi();
+  const [orderItemDetail, setOrderItemDetail] = useState<IOrder.OrderItemDetailInfo>();
   const modalAlert = useModalAlert();
   const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
   const enumExchangeReturnReasonListQuery = useEnumExchangeReturnReasonListQuery();
   const [form, setForm] = useState<IExchangeReturn.ExchangeReturnForm>({});
+  const isGettingDetailRef = useRef(false);
 
   useEffect(() => {
     if (!enumExchangeReturnReasonListQuery.isFetched) {
@@ -67,6 +72,19 @@ const PageContents = () => {
       setForm(prev => ({ ...prev, reason: reasonList[0] }));
     } else {
       disposeEmptyReasonList(orderItemId);
+    }
+
+    if (reasonList.length > 0 && orderItemId !== '') {
+      isGettingDetailRef.current = true;
+      orderItemDetailApi.getInstance(orderItemId, reasonList[0]).then((response) => {
+        if (response.data.status !== true) {
+          return;
+        }
+
+        setOrderItemDetail(response.data.data);
+      }).finally(() => {
+        isGettingDetailRef.current = false;
+      });
     }
 
     checkReasonEffectiveness();
@@ -187,7 +205,14 @@ const PageContents = () => {
             선택한 상품 1건
           </div>
         </div> */}
-        <ProductRowItem3 __isTopRowShow={false} />
+        <ProductRowItem3 
+          __isTopRowShow={false}
+          __imageUrl={orderItemDetail?.thumbnail}
+          __price={orderItemDetail?.itemPrice}
+          __deliveryPrice={orderItemDetail?.deliveryPrice}
+          __productName={orderItemDetail?.name}
+          __optionNames={orderItemDetail?.optionName}
+          __qty={orderItemDetail?.qty} />
 
         <div className="block mx-6 mt-4">
           <div className="font-bold text-sm text-black-a mb-1">

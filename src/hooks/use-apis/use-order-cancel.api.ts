@@ -8,7 +8,7 @@ const useOrderCancelApi = () => {
   const axios = useAxios();
 
   const getInstance = useCallback((orderItemId: string | number, reason: IOrder.OrderCancelReasonEnum) => {
-    return axios.getAxiosInstance<IResponse.CommonResponse<IOrder.OrderItemCancelDetailInfo>>({
+    return axios.getAxiosInstance<IResponse.CommonResponse<IOrder.OrderItemDetailInfo>>({
       url: Config().api.order.cancel._ + '/' + orderItemId,
       method: 'post',
       isAuth: true,

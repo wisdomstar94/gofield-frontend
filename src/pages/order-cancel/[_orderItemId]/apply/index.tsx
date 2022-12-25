@@ -14,7 +14,7 @@ import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 import ModalSearch from "../../../../components/modals/modal-search/modal-search.component";
 import useOrderCancelApi from "../../../../hooks/use-apis/use-order-cancel.api";
-import useOrderItemCancelDetailApi from "../../../../hooks/use-apis/use-order-item-cancel-detail.api";
+import useOrderItemDetailApi from "../../../../hooks/use-apis/use-order-item-detail.api";
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 import useModalConfirm from "../../../../hooks/use-modals/use-modal-confirm.modal";
 import useCancelReasonListQuery from "../../../../hooks/use-queries/use-cancel-reason-list.query";
@@ -45,11 +45,11 @@ const PageContents = () => {
   const [orderItemId, setOrderItemId] = useState<string>();
   const [cancelReason, setCancelReason] = useState<IOrder.OrderCancelReasonEnum>();
   const enumOrderCancelReasonListQuery = useEnumOrderCancelReasonListQuery();
-  const orderItemCancelDetailApi = useOrderItemCancelDetailApi();
+  const orderItemDetailApi = useOrderItemDetailApi();
   const orderCancelApi = useOrderCancelApi();
   const isDetailInfoGettingRef = useRef(false);
   const isCancelingRef = useRef(false);
-  const [cancelDetailInfo, setCancelDetailInfo] = useState<IOrder.OrderItemCancelDetailInfo>();
+  const [cancelDetailInfo, setCancelDetailInfo] = useState<IOrder.OrderItemDetailInfo>();
   const [isValid, setIsValid] = useState(false);
 
   // const cancelReasonCheckboxChange = useCallback((info: ICheckbox.CheckboxChangeInfo) => {
@@ -87,7 +87,7 @@ const PageContents = () => {
     }
 
     isDetailInfoGettingRef.current = true;
-    orderItemCancelDetailApi.getInstance(id, reason).then((response) => {
+    orderItemDetailApi.getInstance(id, reason).then((response) => {
       if (response.data.status !== true) {
         setIsValid(false);
         router.push('/');
@@ -102,7 +102,7 @@ const PageContents = () => {
       setIsValid(false);
       router.push('/');
     });
-  }, [orderItemCancelDetailApi, router]);
+  }, [orderItemDetailApi, router]);
 
   const getInstallmentText = useCallback(() => {
     if (cancelDetailInfo === undefined) {

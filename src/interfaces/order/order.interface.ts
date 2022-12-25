@@ -188,7 +188,7 @@ export declare namespace IOrder {
     nextUrl: string;
   }
 
-  export interface OrderItemCancelDetailInfo {
+  export interface OrderItemDetailInfo {
     cardNumber: string;
     cardType: string;
     deliveryPrice: number;
