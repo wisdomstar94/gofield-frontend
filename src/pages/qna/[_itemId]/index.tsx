@@ -73,10 +73,11 @@ const PageContents = () => {
       }
 
       setListOptions(prev => {
-        return {
+        const newValue = {
           ...prev,
           list: response.data.data.list,
         };
+        return newValue;
       });
       paginationBoxRef.current?.setPage(response.data.data.page);
     }).finally(() => {
@@ -155,6 +156,15 @@ const PageContents = () => {
           </Checkbox>
         </div>
         {
+          listOptions.list.length === 0 ? 
+          <div className="w-full relative px-6 py-12">
+            <div className="w-full box-sizing flex justify-center items-center">
+              <span className="text-black-b text-sm">조회된 내역이 없습니다.</span>
+            </div>
+          </div> : 
+          <></>
+        }
+        {
           listOptions.list.map((item) => {
             return (
               <QnaRowItem 
@@ -163,11 +173,16 @@ const PageContents = () => {
             )
           })
         }
-        <div className="w-full flex flex-wrap justify-center mb-4">
+        
+        <div className="w-full flex flex-wrap justify-center mt-4 mb-4"
+          style={{
+            'display': listOptions.list.length === 0 ? 'none' : undefined,
+          }}>
           <PaginationBox 
             ref={paginationBoxRef}
             __onPageClick={onPageClick} />
-        </div>
+        </div> 
+        
         <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full block box-sizing px-6 py-6">
             <Button __buttonStyle="black-solid" __onClick={() => {

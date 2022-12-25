@@ -69,7 +69,12 @@ const QnaRowItem = (props: IQnaRowItem.Props) => {
               <div className="w-full flex flex-wrap" onClick={questionClick}>
                 <div className="w-full flex mb-1">
                   <span className="font-bold text-sm text-black-a tracking-tighter">
-                    { item?.isVisible === false ? <>비공개 문의입니다 &nbsp; <span>no-icon</span></> : item?.title }
+                    { item?.title }
+                    {
+                      item?.isVisible === false && item?.isMe === true ? 
+                      <span className={styles['secret-me-text']}>&nbsp;* (나에게만 보입니다.)</span> : 
+                      <></>
+                    }
                   </span>
                 </div>
                 {

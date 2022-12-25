@@ -84,6 +84,7 @@ const PageContents = () => {
       modalAlert.show({ title: '안내', content: '등록되었습니다.' });
       detailInfoRef.current = { isVisible: false };
       setTimestamp(new Date().getTime());
+      history.back();
     }).finally(() => {
       isUploadingRef.current = false;
     });
