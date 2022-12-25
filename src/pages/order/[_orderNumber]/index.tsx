@@ -70,12 +70,15 @@ const PageContents = () => {
 
   const getShowButtonTypes = useCallback((shippingItem: IOrder.OrderShippingListItem, orderItem: IOrder.OrderShippingOrderItem) => {
     const buttons: IProductRowItem3.ShowButtonTypeItem[] = [
-      { buttonType: 'delivery-check', buttonWidthType: 'half' }, 
-      { buttonType: 'exchange-refund', buttonWidthType: 'half' },
+      { buttonType: 'delivery-check', buttonWidthType: 'full' }, 
     ];
 
-    if (!orderItem.isReview) {
+    if (!orderItem.isReview && order.isReviewWritePosible(shippingItem)) {
       buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
+    }
+
+    if (order.isExchangeOrReturnPosible(shippingItem)) {
+      buttons.push({ buttonType: 'exchange-refund', buttonWidthType: 'full' });
     }
 
     if (order.isCancelPosible(shippingItem)) {

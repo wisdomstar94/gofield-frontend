@@ -21,6 +21,7 @@ import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 import useOrderItemDetailApi from "../../../../hooks/use-apis/use-order-item-detail.api";
 import { IOrder } from "../../../../interfaces/order/order.interface";
 import useItemChangeRequestApi from "../../../../hooks/use-apis/use-item-change-request.api";
+import useItemReturnRequestApi from "../../../../hooks/use-apis/use-item-return-request.api";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -42,6 +43,7 @@ const PageContents = () => {
   const router = useRouter();
   const orderItemDetailApi = useOrderItemDetailApi();
   const itemChangeRequestApi = useItemChangeRequestApi();
+  const itemReturnRequestApi = useItemReturnRequestApi();
   const [orderItemDetail, setOrderItemDetail] = useState<IOrder.OrderItemDetailInfo>();
   const modalAlert = useModalAlert();
   const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
@@ -177,15 +179,29 @@ const PageContents = () => {
       }
 
       modalAlert.show({ title: '안내', content: '교환 신청이 완료되었습니다.' });
-      router.push('/');
+      router.push('/order/history');
     }).finally(() => {
       isSubmittingRef.current = false;
     });
   }, [form, itemChangeRequestApi, modalAlert, router]);
 
   const requestReturn = useCallback(() => {
+    if (isSubmittingRef.current) {
+      return;
+    }
 
-  }, []);
+    isSubmittingRef.current = true;
+    itemReturnRequestApi.getInstance(form).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      modalAlert.show({ title: '안내', content: '반품 신청이 완료되었습니다.' });
+      router.push('/order/history');
+    }).finally(() => {
+      isSubmittingRef.current = false;
+    });
+  }, [form, itemReturnRequestApi, modalAlert, router]);
 
   const applyButtonClick = useCallback(() => {
     if (typeof form.orderItemId !== 'string' || form.orderItemId === '') {

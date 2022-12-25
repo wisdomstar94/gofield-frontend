@@ -19,6 +19,7 @@ import { IAddress } from "../../../interfaces/address/address.interface";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useUserAddressUploadApi from "../../../hooks/use-apis/use-user-address-upload.api";
 import useUserAddressEditApi from "../../../hooks/use-apis/use-user-address-edit.api";
+import Script from "next/script";
 
 const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: ForwardedRef<IModalAddressAdd.RefObject>) => {
   const userAddressUploadApi = useUserAddressUploadApi();
@@ -193,6 +194,7 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
 
   return (
     <>
+      <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer={true}></Script>
       <Modal __modalState={modalState}>
         <WindowSizeContainer __bgColor="#fff">
           <Topbar
