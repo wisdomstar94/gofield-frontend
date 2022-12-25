@@ -87,7 +87,7 @@ const PageContents = () => {
     }
 
     isDetailInfoGettingRef.current = true;
-    orderItemDetailApi.getInstance(id, reason).then((response) => {
+    orderItemDetailApi.getInstance(id).then((response) => {
       if (response.data.status !== true) {
         setIsValid(false);
         router.push('/');

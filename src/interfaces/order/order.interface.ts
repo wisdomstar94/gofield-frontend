@@ -219,6 +219,11 @@ export declare namespace IOrder {
     status: OrderItemCancelStatus;
     thumbnail: string;
     totalAmount: number;
+    address: string;
+    addressExtra: string;
+    userTel: string;
+    username: string;
+    zipCode: string;
   }
 
   export interface TotalPriceInfo {

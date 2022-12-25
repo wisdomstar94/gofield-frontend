@@ -20,6 +20,7 @@ import { IExchangeReturn } from "../../../../interfaces/exchange-return/exchange
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 import useOrderItemDetailApi from "../../../../hooks/use-apis/use-order-item-detail.api";
 import { IOrder } from "../../../../interfaces/order/order.interface";
+import useItemChangeRequestApi from "../../../../hooks/use-apis/use-item-change-request.api";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -40,12 +41,14 @@ const ExchangeReturnApplyPage: NextPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const orderItemDetailApi = useOrderItemDetailApi();
+  const itemChangeRequestApi = useItemChangeRequestApi();
   const [orderItemDetail, setOrderItemDetail] = useState<IOrder.OrderItemDetailInfo>();
   const modalAlert = useModalAlert();
   const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
   const enumExchangeReturnReasonListQuery = useEnumExchangeReturnReasonListQuery();
   const [form, setForm] = useState<IExchangeReturn.ExchangeReturnForm>({});
   const isGettingDetailRef = useRef(false);
+  const isSubmittingRef = useRef(false);
 
   useEffect(() => {
     if (!enumExchangeReturnReasonListQuery.isFetched) {
@@ -76,12 +79,22 @@ const PageContents = () => {
 
     if (reasonList.length > 0 && orderItemId !== '') {
       isGettingDetailRef.current = true;
-      orderItemDetailApi.getInstance(orderItemId, reasonList[0]).then((response) => {
+      orderItemDetailApi.getInstance(orderItemId).then((response) => {
         if (response.data.status !== true) {
           return;
         }
 
         setOrderItemDetail(response.data.data);
+        setForm(prev => ({
+          ...prev,
+          shippingAddress: {
+            address: response.data.data.address,
+            addressExtra: response.data.data.addressExtra,
+            zipCode: response.data.data.zipCode,
+            name: response.data.data.username,
+            tel: response.data.data.userTel,
+          },
+        }));
       }).finally(() => {
         isGettingDetailRef.current = false;
       });
@@ -153,8 +166,22 @@ const PageContents = () => {
   }, []);
 
   const requestExchange = useCallback(() => {
+    if (isSubmittingRef.current) {
+      return;
+    }
 
-  }, []);
+    isSubmittingRef.current = true;
+    itemChangeRequestApi.getInstance(form).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      modalAlert.show({ title: '안내', content: '교환 신청이 완료되었습니다.' });
+      router.push('/');
+    }).finally(() => {
+      isSubmittingRef.current = false;
+    });
+  }, [form, itemChangeRequestApi, modalAlert, router]);
 
   const requestReturn = useCallback(() => {
 

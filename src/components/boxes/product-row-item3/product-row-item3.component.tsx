@@ -5,7 +5,7 @@ import useOrderCarrierTrack from "../../../hooks/use-apis/use-order-carrier-trac
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useCodeOrderItemStatusListQuery from "../../../hooks/use-queries/use-code-order-item-status-list.query";
-import useCodeOrderShippingStatusListQuery from "../../../hooks/use-queries/use-code-order-shipping-status-list.query";
+import useEnumOrderShippingStatusListQuery from "../../../hooks/use-queries/use-enum-order-shipping-status-list.query";
 import { day } from "../../../librarys/date-util/date-util.library";
 import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
@@ -17,7 +17,7 @@ import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const router = useRouter();
-  const codeOrderShippingStatusListQuery = useCodeOrderShippingStatusListQuery();
+  const enumOrderShippingStatusListQuery = useEnumOrderShippingStatusListQuery();
   const codeOrderItemStatusListQuery = useCodeOrderItemStatusListQuery();
   const orderCarrierTrack = useOrderCarrierTrack();
   const modalAlert = useModalAlert();
@@ -104,6 +104,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const deliveryStatusViewButtonClick = useCallback(() => {
     if (carrierId === undefined || carrierId === null) {
       console.error('carrierId 가 없습니다.');
+      modalAlert.show({ title: '안내', content: '배송 정보가 없습니다.' });
       return;
     }
 
@@ -133,7 +134,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
             __style={{ marginBottom: '8px' }}
             __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
             __leftComponent={<>
-              <div className="text-sm font-bold text-blue-a mr-4">{ codeOrderShippingStatusListQuery.data?.find(x => x.value === orderShippingStatus)?.text }</div>
+              <div className="text-sm font-bold text-blue-a mr-4">{ enumOrderShippingStatusListQuery.data?.find(x => x.value === orderShippingStatus)?.text }</div>
               <div className="text-sm font-bold text-orange-a mr-4">{ codeOrderItemStatusListQuery.data?.find(x => x.value === orderItemStatus)?.text }</div>
               &nbsp;&nbsp;
               {

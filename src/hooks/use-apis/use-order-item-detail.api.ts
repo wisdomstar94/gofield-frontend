@@ -7,14 +7,14 @@ import useAxios from "../use-axios-hook/use-axios.hook";
 const useOrderItemDetailApi = () => {
   const axios = useAxios();
 
-  const getInstance = useCallback((orderItemId: string | number, reason: string) => {
+  const getInstance = useCallback((orderItemId: string | number) => {
     return axios.getAxiosInstance<IResponse.CommonResponse<IOrder.OrderItemDetailInfo>>({
       url: Config().api.order.item._ + '/' + orderItemId,
       method: 'get',
       isAuth: true,
-      params: {
-        reason,
-      },
+      // params: {
+      //   reason,
+      // },
     });
   }, [axios]);
 

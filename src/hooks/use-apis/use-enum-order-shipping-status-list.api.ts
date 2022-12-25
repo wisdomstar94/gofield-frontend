@@ -1,20 +1,18 @@
 import { useCallback } from "react";
 import Config from "../../configs/config.export";
 import { ICode } from "../../interfaces/code/code.interface";
+import { IEnum } from "../../interfaces/enum/enum.interface";
 import { IResponse } from "../../interfaces/response/response.interface";
 import useAxios from "../use-axios-hook/use-axios.hook";
 
-const useCodeOrderShippingStatusListApi = () => {
+const useEnumOrderShippingStatusListApi = () => {
   const axios = useAxios();
 
   const getInstance = useCallback(() => {
-    return axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
-      url: Config().api.code.code._,
+    return axios.getAxiosInstance<IResponse.CommonResponse<IEnum.EnumItem[]>>({
+      url: Config().api.enum._ + '/ORDER_SHIPPING_STATUS',
       method: 'get',
       isAuth: true,
-      params: {
-        group: 'ORDER_SHIPPING_STATUS',
-      },
     });
   }, [axios]);
 
@@ -23,4 +21,4 @@ const useCodeOrderShippingStatusListApi = () => {
   };
 };
 
-export default useCodeOrderShippingStatusListApi;
+export default useEnumOrderShippingStatusListApi;
