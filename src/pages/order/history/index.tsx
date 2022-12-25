@@ -32,6 +32,7 @@ const PageContents = () => {
   const orderListApi = useOrderListApi();
   const [list, setList] = useState<IOrder.OrderListItem[]>([]);
   const modalAlert = useModalAlert();
+  const originTypeRef = useRef('');
 
   const isNoneMoreDataRef = useRef(false);
   const isGettingListRef = useRef(false);
@@ -43,6 +44,10 @@ const PageContents = () => {
   useEffect(() => {
     if (!router.isReady) {
       return;
+    }
+
+    if (typeof router.query.originType === 'string') {
+      originTypeRef.current = router.query.originType;
     }
 
     getList();
@@ -92,6 +97,15 @@ const PageContents = () => {
     }
   }, [getList]);
 
+  const backButtonClick = useCallback(() => {
+    if (originTypeRef.current === 'exchange-or-return') {
+      router.push('/');
+      return;
+    }
+
+    history.back();
+  }, [router]);
+
   return (
     <>
       <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
@@ -99,7 +113,8 @@ const PageContents = () => {
           __layoutTypeB={{
             titleComponent: '주문목록',
             rightComponent: <></>,
-          }} />
+          }}
+          __backButtonClickCallback={backButtonClick} />
         {
           list.length === 0 ? 
           <div className="w-full relative px-6 py-12">

@@ -179,7 +179,7 @@ const PageContents = () => {
       }
 
       modalAlert.show({ title: '안내', content: '교환 신청이 완료되었습니다.' });
-      router.push('/order/history');
+      router.push('/order/history?originType=exchange-or-return');
     }).finally(() => {
       isSubmittingRef.current = false;
     });
@@ -197,7 +197,7 @@ const PageContents = () => {
       }
 
       modalAlert.show({ title: '안내', content: '반품 신청이 완료되었습니다.' });
-      router.push('/order/history');
+      router.push('/order/history?originType=exchange-or-return');
     }).finally(() => {
       isSubmittingRef.current = false;
     });

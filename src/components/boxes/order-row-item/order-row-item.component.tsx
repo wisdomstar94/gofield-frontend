@@ -27,16 +27,16 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
       { buttonType: 'delivery-check', buttonWidthType: 'full' }, 
     ];
 
-    if (!orderItem.isReview && order.isReviewWritePosible(shippingItem)) {
-      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
-    }
-
     if (order.isExchangeOrReturnPosible(shippingItem)) {
       buttons.push({ buttonType: 'exchange-refund', buttonWidthType: 'full' });
     }
 
     if (order.isCancelPosible(shippingItem)) {
       buttons.push({ buttonType: 'order-delivery-cancel', buttonWidthType: 'full' });
+    }
+
+    if (!orderItem.isReview && order.isReviewWritePosible(shippingItem)) {
+      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
     }
 
     return buttons;
