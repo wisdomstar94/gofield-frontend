@@ -19,6 +19,14 @@ export declare namespace IItem {
     value: string;
   }
 
+  export interface NewOrOldItemListOptions {
+    bundleId: string;
+    page: string;
+    size: string;
+    classification: Classification;
+    list: IItem.ProductRowItem[];
+  }
+
   export interface BundleProductItem {
     id: number;
     name: string;
@@ -76,6 +84,7 @@ export declare namespace IItem {
     reviewScore: number;
     newLowestPrice: number;
     usedLowestPrice: number;
+    allItemCount: number;
     newItemCount: number;
     usedItemCount: number;
     images: string[];

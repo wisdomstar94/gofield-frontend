@@ -123,7 +123,11 @@ const PageContents = () => {
           </List>
         </Article>
 
-        <NewOrOldProductListBox __items={detailInfo?.items} />
+        <NewOrOldProductListBox
+          __bundleId={detailInfo?.id.toString()}
+          __allItemCount={detailInfo?.allItemCount}
+          __newItemCount={detailInfo?.newItemCount}
+          __usedItemCount={detailInfo?.usedItemCount} />
 
         <Article __style={{ marginBottom: '0' }}>
           <div style={{ width: '100%', fontSize: '0.9rem', fontWeight: 'bold', color: '#374553', marginBottom: '12px' }}>사용자 총 평점</div>
