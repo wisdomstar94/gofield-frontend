@@ -74,3 +74,24 @@
   color: #1e2238;
   letter-spacing: -0.04rem;
 }
+
+
+.bottom-button-list-box {
+  width: 100%;
+  display: grid;
+  position: relative;
+  gap: 10px;
+  // grid-column: 1 / 2;
+  // grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(auto-fill, minmax(40%, auto));
+
+  > div.grid-item {
+    display: block;
+
+    &.full {
+      width: 100%;
+      grid-column-start : 1;
+      grid-column-end : 3;
+    }
+  }
+}

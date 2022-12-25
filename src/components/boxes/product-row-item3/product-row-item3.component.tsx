@@ -202,14 +202,16 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
         
         {
           showButtonTypes !== undefined && showButtonTypes?.length > 0 ? 
-          <div data-name="bottom-button-list-row" className="w-full grid grid-cols-2 gap-2 relative">
+          <div data-name="bottom-button-list-row" className={styles['bottom-button-list-box']}>
             {
               showButtonTypes.map((item, index) => {
                 return (
                   <div key={index}
                     className={getClasses([
-                      item.buttonWidthType === 'full' ? 'col-span-2' : '',
-                      item.buttonWidthType === 'half' ? '' : '',
+                      styles['grid-item'],
+                      item.buttonWidthType === 'full' ? styles['full'] : '',
+                      // item.buttonWidthType === 'full' ? 'col-span-2' : '',
+                      // item.buttonWidthType === 'half' ? '' : '',
                     ])}>
                     {
                       item.buttonType === 'exchange-refund' ? 
