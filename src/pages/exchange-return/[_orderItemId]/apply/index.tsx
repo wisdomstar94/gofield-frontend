@@ -3,31 +3,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
-import BothSidebox from "../../../../components/layouts/both-side-box/both-side-box.component";
-import ContentArticle from "../../../../components/layouts/content-article/content-article.component";
-import List, { ListItem } from "../../../../components/layouts/list/list.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 import styles from './index.module.scss';
-import Image from 'next/image';
-import EmptyRow from "../../../../components/layouts/empty-row/empty-row.component";
-import { useRecoilState } from "recoil";
-import { globalModalDefaultModalItemAtom } from "../../../../atoms/global-modal-default.atom";
-import Titlebox from "../../../../components/layouts/title-box/title-box.component";
 import Checkbox from "../../../../components/forms/checkbox/checkbox.component";
 import Button from "../../../../components/forms/button/button.component";
-import { getNextRouterQueryToUrlQueryString } from "../../../../librarys/string-util/string-util.library";
-import ModalAddressManage from "../../../../components/modals/modal-address-manage/modal-address-manage.component";
-import { IModalAddressManage } from "../../../../components/modals/modal-address-manage/modal-address-manage.interface";
 import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import ProductRowItem3 from "../../../../components/boxes/product-row-item3/product-row-item3.component";
 import { ICheckbox } from "../../../../components/forms/checkbox/checkbox.interface";
-import useExchangeReturnReasonListQuery from "../../../../hooks/use-queries/use-exchange-return-reason-list.query";
 import useEnumExchangeReturnReasonListQuery from "../../../../hooks/use-queries/use-enum-exchange-return-reason-list.query";
-import { IOrder } from "../../../../interfaces/order/order.interface";
 import ModalAddressBook from "../../../../components/modals/modal-address-book/modal-address-book.component";
 import { IModalAddressBook } from "../../../../components/modals/modal-address-book/modal-address-book.interface";
 import { IAddress } from "../../../../interfaces/address/address.interface";
+import TextArea from "../../../../components/forms/text-area/text-area.component";
+import { IExchangeReturn } from "../../../../interfaces/exchange-return/exchange-return.interface";
+import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 
 const ExchangeReturnApplyPage: NextPage = () => {
   return (
@@ -47,16 +37,19 @@ const ExchangeReturnApplyPage: NextPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const modalAlert = useModalAlert();
   const modalAddressBookRef = useRef<IModalAddressBook.RefObject>(null);
-  const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
-  
-  const [orderItemId, setOrderItemId] = useState<string>();
-  const [applyType, setApplyType] = useState<string>();
-  const [shippingAddress, setShippingAddress] = useState<IOrder.ShippingAddress>({});
-
   const enumExchangeReturnReasonListQuery = useEnumExchangeReturnReasonListQuery();
-  const [reasonList, setReasonList] = useState<string[]>([]);
-  const modalAddressManageComponentRef = useRef<IModalAddressManage.RefObject>(null);
+  const [form, setForm] = useState<IExchangeReturn.ExchangeReturnForm>({});
+
+  useEffect(() => {
+    if (!enumExchangeReturnReasonListQuery.isFetched) {
+      return;
+    }
+
+    checkReasonEffectiveness();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enumExchangeReturnReasonListQuery.isFetched]);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -64,33 +57,37 @@ const PageContents = () => {
     }
 
     let orderItemId = '';
-    if (typeof router.query._orderItemId === 'string' && orderItemId === undefined) {
+    if (typeof router.query._orderItemId === 'string') {
       orderItemId = router.query._orderItemId;
-      setOrderItemId(orderItemId);
+      setForm(prev => ({ ...prev, orderItemId }));
     }
 
     const reasonList = getReasonList();
     if (reasonList.length > 0) {
-      setReasonList(reasonList);
+      setForm(prev => ({ ...prev, reason: reasonList[0] }));
     } else {
       disposeEmptyReasonList(orderItemId);
     }
+
+    checkReasonEffectiveness();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
+  const checkReasonEffectiveness = useCallback(() => {
+    if (typeof form.reason !== 'string') return;
+    if (enumExchangeReturnReasonListQuery.data === undefined) return;
+
+    if (enumExchangeReturnReasonListQuery.data.find(x => x.value === form.reason) === undefined) {
+      modalAlert.show({ title: '안내', content: '유효하지 않은 접근입니다.' });
+      router.push('/')
+    }
+  }, [enumExchangeReturnReasonListQuery.data, form.reason, modalAlert, router]);
+
   const disposeEmptyReasonList = useCallback((orderItemId: string) => {
-    setGlobalModalDefaultModalItem({
-      titleStyleA: {
-        component: <>안내</>,
-      },
-      contentComponent: <>교환/반품 사유를 선택해주세요.</>,
-      negativeButtonState: 'hide',
-      positiveButtonState: 'show',
-    });
-    // const reasonUrl = router.asPath.split('?')[0].split('/apply')[0] + '/reason';
+    modalAlert.show({ title: '안내', content: '교환/반품 사유를 선택해주세요.' });
     const reasonUrl = `/exchange-return/${orderItemId}/reason`;
     router.push(reasonUrl);
-  }, [router, setGlobalModalDefaultModalItem]);
+  }, [modalAlert, router]);
 
   const getReasonList = useCallback(() => {
     const reasonList: string[] = [];
@@ -113,27 +110,69 @@ const PageContents = () => {
   }, []);
 
   const onAddressSelected = useCallback((item: IAddress.AddressItem) => {
-    setShippingAddress(prev => ({
+    setForm(prev => ({
       ...prev,
-      name: item.name,
-      tel: item.tel,
-      address: item.address,
-      addressExtra: item.addressExtra,
-      zipCode: item.zipCode,
+      shippingAddress: {
+        name: item.name,
+        tel: item.tel,
+        address: item.address,
+        addressExtra: item.addressExtra,
+        zipCode: item.zipCode,
+      },
     }));
   }, []);
 
   const exchangeOrReturnCheckboxChange = useCallback((changeInfo: ICheckbox.CheckboxChangeInfo) => {
-    setApplyType(changeInfo.value);
+    setForm(prev => ({ ...prev, applyType: changeInfo.value }));
   }, []);
 
-  const preButtonClick = useCallback(() => {
+  const onExchangeDetailContentChange = useCallback((value: string) => {
+    setForm(prev => ({ ...prev, exchangeDetailContent: value }));
+  }, []);
+
+  const prevButtonClick = useCallback(() => {
     history.back();
   }, []);
 
-  const applyButtonClick = useCallback(() => {
+  const requestExchange = useCallback(() => {
 
   }, []);
+
+  const requestReturn = useCallback(() => {
+
+  }, []);
+
+  const applyButtonClick = useCallback(() => {
+    if (typeof form.orderItemId !== 'string' || form.orderItemId === '') {
+      modalAlert.show({ title: '안내', content: '교환/반품 대상 상품 정보를 찾을 수 없습니다.' });
+      return;
+    }
+
+    if (typeof form.reason !== 'string' || form.reason === '') {
+      modalAlert.show({ title: '안내', content: '교환/반품 사유 정보를 찾을 수 없습니다.' });
+      return;
+    }
+
+    if (typeof form.applyType !== 'string' || form.applyType === '') {
+      modalAlert.show({ title: '안내', content: '교환인지 반품인지 선택해주세요.' });
+      return;
+    }
+
+    if (form.shippingAddress === undefined) {
+      modalAlert.show({ title: '안내', content: '배송 정보를 확인해주세요.' });
+      return;
+    }
+
+    console.log('form', form);
+
+    if (form.applyType === 'exchange') {
+      // 교환 요청 
+      requestExchange();
+    } else if (form.applyType === 'return') {
+      // 반품 요청 
+      requestReturn();
+    }
+  }, [form, modalAlert, requestExchange, requestReturn]);
 
   return (
     <>
@@ -143,11 +182,11 @@ const PageContents = () => {
             titleComponent: <>교환/반품 신청</>,
           }} />
         
-        <div className="block mx-6 mt-4">
+        {/* <div className="block mx-6 mt-4">
           <div className="block font-bold text-base">
             선택한 상품 1건
           </div>
-        </div>
+        </div> */}
         <ProductRowItem3 __isTopRowShow={false} />
 
         <div className="block mx-6 mt-4">
@@ -155,7 +194,7 @@ const PageContents = () => {
             교환/빈품 사유
           </div>
           <div className="font-normal text-sm text-gray-b">
-            { reasonList.map((item) => enumExchangeReturnReasonListQuery.data?.find(x => x.value === item)?.text) }
+            { enumExchangeReturnReasonListQuery.data?.find(x => x.value === form.reason)?.text }
           </div>
         </div>
 
@@ -166,30 +205,48 @@ const PageContents = () => {
         </div>
         
         <div className="w-full box-sizing px-6 mb-2">
-          <Checkbox __name="exchange-or-return" __value="exchange" __checkState={applyType === 'exchange' ? 'checked' : 'none-checked'} __onChange={exchangeOrReturnCheckboxChange}>
+          <Checkbox __name="exchange-or-return" __value="exchange" __checkState={form.applyType === 'exchange' ? 'checked' : 'none-checked'} __onChange={exchangeOrReturnCheckboxChange}>
             교환
           </Checkbox>
         </div>
         <div className="w-full box-sizing px-6 mb-2">
-          <Checkbox __name="exchange-or-return" __value="return" __checkState={applyType === 'return' ? 'checked' : 'none-checked'} __onChange={exchangeOrReturnCheckboxChange}>
+          <Checkbox __name="exchange-or-return" __value="return" __checkState={form.applyType === 'return' ? 'checked' : 'none-checked'} __onChange={exchangeOrReturnCheckboxChange}>
             반품
           </Checkbox>
         </div>
 
         <div className="block h-px bg-gray-a mx-6 my-4"></div>
 
+        { 
+          form.applyType === 'exchange' ? 
+          <>
+            <div className="font-bold text-base text-black-a mx-6 mb-4">
+              교환 내용
+            </div>
+            
+            <div className="w-full box-sizing px-6 mb-2">
+              <TextArea
+                __placeholder="원하는 교환 옵션을 작성해주세요."
+                __value={form.exchangeDetailContent}
+                __onChange={onExchangeDetailContentChange} />
+            </div>
+
+            <div className="block h-px bg-gray-a mx-6 my-4"></div>
+          </> : <></>
+        }
+
         <div className="font-bold text-base text-black-a mx-6 mb-4">
           배송 정보를 확인해 주세요
         </div>
 
         <div className="font-normal text-sm text-black-a mx-6 mb-1">
-          { shippingAddress.name }
+          { form.shippingAddress?.name }
         </div>
         <div className="font-normal text-sm text-gray-b mx-6 mb-1">
-          ({ shippingAddress.zipCode }) { shippingAddress.address }, { shippingAddress.addressExtra }
+          ({ form.shippingAddress?.zipCode }) { form.shippingAddress?.address }, { form.shippingAddress?.addressExtra }
         </div>
         <div className="font-normal text-sm text-gray-b mx-6 mb-4">
-          { shippingAddress.tel }
+          { form.shippingAddress?.tel }
         </div>
         <div className="mx-6 mb-4">
           <Button 
@@ -203,17 +260,16 @@ const PageContents = () => {
         <BottomFixedOrRelativeBox __heightToRelative={100}>
           <div className="w-full px-6 pb-6 grid grid-cols-2 gap-2 mt-4">
             <div>
-              <Button __buttonStyle="white-solid-gray-stroke" __onClick={() => history.back()}>이전단계</Button>
+              <Button __buttonStyle="white-solid-gray-stroke" __onClick={prevButtonClick}>이전단계</Button>
             </div>
             <div>
-              <Button __buttonStyle="black-solid">신청하기</Button>
+              <Button __buttonStyle="black-solid" __onClick={applyButtonClick}>신청하기</Button>
             </div>
           </div>
         </BottomFixedOrRelativeBox>
 
       </WindowSizeContainer>
       
-      {/* <ModalAddressManage ref={modalAddressManageComponentRef} /> */}
       <ModalAddressBook ref={modalAddressBookRef} __onSelected={onAddressSelected} />
     </>
   );
