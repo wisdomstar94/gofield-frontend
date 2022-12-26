@@ -8,6 +8,9 @@ const StrokeTabButtonBox = (props: IStrokeTabButtonBox.Props) => {
   const [valueItems, setValueItems] = useState<ICommon.ValueItem[]>(props.__valueItems ?? []);
   const [activeValue, setActiveValue] = useState(props.__activeValue ?? '');
 
+  const [isItemBorderTopNone, setIsItemBorderTopNone] = useState(props.__isItemBorderTopNone);
+  useEffect(() => { setIsItemBorderTopNone(props.__isItemBorderTopNone) }, [props.__isItemBorderTopNone]);
+
   useEffect(() => {
     setValueItems(props.__valueItems ?? []);
   }, [props.__valueItems]);
@@ -25,13 +28,17 @@ const StrokeTabButtonBox = (props: IStrokeTabButtonBox.Props) => {
 
   return (
     <>
-      <ul className={styles['tab-button-box']}>
+      <ul className={styles['tab-button-box']} style={props.__style}>
         {
           valueItems.map((item, index) => {
             return (
               <li key={index} 
                 style={{ width: `calc(100% / ${valueItems.length})` }}
-                className={getClasses([styles['item'], activeValue === item.value ? styles['active'] : ''])}
+                className={getClasses([
+                  styles['item'], 
+                  activeValue === item.value ? styles['active'] : '',
+                  isItemBorderTopNone === true ? styles['border-top-none'] : '',
+                ])}
                 onClick={e => itemClick(item)}>
                 { item.text }
               </li>

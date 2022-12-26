@@ -42,7 +42,7 @@ const PageContents = () => {
             { menuNameComponent: <>주문/배송 조회</>, menuLink: '/order/history', },
             { menuNameComponent: <>좋아요</>, menuLink: '/likes', },
             { menuNameComponent: <>최근 본 상품</>, menuLink: '/recent', },
-            { menuNameComponent: <>리뷰 관리</>, menuLink: '', },
+            { menuNameComponent: <>리뷰 관리</>, menuLink: '/review', },
             { menuNameComponent: <>취소 반품 교환</>, menuLink: '/cancel-return-exchange', },
             { menuNameComponent: <>고객센터</>, menuLink: '/customer-center', },
             { menuNameComponent: <>설정</>, menuLink: '/setting', },

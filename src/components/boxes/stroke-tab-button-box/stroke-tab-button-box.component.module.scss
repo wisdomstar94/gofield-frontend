@@ -25,6 +25,10 @@ ul.tab-button-box {
     border-top: 1px solid #e9ebee;
     cursor: pointer;
 
+    &.border-top-none {
+      border-top: 0;
+    }
+
     &:last-child {
       border-right: 0;
     }

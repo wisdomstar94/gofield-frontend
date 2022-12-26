@@ -1,0 +1,38 @@
+.top-notice-area {
+  display: block;
+  margin: 16px 24px;
+  position: relative;
+
+  .top-row {
+    display: block;
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #1e2238;
+    margin-bottom: 8px;
+  }
+
+  .bottom-row {
+    display: block;
+    position: relative;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #374553;
+  }
+}
+
+.list-row {
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.tab-content-box {
+  display: block;
+  position: relative;
+
+  &.hide {
+    display: none;
+  }
+}
