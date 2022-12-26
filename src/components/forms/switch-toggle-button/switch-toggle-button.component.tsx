@@ -10,8 +10,12 @@ const SwitchToggleButton = (props: ISwitchToggleButton.Props) => {
   useEffect(() => { setIsActive(props.__isActive) }, [props.__isActive]);
 
   const switchButtonClick = useCallback(() => {
-    setIsActive(isActive === true ? false : true);
-  }, [isActive]);
+    const nextValue = isActive === true ? false : true;
+    setIsActive(nextValue);
+    if (typeof props.__onChange === 'function') {
+      props.__onChange(nextValue);
+    }
+  }, [isActive, props]);
 
   useEffect(() => {
     setTimeout(() => {

@@ -9,8 +9,10 @@ import SwitchToggleButton from "../../components/forms/switch-toggle-button/swit
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import useUserAlertChangeApi from "../../hooks/use-apis/use-user-alert-change.api";
 import useUserLogoutApi from "../../hooks/use-apis/use-user-logout.api";
 import useModalConfirm from "../../hooks/use-modals/use-modal-confirm.modal";
+import useUserAlertValueQuery from "../../hooks/use-queries/use-user-alert-value.query";
 import useUser from "../../hooks/use-user-hook/use-user.hook";
 
 const ProductNewPage = () => {
@@ -30,11 +32,28 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const userAlertChangeApi = useUserAlertChangeApi();
+  const userAlertValueQuery = useUserAlertValueQuery();
+  const isAlertChangingRef = useRef(false);
+
   const router = useRouter();
   const modalConfirm = useModalConfirm();
   const userLogoutApi = useUserLogoutApi();
   const user = useUser();
   const isLogoutingRef = useRef(false);
+
+  const alertValueChange = useCallback((v: boolean) => {
+    isAlertChangingRef.current = true;
+    userAlertChangeApi.getInstance(v).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      userAlertValueQuery.refetch();
+    }).finally(() => {
+      isAlertChangingRef.current = false;
+    });
+  }, [userAlertChangeApi, userAlertValueQuery]);
 
   return (
     <>
@@ -54,7 +73,9 @@ const PageContents = () => {
                     이벤트 및 혜택 알림
                   </div>
                   <div className="flex flex-wrap items-center justify-end">
-                    <SwitchToggleButton __isActive={true} />
+                    <SwitchToggleButton 
+                      __isActive={userAlertValueQuery.data === true}
+                      __onChange={alertValueChange} />
                   </div>
                 </div>
               </>,

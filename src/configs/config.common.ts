@@ -213,6 +213,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         withdraw: {
           _: baseUrl + `/api/user/${apiVersion}/withdraw`,
         },
+        alert: {
+          _: baseUrl + `/api/user/${apiVersion}/alert`,
+        },
       },
 
       code: {

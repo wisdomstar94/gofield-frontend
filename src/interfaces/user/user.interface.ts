@@ -21,4 +21,8 @@ export declare namespace IUser {
     height: number;
     weight: number;
   }
+
+  export interface AlertValueApiData {
+    isAlertPromotion: boolean;
+  }
 }
