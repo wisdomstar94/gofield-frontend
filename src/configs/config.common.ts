@@ -144,6 +144,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         recommend: {
           _: baseUrl + `/api/item/${apiVersion}/recommend`,
         },
+        recent: {
+          _: baseUrl + `/api/item/${apiVersion}/recent`,
+        },
       },
 
       order: {

@@ -99,7 +99,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
           <Image
             onClick={itemClick}
             src={imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
-            alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="contain" />
+            alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="cover" />
           {
             isHeartLayout === true ? 
             <div className={styles['icon-area']} onClick={heartIconClick}>
