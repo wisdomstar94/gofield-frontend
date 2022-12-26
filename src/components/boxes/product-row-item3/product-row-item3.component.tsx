@@ -23,6 +23,9 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const modalAlert = useModalAlert();
   const modalConfirm = useModalConfirm();
 
+  const [orderItemNumber, setOrderItemNumber] = useState(props.__orderItemNumber);
+  useEffect(() => { setOrderItemNumber(props.__orderItemNumber) }, [props.__orderItemNumber]);
+
   const [orderNumber, setOrderNumber] = useState(props.__orderNumber);
   useEffect(() => { setOrderNumber(props.__orderNumber); }, [props.__orderNumber]);
 
@@ -135,7 +138,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
             __leftComponentStyle={{ width: 'calc(100% - 30px)' }}
             __leftComponent={<>
               <div className="text-sm font-bold text-blue-a mr-4">{ enumOrderShippingStatusListQuery.data?.find(x => x.value === orderShippingStatus)?.text }</div>
-              <div className="text-sm font-bold text-orange-a mr-4">{ codeOrderItemStatusListQuery.data?.find(x => x.value === orderItemStatus)?.text }</div>
+              {/* <div className="text-sm font-bold text-orange-a mr-4">{ codeOrderItemStatusListQuery.data?.find(x => x.value === orderItemStatus)?.text }</div> */}
               &nbsp;&nbsp;
               {
                 typeof estimatedArriveDate === 'string' ? 
@@ -175,6 +178,13 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
           __rightComponentStyle={{ width: 'calc(100% - 88px)' }}
           __rightComponent={<>
             <List __width="100%" __direction="vertical" __defaultItemMarginBottom="4px">
+              {
+                orderItemNumber !== undefined ? 
+                <ListItem>
+                  <span className={styles['small-gray']}>주문상품번호 : { orderItemNumber }</span>
+                </ListItem>
+                : null
+              }
               <ListItem>
                 <div className="text-sm text-black-a font-normal tracking-tighter break-keep">{ productName }</div>
               </ListItem>

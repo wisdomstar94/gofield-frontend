@@ -65,6 +65,7 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
               return (
                 <ProductRowItem3 
                   key={orderItem.id} 
+                  __orderItemNumber={orderItem.orderItemNumber}
                   __orderNumber={orderListItem.orderNumber}
                   __orderItemId={orderItem.id}
                   __imageUrl={orderItem.thumbnail}

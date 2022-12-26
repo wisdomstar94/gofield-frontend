@@ -33,6 +33,7 @@ export declare namespace IExchangeReturn {
   export interface CancelExchangeReturnItem {
     id: number;
     itemId: number;
+    itemNumber: string;
     itemOptionId: number | null;
     name: string;
     optionName: string[] | null;

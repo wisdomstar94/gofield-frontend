@@ -123,6 +123,7 @@ export declare namespace IOrder {
 
   export interface OrderShippingOrderItem {
     id: number;
+    orderItemNumber: string;
     itemId: number;
     itemOptionId: number;
     itemNumber: string;

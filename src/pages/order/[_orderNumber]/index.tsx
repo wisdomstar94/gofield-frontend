@@ -185,6 +185,7 @@ const PageContents = () => {
               return (
                 <ProductRowItem3 
                   key={orderItem.id} 
+                  __orderItemNumber={orderItem.orderItemNumber}
                   __orderNumber={orderDetailInfo.orderNumber}
                   __orderItemId={orderItem.id}
                   __imageUrl={orderItem.thumbnail}

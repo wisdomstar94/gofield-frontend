@@ -18,6 +18,7 @@ export declare namespace IProductRowItem3 {
     // __isExchangeRefundApplyButtonShow?: boolean;
     // __isDeliveryCheckButtonShow?: boolean;
     // __isReviewWriteButtonShow?: boolean;
+    __orderItemNumber?: string;
     __showButtonTypes?: ShowButtonTypeItem[];
     __orderNumber?: string;
     __imageUrl?: string;

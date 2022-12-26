@@ -1,5 +1,8 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import useCartContainApi from "../../../hooks/use-apis/use-cart-contain.api";
+import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import useCartCountQuery from "../../../hooks/use-queries/use-cart-count.query";
 import useEnumOrderCancelExchangeReturnStatusListQuery from "../../../hooks/use-queries/use-enum-order-cancel-exchange-return-status-list.query";
 import { day } from "../../../librarys/date-util/date-util.library";
 import BottomMenuBar from "../../layouts/bottom-menu-bar/bottom-menu-bar.component";
@@ -10,6 +13,10 @@ import { ICancelReturnExchangeRowItem } from "./cancel-return-exchange-row-item.
 const CancelReturnExchangeRowItem = (props: ICancelReturnExchangeRowItem.Props) => {
   const router = useRouter();
   const enumOrderCancelExchangeReturnStatusListQuery = useEnumOrderCancelExchangeReturnStatusListQuery();
+  const cartContainApi = useCartContainApi();
+  const cartCountQuery = useCartCountQuery();
+  const modalAlert = useModalAlert();
+  const isCartContainingRef = useRef(false);
 
   const [groupItem, setGroupItem] = useState(props.__groupItem);
   useEffect(() => { setGroupItem(props.__groupItem) }, [props.__groupItem]);
@@ -32,6 +39,26 @@ const CancelReturnExchangeRowItem = (props: ICancelReturnExchangeRowItem.Props) 
   const detailViewButtonClick = useCallback(() => {
     router.push(`/cancel-return-exchange/${groupItem?.id}`);
   }, [groupItem?.id, router]);
+
+  const containCartButtonClick = useCallback(() => {
+    if (typeof item?.itemNumber !== 'string') {
+      modalAlert.show({ title: '안내', content: '장바구니에 담을 상품 정보가 없습니다.' });
+      return;
+    }
+
+    isCartContainingRef.current = true;
+    cartContainApi.getInstance(false, item?.itemNumber).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '장바구니 담기에 실패하였습니다.' });
+        return;
+      }
+
+      modalAlert.show({ title: '안내', content: '장바구니에 상품이 담겼습니다.' });
+      cartCountQuery.refetch();
+    }).finally(() => {
+      isCartContainingRef.current = false;
+    });
+  }, [cartContainApi, cartCountQuery, item?.itemNumber, modalAlert]);
 
   return (
     <>
@@ -86,7 +113,9 @@ const CancelReturnExchangeRowItem = (props: ICancelReturnExchangeRowItem.Props) 
           </div>
 
           <div className="w-full flex">
-            <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '6px 14px' }}><span className="text-sm font-bold">장바구니 담기</span></Button>
+            <Button __buttonStyle="gray-solid-radius" __style={{ width: 'auto', padding: '6px 14px' }} __onClick={containCartButtonClick}>
+              <span className="text-sm font-bold">장바구니 담기</span>
+            </Button>
           </div>
 
         </div>

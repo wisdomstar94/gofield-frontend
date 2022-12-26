@@ -287,7 +287,7 @@ const PageContents = () => {
 
         <div className="w-full grid grid-cols-10 box-sizing px-6 mb-2">
           <div className="col-span-3 flex items-center">
-            <span className="font-bold text-sm text-black-a tracking-tighter">환불 완료</span>
+            <span className="font-bold text-sm text-black-a tracking-tighter">환불 금액</span>
           </div>
           <div className="col-span-7 flex items-center justify-end">
             <span className="font-bold text-sm text-orange-a tracking-tighter">{ getAddCommaNumberString({ numberValue: detailInfo?.totalAmount }) }원</span>
