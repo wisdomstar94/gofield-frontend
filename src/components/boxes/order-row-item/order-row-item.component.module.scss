@@ -1,0 +1,56 @@
+.item-box {
+  display: block;
+  margin: 24px;
+  padding: 0;
+  position: relative;
+  border: 2px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+  
+  &:hover {
+    outline: 2px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);;
+  }
+
+  .top-row {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #000;
+    align-items: flex-start;
+
+    .left-area {
+      width: calc(100% - 100px);
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+
+      color: #fff;
+      font-size: 0.8rem;
+    }
+
+    .right-area {
+      width: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      justify-content: flex-end;
+
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}
+
+.order-division-line {
+  width: 100%;
+  display: block;
+  // height: 1px;
+  // background-color: #333;
+  border-bottom: 1px dotted #333;
+}

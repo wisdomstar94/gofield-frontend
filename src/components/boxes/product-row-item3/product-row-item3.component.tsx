@@ -245,7 +245,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
           </div> : undefined
         }
       </div>
-      <div className="block mx-4 h-px bg-gray-a"></div>
+      <div className={styles['division-line']}></div>
     </>
   );
 };

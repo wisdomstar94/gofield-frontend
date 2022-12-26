@@ -43,40 +43,50 @@ const OrderRowItem = (props: IOrderRowItem.Props) => {
   }, [order]);
 
   return (
-    <div className="w-full block">
-      <div className="block mt-4 mx-6 grid grid-cols-2">
-        <div className="text-sm font-bold text-black-a">
-          {/* 2022.02.01 */}
-          { orderListItem !== undefined ? day(new Date(orderListItem?.createDate)).format('YYYY-MM-DD') : '' }
+    <>
+      <div className={styles['item-box']}>
+        <div className={styles['top-row']}>
+          <div className={styles['left-area']}>
+            <span>
+              {/* 2022.02.01 */}
+              { orderListItem !== undefined ? day(new Date(orderListItem?.createDate)).format('YYYY-MM-DD') : '' }<br />
+              (주문번호: { orderListItem?.orderNumber })
+            </span>
+          </div>
+          <div className={styles['right-area']}>
+            <span onClick={orderDetailViewButtonClick}>
+              주문 상세보기 {'>'}
+            </span>
+          </div>
         </div>
-        <div className="flex text-sm font-bold text-black-a justify-end cursor-pointer" onClick={orderDetailViewButtonClick}>
-          주문 상세보기 {'>'}
-        </div>
-      </div>
-      {
-        orderListItem?.orderShippingList.map((shippingItem) => {
-          return shippingItem.orderItems.map((orderItem) => {
-            return (
-              <ProductRowItem3 
-                key={orderItem.id} 
-                __orderNumber={orderListItem.orderNumber}
-                __orderItemId={orderItem.id}
-                __imageUrl={orderItem.thumbnail}
-                __productName={orderItem.name}
-                __price={orderItem.price}
-                __qty={orderItem.qty}
-                __orderShippingStatus={shippingItem.status}
-                __orderItemStatus={orderItem.status}
-                __optionNames={orderItem.optionName}
-                __carrierId={shippingItem.carrier}
-                __trackId={shippingItem.trackingNumber}
-                __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
-              />
-            )
+        {
+          orderListItem?.orderShippingList.map((shippingItem) => {
+            return shippingItem.orderItems.map((orderItem) => {
+              return (
+                <ProductRowItem3 
+                  key={orderItem.id} 
+                  __orderNumber={orderListItem.orderNumber}
+                  __orderItemId={orderItem.id}
+                  __imageUrl={orderItem.thumbnail}
+                  __productName={orderItem.name}
+                  __price={orderItem.price}
+                  __qty={orderItem.qty}
+                  __orderShippingStatus={shippingItem.status}
+                  __orderItemStatus={orderItem.status}
+                  __optionNames={orderItem.optionName}
+                  __carrierId={shippingItem.carrier}
+                  __trackId={shippingItem.trackingNumber}
+                  __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
+                />
+              )
+            })
           })
-        })
-      }
-    </div>
+        }
+      </div>
+      <div className={styles['order-division-line']}>
+
+      </div>
+    </>
   );
 };
 
