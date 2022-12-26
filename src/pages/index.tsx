@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
@@ -20,6 +20,11 @@ import EmptyColumn from '../components/layouts/empty-column/empty-column.compone
 import { useRouter } from 'next/router';
 import useMainItemListQuery from '../hooks/use-queries/use-main-item.query';
 import ProductColumnItem from '../components/boxes/product-column-item/product-column-item.component';
+import useItemListApi from '../hooks/use-apis/use-item-list.api';
+import { IItem } from '../interfaces/item/item.interface';
+import { getNextRouterQueryToUrlQueryString } from '../librarys/string-util/string-util.library';
+import GridList from '../components/layouts/grid-list/grid-list.component';
+import { IScrollCheckHook } from '../hooks/use-scroll-check/use-scroll-check.interface';
 
 const Home: NextPage = () => {
   return (
@@ -39,12 +44,95 @@ const Home: NextPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
-
+  const itemListApi = useItemListApi();
   const mainItemListQuery = useMainItemListQuery();
+
+  const isGettingUsedItemListRef = useRef(false);
+  const isNoneMoreDataUsedItemListRef = useRef(false);
+  const latestedPageRef = useRef(0);
+  const [usedItemListOptions, setUsedItemListOptions] = useState<IItem.UsedItemListOptions>({
+    page: '1',
+    size: '10',
+    // classification: 'USED',
+    sort: 'NEWEST',
+    list: [],
+  });
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    getUsedItemList(usedItemListOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]); 
+
+  const getUsedItemList = useCallback((options: IItem.UsedItemListOptions) => {
+    if (isGettingUsedItemListRef.current || isNoneMoreDataUsedItemListRef.current) {
+      return;
+    }
+    if (options.sort === '') return;
+    if (latestedPageRef.current === Number(options.page)) return;
+
+    isGettingUsedItemListRef.current = true;
+    // console.log('getList.options', options);
+    const query = {
+      page: options.page,
+      size: options.size,
+      sort: options.sort,
+      classification: 'USED',
+    };
+    itemListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      if (response.data.data.length === 0) {
+        isNoneMoreDataUsedItemListRef.current = true;
+        return;
+      } else if (response.data.data.length < Number(usedItemListOptions.size)) {
+        isNoneMoreDataUsedItemListRef.current = true;
+      }
+
+      // setList(list.concat(response.data.data));
+      setUsedItemListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          list: prev.list.concat(response.data.data),
+        };
+        return newValue;
+      });
+    }).finally(() => {
+      isGettingUsedItemListRef.current = false;
+      latestedPageRef.current = Number(options.page);
+    });
+  }, [itemListApi, usedItemListOptions.size]);
+
+  const usedProductColumnItemClick = useCallback((item: IItem.ProductRowItem) => {
+    router.push('/product/old/' + item.itemNumber);
+  }, [router]);
+
+  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingUsedItemListRef.current || isNoneMoreDataUsedItemListRef.current) {
+      return;
+    }
+
+    if (info.isLastScrollArea) {
+      const nextPage = Number(usedItemListOptions.page) + 1;
+      setUsedItemListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          page: nextPage.toString(),
+        };
+        getUsedItemList(newValue);
+        return newValue;
+      })
+    }
+  }, [getUsedItemList, usedItemListOptions.page]);
 
   return (
     <>
-      <WindowSizeContainer __bgColor="#f7f8f9">
+      <WindowSizeContainer __bgColor="#f7f8f9" __onScroll={onScroll}>
         <Topbar
           __layoutTypeB={{
 
@@ -149,14 +237,14 @@ const PageContents = () => {
           <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
-                <TextProductTypeTitle>최근 등록된 상품</TextProductTypeTitle>
+                <TextProductTypeTitle>최근 등록된 중고 상품</TextProductTypeTitle>
               </>}
               __rightComponent={<>
                 {/* <TextMoreViewButton><Link href="#">더보기 &gt;</Link></TextMoreViewButton> */}
               </>} />
           </ArticleTopRow>
-          <div className="w-full h-3"></div>
-          <HorizontalScrollBox>
+          <div className="w-full h-6"></div>
+          {/* <HorizontalScrollBox>
             <EmptyColumn __style={{ width: '24px' }} />
             {
               mainItemListQuery.data?.classificationItemList.map((item, index) => {
@@ -178,9 +266,29 @@ const PageContents = () => {
               })
             }
             <EmptyColumn __style={{ width: '24px' }} />
-          </HorizontalScrollBox>
+          </HorizontalScrollBox> */}
+          <div className="block px-6">
+            <GridList>
+              {
+                usedItemListOptions.list.map((item) => {
+                  return (
+                    <ProductGroupColumnItem
+                      key={item.itemNumber}
+                      __itemId={item.id}
+                      __isHeart={item.likeId !== null}
+                      __imageUrl={item.thumbnail}
+                      __onClick={() => usedProductColumnItemClick(item)}
+                      __brandNameComponent={<>{ item.brandName }</>}
+                      __productNameComponent={<>{ item.name }</>}
+                      __isHeartLayout={true}
+                      __price={item.price} /> 
+                  );
+                })
+              }
+            </GridList>
+          </div>
         </Article>
-        <EmptyRow __style={{ height: '64px' }} />
+        <EmptyRow __style={{ height: '54px' }} />
         <BottomMenuBar __activeMenuId="home" />
       </WindowSizeContainer>
     </>

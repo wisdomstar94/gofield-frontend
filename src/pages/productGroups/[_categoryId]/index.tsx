@@ -14,6 +14,7 @@ import WindowSizeContainer from "../../../components/layouts/window-size-contain
 import { IModalBottomViewOptions } from "../../../components/modals/modal-bottom-view-options/modal-bottom-view-options.interface";
 import useItemCategoryBundleProductListApi from "../../../hooks/use-apis/use-item-category-bundle-product-list.api";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import useCategoryListQuery from "../../../hooks/use-queries/use-category-list.query";
 import useCodeSubCategoryListQuery from "../../../hooks/use-queries/use-code-sub-category-list.query";
 import useEnumBundleItemSortListQuery from "../../../hooks/use-queries/use-enum-bundle-item-sort-list.query";
 import useProductCategoryListQuery from "../../../hooks/use-queries/use-product-category-list.query";
@@ -62,7 +63,8 @@ const PageContents = () => {
   // const [categoryTypeId, setCategoryTypeId] = useState('');
 
   const codeSubCategoryListQuery = useCodeSubCategoryListQuery(router.query._categoryId?.toString());
-  const productCategoryListQuery = useProductCategoryListQuery();
+  // const productCategoryListQuery = useProductCategoryListQuery();
+  const categoryListQuery = useCategoryListQuery();
 
   const itemCategoryBundleProductListApi = useItemCategoryBundleProductListApi();
 
@@ -224,7 +226,7 @@ const PageContents = () => {
         <Topbar
           ref={topbarRef}
           __layoutTypeB={{
-            titleComponent: productCategoryListQuery.data?.find(x => x.value === router.query._categoryId)?.text,
+            titleComponent: categoryListQuery.data?.find(x => x.value.toString() === router.query._categoryId)?.text,
           }}
           // __onSearchButtonClick={(value) => {topbarRef.current?.searchModalHide(); console.log(value);}} 
           />
