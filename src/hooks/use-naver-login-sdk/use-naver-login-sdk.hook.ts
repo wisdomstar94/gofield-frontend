@@ -11,9 +11,17 @@ const useNaverLoginSdk = () => {
   // 네이버 sdk 에서 DOM 에 있는 id 가 "naver_id_login" 요소에 클릭 이벤트를 할당해주는 구조입니다.
   // 그렇기 때문에 DOM 에 id 가 "naver_id_login" 인 요소가 존재해야 합니다.
   const init = useCallback((initOptions: INaver.InitOptions) => {
-    if (isInitRef.current) {
+    if (document.getElementById('naver_id_login') === null) {
       return;
     }
+    // console.log('(window as any).naver_id_login', (window as any).naver_id_login);
+    if (typeof (window as any).naver_id_login !== 'function') {
+      return;
+    }
+    // if (isInitRef.current) {
+
+    //   return;
+    // }
     clientIdRef.current = initOptions.clientId;
     callbackUrlRef.current = initOptions.callbackUrl;
     const naver_id_login = new (window as any).naver_id_login(initOptions.clientId, initOptions.callbackUrl);
@@ -43,7 +51,7 @@ const useNaverLoginSdk = () => {
   }, []);
 
   const getNaverAuthParams = useCallback(() => {
-    console.log('naverIdLoginRef', naverIdLoginRef);
+    // console.log('naverIdLoginRef', naverIdLoginRef);
 
     if (naverIdLoginRef.current === undefined) {
       return;

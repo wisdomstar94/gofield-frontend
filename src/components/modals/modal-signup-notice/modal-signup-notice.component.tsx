@@ -1,6 +1,6 @@
 import styles from "./modal-signup-notice.component.module.scss";
 import { IModalSignupNotice } from "./modal-signup-notice.interface";
-import { ForwardedRef, forwardRef, useCallback, useImperativeHandle, useState } from "react";
+import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
 import WindowSizeContainer from "../../layouts/window-size-container/window-size-container.component";
 import Modal from "../../forms/modal/modal.component";
 import { IModal } from "../../forms/modal/modal.interface";
@@ -11,8 +11,10 @@ import Script from "next/script";
 import useKakaoLoginSdk from "../../../hooks/use-kakao-login-sdk/use-kakao-login-sdk.hook";
 import Config from "../../../configs/config.export";
 import useNaverLoginSdk from "../../../hooks/use-naver-login-sdk/use-naver-login-sdk.hook";
+import { useRouter } from "next/router";
 
 const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: ForwardedRef<IModalSignupNotice.RefObject>) => {
+  const router = useRouter();
   const [modalState, setModalState] = useState<IModal.ModalState>(props.__modalState ?? '');
   const kakaoLoginSdk = useKakaoLoginSdk();
   const naverLoginSdk = useNaverLoginSdk();
@@ -48,6 +50,19 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
       return;
     }
   }, [kakaoLoginSdk, naverLoginSdk]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+    
+    naverLoginSdk.init({
+      clientId: Config().naver.sdk.clientId,
+      callbackUrl: Config().naver.redirectUrl,
+    });
+    kakaoLoginSdk.init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
 
   return (
     <>

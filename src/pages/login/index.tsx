@@ -55,6 +55,11 @@ const PageContents = () => {
     }
 
     user.removeAll();
+    naverLoginSdk.init({
+      clientId: Config().naver.sdk.clientId,
+      callbackUrl: Config().naver.redirectUrl,
+    });
+    kakaoLoginSdk.init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
@@ -122,9 +127,9 @@ const PageContents = () => {
                   </div>
                 </div>
               </button>
-              <button
+              <div
                 id="naver_id_login" 
-                className={styles['hide-button']}></button>
+                className={styles['hide-button']}></div>
             </ListItem>
           </List>
         </div>
