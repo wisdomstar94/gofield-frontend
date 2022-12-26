@@ -17,6 +17,7 @@ import useOrderCancelApi from "../../../../hooks/use-apis/use-order-cancel.api";
 import useOrderItemDetailApi from "../../../../hooks/use-apis/use-order-item-detail.api";
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
 import useModalConfirm from "../../../../hooks/use-modals/use-modal-confirm.modal";
+import useOrder from "../../../../hooks/use-order/use-order.hook";
 import useCancelReasonListQuery from "../../../../hooks/use-queries/use-cancel-reason-list.query";
 import useEnumOrderCancelReasonListQuery from "../../../../hooks/use-queries/use-enum-order-cancel-reason-list.query";
 import { IOrder } from "../../../../interfaces/order/order.interface";
@@ -51,7 +52,8 @@ const PageContents = () => {
   const isCancelingRef = useRef(false);
   const [cancelDetailInfo, setCancelDetailInfo] = useState<IOrder.OrderItemDetailInfo>();
   const [isValid, setIsValid] = useState(false);
-
+  const order = useOrder();
+    
   // const cancelReasonCheckboxChange = useCallback((info: ICheckbox.CheckboxChangeInfo) => {
 
   // }, []);
@@ -103,18 +105,6 @@ const PageContents = () => {
       router.push('/');
     });
   }, [orderItemDetailApi, router]);
-
-  const getInstallmentText = useCallback(() => {
-    if (cancelDetailInfo === undefined) {
-      return ``;
-    }
-
-    if (cancelDetailInfo.installmentPlanMonth > 2) {
-      return `${cancelDetailInfo.installmentPlanMonth}개월 할부`;
-    }
-
-    return `일시불`;
-  }, [cancelDetailInfo]);
 
   const startCancel = useCallback(() => {
     if (isCancelingRef.current) {
@@ -246,7 +236,7 @@ const PageContents = () => {
             <span className="font-bold text-xs text-black-a">환불 수단</span>
           </div>
           <div className="flex items-center justify-end col-span-3">
-            <span className="font-normal text-xs text-black-a">{ cancelDetailInfo?.paymentCompany }/{ getInstallmentText() }</span>
+            <span className="font-normal text-xs text-black-a">{ cancelDetailInfo?.paymentCompany }/{ order.getInstallmentText(cancelDetailInfo?.installmentPlanMonth) }</span>
           </div>
         </div>
 

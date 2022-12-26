@@ -29,10 +29,23 @@ const useOrder = () => {
     return posibleStatusSet.has(shippingItem.status);
   }, []);
 
+  const getInstallmentText = useCallback((installment: number | undefined) => {
+    if (installment === undefined) {
+      return ``;
+    }
+
+    if (installment > 2) {
+      return `${installment}개월 할부`;
+    }
+
+    return `일시불`;
+  }, []);
+
   return {
     isCancelPosible,
     isExchangeOrReturnPosible,
     isReviewWritePosible,
+    getInstallmentText,
   };
 };
 
