@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
+import ProductColumnItem from "../../components/boxes/product-column-item/product-column-item.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
 import Article from "../../components/layouts/article/article.component";
@@ -169,16 +170,27 @@ const PageContents = () => {
             {
               listOptions.list.map((item) => {
                 return (
-                  <ProductGroupColumnItem
+                  <ProductColumnItem
                     key={item.itemNumber}
                     __itemId={item.id}
-                    __isHeart={item.likeId !== null}
                     __imageUrl={item.thumbnail}
+                    __brandNameComponent={item.brandName}
+                    __tags={item.tags}
+                    __price={item.price}
+                    __productNameComponent={item.name}
                     __onClick={() => ProductColumnItemClick(item)}
-                    __brandNameComponent={<>{ item.brandName }</>}
-                    __productNameComponent={<>{ item.name }</>}
                     __isHeartLayout={true}
-                    __price={item.price} /> 
+                    __isHeart={item.likeId !== null} />
+                  // <ProductGroupColumnItem
+                  //   key={item.itemNumber}
+                  //   __itemId={item.id}
+                  //   __isHeart={item.likeId !== null}
+                  //   __imageUrl={item.thumbnail}
+                  //   __onClick={() => ProductColumnItemClick(item)}
+                  //   __brandNameComponent={<>{ item.brandName }</>}
+                  //   __productNameComponent={<>{ item.name }</>}
+                  //   __isHeartLayout={true}
+                  //   __price={item.price} /> 
                 );
               })
             }

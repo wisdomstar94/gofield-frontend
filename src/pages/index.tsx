@@ -272,11 +272,12 @@ const PageContents = () => {
               {
                 usedItemListOptions.list.map((item) => {
                   return (
-                    <ProductGroupColumnItem
+                    <ProductColumnItem
                       key={item.itemNumber}
                       __itemId={item.id}
                       __isHeart={item.likeId !== null}
                       __imageUrl={item.thumbnail}
+                      __tags={item.tags}
                       __onClick={() => usedProductColumnItemClick(item)}
                       __brandNameComponent={<>{ item.brandName }</>}
                       __productNameComponent={<>{ item.name }</>}
