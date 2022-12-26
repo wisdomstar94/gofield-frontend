@@ -45,6 +45,7 @@ export declare namespace IOrder {
     'ORDER_ITEM_RECEIPT_CANCEL' |
     'ORDER_ITEM_APPROVE_CANCEL' 
   ;
+  export type OrderItemType = 'ORDER_ITEM' | 'ORDER_ITEM_OPTION';
 
   export interface OrderSheetItem {
     cartId?: number | null;

@@ -10,6 +10,7 @@ const useUserAlertChangeApi = () => {
     return axios.getAxiosInstance<IResponse.CommonResponse<null>>({
       url: Config().api.user.alert._,
       method: 'put',
+      isAuth: true,
       data: {
         isAlertPromotion: isAlertPromotion,
       },

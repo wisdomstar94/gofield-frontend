@@ -11,6 +11,7 @@ const useUserAlertValueApi = () => {
     return axios.getAxiosInstance<IResponse.CommonResponse<IUser.AlertValueApiData>>({
       url: Config().api.user.alert._,
       method: 'get',
+      isAuth: true,
     });
   }, [axios]);
 
