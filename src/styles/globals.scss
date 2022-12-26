@@ -78,3 +78,10 @@ table.table-style-a {
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  /* 다크 모드에 적용할 스타일 정의 */
+  html, body {
+    color: #000;
+  }
+}
