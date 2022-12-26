@@ -1,13 +1,14 @@
 .container {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
+  // flex-wrap: wrap;
   margin: 0;
   padding: 0;
   position: relative;
 
   .image-area {
     width: 100%;
+    display: block;
     aspect-ratio: 1;
     position: relative;
     background-color: #f0f0f0;
