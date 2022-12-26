@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
+import ProductColumnItem from "../../components/boxes/product-column-item/product-column-item.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
 import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
 import Article from "../../components/layouts/article/article.component";
@@ -10,7 +11,7 @@ import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-
 import GridList from "../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
-import useItemLikeListApi from "../../hooks/use-apis/use-item-like-list.api";
+import useItemRecentListApi from "../../hooks/use-apis/use-item-recent-list.api copy";
 import useRender from "../../hooks/use-render/use-render.hook";
 import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
 import { IItem } from "../../interfaces/item/item.interface";
@@ -35,7 +36,7 @@ const ProductNewPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const render = useRender();
-  const itemLikeListApi = useItemLikeListApi();
+  const itemRecentListApi = useItemRecentListApi();
 
   const isGettingListRef = useRef(false);
   const isNoneMoreDataRef = useRef(false);
@@ -64,7 +65,7 @@ const PageContents = () => {
     }
 
     isGettingListRef.current = true;
-    itemLikeListApi.getInstance(getNextRouterQueryToUrlQueryString({ ...searchOptionsRef.current })).then((response) => {
+    itemRecentListApi.getInstance(getNextRouterQueryToUrlQueryString({ ...searchOptionsRef.current })).then((response) => {
       if (response.data.status !== true) {
         return;
       }
@@ -81,7 +82,7 @@ const PageContents = () => {
     }).finally(() => {
       isGettingListRef.current = false;
     });
-  }, [itemLikeListApi, list, render]);
+  }, [itemRecentListApi, list, render]);
 
   const ProductColumnItemClick = useCallback((item: IItem.ProductRowItem) => {
     if (item.classification === 'NEW') {
@@ -130,16 +131,16 @@ const PageContents = () => {
             {
               list.map((item) => {
                 return (
-                  <ProductGroupColumnItem
+                  <ProductColumnItem
                     key={item.itemNumber}
                     __itemId={item.id}
-                    __isHeart={item.likeId !== null}
                     __imageUrl={item.thumbnail}
+                    __brandNameComponent={item.brandName}
+                    __price={item.price}
+                    __productNameComponent={item.name}
                     __onClick={() => ProductColumnItemClick(item)}
-                    __brandNameComponent={<>{ item.brandName }</>}
-                    __productNameComponent={<>{ item.name }</>}
                     __isHeartLayout={true}
-                    __price={item.price} /> 
+                    __isHeart={item.likeId !== null} />
                 );
               })
             }

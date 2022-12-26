@@ -22,6 +22,7 @@ import Head from "next/head";
 import AccessTokenCheck from "../../../components/auth/access-token-check/access-token-check.component";
 import useItemBundleProductDetailApi from "../../../hooks/use-apis/use-item-bundle-product-detail.api";
 import { IItem } from "../../../interfaces/item/item.interface";
+import styles from './index.module.scss';
 
 const ProductDetailPage = () => {
   return (
@@ -72,11 +73,11 @@ const PageContents = () => {
             titleComponent: '',
           }} />
 
-        <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>
+        <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
           {
             detailInfo?.images.map((item, index) => {
               return (
-                <div style={{ width: '100%', height: '100%' }} key={index}>
+                <div className={styles['image-slide-item']} key={index}>
                   <Image
                     src={item}
                     draggable={false}

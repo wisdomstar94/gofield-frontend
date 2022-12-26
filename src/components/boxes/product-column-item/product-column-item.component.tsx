@@ -1,13 +1,33 @@
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
+import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import ModalSignupNotice from "../../modals/modal-signup-notice/modal-signup-notice.component";
+import { IModalSignupNotice } from "../../modals/modal-signup-notice/modal-signup-notice.interface";
+import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
+import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import HashTagItem from "../hash-tag-item/hash-tag-item.component";
 import styles from "./product-column-item.component.module.scss";
 import { IProductColumnItem } from "./product-column-item.interface";
 
 const ProductColumnItem = (props: IProductColumnItem.Props) => {
+  const user = useUser();
+  const isHeartingRef = useRef(false);
+  const itemLikeApi = useItemLikeApi();
+  const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
+
+  const [itemId, setItemId] = useState(props.__itemId);
+  useEffect(() => { setItemId(props.__itemId) }, [props.__itemId]);
+
   const [imageUrl, setImageUrl] = useState(props.__imageUrl);
   useEffect(() => { setImageUrl(props.__imageUrl) }, [props.__imageUrl]);
+
+  const [isHeart, setIsHeart] = useState(props.__isHeart);
+  useEffect(() => { setIsHeart(props.__isHeart) }, [props.__isHeart]);
+
+  const [isHeartLayout, setIsHeartLayout] = useState(props.__isHeartLayout);
+  useEffect(() => { setIsHeartLayout(props.__isHeartLayout) }, [props.__isHeartLayout]);
 
   const [brandNameComponent, setBrandNameComponent] = useState(props.__brandNameComponent);
   useEffect(() => { setBrandNameComponent(props.__brandNameComponent) }, [props.__brandNameComponent]);
@@ -27,23 +47,56 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
     }
   }, [props]);
 
+  const heartIconClick = useCallback(() => {
+    if (!user.isLogined()) {
+      modalSignupNoticeRef.current?.show();
+      return;
+    }
+
+    if (itemId === undefined) {
+      return;
+    }
+    
+    if (isHeartingRef.current) {
+      return;
+    }
+
+    isHeartingRef.current = true;
+    itemLikeApi.getInstance(itemId, !isHeart).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+
+      setIsHeart(!isHeart);
+    }).finally(() => {
+      isHeartingRef.current = false;
+    });
+  }, [isHeart, itemId, itemLikeApi, user]);
+
   return (
     <>
-      <div className={styles['container']} style={props.__style} onClick={itemClick}>
+      <div className={styles['container']} style={props.__style}>
         <div className={styles['image-row']}>
           <Image
             src={imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
-            alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="contain" />
+            alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="contain"
+            onClick={itemClick} />
+          {
+            isHeartLayout === true ? 
+            <div className={styles['icon-area']} onClick={heartIconClick}>
+              { isHeart === true ? <SvgHeartOnIcon /> : <SvgHeartOffIcon /> }
+            </div> : <></>
+          }
         </div>
-        <div className="w-full flex flex-wrap mb-1">
+        <div className="w-full flex flex-wrap mb-1" onClick={itemClick}>
           <span className="inline-flex flex-wrap font-bold text-sm text-gray-b">{brandNameComponent}</span>
         </div>
-        <div className="w-full flex flex-wrap mb-1">
+        <div className="w-full flex flex-wrap mb-1" onClick={itemClick}>
           <span className="inline-flex flex-wrap font-normal text-sm text-black-a">{productNameComponent}</span>
         </div>
         {
           tags !== undefined ? 
-          <div className="w-full flex flex-wrap mb-2">
+          <div className="w-full flex flex-wrap mb-2" onClick={itemClick}>
             {
               tags?.map((item, index) => {
                 return (
@@ -53,10 +106,11 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
             }
           </div> : <></>
         }
-        <div className="w-full flex flex-wrap">
+        <div className="w-full flex flex-wrap" onClick={itemClick}>
           <span className="inline-flex flex-wrap font-bold text-sm text-black-a">{ getAddCommaNumberString({ numberValue: price }) }원</span>
         </div>
       </div>
+      <ModalSignupNotice ref={modalSignupNoticeRef} />
     </>
   );
 };

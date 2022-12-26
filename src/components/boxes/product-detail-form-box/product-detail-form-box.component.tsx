@@ -214,7 +214,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   return (
     <>
       <div ref={virtualScrollContainerElementRef}></div>
-      <SwiperCustom __style={{ height: '360px', borderBottom: '1px solid #e9ebee' }}>
+      <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
         {
           detailInfo?.images.map((item, index) => {
             return (
