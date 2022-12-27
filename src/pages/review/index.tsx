@@ -19,6 +19,7 @@ import useOrderReviewWritableListApi from "../../hooks/use-apis/use-order-review
 import { IReview } from "../../interfaces/review/review.interface";
 import { useRouter } from "next/router";
 import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
+import useOrderReviewHistoryListApi from "../../hooks/use-apis/use-order-review-history-list.api";
 
 const LoginPage: NextPage = () => {
   return (
@@ -39,6 +40,7 @@ const LoginPage: NextPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const orderReviewWritableListApi = useOrderReviewWritableListApi();
+  const orderReviewHistoryListApi = useOrderReviewHistoryListApi();
   const [tabButtonValueItems, setTabButtonValueItems] = useState<ICommon.ValueItem[]>([
     { text: '리뷰작성', value: 'review-list' },
     { text: '리뷰내역', value: 'review-history' },
@@ -49,6 +51,15 @@ const PageContents = () => {
   const isNoneMoreDataReviewWritableRef = useRef(false);
   const latestReviewWritableListPage = useRef(0);
   const [reviewWritableListOptions, setReviewWritableListOptions] = useState<IReview.ReviewWritableListOptions>({
+    page: '1',
+    size: '10',
+    list: [],
+  });
+
+  const isGettingReviewHistoryListRef = useRef(false);
+  const isNoneMoreDataReviewHistoryRef = useRef(false);
+  const latestReviewHistoryListPage = useRef(0);
+  const [reviewHistoryListOptions, setReviewHistoryListOptions] = useState<IReview.ReviewHistoryListOptions>({
     page: '1',
     size: '10',
     list: [],
@@ -87,9 +98,46 @@ const PageContents = () => {
     });
   }, [orderReviewWritableListApi]);
 
+  const getReviewHistoryList = useCallback((options: IReview.ReviewHistoryListOptions) => {
+    if (isGettingReviewHistoryListRef.current) return;
+    if (Number(options.page) === latestReviewHistoryListPage.current) return;
+
+    isGettingReviewHistoryListRef.current = true;
+    const query = {
+      page: options.page,
+      size: options.size,
+    };
+    orderReviewHistoryListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+      latestReviewHistoryListPage.current = Number(options.page);
+
+      if (response.data.data.list.length === 0) {
+        isNoneMoreDataReviewHistoryRef.current = true;
+        return;
+      } else if (response.data.data.list.length < Number(options.size)) {
+        isNoneMoreDataReviewHistoryRef.current = true;
+      }
+
+      setReviewHistoryListOptions(prev => {
+        return {
+          ...prev,
+          list: prev.list.concat(response.data.data.list),
+        };
+      });
+    }).finally(() => {
+      isGettingReviewHistoryListRef.current = false;
+    });
+  }, [orderReviewHistoryListApi]);
+
   const onTabClick = useCallback((valueItem: ICommon.ValueItem) => {
+    if (valueItem.value === 'review-history') {
+      getReviewHistoryList(reviewHistoryListOptions);
+    }
+
     setSelectedTabValue(valueItem.value);
-  }, []);
+  }, [getReviewHistoryList, reviewHistoryListOptions]);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -120,8 +168,22 @@ const PageContents = () => {
   }, [getReviewWritableList, reviewWritableListOptions.page]);
 
   const onScrollReviewHistory = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingReviewHistoryListRef.current || isNoneMoreDataReviewHistoryRef.current) {
+      return;
+    }
 
-  }, []);
+    if (info.isLastScrollArea) {
+      const nextPage = Number(reviewHistoryListOptions.page) + 1;
+      setReviewHistoryListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          page: nextPage.toString(),
+        };
+        getReviewHistoryList(newValue);
+        return newValue;
+      })
+    }
+  }, [getReviewHistoryList, reviewHistoryListOptions.page]);
   
   const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
     if (selectedTabValue === 'review-list') {
@@ -193,7 +255,13 @@ const PageContents = () => {
             styles['tab-content-box'],
             selectedTabValue === 'review-history' ? styles['show'] : styles['hide'],
           ])}>
-          
+          {
+            // reviewHistoryListOptions.list.map((item) => {
+            //   return (
+
+            //   );
+            // })
+          }
         </div>
       </WindowSizeContainer>
     </>

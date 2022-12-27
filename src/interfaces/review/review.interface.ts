@@ -25,8 +25,30 @@ export declare namespace IReview {
     list: ReviewWritableListItem[];
   }
 
+  export interface ReviewHistoryListOptions {
+    page: string;
+    size: string;
+    list: ReviewHistoryListItem[];
+  }
+
+  export interface ReviewHistoryListItem {
+    description: string;
+    images: string[];
+    itemNumber: string;
+    name: string;
+    optionName: string[] | null;
+    qty: number;
+    reviewId: number;
+    reviewScore: number;
+    thumbnail: string;
+  }
+
   export interface ReviewWritableListApiData {
     list: ReviewWritableListItem[];
+  }
+
+  export interface ReviewHistoryListApiData {
+    list: ReviewHistoryListItem[];
   }
 
   export interface ReviewWritableListItem {
