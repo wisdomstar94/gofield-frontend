@@ -26,11 +26,21 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      align-content: center;
       background-color: #fff;
       cursor: pointer;
 
       &:hover {
         background-color: #f0f0f0;
+      }
+
+      &.dummy {
+        background-color: #fff;
+        cursor: auto;
+
+        .icon-area { 
+          margin-top: 0;
+        }
       }
 
       .icon-area {
@@ -55,6 +65,28 @@
         letter-spacing: -0.03rem;
         margin-bottom: 12px;
       }
+
+      .dummy-name-area {
+        width: 100%;
+        margin-top: 4px;
+        display: flex;
+        justify-content: center;
+
+        .line {
+          width: 24px;
+          height: 8px;
+          border-radius: 10px;
+          background-color: #f3f3f3;
+        }
+      }
     }
   }
+}
+
+.circle-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  border-radius: 100px;
+  background-color: #f3f3f3;
 }

@@ -17,10 +17,10 @@ const useCategoryListQuery = () => {
     data: {},
   }).then(response => {
     const codeList = response.data.data;
-    const valueItems: ICommon.ValueItem[] = codeList.map(x => ({ text: x.name, value: x.id + '' }));
+    const valueItems: ICommon.ValueItem[] = codeList.map(x => ({ text: x.name, value: x.id + '', value2: x.thumbnail }));
     return valueItems;
   }), {
-    staleTime: 10000,
+    staleTime: 1000 * 10 * 6,
   });
 };
 
