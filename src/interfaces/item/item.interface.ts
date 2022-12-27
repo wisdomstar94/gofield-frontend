@@ -141,7 +141,7 @@ export declare namespace IItem {
     id: number;
     groupTitle: string;
     optionType: OptionType;
-    optionGroup: OptionGroup[];
+    optionGroup: OptionGroup[] | null;
     priceGroup: number[];
     isEssential: boolean;
     createDate: string;

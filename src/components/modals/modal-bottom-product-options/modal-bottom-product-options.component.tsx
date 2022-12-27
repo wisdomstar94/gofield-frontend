@@ -271,7 +271,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
                 <div className="block mb-2" key={index}>
                   <SelectBox
                     __placeholder={item.groupTitle}
-                    __valueItems={item.optionGroup.map((x) => ({ text: x.name, value: x.name + '@@_@@' + x.price.toString() }))}
+                    __valueItems={item.optionGroup?.map((x) => ({ text: x.name, value: x.name + '@@_@@' + x.price.toString() }))}
                     __onChange={(value, valueItem) => {
                       // optionGroupSelectInfoRef.current.set(item.id, valueItem);
                       setOptionGroupSelectInfo((prev) => new Map(prev).set(item.id, valueItem));

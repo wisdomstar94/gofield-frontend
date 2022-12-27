@@ -170,6 +170,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
           write: (orderItemId: number | string) => {
             return baseUrl + `/api/order/${apiVersion}/review/${orderItemId}`;
           },
+          item: {
+            _: baseUrl + `/api/order/${apiVersion}/review/item`,
+          },
         },
         item: {
           _: baseUrl + `/api/order/${apiVersion}/item`,

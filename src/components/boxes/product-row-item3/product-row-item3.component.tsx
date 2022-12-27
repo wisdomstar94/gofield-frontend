@@ -71,7 +71,8 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const [trackId, setTrackId] = useState(props.__trackId);
   useEffect(() => { setTrackId(props.__trackId); }, [props.__trackId]);
 
-
+  const [purchaseConfirmationDate, setPurchaseConfirmationDate] = useState(props.__purchaseConfirmationDate);
+  useEffect(() => { setPurchaseConfirmationDate(props.__purchaseConfirmationDate); }, [props.__purchaseConfirmationDate]);
 
 
 
@@ -201,6 +202,13 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
               <ListItem __marginBottom="0">
                 <div className="text-xs text-black-a tracking-tight">수량 : { qty }</div>
               </ListItem>
+              {
+                typeof purchaseConfirmationDate === 'string' ? 
+                <ListItem __marginBottom="0">
+                  <div className="text-xs text-gray-b tracking-tight">구매확정일자 : { day(new Date(purchaseConfirmationDate)).format('YYYY-MM-DD') }</div>
+                </ListItem> : 
+                undefined
+              }
               {
                 deliveryPrice !== undefined ? 
                 <ListItem __marginBottom="0">

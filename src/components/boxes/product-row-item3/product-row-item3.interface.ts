@@ -33,6 +33,7 @@ export declare namespace IProductRowItem3 {
     __orderItemId?: string | number;
     __carrierId?: string | number | null;
     __trackId?: string | number | null;
+    __purchaseConfirmationDate?: string | null;
 
     children?: React.ReactNode;
   }

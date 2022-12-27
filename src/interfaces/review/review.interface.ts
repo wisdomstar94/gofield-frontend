@@ -1,5 +1,6 @@
 import { IFile } from "../file/file.interface";
 import { IItem } from "../item/item.interface";
+import { IOrder } from "../order/order.interface";
 
 export declare namespace IReview {
   export interface ReviewFormInfo {
@@ -16,5 +17,36 @@ export declare namespace IReview {
     size: string;
     bundleId: string;
     list: IItem.ReviewItem[];
+  }
+
+  export interface ReviewWritableListOptions {
+    page: string;
+    size: string;
+    list: ReviewWritableListItem[];
+  }
+
+  export interface ReviewWritableListApiData {
+    list: ReviewWritableListItem[];
+  }
+
+  export interface ReviewWritableListItem {
+    id: number;
+    bundleId: number;
+    classification: IItem.Classification;
+    itemNumber: string;
+    name: string;
+    optionId: number | null;
+    optionName: string[] | null;
+    optionPrice: number;
+    optionQty: number;
+    optionType: IItem.OptionType;
+    orderItemId: number;
+    orderNumber: string;
+    price: number;
+    qty: number;
+    sellerId: number;
+    sellerName: string;
+    status: IOrder.OrderShippingStatus;
+    thumbnail: string;
   }
 }

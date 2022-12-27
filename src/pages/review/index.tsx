@@ -10,11 +10,15 @@ import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.comp
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 import StrokeTabButtonBox from "../../components/boxes/stroke-tab-button-box/stroke-tab-button-box.component";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ICommon } from "../../interfaces/common/common.interface";
 import styles from './index.module.scss';
 import ProductRowItem3 from "../../components/boxes/product-row-item3/product-row-item3.component";
-import { getClasses } from "../../librarys/string-util/string-util.library";
+import { getClasses, getNextRouterQueryToUrlQueryString } from "../../librarys/string-util/string-util.library";
+import useOrderReviewWritableListApi from "../../hooks/use-apis/use-order-review-writable-list.api";
+import { IReview } from "../../interfaces/review/review.interface";
+import { useRouter } from "next/router";
+import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
 
 const LoginPage: NextPage = () => {
   return (
@@ -33,19 +37,103 @@ const LoginPage: NextPage = () => {
 };  
 
 const PageContents = () => {
+  const router = useRouter();
+  const orderReviewWritableListApi = useOrderReviewWritableListApi();
   const [tabButtonValueItems, setTabButtonValueItems] = useState<ICommon.ValueItem[]>([
     { text: '리뷰작성', value: 'review-list' },
     { text: '리뷰내역', value: 'review-history' },
   ]);
   const [selectedTabValue, setSelectedTabValue] = useState('review-list');
 
+  const isGettingReviewWritableListRef = useRef(false);
+  const isNoneMoreDataReviewWritableRef = useRef(false);
+  const latestReviewWritableListPage = useRef(0);
+  const [reviewWritableListOptions, setReviewWritableListOptions] = useState<IReview.ReviewWritableListOptions>({
+    page: '1',
+    size: '10',
+    list: [],
+  });
+
+  const getReviewWritableList = useCallback((options: IReview.ReviewWritableListOptions) => {
+    if (isGettingReviewWritableListRef.current) return;
+    if (Number(options.page) === latestReviewWritableListPage.current) return;
+
+    isGettingReviewWritableListRef.current = true;
+    const query = {
+      page: options.page,
+      size: options.size,
+    };
+    orderReviewWritableListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
+      latestReviewWritableListPage.current = Number(options.page);
+
+      if (response.data.data.list.length === 0) {
+        isNoneMoreDataReviewWritableRef.current = true;
+        return;
+      } else if (response.data.data.list.length < Number(options.size)) {
+        isNoneMoreDataReviewWritableRef.current = true;
+      }
+
+      setReviewWritableListOptions(prev => {
+        return {
+          ...prev,
+          list: prev.list.concat(response.data.data.list),
+        };
+      });
+    }).finally(() => {
+      isGettingReviewWritableListRef.current = false;
+    });
+  }, [orderReviewWritableListApi]);
+
   const onTabClick = useCallback((valueItem: ICommon.ValueItem) => {
     setSelectedTabValue(valueItem.value);
   }, []);
 
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    getReviewWritableList(reviewWritableListOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+
+  const onScrollReviewList = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (isGettingReviewWritableListRef.current || isNoneMoreDataReviewWritableRef.current) {
+      return;
+    }
+
+    if (info.isLastScrollArea) {
+      const nextPage = Number(reviewWritableListOptions.page) + 1;
+      setReviewWritableListOptions((prev) => {
+        const newValue = {
+          ...prev,
+          page: nextPage.toString(),
+        };
+        getReviewWritableList(newValue);
+        return newValue;
+      })
+    }
+  }, [getReviewWritableList, reviewWritableListOptions.page]);
+
+  const onScrollReviewHistory = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+
+  }, []);
+  
+  const onScroll = useCallback((info: IScrollCheckHook.ScrollInfo) => {
+    if (selectedTabValue === 'review-list') {
+      onScrollReviewList(info);
+    } else if (selectedTabValue === 'review-history') {
+      onScrollReviewHistory(info);
+    }
+  }, [onScrollReviewHistory, onScrollReviewList, selectedTabValue]);
+
   return (
     <>
-      <WindowSizeContainer __bgColor="#fff">
+      <WindowSizeContainer __bgColor="#fff" __onScroll={onScroll}>
         <Topbar
           __layoutTypeB={{
             titleComponent: <>리뷰 관리</>,
@@ -76,7 +164,23 @@ const PageContents = () => {
             selectedTabValue === 'review-list' ? styles['show'] : styles['hide'],
           ])}>
           <div className={styles['list-row']}>
-            <ProductRowItem3 />
+            {
+              reviewWritableListOptions.list.map((item, index) => {
+                return (
+                  <ProductRowItem3 
+                    key={index}
+                    __imageUrl={item.thumbnail}
+                    __productName={item.name}
+                    __optionNames={item.optionName ?? undefined}
+                    __qty={item.qty}
+                    __price={item.price}
+                    __isTopRowShow={false}
+                    __showButtonTypes={[
+                      { buttonType: 'review-write', buttonWidthType: 'full' }
+                    ]} />
+                );
+              })
+            }
           </div>
         </div>
 
