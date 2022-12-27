@@ -41,7 +41,10 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const productDescriptionImageTitleRef = useRef<HTMLDivElement>(null);
   const itemProductDetailApi = useItemProductDetailApi();
   const modalBottomProductOptionsRef = useRef<IModalBottomProductOptions.RefObject>(null);
-  const [detailInfo, setDetailInfo] = useState<IItem.ItemDetailInfoApiData>();
+  
+  const [detailInfo, setDetailInfo] = useState<IItem.ItemDetailInfoApiData | undefined>(props.__detailInfo);
+  useEffect(() => { setDetailInfo(props.__detailInfo) }, [props.__detailInfo]);
+
   const router = useRouter();
   const modalAlert = useModalAlert();
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
@@ -113,30 +116,30 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   }, [itemProductOtherListApi, render]);
 
   const getDetailInfo = useCallback(() => {
-    const itemNumber = router.query._itemNumber?.toString();
-    if (itemNumber === undefined) {
-      return;
-    }
+    // const itemNumber = router.query._itemNumber?.toString();
+    // if (itemNumber === undefined) {
+    //   return;
+    // }
 
-    if (isGettingListRef.current) {
-      return;
-    }
+    // if (isGettingListRef.current) {
+    //   return;
+    // }
 
-    isGettingListRef.current = true;
-    itemProductDetailApi.getInstance(itemNumber).then((response) => {
-      if (response.data.status !== true) {
-        modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
-        return;
-      }
+    // isGettingListRef.current = true;
+    // itemProductDetailApi.getInstance(itemNumber).then((response) => {
+    //   if (response.data.status !== true) {
+    //     modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
+    //     return;
+    //   }
 
-      setDetailInfo(response.data.data);
-      return response.data.data;
-    }).then((value) => {
-      getProductOtherList(value);
-    }).finally(() => {
-      isGettingListRef.current = false;
-    });
-  }, [getProductOtherList, itemProductDetailApi, modalAlert, router.query._itemNumber]);
+    //   setDetailInfo(response.data.data);
+    //   return response.data.data;
+    // }).then((value) => {
+    //   getProductOtherList(value);
+    // }).finally(() => {
+    //   isGettingListRef.current = false;
+    // });
+  }, []);
 
   const shareButtonClick = useCallback(() => {
 

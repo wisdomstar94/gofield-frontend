@@ -3,24 +3,31 @@ import WindowSizeContainer from "../../../../components/layouts/window-size-cont
 import Head from "next/head";
 import AccessTokenCheck from "../../../../components/auth/access-token-check/access-token-check.component";
 import ProductDetailFormBox from "../../../../components/boxes/product-detail-form-box/product-detail-form-box.component";
+import axios from 'axios';
+import Config from "../../../../configs/config.export";
+import { IResponse } from "../../../../interfaces/response/response.interface";
+import { IItem } from "../../../../interfaces/item/item.interface";
+import { INextjsPage } from "../../../../interfaces/nextjs-page/nextjs-page.interface";
 
-const ProductNewPage = () => {
+const ProductNewPage = (props: INextjsPage.ProductDetailPageProps) => {
   return (
     <>
       <Head>
-        <title>고필드 - 새상품 상세정보</title>
-        <meta name="description" content="고필드 새상품 상세정보 페이지입니다." />
+        <title>고필드 - { props.serverDetailInfo.name }</title>
+        <meta property="og:title" content={`(${props.serverDetailInfo.brandName}) ${props.serverDetailInfo.name}`}></meta>
+        <meta property="og:image" content={ props.serverDetailInfo.thumbnail }></meta>
+        <meta name="description" content={`고필드 ${props.serverDetailInfo.name} 상세정보 페이지입니다.`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <AccessTokenCheck __checkTarget="not-login-or-sign-true">
-        <PageContents />
+        <PageContents { ...props } />
       </AccessTokenCheck>
     </>
   );
 };
 
-const PageContents = () => {
+const PageContents = (props: INextjsPage.ProductDetailPageProps) => {
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -30,10 +37,48 @@ const PageContents = () => {
             // searchButtonClickCallback: searchButtonClick,
           }} />
         {/* <NewProductFormBox /> */}
-        <ProductDetailFormBox __productType="new" />
+        <ProductDetailFormBox 
+          __productType="new"
+          __detailInfo={props.serverDetailInfo} />
       </WindowSizeContainer>
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const itemNumber = context.query._itemNumber; 
+  const res = await axios.get<IResponse.CommonResponse<IItem.ItemDetailInfoApiData>>(Config().api.item._ + '/' + itemNumber, {
+    headers: {
+      'authorization': 'Gofield ' + process.env.NEXT_PUBLIC_SIGN_NOT_IN_USER_JWT,
+    },
+  });
+
+  return {
+    props: {
+      serverDetailInfo: res.data.data,
+    },
+  }
+}
+
+// export async function getStaticProps(datas: any) {
+//   console.log('datas', datas);
+
+//   // const res = await axios.get(`https://localholst:3065/user`)
+//   // const data = res.data
+
+//   return { props: { a: '1' } };
+// }
+
+// export async function getStaticPaths(datas: any) {
+// 	// const res = await fetch("http://해당주소");
+// 	// const list = await res.json();
+// 	// const paths = list.map((list) => ({
+// 	// 	params: { id: list.id.toString() },
+// 	// }));
+// 	return {
+// 		// paths,
+// 		fallback: false,
+// 	};
+// }
 
 export default ProductNewPage;
