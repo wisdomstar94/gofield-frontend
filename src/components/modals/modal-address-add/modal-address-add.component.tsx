@@ -85,8 +85,8 @@ const ModalAddressAdd = forwardRef((props: IModalAddressAdd.Props, ref: Forwarde
   const postNumberSearchButtonClick = useCallback(() => {
     new (window as any).daum.Postcode({
       oncomplete: function(data: IDaum.AddrInfo) {
-        console.log('data', data);
-        console.log('data', JSON.stringify(data, undefined, 2));
+        // console.log('data', data);
+        // console.log('data', JSON.stringify(data, undefined, 2));
 
         detailInfoRef.current.address = data.address;
         detailInfoRef.current.zipCode = data.zonecode;

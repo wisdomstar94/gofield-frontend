@@ -44,7 +44,7 @@ const PageContents = () => {
     }
 
     const detailInfo = formBoxComponentRef.current.getDetailInfo();
-    console.log('detailInfo', detailInfo);
+    // console.log('detailInfo', detailInfo);
 
     if (typeof detailInfo.accountHolderName !== 'string' || detailInfo.accountHolderName?.trim() === '') {
       modalAlert.show({ title: '안내', content: '예금주명을 입력해주세요.' });

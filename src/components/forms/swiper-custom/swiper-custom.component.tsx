@@ -164,7 +164,7 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
     const prevIndex = currentIndex - 1 < 0 ? childrenCount - 1 : currentIndex - 1;
     const nextIndex = currentIndex + 1 >= childrenCount ? 0 : currentIndex + 1;
 
-    console.log('currentIndex', currentIndex);
+    // console.log('currentIndex', currentIndex);
 
     // 슬라이드 아이템이 1개 이거나 2개인 경우는 아래와 같이 처리
     if (childrenCount === 1) {

@@ -37,7 +37,7 @@ const PageContents = () => {
     }
 
     const detailInfo = formBoxComponentRef.current.getDetailInfo();
-    console.log('detailInfo', detailInfo);
+    // console.log('detailInfo', detailInfo);
   }, []);
 
   return (

@@ -53,7 +53,7 @@ const PageContents = () => {
     }
 
     const _productGroupId = router.query._productGroupId;
-    console.log('_productGroupId', _productGroupId);
+    // console.log('_productGroupId', _productGroupId);
 
     if (typeof _productGroupId?.toString() !== 'string') {
       return;

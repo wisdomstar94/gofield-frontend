@@ -17,7 +17,7 @@ const SearchFormBox = (props: ISearchFormBox.Props) => {
   }, [router.isReady]);
 
   useEffect(() => {
-    console.log('@router.query', router.query);
+    // console.log('@router.query', router.query);
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);

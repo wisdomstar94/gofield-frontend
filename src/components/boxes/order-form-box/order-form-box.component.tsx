@@ -216,7 +216,7 @@ const OrderFormBox = (props: IOrderFormBox.Props) => {
   }, [orderSheetInfo?.orderSheet.totalDelivery, orderSheetInfo?.orderSheet.totalPrice]);
 
   const submitButtonClick = useCallback(() => {
-    console.log('detailInfo', detailInfo);
+    // console.log('detailInfo', detailInfo);
 
     if (typeof detailInfo.shippingAddress?.name !== 'string' || detailInfo.shippingAddress?.name.trim() === '') {
       modalAlert.show({ title: '안내', content: '수령인 이름을 입력해주세오.' });

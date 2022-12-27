@@ -30,7 +30,7 @@ const ViewFilterBox = (props: IViewFilterBox.Props) => {
   }, []);
 
   const onChange = useCallback((info: IModalBottomViewOptions.OutputInfo) => {
-    console.log('onChange', info);
+    // console.log('onChange', info);
 
     setSelectedCategory(info.selectedCategory);
     setSelectedOrderBy(info.selectedOrderBy);

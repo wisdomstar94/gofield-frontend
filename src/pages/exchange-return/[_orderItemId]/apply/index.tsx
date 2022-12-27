@@ -224,7 +224,7 @@ const PageContents = () => {
       return;
     }
 
-    console.log('form', form);
+    // console.log('form', form);
 
     if (form.applyType === 'exchange') {
       // 교환 요청 

@@ -10,7 +10,7 @@ const NotLoginCheck = (props: INotLoginCheck.Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('@@@router.isReady', router.isReady);
+    // console.log('@@@router.isReady', router.isReady);
     if (router.isReady !== true) {
       return;
     }

@@ -91,11 +91,11 @@ const PageContents = () => {
       user.setAccessToken(response.data.data.accessToken);
       user.setRefreshToken(response.data.data.refreshToken);
 
-      console.log('response.data.data', response.data.data);
+      // console.log('response.data.data', response.data.data);
 
       if (!response.data.data.isSign) {
         // 회원 가입 페이지로 이동..
-        console.log('회원 가입 페이지로 이동..');
+        // console.log('회원 가입 페이지로 이동..');
         router.push('/signup');
         return;
       }
@@ -146,11 +146,11 @@ const PageContents = () => {
       user.setAccessToken(response.data.data.accessToken);
       user.setRefreshToken(response.data.data.refreshToken);
 
-      console.log('response.data.data', response.data.data);
+      // console.log('response.data.data', response.data.data);
 
       if (!response.data.data.isSign) {
         // 회원 가입 페이지로 이동..
-        console.log('회원 가입 페이지로 이동..');
+        // console.log('회원 가입 페이지로 이동..');
         router.push('/signup');
         return;
       }
@@ -163,11 +163,11 @@ const PageContents = () => {
   }, [naverLoginSdk, router, user, userLoginApi]);
 
   const naverSdkOnLoad = useCallback(() => {
-    console.log('naverSdkOnLoad', router.query._social);
+    // console.log('naverSdkOnLoad', router.query._social);
 
     onloadCheckRef.current.isNaverJsOnloaded = true;
     disposeNaverLogin();
-  }, [disposeNaverLogin, router.query._social]);
+  }, [disposeNaverLogin]);
 
   return (
     <>

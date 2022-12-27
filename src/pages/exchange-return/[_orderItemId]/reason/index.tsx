@@ -44,7 +44,7 @@ const PageContents = () => {
   const [orderItemId, setOrderItemId] = useState<string>();
 
   useEffect(() => {
-    console.log('@@ xxxxxx ', router.isReady);
+    // console.log('@@ xxxxxx ', router.isReady);
 
     if (!router.isReady) {
       return;

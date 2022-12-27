@@ -37,8 +37,8 @@ const PageContents = () => {
       _orderId,
       _productId,
     } = router.query;
-    console.log('_orderId', _orderId);
-    console.log('_productId', _productId);
+    // console.log('_orderId', _orderId);
+    // console.log('_productId', _productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 

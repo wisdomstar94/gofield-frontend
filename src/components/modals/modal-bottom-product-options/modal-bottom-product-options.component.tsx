@@ -123,10 +123,10 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
       }
 
       // console.log('optionGroupSelectInfoRef.current', optionGroupSelectInfoRef.current);
-      console.log('optionGroupSelectInfo', optionGroupSelectInfo);
+      // console.log('optionGroupSelectInfo', optionGroupSelectInfo);
 
       const optionGroupSelectOptionNames = Array.from(optionGroupSelectInfo.values()).map(item => item?.text + '');
-      console.log('optionGroupSelectOptionNames', optionGroupSelectOptionNames);
+      // console.log('optionGroupSelectOptionNames', optionGroupSelectOptionNames);
 
       const targetOptionItem = optionList?.find((item) => {
         const result = item.name.every((item) => {

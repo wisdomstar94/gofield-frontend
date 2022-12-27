@@ -46,7 +46,7 @@ const useAxios = () => {
         }
         setGlobalLoadingData(prev => {
           prev.set(requestUniqueKey, config.url ?? '');
-          console.log('prev', prev);
+          // console.log('prev', prev);
           return new Map(prev);
         });
         return config;
@@ -61,7 +61,7 @@ const useAxios = () => {
       (response) => {
         setGlobalLoadingData(prev => {
           prev.delete(requestUniqueKey);
-          console.log('prev', prev);
+          // console.log('prev', prev);
           return new Map(prev);
         });
 
@@ -71,7 +71,7 @@ const useAxios = () => {
       async(error: AxiosError<IResponse.CommonResponse<null>, any>) => {
         setGlobalLoadingData(prev => {
           prev.delete(requestUniqueKey);
-          console.log('prev', prev);
+          // console.log('prev', prev);
           return new Map(prev);
         });
 
