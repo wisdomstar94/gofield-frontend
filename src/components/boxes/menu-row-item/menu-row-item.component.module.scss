@@ -7,11 +7,11 @@
   justify-content: flex-start;
   padding: 20px 24px;
   margin: 0;
-  border-bottom: 1px solid #e9ebee;
+  border-bottom: 1px solid $borderColorGrayA;
   cursor: pointer;
 
   &.border-top {
-    border-bottom: 1px solid #e9ebee;
+    border-bottom: 1px solid $borderColorGrayA;
   }
 
   .left {
@@ -20,7 +20,7 @@
     flex-wrap: wrap;
     position: relative;
 
-    color: #1e2238;
+    color: $fontColorBlackA;
     font-size: 0.85rem;
     font-weight: bold;
   }

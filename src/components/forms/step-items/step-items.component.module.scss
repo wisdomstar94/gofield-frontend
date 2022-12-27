@@ -26,7 +26,7 @@ ul.step-items {
     line-height: 0.98rem;
 
     &.pass {
-      background-color: #e9ebee;
+      background-color: $bgColorGrayA;
       color: #c5c8ce;
     } 
 
@@ -36,8 +36,8 @@ ul.step-items {
     }
 
     &.yet {
-      border: 1px solid #e9ebee;
-      color: #1e2238;
+      border: 1px solid $borderColorGrayA;
+      color: $fontColorBlackA;
     }
 
     &.between-area {
@@ -47,7 +47,7 @@ ul.step-items {
         width: 4px;
         height: 4px;
         border-radius: 10px;
-        background-color: #e9ebee;
+        background-color: $bgColorGrayA;
         margin-right: 2px;
 
         &:last-child {

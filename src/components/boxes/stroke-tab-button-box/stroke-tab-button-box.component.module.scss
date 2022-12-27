@@ -17,12 +17,12 @@ ul.tab-button-box {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    color: #1e2238;
+    color: $fontColorBlackA;
     font-weight: normal;
     font-size: 0.9rem;
-    border-right: 1px solid #e9ebee;
-    border-bottom: 1px solid #e9ebee;
-    border-top: 1px solid #e9ebee;
+    border-right: 1px solid $borderColorGrayA;
+    border-bottom: 1px solid $borderColorGrayA;
+    border-top: 1px solid $borderColorGrayA;
     cursor: pointer;
 
     &.border-top-none {
@@ -34,7 +34,7 @@ ul.tab-button-box {
     }
 
     &.active {
-      color: #1e2238;
+      color: $fontColorBlackA;
       font-weight: bold;
     }
   }

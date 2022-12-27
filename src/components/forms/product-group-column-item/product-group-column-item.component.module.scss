@@ -30,7 +30,7 @@
     flex-wrap: wrap;
     position: relative;
     font-size: 0.8rem;
-    color: #646f7c;
+    color: $fontColorBlackB;
     font-weight: bold;
     letter-spacing: -0.03rem;
     margin-bottom: 4px;
@@ -43,7 +43,7 @@
     position: relative;
     font-size: 0.85rem;
     font-weight: normal;
-    color: #1e2238;
+    color: $fontColorBlackA;
     letter-spacing: -0.03rem;
     word-break: break-all;
     line-height: 1.09rem;
@@ -93,20 +93,20 @@
 
 .price-text {
   display: inline-flex;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: -0.05rem;
 }
 
 .star-text {
-  color: #646f7c;
+  color: $fontColorBlackB;
   font-size: 0.7rem;
   display: inline-flex;
 }
 
 .review-info-text {
-  color: #646f7c;
+  color: $fontColorBlackB;
   font-size: 0.7rem;
   display: inline-flex;
 }

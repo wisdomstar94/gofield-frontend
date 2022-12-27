@@ -90,7 +90,7 @@
           justify-content: center;
           align-items: center;
           font-size: 0.9rem;
-          color: #1e2238;
+          color: $fontColorBlackA;
           font-weight: bold;
           box-sizing: border-box;
 
@@ -99,7 +99,7 @@
             margin-bottom: 24px;
             text-align: left;
             justify-content: flex-start;
-            border-bottom: 1px solid #e9ebee;
+            border-bottom: 1px solid $borderColorGrayA;
             font-size: 1.2rem;
           }
         }
@@ -110,7 +110,7 @@
           justify-content: center;
           align-items: center;
           flex-wrap: wrap;
-          color: #1e2238;
+          color: $fontColorBlackA;
           font-weight: normal;
           text-align: center;
           white-space: pre-line;
@@ -155,8 +155,8 @@
           }
 
           &.negative-button {
-            background-color: #e9ebee;
-            color: #1e2238;
+            background-color: $bgColorGrayA;
+            color: $fontColorBlackA;
           }
 
           &.positive-button {

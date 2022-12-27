@@ -44,7 +44,7 @@
     margin-top: 16px;
     position: relative;
     font-size: 0.8rem;
-    color: #646f7c;
+    color: $fontColorBlackB;
     white-space: pre-line;
     word-break: break-all;
   }
@@ -56,17 +56,17 @@
   margin-top: 0;
   position: relative;
   height: 1px;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
 }
 
 .text-style-a {
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-size: 0.9rem;
   letter-spacing: -0.05rem;
 }
 
 .text-style-b {
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-size: 1.2rem;
   letter-spacing: -0.05rem;
   font-weight: bolder;

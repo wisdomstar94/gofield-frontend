@@ -1,10 +1,10 @@
 .container {
   display: inline-flex;
   flex-wrap: wrap;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
   border-radius: 10px;
   font-size: 0.8rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
   text-align: center;
   justify-content: center;
   align-items: center;

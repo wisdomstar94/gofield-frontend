@@ -9,13 +9,13 @@
 
 .title-text {
   font-size: 0.9rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-weight: bold;
 }
 
 .price-text {
   font-size: 0.9rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-weight: normal;
 }
 
@@ -23,12 +23,12 @@
   width: 100%;
   display: block;
   height: 1px;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
 }
 
 .title-final-text {
   font-size: 1.1rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-weight: bold;
 }
 

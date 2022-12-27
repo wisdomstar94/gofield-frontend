@@ -48,9 +48,9 @@
 
   &.gray-solid {
     font-size: 1rem;
-    color: #1e2238;
-    background-color: #e9ebee;
-    border: 1px solid #e9ebee;
+    color: $fontColorBlackA;
+    background-color: $bgColorGrayA;
+    border: 1px solid $borderColorGrayA;
 
     &.disable {
       background-color: #f9f9f9;
@@ -66,9 +66,9 @@
   &.gray-solid-radius {
     border-radius: 10px;
     font-size: 1rem;
-    color: #1e2238;
-    background-color: #e9ebee;
-    border: 1px solid #e9ebee;
+    color: $fontColorBlackA;
+    background-color: $bgColorGrayA;
+    border: 1px solid $borderColorGrayA;
 
     &.disable {
       background-color: #f9f9f9;
@@ -87,8 +87,8 @@
     padding: 8px 14px;
     color: #374553;
     border-radius: 10px;
-    border: 1px solid #e9ebee;
-    background-color: 1px solid #e9ebee;
+    border: 1px solid $borderColorGrayA;
+    background-color: 1px solid $bgColorGrayA;
 
     &.disable {
       background-color: #f9f9f9;
@@ -108,7 +108,7 @@
     color: #374553;
     background-color: rgba(255, 255, 255, 0);
     border-radius: 10px;
-    border: 1px solid #e9ebee;
+    border: 1px solid $borderColorGrayA;
 
     &.disable {
       color: #ccc;
@@ -160,12 +160,12 @@
     font-size: 1rem;
     color: #13162b;
     background-color: #ffffff;
-    border: 1px solid #e9ebee;
+    border: 1px solid $borderColorGrayA;
     border-radius: 10px;
 
     &.disable {
       background-color: #eeeeee;
-      border: 1px solid #e9ebee;
+      border: 1px solid $borderColorGrayA;
       color: #555;
       cursor: none;
     }

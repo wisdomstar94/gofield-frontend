@@ -19,7 +19,7 @@
   margin: 0 16px;
   padding: 0;
   position: relative;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
 }
 
 .order-status-text {
@@ -44,7 +44,7 @@
   display: inline-flex;
   font-size: 0.9rem;
   font-weight: normal;
-  color: #1e2238;
+  color: $fontColorBlackA;
 }
 
 .more-button-icon {
@@ -55,7 +55,7 @@
   display: inline-flex;
   font-size: 0.9rem;
   font-weight: normal;
-  color: #1e2238;
+  color: $fontColorBlackA;
   letter-spacing: -0.08rem;
 }
 
@@ -63,7 +63,7 @@
   display: inline-flex;
   font-size: 0.9rem;
   font-weight: bold;
-  color: #1e2238;
+  color: $fontColorBlackA;
   letter-spacing: -0.04rem;
 }
 
@@ -71,7 +71,7 @@
   display: inline-flex;
   font-size: 0.8rem;
   font-weight: normal;
-  color: #1e2238;
+  color: $fontColorBlackA;
   letter-spacing: -0.04rem;
 }
 

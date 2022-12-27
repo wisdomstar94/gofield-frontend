@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   position: relative;
   padding: 24px 0;
-  border-bottom: 1px solid #e9ebee;
+  border-bottom: 1px solid $borderColorGrayA;
 
   &.none-border-bottom {
     border-bottom: 0;
@@ -13,11 +13,11 @@
 
 .default-address-symbol {
   font-size: 0.8rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
   letter-spacing: -0.03rem;
   font-weight: normal;
   display: inline-flex;
   padding: 2px 6px;
   border-radius: 10px;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
 }

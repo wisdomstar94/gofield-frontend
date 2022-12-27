@@ -7,21 +7,21 @@
   display: inline-flex;
   font-size: 0.8rem;
   font-weight: bold;
-  color: #1e2238;
+  color: $fontColorBlackA;
 }
 
 .buy-options-text {
   display: inline-block;
   white-space: pre-line;
   font-size: 0.8rem;
-  color: #1e2238;
+  color: $fontColorBlackA;
 }
 
 .review-content-text {
   display: inline-block;
   white-space: pre-line;
   font-size: 0.8rem;
-  color: #646f7c;
+  color: $fontColorBlackB;
 
   .more-view-text {
     text-decoration: underline;

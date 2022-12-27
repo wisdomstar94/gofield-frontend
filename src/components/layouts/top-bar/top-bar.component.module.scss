@@ -31,7 +31,7 @@ button.back-button {
     align-items: center;
     box-sizing: border-box;
     background-color: #fff;
-    border-bottom: 1px solid #e9ebee;
+    border-bottom: 1px solid $borderColorGrayA;
 
     &.bg-color-transparency {
       background-color: rgba(255, 255, 255, 0);
@@ -71,7 +71,7 @@ button.back-button {
     align-items: center;
     box-sizing: border-box;
     background-color: #fff;
-    border-bottom: 1px solid #e9ebee;
+    border-bottom: 1px solid $borderColorGrayA;
 
     .left-area {
       width: calc(100% - 100px);
@@ -130,7 +130,7 @@ button.back-button {
     align-items: center;
     box-sizing: border-box;
     background-color: #fff;
-    border-bottom: 1px solid #e9ebee;
+    border-bottom: 1px solid $borderColorGrayA;
 
     .left-area {
       // width: calc(100% - 100px);

@@ -5,7 +5,7 @@
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  border-bottom: 1px solid #e9ebee;
+  border-bottom: 1px solid $borderColorGrayA;
   background-color: #fff;
   align-items: center;
   justify-content: flex-start;
@@ -85,7 +85,7 @@
       box-sizing: border-box;
       font-size: 0.8rem;
       color: #000;
-      border-bottom: 1px solid #e9ebee;
+      border-bottom: 1px solid $borderColorGrayA;
       cursor: pointer;
 
       &:hover {
@@ -100,7 +100,7 @@
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  color: #646f7c;
+  color: $fontColorBlackB;
   font-size: 0.85rem;
   margin-bottom: 8px;
 }

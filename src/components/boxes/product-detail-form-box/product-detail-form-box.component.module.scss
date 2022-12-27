@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-size: 0.95rem;
   margin-bottom: 15px;
   font-weight: bold;
@@ -16,7 +16,7 @@
 .deco-line {
   display: block;
   height: 1px;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
   margin: 0 16px;
 }
 

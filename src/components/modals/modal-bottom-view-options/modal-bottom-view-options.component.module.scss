@@ -87,12 +87,12 @@ ul.option-type-item-list {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 1px solid #e9ebee;
-    border-bottom: 1px solid #e9ebee;
+    border-right: 1px solid $borderColorGrayA;
+    border-bottom: 1px solid $borderColorGrayA;
     box-sizing: border-box;
 
     &:nth-child(4n + 1) {
-      border-left: 1px solid #e9ebee;
+      border-left: 1px solid $borderColorGrayA;
 
       &.active {
         border-left: 1px solid #0c8af5;
@@ -100,7 +100,7 @@ ul.option-type-item-list {
     }
 
     &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4) {
-      border-top: 1px solid #e9ebee;
+      border-top: 1px solid $borderColorGrayA;
 
       &.active {
         border-top: 1px solid #0c8af5;

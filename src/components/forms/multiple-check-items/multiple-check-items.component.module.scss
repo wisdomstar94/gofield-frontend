@@ -22,7 +22,7 @@ ul.multiple-check-items {
     font-size: 0.8rem;
     border-radius: 10px;
     background-color: #fff;
-    border: 1px solid #e9ebee;
+    border: 1px solid $borderColorGrayA;
     cursor: pointer;
 
     &.active {

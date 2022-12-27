@@ -57,7 +57,7 @@ table.table-style-a {
   > thead {
     > tr {
       > th {
-        color: #646f7c;
+        color: $fontColorBlackB;
         font-size: 0.8rem;
         text-align: left;
         padding: 2px 0;
@@ -69,7 +69,7 @@ table.table-style-a {
   > tbody {
     > tr {
       > td {
-        color: #1e2238;
+        color: $fontColorBlackA;
         font-size: 0.8rem;
         margin: 0;
         text-align: left;

@@ -1,20 +1,20 @@
 .getter-name-text {
   display: inline-flex;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-weight: bold;
   font-size: 0.9rem;
 }
 
 .address-text {
   display: inline-flex;
-  color: #646f7c;
+  color: $fontColorBlackB;
   font-weight: normal;
   font-size: 0.9rem;
 }
 
 .cp-text {
   display: inline-flex;
-  color: #646f7c;
+  color: $fontColorBlackB;
   font-weight: normal;
   font-size: 0.9rem;
 }
@@ -24,6 +24,6 @@
   height: 1px;
   margin: 0 16px;
   padding: 0;
-  background-color: #e9ebee;
+  background-color: $bgColorGrayA;
   position: relative;
 }

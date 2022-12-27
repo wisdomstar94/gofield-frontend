@@ -67,7 +67,7 @@
     margin: 0 16px;
     position: relative;
     height: 1px;
-    background-color: #e9ebee;
+    background-color: $bgColorGrayA;
   }
 }
 
@@ -76,25 +76,25 @@
   display: inline-flex;
   flex-wrap: wrap;
   position: relative;
-  border: 1px solid #e9ebee;
+  border: 1px solid $borderColorGrayA;
   border-left: 0;
   justify-content: center;
   align-items: center;
   padding: 0 10px;
   cursor: pointer;
-  color: #1e2238;
+  color: $fontColorBlackA;
   font-size: 0.8rem;
   line-height: 0.8rem;
 
   &:first-child {
-    border-left: 1px solid #e9ebee;
+    border-left: 1px solid $borderColorGrayA;
   }
 }
 
 .product-name-text {
   display: inline-flex;
   flex-wrap: wrap;
-  color: #1e2238;
+  color: $fontColorBlackA;
   position: relative;
   font-size: 0.9rem;
   line-height: 0.9rem;
@@ -103,7 +103,7 @@
 .options-text {
   display: inline-flex;
   flex-wrap: wrap;
-  color: #1e2238;
+  color: $fontColorBlackA;
   position: relative;
   font-size: 0.9rem;
   line-height: 0.9rem;
@@ -112,7 +112,7 @@
 .price-text {
   display: inline-flex;
   flex-wrap: wrap;
-  color: #1e2238;
+  color: $fontColorBlackA;
   position: relative;
   font-size: 1rem;
   font-weight: bold;
@@ -122,7 +122,7 @@
 .seller-text {
   display: inline-flex;
   flex-wrap: wrap;
-  color: #1e2238;
+  color: $fontColorBlackA;
   position: relative;
   font-size: 0.9rem;
   line-height: 0.9rem;
