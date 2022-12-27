@@ -6,6 +6,7 @@ export declare namespace ISwiperCustom {
     __swipeSpeed?: number;
     __currentIndex?: number;
     __isLoop?: boolean;
+    __slideItemCount?: number;
     __onChange?: (currentIndex: number, nextCurrentIndex: number) => void;
     __onItemClick?: (targetIndex: number) => void;
 

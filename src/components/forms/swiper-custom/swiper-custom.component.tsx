@@ -3,12 +3,17 @@ import { ISwiperCustom } from "./swiper-custom.interface";
 import { Children, useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "../../../hooks/use-drag/use-drag.hook";
 import anime from 'animejs';
+import { useRouter } from "next/router";
 
 const SwiperCustom = (props: ISwiperCustom.Props) => {
+  const router = useRouter();
   const swiperCustomDivRef = useRef<HTMLDivElement>(null);
   const swipeSpeed = useRef(props.__swipeSpeed ?? 400);
   const isLoop = useRef(props.__isLoop ?? false);
   const isSwipping = useRef(false);
+  const [slideItemCount, setSlideItemCount] = useState(props.__slideItemCount ?? 0);
+  useEffect(() => { setSlideItemCount(props.__slideItemCount ?? 0) }, [props.__slideItemCount]);
+
   const [currentIndex, setCurrentIndex] = useState(props.__currentIndex ?? 0);
   const [activePaginationIndex, setActivePaginationIndex] = useState(props.__currentIndex ?? 0);
   const touchStartTimeRef = useRef(0);
@@ -34,6 +39,16 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       isLoop.current = false;
     }
   }, [props.__isLoop, props.children]);
+
+  // useEffect(() => {
+  //   if (!router.isReady) {
+  //     return;
+  //   }
+
+  //   setTimeout(() => {
+  //     sliding();
+  //   }, 3000);
+  // }, [router.isReady]);
 
   useDrag(swiperCustomDivRef, {
     onDragStart(dragInfo) {
@@ -63,10 +78,10 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       touchEndTimeRef.current = new Date().getTime();
 
       const slideItemElements = getSlideItemElements();
-      const childrenCount = Children.count(props.children);
-      const prevIndex = currentIndex - 1 < 0 ? childrenCount - 1 : currentIndex - 1;
-      const nextIndex = currentIndex + 1 >= childrenCount ? 0 : currentIndex + 1;
-      isSwipping.current = true;
+      // const childrenCount = Children.count(props.children);
+      // const prevIndex = currentIndex - 1 < 0 ? childrenCount - 1 : currentIndex - 1;
+      // const nextIndex = currentIndex + 1 >= childrenCount ? 0 : currentIndex + 1;
+      // isSwipping.current = true;
 
       const targets = [
         slideItemElements.currentIndexElement, 
@@ -91,40 +106,49 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
       };
       
       if (isWillLeftSliding) {
-        if (typeof props.__onChange === 'function') {
-          props.__onChange(currentIndex, nextIndex);
-        }
-        translateX = -getSwiperBoxWidth();
-        setActivePaginationIndex(nextIndex);
-        completeCallback = () => {
-          isSwipping.current = false;
-          setCurrentIndex(nextIndex);
-        };
+        // if (typeof props.__onChange === 'function') {
+        //   props.__onChange(currentIndex, nextIndex);
+        // }
+        // translateX = -getSwiperBoxWidth();
+        // setActivePaginationIndex(nextIndex);
+        // completeCallback = () => {
+        //   isSwipping.current = false;
+        //   setCurrentIndex(nextIndex);
+        // };
+        sliding('next');
       } else if (isWillRightSliding) {
-        if (typeof props.__onChange === 'function') {
-          props.__onChange(currentIndex, nextIndex);
-        }
-        translateX = getSwiperBoxWidth();
-        setActivePaginationIndex(prevIndex);
-        completeCallback = () => {
-          isSwipping.current = false;
-          setCurrentIndex(prevIndex);
-        };
+        // if (typeof props.__onChange === 'function') {
+        //   props.__onChange(currentIndex, nextIndex);
+        // }
+        // translateX = getSwiperBoxWidth();
+        // setActivePaginationIndex(prevIndex);
+        // completeCallback = () => {
+        //   isSwipping.current = false;
+        //   setCurrentIndex(prevIndex);
+        // };
+        sliding('prev');
       } else {
         if (touchEndTimeRef.current - touchStartTimeRef.current < 100) {
           if (typeof props.__onItemClick === 'function') {
             props.__onItemClick(currentIndex);
           }
         }
+        anime({
+          targets: targets,
+          translateX,
+          duration: swipeSpeed.current,
+          easing: 'easeOutQuart',
+          complete: completeCallback,
+        });
       }
-
-      anime({
-        targets: targets,
-        translateX,
-        duration: swipeSpeed.current,
-        easing: 'easeOutQuart',
-        complete: completeCallback,
-      });
+      // sliding();
+      // anime({
+      //   targets: targets,
+      //   translateX,
+      //   duration: swipeSpeed.current,
+      //   easing: 'easeOutQuart',
+      //   complete: completeCallback,
+      // });
     },
   });
 
@@ -220,6 +244,57 @@ const SwiperCustom = (props: ISwiperCustom.Props) => {
 
     return classes.join(' ');
   }, [activePaginationIndex]);
+
+  const sliding = useCallback((type: 'prev' | 'next') => {
+    console.log('@@ @@ @@ slideItemCount', slideItemCount);
+    const slideItemElements = getSlideItemElements();
+    const childrenCount = Children.count(props.children);
+    const prevIndex = currentIndex - 1 < 0 ? childrenCount - 1 : currentIndex - 1;
+    const nextIndex = currentIndex + 1 >= childrenCount ? 0 : currentIndex + 1;
+    isSwipping.current = true;
+
+    const targets = [
+      slideItemElements.currentIndexElement, 
+      slideItemElements.prevIndexElement, 
+      slideItemElements.nextIndexElement
+    ].filter(x => x !== null);
+
+    let translateX = 0;
+    let completeCallback = () => {
+      isSwipping.current = false;
+      getSlideItemElements(true);
+    };
+
+    if (type === 'next') {
+      if (typeof props.__onChange === 'function') {
+        props.__onChange(currentIndex, nextIndex);
+      }
+      translateX = -getSwiperBoxWidth();
+      setActivePaginationIndex(nextIndex);
+      completeCallback = () => {
+        isSwipping.current = false;
+        setCurrentIndex(nextIndex);
+      };
+    } else {
+      if (typeof props.__onChange === 'function') {
+        props.__onChange(currentIndex, nextIndex);
+      }
+      translateX = getSwiperBoxWidth();
+      setActivePaginationIndex(prevIndex);
+      completeCallback = () => {
+        isSwipping.current = false;
+        setCurrentIndex(prevIndex);
+      };
+    }
+
+    anime({
+      targets: targets,
+      translateX,
+      duration: swipeSpeed.current,
+      easing: 'easeOutQuart',
+      complete: completeCallback,
+    });    
+  }, [currentIndex, getSlideItemElements, getSwiperBoxWidth, props, slideItemCount]);
 
   return (
     <>

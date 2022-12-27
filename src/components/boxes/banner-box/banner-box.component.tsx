@@ -25,7 +25,11 @@ const BannerBox = (props: IBannerBox.Props) => {
       <div className={[
           styles['banner-box'],
         ].join(' ')}>
-        <SwiperCustom __style={{ aspectRatio: '16 / 9' }} __onChange={swiperChange} __onItemClick={onItemClick}>
+        <SwiperCustom 
+          __style={{ aspectRatio: '16 / 9' }} 
+          __onChange={swiperChange} 
+          __onItemClick={onItemClick}
+          __slideItemCount={mainBannerListQuery?.data?.length}>
           {
             mainBannerListQuery?.data?.map((item, index) => {
               return (
