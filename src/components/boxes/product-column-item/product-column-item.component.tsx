@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
-import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
 import ModalSignupNotice from "../../modals/modal-signup-notice/modal-signup-notice.component";
 import { IModalSignupNotice } from "../../modals/modal-signup-notice/modal-signup-notice.interface";
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
@@ -88,10 +88,16 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
             </div> : <></>
           }
         </div>
-        <div className="w-full flex flex-wrap mb-1" onClick={itemClick}>
+        <div className={getClasses([
+          "w-full flex flex-wrap mb-1",
+          styles['brand-name-area']
+        ])} onClick={itemClick}>
           <span className="inline-flex flex-wrap font-bold text-sm text-gray-b">{brandNameComponent}</span>
         </div>
-        <div className="w-full flex flex-wrap mb-1" onClick={itemClick}>
+        <div className={getClasses([
+          "w-full flex flex-wrap mb-1",
+          styles['product-name-area']
+        ])} onClick={itemClick}>
           <span className="inline-flex flex-wrap font-normal text-sm text-black-a">{productNameComponent}</span>
         </div>
         {
