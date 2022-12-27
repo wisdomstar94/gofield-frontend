@@ -13,7 +13,7 @@ $animationSpeed: 300ms;
   background-color: rgba(0, 0, 0, 0.7);
 
   &.pc {
-    left: calc((100% - (100vh * 0.56)) / 2);
+    left: $globalMobileLeft;
 
     &.hide {
       animation-name: backgroundHidePc;
@@ -75,17 +75,17 @@ $animationSpeed: 300ms;
 
 @keyframes backgroundShowPc {
   0% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     height: 100%;
     opacity: 0;
   }
   1% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     height: 100%;
     opacity: 0;
   }
   100% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     height: 100%;
     opacity: 1;
   }
@@ -93,12 +93,12 @@ $animationSpeed: 300ms;
 
 @keyframes backgroundHidePc {
   0% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     height: 100%;
     opacity: 1;
   }
   99% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     height: 100%;
     opacity: 0;
   }
@@ -122,7 +122,7 @@ $animationSpeed: 300ms;
   z-index: 10;
 
   &.pc {
-    left: calc((100% - (100vh * 0.56)) / 2);
+    left: $globalMobileLeft;
 
     &.hide {
       animation-name: modalHidePc;
@@ -178,26 +178,26 @@ $animationSpeed: 300ms;
 
 @keyframes modalShowPc {
   0% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     bottom: -100%;
   }
   1% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     bottom: -100%;
   }
   100% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     bottom: 0;
   }
 }
 
 @keyframes modalHidePc {
   0% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     bottom: 0;
   }
   99% {
-    width: calc(100vh * 0.56);
+    width: $globalMobileWidth;
     bottom: -100%;
   }
   100% {
