@@ -196,8 +196,9 @@ const PageContents = () => {
                   __orderShippingStatus={shippingItem.status}
                   __orderItemStatus={orderItem.status}
                   __optionNames={orderItem.optionName}
-                  __carrierId={shippingItem.carrier}
-                  __trackId={shippingItem.trackingNumber}
+                  // __carrierId={shippingItem.carrier}
+                  // __trackId={shippingItem.trackingNumber}
+                  __shippingNumber={shippingItem.shippingNumber}
                   __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
                   // __buttonLayoutType={'none'}
                 />

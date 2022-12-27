@@ -20,6 +20,7 @@ import { IReview } from "../../interfaces/review/review.interface";
 import { useRouter } from "next/router";
 import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
 import useOrderReviewHistoryListApi from "../../hooks/use-apis/use-order-review-history-list.api";
+import ReviewHistoryItem from "../../components/boxes/review-history-item/review-history-item.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -256,11 +257,14 @@ const PageContents = () => {
             selectedTabValue === 'review-history' ? styles['show'] : styles['hide'],
           ])}>
           {
-            // reviewHistoryListOptions.list.map((item) => {
-            //   return (
-
-            //   );
-            // })
+            reviewHistoryListOptions.list.map((item) => {
+              return (
+                <ReviewHistoryItem 
+                  key={item.reviewId}
+                  __item={item}
+                  />
+              );
+            })
           }
         </div>
       </WindowSizeContainer>

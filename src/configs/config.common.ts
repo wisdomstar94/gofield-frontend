@@ -165,6 +165,11 @@ export default function getConfigs(params: ICommonConfig.Params) {
             },
           }
         },
+        track: {
+          shippingNumber: (shippingNumber: string) => {
+            return baseUrl + `/api/order/${apiVersion}/${shippingNumber}/track`;
+          },
+        },
         review: {
           _: baseUrl + `/api/order/${apiVersion}/review`,
           write: (orderItemId: number | string) => {

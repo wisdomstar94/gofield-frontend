@@ -7,9 +7,10 @@ import useAxios from "../use-axios-hook/use-axios.hook";
 const useOrderCarrierTrack = () => {
   const axios = useAxios();
 
-  const getInstance = useCallback((carrierId: number | string, trackId: number | string) => {
+  const getInstance = useCallback((shippingNumber: string) => {
     return axios.getAxiosInstance<IResponse.CommonResponse<IOrder.OrderCarrierTrackApiData>>({
-      url: Config().api.order.carrier.track._(carrierId, trackId),
+      // url: Config().api.order.carrier.track._(carrierId, trackId),
+      url: Config().api.order.track.shippingNumber(shippingNumber),
       method: 'get',
       isAuth: true,
     });

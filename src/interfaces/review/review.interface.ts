@@ -41,6 +41,7 @@ export declare namespace IReview {
     reviewId: number;
     reviewScore: number;
     thumbnail: string;
+    price: number;
   }
 
   export interface ReviewWritableListApiData {

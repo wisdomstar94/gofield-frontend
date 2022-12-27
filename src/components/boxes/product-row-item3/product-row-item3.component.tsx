@@ -65,11 +65,14 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   const [orderItemId, setOrderItemId] = useState(props.__orderItemId);
   useEffect(() => { setOrderItemId(props.__orderItemId) }, [props.__orderItemId]);
 
-  const [carrierId, setCarrierId] = useState(props.__carrierId);
-  useEffect(() => { setCarrierId(props.__carrierId); }, [props.__carrierId]);
+  const [shippingNumber, setShippingNumber] = useState(props.__shippingNumber);
+  useEffect(() => { setShippingNumber(props.__shippingNumber) }, [props.__shippingNumber]);
 
-  const [trackId, setTrackId] = useState(props.__trackId);
-  useEffect(() => { setTrackId(props.__trackId); }, [props.__trackId]);
+  // const [carrierId, setCarrierId] = useState(props.__carrierId);
+  // useEffect(() => { setCarrierId(props.__carrierId); }, [props.__carrierId]);
+
+  // const [trackId, setTrackId] = useState(props.__trackId);
+  // useEffect(() => { setTrackId(props.__trackId); }, [props.__trackId]);
 
   const [purchaseConfirmationDate, setPurchaseConfirmationDate] = useState(props.__purchaseConfirmationDate);
   useEffect(() => { setPurchaseConfirmationDate(props.__purchaseConfirmationDate); }, [props.__purchaseConfirmationDate]);
@@ -106,18 +109,23 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
   }, [orderItemId, router]);
 
   const deliveryStatusViewButtonClick = useCallback(() => {
-    if (carrierId === undefined || carrierId === null) {
-      console.error('carrierId 가 없습니다.');
+    // if (carrierId === undefined || carrierId === null) {
+    //   console.error('carrierId 가 없습니다.');
+    //   modalAlert.show({ title: '안내', content: '배송 정보가 없습니다.' });
+    //   return;
+    // }
+
+    // if (trackId === undefined || trackId === null) {
+    //   console.error('trackId 가 없습니다.');
+    //   return;
+    // }
+    if (typeof shippingNumber !== 'string') {
+      console.error('shippingNumber 가 없습니다.');
       modalAlert.show({ title: '안내', content: '배송 정보가 없습니다.' });
       return;
     }
 
-    if (trackId === undefined || trackId === null) {
-      console.error('trackId 가 없습니다.');
-      return;
-    }
-
-    orderCarrierTrack.getInstance(carrierId, trackId).then((response) => {
+    orderCarrierTrack.getInstance(shippingNumber).then((response) => {
       if (response.data.status !== true) {
         modalAlert.show({ title: '안내', content: '배송 정보를 가져오는데 실패하였습니다.' });
         return;
@@ -127,7 +135,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
     }).finally(() => {
       
     });
-  }, [carrierId, modalAlert, orderCarrierTrack, trackId]);
+  }, [modalAlert, orderCarrierTrack, shippingNumber]);
 
   return (
     <>

@@ -41,11 +41,20 @@ const useOrder = () => {
     return `일시불`;
   }, []);
 
+  const isOptionExist = useCallback((optionName: null | undefined | string[]) => {
+    if (optionName === null) return false;
+    if (optionName === undefined) return false;
+    if (!Array.isArray(optionName)) return false;
+    if (optionName.length === 0) return false;
+    return true;
+  }, []);
+
   return {
     isCancelPosible,
     isExchangeOrReturnPosible,
     isReviewWritePosible,
     getInstallmentText,
+    isOptionExist,
   };
 };
 

@@ -1,0 +1,73 @@
+.review-history-item {
+  display: block;
+  margin: 0;
+  padding: 24px;
+  position: relative;
+  box-sizing: border-box;
+
+  .product-info-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+
+    .left-area {
+      width: 60px;
+      margin-right: 12px;
+      position: relative;
+      display: block;
+
+      .image-area {
+        width: 100%;
+        aspect-ratio: 1;
+        display: block;
+        position: relative;
+      }
+    }
+
+    .right-area {
+      width: calc(100% - 72px);
+      position: relative;
+    }
+  }
+
+  .image-row {
+    display: block;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  .description-row {
+    display: block;
+    margin-top: 16px;
+    position: relative;
+    font-size: 0.8rem;
+    color: #646f7c;
+    white-space: pre-line;
+    word-break: break-all;
+  }
+}
+
+.division-line {
+  display: block;
+  margin: 16px;
+  margin-top: 0;
+  position: relative;
+  height: 1px;
+  background-color: #e9ebee;
+}
+
+.text-style-a {
+  color: #1e2238;
+  font-size: 0.9rem;
+  letter-spacing: -0.05rem;
+}
+
+.text-style-b {
+  color: #1e2238;
+  font-size: 1.2rem;
+  letter-spacing: -0.05rem;
+  font-weight: bolder;
+}

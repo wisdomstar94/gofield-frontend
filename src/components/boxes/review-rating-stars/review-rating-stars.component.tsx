@@ -8,6 +8,14 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
   const [reviewScore, setReviewScore] = useState(props.__reviewScore);
   useEffect(() => { setReviewScore(props.__reviewScore); }, [props.__reviewScore]);
 
+  const [isSmallStar, setIsSmallStar] = useState(props.__isSmallStar);
+  useEffect(() => { setIsSmallStar(props.__isSmallStar); }, [props.__isSmallStar]);
+
+  const [defaultMargin, setDefaultMargin] = useState('8px');
+  useEffect(() => { 
+    setDefaultMargin(isSmallStar === true ? '2px' : '8px');
+  }, [isSmallStar]);
+
   const [isAllowScoreControl, setIsAllowScoreControl] = useState(props.__isAllowScoreControl);
   useEffect(() => { setIsAllowScoreControl(props.__isAllowScoreControl); }, [props.__isAllowScoreControl]);
 
@@ -33,7 +41,13 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
         {
           Array.from({ length: 5 }).map((item, index) => {
             const starMode: IReviewStar.StarMode = index + 1 <= Math.floor(reviewScore ?? 0) ? 'fill' : 'stroke';
-            return <ReviewStar key={index} __style={{ marginRight: index !== 4 ? '8px' : '0' }} __onClick={() => starClick(index)} __starMode={starMode} />  
+            return (
+              <ReviewStar 
+                key={index} 
+                __starSizeType={isSmallStar === true ? 'small' : 'big'}
+                __style={{ marginRight: index !== 4 ? defaultMargin : '0' }} 
+                __onClick={() => starClick(index)} __starMode={starMode} />  
+            );
           })
         }
       </div>

@@ -6,6 +6,7 @@ import { IReviewStar } from "./review-star.interface";
 const ReviewStar = (props: IReviewStar.Props) => {
   const [starMode, setStarMode] = useState<IReviewStar.StarMode>(props.__starMode ?? 'fill');
   const [starSizeType, setStarSizeType] = useState<IReviewStar.StarSizeType>(props.__starSizeType ?? 'big');
+  useEffect(() => { setStarSizeType(props.__starSizeType ?? 'big') }, [props.__starSizeType]);
 
   useEffect(() => {
     setStarMode(props.__starMode ?? 'fill');
