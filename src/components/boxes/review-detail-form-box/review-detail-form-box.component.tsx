@@ -201,6 +201,7 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
               titleComponent: <>사진</>,
               contentComponent: <>
                 <SmallImageFormBox
+                  __isEditable={true}
                   __onChange={onImageItemsChange} />
               </>,
             },

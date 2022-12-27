@@ -39,11 +39,9 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
   }, [imageItems]);
 
   const imageAddButtonClick = useCallback(() => {
-    if (imageItems === undefined) {
-      return;
-    }
+    let targetImageItems = imageItems ?? [];
 
-    if (imageItems.length >= 10) {
+    if (targetImageItems.length >= 10) {
       modalAlert.show({ title: '안내', content: '이미지는 최대 10개까지만 등록 가능합니다.' });
       return;
     }
@@ -57,20 +55,27 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
       content: '해당 이미지를 삭제하시겠습니까?',
       positiveCallback(hide, modalItem) {
         setImageItems((prev) => {
-          return prev?.filter(x => x !== fileInfo);
+          const newValue = prev?.filter(x => x !== fileInfo);
+          if (typeof props.__onChange === 'function') {
+            props.__onChange(newValue);
+          }
+          return newValue;
         });
         hide(modalItem);
       },
     })
-  }, [modalConfirm]);
+  }, [modalConfirm, props]);
 
   const onFileChange = useCallback((fileInfo: IFile.FileInfo) => {
     setImageItems((prev) => {
       const newValue = prev !== undefined ? [ ...prev ] : [];
       newValue.unshift(fileInfo);
+      if (typeof props.__onChange === 'function') {
+        props.__onChange(newValue);
+      }
       return newValue;
     });
-  }, []);
+  }, [props]);
 
   return (
     <>
