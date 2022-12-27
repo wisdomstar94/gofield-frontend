@@ -93,8 +93,8 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
           categoryName: item.text,
           icon: <>
             <Image
-              width={24}
-              height={24}
+              // width={24}
+              // height={24}
               src={item.value2 ?? ''}
               alt="카테고리 아이콘 이미지"
               title="카테고리 아이콘 이미지"
