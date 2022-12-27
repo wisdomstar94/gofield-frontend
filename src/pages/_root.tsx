@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { axiosGloballErrorAtom, axiosGlobalResponseAtom } from "../atoms/axios.atom";
 import { deviceTypeAtom } from "../atoms/device-type.atom";
 import { globalModalDefaultModalItemAtom } from "../atoms/global-modal-default.atom";
+import LoadingDisplayBox from "../components/boxes/loading-display-box/loading-display-box.component";
 import ModalDefault from "../components/modals/modal-default/modal-default.component";
 import { IModalDefault } from "../components/modals/modal-default/modal-default.interface";
 import { getDeviceInfo } from "../librarys/client-util/client-util.library";
@@ -95,6 +96,8 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
       {props.children}
       <ModalDefault
         ref={modalDefaultComponentRef} />
+      <LoadingDisplayBox
+         />
     </>
   );
 };

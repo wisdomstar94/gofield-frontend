@@ -7,11 +7,14 @@ import { ILogin } from "../../interfaces/login/login.interface";
 import { axiosGloballErrorAtom, axiosGlobalResponseAtom } from "../../atoms/axios.atom";
 import { IResponse } from "../../interfaces/response/response.interface";
 import { getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
+import { getRandomToken } from "../../librarys/random-util/random-util.library";
+import { globalLoadingDataAtom } from "../../atoms/global-loading-data.atom";
 
 const useAxios = () => {
   const user = useUser();
   const [axiosGlobalError, setAxiosGlobalError] = useRecoilState(axiosGloballErrorAtom);
   const [axiosGloballResponse, setAxiosGloballResponse] = useRecoilState(axiosGlobalResponseAtom);
+  const [globalLoadingData, setGlobalLoadingData] = useRecoilState(globalLoadingDataAtom);
 
   function getAxiosInstance<T>(params: IAxiosHook.InstanceOptions) {
     const instance = axios.create({
@@ -21,6 +24,8 @@ const useAxios = () => {
       params: params.params,
       timeout: params.timeout,
     });
+
+    const requestUniqueKey = getRandomToken({ strLength: 20 });
 
     instance.interceptors.request.use(
       (config) => {
@@ -39,6 +44,11 @@ const useAxios = () => {
             Authorization: 'Gofield ' + Config().signNotInUserJwt,
           };
         }
+        setGlobalLoadingData(prev => {
+          prev.set(requestUniqueKey, config.url ?? '');
+          console.log('prev', prev);
+          return new Map(prev);
+        });
         return config;
       }, 
       (error) => {
@@ -49,10 +59,22 @@ const useAxios = () => {
 
     instance.interceptors.response.use(
       (response) => {
+        setGlobalLoadingData(prev => {
+          prev.delete(requestUniqueKey);
+          console.log('prev', prev);
+          return new Map(prev);
+        });
+
         setAxiosGloballResponse(response);
         return response;
       },
-      async(error) => {
+      async(error: AxiosError<IResponse.CommonResponse<null>, any>) => {
+        setGlobalLoadingData(prev => {
+          prev.delete(requestUniqueKey);
+          console.log('prev', prev);
+          return new Map(prev);
+        });
+
         if (params?.isAuth === true && params.isRefreshApply !== false && isAccessTokenInvalid(error)) {
           const result = await refreshAccessToken();
           if (!result) {
