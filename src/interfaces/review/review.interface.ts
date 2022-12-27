@@ -40,7 +40,6 @@ export declare namespace IReview {
     optionPrice: number;
     optionQty: number;
     optionType: IItem.OptionType;
-    orderItemId: number;
     orderNumber: string;
     price: number;
     qty: number;
@@ -48,5 +47,6 @@ export declare namespace IReview {
     sellerName: string;
     status: IOrder.OrderShippingStatus;
     thumbnail: string;
+    finsiehdDate: string | null;
   }
 }

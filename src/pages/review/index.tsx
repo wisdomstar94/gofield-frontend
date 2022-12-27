@@ -168,13 +168,16 @@ const PageContents = () => {
               reviewWritableListOptions.list.map((item, index) => {
                 return (
                   <ProductRowItem3 
-                    key={index}
+                    key={item.id}
+                    __orderItemId={item.id}
+                    __orderNumber={item.orderNumber}
                     __imageUrl={item.thumbnail}
                     __productName={item.name}
                     __optionNames={item.optionName ?? undefined}
                     __qty={item.qty}
                     __price={item.price}
                     __isTopRowShow={false}
+                    __purchaseConfirmationDate={item.finsiehdDate}
                     __showButtonTypes={[
                       { buttonType: 'review-write', buttonWidthType: 'full' }
                     ]} />
