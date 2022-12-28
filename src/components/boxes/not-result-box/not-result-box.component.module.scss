@@ -1,0 +1,11 @@
+.not-result-box {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 24px;
+
+  .not-result-text {
+    font-size: 0.8rem;
+    color: $fontColorBlackB;
+  }
+}

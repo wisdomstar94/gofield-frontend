@@ -30,6 +30,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
+import NotResultBox from "../../../components/boxes/not-result-box/not-result-box.component";
 
 const ProductDetailPage = () => {
   return (
@@ -81,34 +82,40 @@ const PageContents = () => {
           }} />
 
         <div className={styles['product-images-row']}>
-          <Swiper
-            navigation
-            pagination={{ clickable: true }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
-            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-            autoplay={{ delay: 3000 }}
-            >
-            {
-              detailInfo?.images.map((item, index) => {
-                return (
-                  <SwiperSlide 
-                    key={index}>
-                    <div className={styles['product-image-item']}>
-                      <Image
-                        priority
-                        src={item}
-                        alt={'상품 이미지'}
-                        title={'상품 이미지'}
-                        layout="fill"
-                        draggable={false}
-                        objectFit="cover" />
-                    </div>
-                  </SwiperSlide>
-                );
-              })
-            }
-          </Swiper>
+          {
+            Array.isArray(detailInfo?.images) && (detailInfo?.images.length ?? 0) > 0 ? 
+            <Swiper
+              navigation
+              pagination={{ clickable: true }}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+              autoplay={{ delay: 3000 }}
+              >
+              {
+                detailInfo?.images.map((item, index) => {
+                  return (
+                    <SwiperSlide 
+                      key={index}>
+                      <div className={styles['product-image-item']}>
+                        <Image
+                          priority
+                          src={item}
+                          alt={'상품 이미지'}
+                          title={'상품 이미지'}
+                          layout="fill"
+                          draggable={false}
+                          objectFit="cover" />
+                      </div>
+                    </SwiperSlide>
+                  );
+                })
+              }
+            </Swiper> :
+            <NotResultBox>
+              등록된 상품 이미지가 없습니다.
+            </NotResultBox>
+          }
         </div>  
         {/* <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
           {
