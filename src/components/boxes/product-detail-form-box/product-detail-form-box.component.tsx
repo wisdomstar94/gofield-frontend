@@ -34,6 +34,13 @@ import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import ModalSignupNotice from "../../modals/modal-signup-notice/modal-signup-notice.component";
 import { IModalSignupNotice } from "../../modals/modal-signup-notice/modal-signup-notice.interface";
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/autoplay';
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -217,7 +224,38 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   return (
     <>
       <div ref={virtualScrollContainerElementRef}></div>
-      <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
+
+      <div className={styles['product-images-row']}>
+        <Swiper
+          navigation
+          pagination={{ clickable: true }}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+          autoplay={{ delay: 3000 }}
+          >
+          {
+            detailInfo?.images.map((item, index) => {
+              return (
+                <SwiperSlide 
+                  key={index}>
+                  <div className={styles['product-image-item']}>
+                    <Image
+                      priority
+                      src={item}
+                      alt={'상품 이미지'}
+                      title={'상품 이미지'}
+                      layout="fill"
+                      draggable={false}
+                      objectFit="cover" />
+                  </div>
+                </SwiperSlide>
+              );
+            })
+          }
+        </Swiper>
+      </div>  
+      {/* <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
         {
           detailInfo?.images.map((item, index) => {
             return (
@@ -233,7 +271,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
             )
           })
         }
-      </SwiperCustom>
+      </SwiperCustom> */}
 
       <Article __style={{ 
           // borderBottom: '1px solid #e9ebee' 
@@ -293,7 +331,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
         </div>
         <List __width="100%" __direction="vertical" __defaultItemMarginBottom="6px">
           {
-            detailInfo?.option.map((item) => {
+            detailInfo?.option.filter(x => x.value !== '').map((item) => {
               return (
                 <ListItem key={item.key}>
                   <TitleAndContentRowItem
@@ -325,38 +363,37 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
           { detailInfo?.classification === 'USED' ? '다른 ' : '' } 중고상품
         </div>
       </Article>
-      {/* <HorizontalScrollBox>
-        <ul className={styles['order-by-item-list']}>
-          {
-            newOrOldProductOrderByListQuery.data?.map((item, index) => {
-              return (
-                <li key={item.value}
-                  className={getClasses([styles['item'], item.value === selectedOrderBy ? styles['active'] : ''])}
-                  onClick={e => orderByItemClick(item)}>
-                  { item.text }
-                </li>
-              )
-            })
-          }
-        </ul>
-      </HorizontalScrollBox> */}
       <Article __style={{ paddingTop: '12px', paddingBottom: '12px' }}>
         {
-          productOtherListRef.current.map((item, index) => {
-            return (
-              <ProductRowItem2 
-                key={index} 
-                __style={{ marginBottom: '18px' }} 
-                __onClick={() => productRowItemClick(item)}
-                __imageUrl={item.thumbnail}
-                __brandName={item.brandName}
-                __price={item.price}
-                __productName={item.name}
-                __tags={item.tags} />  
-            );
-          })
-        }
-        { !isNoneMoreDataRef.current ? <Button __buttonStyle="gray-stroke" __onClick={otherProductsMoreViewButtonClick}>더보기</Button> : <></> }
+          productOtherListRef.current.length > 0 ? 
+          <>
+            {
+              productOtherListRef.current.map((item, index) => {
+                return (
+                  <ProductRowItem2 
+                    key={index} 
+                    __style={{ marginBottom: '18px' }} 
+                    __onClick={() => productRowItemClick(item)}
+                    __imageUrl={item.thumbnail}
+                    __brandName={item.brandName}
+                    __price={item.price}
+                    __productName={item.name}
+                    __tags={item.tags} />  
+                );
+              })
+            }
+            { 
+              !isNoneMoreDataRef.current ? 
+              <Button __buttonStyle="gray-stroke" __onClick={otherProductsMoreViewButtonClick}>더보기</Button> 
+              : <></> 
+            }
+          </>:
+          <>
+            <div className={styles['not-other-product-row']}>
+              { detailInfo?.classification === 'USED' ? '다른 ' : '' } 중고상품이 없습니다.
+            </div>
+          </>
+        } 
       </Article>
       <EmptyRow __style={{ height: '56px' }} />
       <BottomFixedBox>

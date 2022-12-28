@@ -3,3 +3,14 @@
   aspect-ratio: 1;
   position: relative;
 }
+
+.product-images-row {
+  display: block;
+  position: relative;
+
+  .product-image-item {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+  }
+}

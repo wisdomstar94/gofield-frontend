@@ -81,30 +81,39 @@ const ReviewBox = (props: IReviewBox.Props) => {
 
   return (
     <>
-      {/* <ReviewRatingStarBox __style={{ marginBottom: '12px' }} /> */}
-      <List __width="100%" __defaultItemJustifyContent="center">
-        <ListItem __marginBottom="12px">
-          <ReviewRatingStars __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
-        </ListItem>
-        <ListItem __marginBottom="2px">
-          <span className={styles['review-number-info-text']}>{ props.__productGroupDetailInfo?.reviewScore } / 5</span>
-        </ListItem>
-        <ListItem>
-          <span className={styles['review-count-text']}>리뷰 { props.__productGroupDetailInfo?.reviewCount }개</span>
-        </ListItem>
-      </List>
       {
-        listOptions.list.map((item, index) => {
-          return (
-            <ReviewRowItem key={index} __style={{ marginBottom: '24px' }} __item={item} />
-          );
-        })
+        listOptions.list.length > 0 ? 
+        <>
+          <List __width="100%" __defaultItemJustifyContent="center">
+            <ListItem __marginBottom="12px">
+              <ReviewRatingStars __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
+            </ListItem>
+            <ListItem __marginBottom="2px">
+              <span className={styles['review-number-info-text']}>{ props.__productGroupDetailInfo?.reviewScore } / 5</span>
+            </ListItem>
+            <ListItem>
+              <span className={styles['review-count-text']}>리뷰 { props.__productGroupDetailInfo?.reviewCount }개</span>
+            </ListItem>
+          </List>
+          {
+            listOptions.list.map((item, index) => {
+              return (
+                <ReviewRowItem key={index} __style={{ marginBottom: '24px' }} __item={item} />
+              );
+            })
+          }
+          <div className="w-full flex flex-wrap justify-center">
+            <PaginationBox 
+              ref={paginationBoxRef}
+              __onPageClick={onPageClick} />
+          </div>  
+        </> :
+        <>
+          <div className={styles['empty-review-notice-row']}>
+            등록된 리뷰가 없습니다.
+          </div>
+        </>
       }
-      <div className="w-full flex flex-wrap justify-center">
-        <PaginationBox 
-          ref={paginationBoxRef}
-          __onPageClick={onPageClick} />
-      </div>  
     </>
   );
 };

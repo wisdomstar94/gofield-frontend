@@ -20,6 +20,17 @@
   margin: 0 16px;
 }
 
+.product-images-row {
+  display: block;
+  position: relative;
+
+  .product-image-item {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+  }
+}
+
 ul.order-by-item-list {
   width: auto;
   display: inline-flex;
@@ -44,4 +55,9 @@ ul.order-by-item-list {
       color: #000;
     }
   }
+}
+
+.not-other-product-row {
+  font-size: 0.8rem;
+  color: $fontColorBlackB;
 }

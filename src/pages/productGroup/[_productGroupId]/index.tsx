@@ -23,6 +23,13 @@ import AccessTokenCheck from "../../../components/auth/access-token-check/access
 import useItemBundleProductDetailApi from "../../../hooks/use-apis/use-item-bundle-product-detail.api";
 import { IItem } from "../../../interfaces/item/item.interface";
 import styles from './index.module.scss';
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/autoplay';
 
 const ProductDetailPage = () => {
   return (
@@ -73,7 +80,37 @@ const PageContents = () => {
             titleComponent: '',
           }} />
 
-        <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
+        <div className={styles['product-images-row']}>
+          <Swiper
+            navigation
+            pagination={{ clickable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+            autoplay={{ delay: 3000 }}
+            >
+            {
+              detailInfo?.images.map((item, index) => {
+                return (
+                  <SwiperSlide 
+                    key={index}>
+                    <div className={styles['product-image-item']}>
+                      <Image
+                        priority
+                        src={item}
+                        alt={'상품 이미지'}
+                        title={'상품 이미지'}
+                        layout="fill"
+                        draggable={false}
+                        objectFit="cover" />
+                    </div>
+                  </SwiperSlide>
+                );
+              })
+            }
+          </Swiper>
+        </div>  
+        {/* <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
           {
             detailInfo?.images.map((item, index) => {
               return (
@@ -89,7 +126,7 @@ const PageContents = () => {
               )
             })
           }
-        </SwiperCustom>
+        </SwiperCustom> */}
 
         <Article __style={{ 
             // borderBottom: '1px solid #e9ebee' 
