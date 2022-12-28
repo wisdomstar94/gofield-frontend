@@ -344,7 +344,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
           상품 정보
         </div>
         {
-          Array.isArray(detailInfo?.option) ? 
+          Array.isArray(detailInfo?.option) && (detailInfo?.option?.filter(x => x.value !== '').length ?? 0) > 0 ? 
           <List __width="100%" __direction="vertical" __defaultItemMarginBottom="6px">
             {
               detailInfo?.option?.filter(x => x.value !== '').map((item) => {
