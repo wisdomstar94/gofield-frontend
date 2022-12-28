@@ -113,7 +113,7 @@ const ReviewBox = (props: IReviewBox.Props) => {
       <div style={{
         display: listOptions.list.length > 0 ? 'none' : undefined,
       }}>
-        <NotResultBox>
+        <NotResultBox __isNoPadding={true}>
           등록된 리뷰가 없습니다.
         </NotResultBox>
       </div>
