@@ -42,6 +42,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import NotResultBox from "../not-result-box/not-result-box.component";
+import Config from "../../../configs/config.export";
+import { copyToClipboard } from "../../../librarys/copy-util/copy-util.library";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -150,8 +152,24 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   }, []);
 
   const shareButtonClick = useCallback(() => {
-
-  }, []);
+    let urlNewOrOld = '';
+    if (detailInfo?.classification === 'NEW') {
+      urlNewOrOld = 'new';
+    } else if (detailInfo?.classification === 'USED') {
+      urlNewOrOld = 'old';
+    }
+    
+    const copyUrl = `${Config().redirectUrl}/product/${urlNewOrOld}/${detailInfo?.itemNumber}`;
+    copyToClipboard({ text: copyUrl }).then((result) => {
+      if (result.result !== 'success') {
+        modalAlert.show({ title: '안내', content: '해당 상품의 URL을 복사하는데 실패하였습니다.' });
+        return;
+      }
+      modalAlert.show({ title: '안내', content: '해당 상품의 URL이 복사되었습니다.' });
+    }).catch(() => {
+      modalAlert.show({ title: '안내', content: '해당 상품의 URL을 복사하는데 실패하였습니다.' });
+    });
+  }, [detailInfo?.classification, detailInfo?.itemNumber, modalAlert]);
 
   const onTabClick = useCallback((valueItem: ICommon.ValueItem) => {
     /*
