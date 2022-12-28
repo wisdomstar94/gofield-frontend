@@ -130,6 +130,7 @@ export declare namespace IItem {
     tags: string[];
     shippingTemplate: ShippingTemplate;
     status: ItemStatus;
+    description: string;
   }
 
   export interface OptionGroup {

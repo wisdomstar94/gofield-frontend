@@ -30,7 +30,7 @@ const useAxios = () => {
     instance.interceptors.request.use(
       (config) => {
         if (params?.isAuth === true) {
-          if (getJwtStatus(user.getAccessToken()) === 'valid-jwt') {
+          if (getJwtStatus(user.getAccessToken() ?? '') === 'valid-jwt') {
             config.headers = {
               Authorization: 'Gofield ' + user.getAccessToken(),
             };

@@ -53,7 +53,10 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const modalBottomProductOptionsRef = useRef<IModalBottomProductOptions.RefObject>(null);
   
   const [detailInfo, setDetailInfo] = useState<IItem.ItemDetailInfoApiData | undefined>(props.__detailInfo);
-  useEffect(() => { setDetailInfo(props.__detailInfo) }, [props.__detailInfo]);
+  useEffect(() => { 
+    // console.log('props.__detailInfo', props.__detailInfo);
+    setDetailInfo(props.__detailInfo); 
+  }, [props.__detailInfo]);
 
   const router = useRouter();
   const modalAlert = useModalAlert();
@@ -128,12 +131,12 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   const getDetailInfo = useCallback(() => {
     const itemNumber = router.query._itemNumber?.toString();
     if (itemNumber === undefined) {
-      console.log('? 1');
+      // console.log('? 1');
       return;
     }
 
     if (isGettingListRef.current) {
-      console.log('? 2');
+      // console.log('? 2');
       return;
     }
 

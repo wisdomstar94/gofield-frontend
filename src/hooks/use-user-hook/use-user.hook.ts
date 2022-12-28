@@ -1,11 +1,12 @@
+import { getCookie, setCookie } from "cookies-next";
 import Config from "../../configs/config.export";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { getJwtPayload, getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
 
 const useUser = () => {
   // const axios = useAxios();
-  const ACCESS_TOKEN = 'accessToken';
-  const REFRESH_TOKEN = 'refreshToken';
+  const ACCESS_TOKEN = 'access_token';
+  const REFRESH_TOKEN = 'refresh_token';
 
   function removeAll(): void {
     removeAccessToken();
@@ -17,7 +18,7 @@ const useUser = () => {
   function isLogined() {
     const accessToken = getAccessToken();
     
-    if (accessToken === null) {
+    if (accessToken === null || accessToken === undefined) {
       return false;
     }
     
@@ -52,11 +53,17 @@ const useUser = () => {
 
 
   function setAccessToken(token: string): void {
-    localStorage.setItem(ACCESS_TOKEN, token);
+    setCookie('access_token', token, { maxAge: 60 * 1440 * 4 });
+    // localStorage.setItem(ACCESS_TOKEN, token);
   }
 
-  function getAccessToken(): string | null {
-    return localStorage.getItem(ACCESS_TOKEN);
+  function getAccessToken(): string | null | undefined {
+    const value = getCookie('access_token');
+    if (typeof value === 'boolean') {
+      return null;
+    }
+    return value;
+    // return localStorage.getItem(ACCESS_TOKEN);
   }
 
   function removeAccessToken(): void {
@@ -67,7 +74,7 @@ const useUser = () => {
 
   function getAccessTokenPayload() {
     const accessToken = getAccessToken();
-    if (accessToken === null) {
+    if (accessToken === null || accessToken === undefined) {
       return null;
     }
     const payload = getJwtPayload<ILogin.JwtPayload>(accessToken);
@@ -77,11 +84,17 @@ const useUser = () => {
 
 
   function setRefreshToken(token: string): void {
-    localStorage.setItem(REFRESH_TOKEN, token);
+    setCookie('refresh_token', token, { maxAge: 60 * 1440 * 4 });
+    // localStorage.setItem(REFRESH_TOKEN, token);
   }
 
-  function getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESH_TOKEN);
+  function getRefreshToken(): string | null | undefined {
+    const value = getCookie('refresh_token');
+    if (typeof value === 'boolean') {
+      return null;
+    }
+    return value;
+    // return localStorage.getItem(REFRESH_TOKEN);
   }
 
   function removeRefreshToken(): void {

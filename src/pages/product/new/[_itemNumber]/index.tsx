@@ -8,6 +8,8 @@ import Config from "../../../../configs/config.export";
 import { IResponse } from "../../../../interfaces/response/response.interface";
 import { IItem } from "../../../../interfaces/item/item.interface";
 import { INextjsPage } from "../../../../interfaces/nextjs-page/nextjs-page.interface";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { getAccessToken, getAxiosInstance } from "../../../../librarys/axios-util/axios-util.library";
 
 const ProductNewPage = (props: INextjsPage.ProductDetailPageProps) => {
   return (
@@ -45,12 +47,14 @@ const PageContents = (props: INextjsPage.ProductDetailPageProps) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const itemNumber = context.query._itemNumber; 
-  const res = await axios.get<IResponse.CommonResponse<IItem.ItemDetailInfoApiData>>(Config().api.item._ + '/' + itemNumber, {
-    headers: {
-      'authorization': 'Gofield ' + process.env.NEXT_PUBLIC_SIGN_NOT_IN_USER_JWT,
-    },
+
+  const res = await getAxiosInstance<IResponse.CommonResponse<IItem.ItemDetailInfoApiData>>({
+    method: 'get',
+    url: Config().api.item._ + '/' + itemNumber,
+    isAuth: true,
+    context,
   });
 
   return {
