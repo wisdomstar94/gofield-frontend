@@ -33,7 +33,11 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
       return;
     }
 
-    history.back();
+    if (document.referrer) {
+      history.back();
+    } else {
+      router.push('/');
+    }
   }, [props, router]);
 
   const searchIconClick = useCallback(() => {
