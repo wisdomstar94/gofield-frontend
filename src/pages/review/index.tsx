@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { IScrollCheckHook } from "../../hooks/use-scroll-check/use-scroll-check.interface";
 import useOrderReviewHistoryListApi from "../../hooks/use-apis/use-order-review-history-list.api";
 import ReviewHistoryItem from "../../components/boxes/review-history-item/review-history-item.component";
+import NotResultBox from "../../components/boxes/not-result-box/not-result-box.component";
 
 const LoginPage: NextPage = () => {
   return (
@@ -228,6 +229,7 @@ const PageContents = () => {
           ])}>
           <div className={styles['list-row']}>
             {
+              reviewWritableListOptions.list.length > 0 ? 
               reviewWritableListOptions.list.map((item, index) => {
                 return (
                   <ProductRowItem3 
@@ -245,7 +247,12 @@ const PageContents = () => {
                       { buttonType: 'review-write', buttonWidthType: 'full' }
                     ]} />
                 );
-              })
+              }) : 
+              <>
+                <NotResultBox>
+                  작성 가능한 리뷰가 없습니다.
+                </NotResultBox>
+              </>
             }
           </div>
         </div>
@@ -257,6 +264,7 @@ const PageContents = () => {
             selectedTabValue === 'review-history' ? styles['show'] : styles['hide'],
           ])}>
           {
+            reviewHistoryListOptions.list.length > 0 ? 
             reviewHistoryListOptions.list.map((item) => {
               return (
                 <ReviewHistoryItem 
@@ -264,7 +272,12 @@ const PageContents = () => {
                   __item={item}
                   />
               );
-            })
+            }) : 
+            <>
+              <NotResultBox>
+                작성한 리뷰가 없습니다.
+              </NotResultBox>
+            </>
           }
         </div>
       </WindowSizeContainer>
