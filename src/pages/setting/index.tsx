@@ -12,6 +12,7 @@ import WindowSizeContainer from "../../components/layouts/window-size-container/
 import useUserAlertChangeApi from "../../hooks/use-apis/use-user-alert-change.api";
 import useUserLogoutApi from "../../hooks/use-apis/use-user-logout.api";
 import useModalConfirm from "../../hooks/use-modals/use-modal-confirm.modal";
+import useCartCountQuery from "../../hooks/use-queries/use-cart-count.query";
 import useUserAlertValueQuery from "../../hooks/use-queries/use-user-alert-value.query";
 import useUser from "../../hooks/use-user-hook/use-user.hook";
 
@@ -41,6 +42,7 @@ const PageContents = () => {
   const userLogoutApi = useUserLogoutApi();
   const user = useUser();
   const isLogoutingRef = useRef(false);
+  const cartCountQuery = useCartCountQuery();
 
   const alertValueChange = useCallback((v: boolean) => {
     isAlertChangingRef.current = true;
@@ -101,6 +103,7 @@ const PageContents = () => {
                     userLogoutApi.getInstance().finally(() => {
                       isLogoutingRef.current = false;
                       user.removeAll();
+                      cartCountQuery.refetch();
                       hide(modalItem);
                       router.push('/');
                     });
