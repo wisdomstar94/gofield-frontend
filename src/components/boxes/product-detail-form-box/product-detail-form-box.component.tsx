@@ -94,7 +94,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       return;
     }
 
-    getDetailInfo();
+    // getDetailInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
@@ -126,30 +126,32 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   }, [itemProductOtherListApi, render]);
 
   const getDetailInfo = useCallback(() => {
-    // const itemNumber = router.query._itemNumber?.toString();
-    // if (itemNumber === undefined) {
-    //   return;
-    // }
+    const itemNumber = router.query._itemNumber?.toString();
+    if (itemNumber === undefined) {
+      console.log('? 1');
+      return;
+    }
 
-    // if (isGettingListRef.current) {
-    //   return;
-    // }
+    if (isGettingListRef.current) {
+      console.log('? 2');
+      return;
+    }
 
-    // isGettingListRef.current = true;
-    // itemProductDetailApi.getInstance(itemNumber).then((response) => {
-    //   if (response.data.status !== true) {
-    //     modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
-    //     return;
-    //   }
+    isGettingListRef.current = true;
+    itemProductDetailApi.getInstance(itemNumber).then((response) => {
+      if (response.data.status !== true) {
+        modalAlert.show({ title: '안내', content: '상품 상세 정보를 가져오는데 실패하였습니다.', });
+        return;
+      }
 
-    //   setDetailInfo(response.data.data);
-    //   return response.data.data;
-    // }).then((value) => {
-    //   getProductOtherList(value);
-    // }).finally(() => {
-    //   isGettingListRef.current = false;
-    // });
-  }, []);
+      setDetailInfo(response.data.data);
+      return response.data.data;
+    }).then((value) => {
+      getProductOtherList(value);
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [getProductOtherList, itemProductDetailApi, modalAlert, router.query._itemNumber]);
 
   const shareButtonClick = useCallback(() => {
     let urlNewOrOld = '';
