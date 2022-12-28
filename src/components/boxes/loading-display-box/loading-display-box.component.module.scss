@@ -65,10 +65,31 @@
     position: relative;
     justify-content: center;
     align-items: center;
+    align-content: center;
 
     .center-content {
       font-size: 1.5rem;
       color: #fff;
+
+      .icon-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        // margin-bottom: 12px;
+        position: relative;
+
+        .description-row {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          color: #fff;
+          position: absolute;
+          bottom: 24px;
+          left: 0;
+        }
+      }
+
+      
     }
   }
 }

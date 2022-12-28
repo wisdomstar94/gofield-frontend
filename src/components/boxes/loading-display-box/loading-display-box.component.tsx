@@ -8,6 +8,8 @@ import { deviceTypeAtom } from "../../../atoms/device-type.atom";
 import { globalLoadingDataAtom } from "../../../atoms/global-loading-data.atom";
 import { useRouter } from "next/router";
 import useCheckDebounce from "../../../hooks/use-check-debounce/use-check-debounce.hook";
+import Lottie from 'react-lottie-player';
+import loadingJson from '../../../jsons/dots-loading.json';
 
 const LoadingDisplayBox = forwardRef((props: ILoadingDisplayBox.Props, ref: ForwardedRef<ILoadingDisplayBox.RefObject>) => {
   const router = useRouter();
@@ -57,7 +59,18 @@ const LoadingDisplayBox = forwardRef((props: ILoadingDisplayBox.Props, ref: Forw
         ])}>
         <div className={styles['loading-display-box']}>
           <div className={styles['center-content']}>
-            로딩중입니다...
+            <div className={styles['icon-row']}>
+              {/* lottie json 출저 : https://lottiefiles.com/99680-3-dots-loading */}
+              <Lottie
+                loop
+                animationData={loadingJson}
+                play
+                style={{ width: 200, height: 200 }}
+                />
+              <div className={styles['description-row']}>
+                로딩중입니다.
+              </div>
+            </div>
           </div>
         </div>
       </div>
