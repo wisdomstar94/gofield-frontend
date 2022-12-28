@@ -44,6 +44,7 @@ import 'swiper/css/autoplay';
 import NotResultBox from "../not-result-box/not-result-box.component";
 import Config from "../../../configs/config.export";
 import { copyToClipboard } from "../../../librarys/copy-util/copy-util.library";
+import ProductDetailDescriptionBox from "../product-detail-description-box/product-detail-description-box.component";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -362,7 +363,8 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
           상품 설명
         </div>
       </Article>
-      <ProductDetailImageBox __imageUrl={detailInfo?.thumbnail} />
+      {/* <ProductDetailImageBox __imageUrl={detailInfo?.thumbnail} /> */}
+      <ProductDetailDescriptionBox __description={detailInfo?.description} />
       <MenuRowItem __isEnableTopBorder={true} __onClick={() => { 
         router.push('/qna/' + detailInfo?.id);
        }}>

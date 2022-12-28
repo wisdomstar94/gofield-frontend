@@ -1,0 +1,37 @@
+.product-detail-description-box {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  min-height: 100px;
+
+  &.closed {
+    height: 360px;
+
+    .real-content-box {  
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .detail-info-more-view-button-area { 
+      display: flex;
+    }
+  }
+
+  .real-content-box {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    padding-top: 0;
+  }
+
+  .detail-info-more-view-button-area {
+    width: calc(100% - 48px);
+    display: none;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+  }
+}
