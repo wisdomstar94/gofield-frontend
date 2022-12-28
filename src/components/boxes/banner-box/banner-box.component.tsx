@@ -21,12 +21,12 @@ const BannerBox = (props: IBannerBox.Props) => {
     // console.log('@@swiperChange', { currentIndex, nextCurrentIndex });
   }, []);
 
-  const onItemClick = useCallback((currentIndex: number) => {
-    if (mainBannerListQuery.data === undefined) {
-      return;
-    }
-    window.open(mainBannerListQuery.data[currentIndex].linkUrl);
-  }, [mainBannerListQuery.data]);
+  const onItemClick = useCallback((item: IBanner.BannerItem) => {
+    // if (mainBannerListQuery.data === undefined) {
+    //   return;
+    // }
+    window.open(item.linkUrl);
+  }, []);
 
   return (
     <>
@@ -46,7 +46,7 @@ const BannerBox = (props: IBannerBox.Props) => {
               return (
                 <SwiperSlide 
                   key={index}>
-                  <div className={styles['banner-item']}>
+                  <div className={styles['banner-item']} onClick={e => onItemClick(item)}>
                     <Image
                       priority
                       src={item.thumbnail}
