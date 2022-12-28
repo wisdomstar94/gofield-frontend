@@ -21,7 +21,8 @@ const SignupPage: NextPage = () => {
     <>
       <Head>
         <title>고필드 회원가입</title>
-        <meta name="description" content="고필드 회원가입 페이지 입니다." />
+        {/* <meta name="title" content="고필드 - 회원가입" />
+        <meta name="description" content="고필드 회원가입 페이지 입니다." /> */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

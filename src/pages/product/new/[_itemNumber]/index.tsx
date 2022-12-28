@@ -15,10 +15,11 @@ const ProductNewPage = (props: INextjsPage.ProductDetailPageProps) => {
   return (
     <>
       <Head>
-        <title>고필드 - { props.serverDetailInfo.name }</title>
-        <meta property="og:title" content={`(${props.serverDetailInfo.brandName}) ${props.serverDetailInfo.name}`}></meta>
+        <title>고필드(gofield) - { props.serverDetailInfo.name }</title>
+        <meta property="og:title" content={`고필드(gofield) : (${props.serverDetailInfo.brandName}) ${props.serverDetailInfo.name}`}></meta>
         <meta property="og:image" content={ props.serverDetailInfo.thumbnail }></meta>
-        <meta name="description" content={`고필드 ${props.serverDetailInfo.name} 상세정보 페이지입니다.`} />
+        <meta name="title" content={`고필드(gofield) : (${props.serverDetailInfo.brandName}) ${props.serverDetailInfo.name}`} />
+        <meta name="description" content={`고필드(gofield) ${props.serverDetailInfo.name} 상세정보 페이지입니다.`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

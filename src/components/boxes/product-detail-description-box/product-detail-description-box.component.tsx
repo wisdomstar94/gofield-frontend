@@ -37,7 +37,7 @@ const ProductDetailDescriptionBox = forwardRef((props: IProductDetailDescription
     }
 
     for (let i = 0; i < realContentBoxRef.current.children.length; i++) {
-      const childElement = realContentBoxRef.current.children[0];
+      const childElement = realContentBoxRef.current.children[i];
       if (childElement.children.length > 0) {
         for (let k = 0; k < childElement.children.length; k++) {
           const childElement2 = childElement.children[k];

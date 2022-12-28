@@ -22,8 +22,9 @@ const ProductNewPage = () => {
   return (
     <>
       <Head>
-        <title>고필드 - 중고상품</title>
-        <meta name="description" content="고필드 중고상품 페이지입니다." />
+        <title>고필드(gofield) - 중고상품</title>
+        <meta name="title" content="고필드(gofield) - 중고상품" />
+        <meta name="description" content="고필드(gofield) 중고상품 페이지입니다." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

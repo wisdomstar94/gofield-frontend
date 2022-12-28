@@ -343,19 +343,27 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
         <div className={styles['article-title-row']} ref={productInfoTitleRef}>
           상품 정보
         </div>
-        <List __width="100%" __direction="vertical" __defaultItemMarginBottom="6px">
-          {
-            detailInfo?.option.filter(x => x.value !== '').map((item) => {
-              return (
-                <ListItem key={item.key}>
-                  <TitleAndContentRowItem
-                    __title={<>{ item.key }</>}
-                    __content={<>{ item.value }</>} />
-                </ListItem>      
-              )
-            })
-          }
-        </List>
+        {
+          Array.isArray(detailInfo?.option) ? 
+          <List __width="100%" __direction="vertical" __defaultItemMarginBottom="6px">
+            {
+              detailInfo?.option?.filter(x => x.value !== '').map((item) => {
+                return (
+                  <ListItem key={item.key}>
+                    <TitleAndContentRowItem
+                      __title={<>{ item.key }</>}
+                      __content={<>{ item.value }</>} />
+                  </ListItem>      
+                )
+              })
+            }
+          </List> : 
+          <>
+            <NotResultBox __isNoPadding={true}>
+              상품 정보가 없습니다.
+            </NotResultBox>
+          </>
+        }
       </Article>
       <div className={styles['deco-line']}></div>
       <Article>
