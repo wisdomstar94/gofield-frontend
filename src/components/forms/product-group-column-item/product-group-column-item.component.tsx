@@ -96,10 +96,17 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
     <>
       <div className={styles['container']} style={props.__style}>
         <div className={styles['image-area']}>
+          {/* blur 이미지 출저 : https://lottiefiles.com/99297-loading-files */}
           <Image
             onClick={itemClick}
-            src={imageUrl ?? 'https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__480.jpg'}
-            alt="로고 이미지" title="로고 이미지" layout="fill" objectFit="cover" />
+            src={imageUrl ?? '/images/loading-files.gif'}
+            alt="로고 이미지" 
+            title="로고 이미지" 
+            layout="fill" 
+            objectFit="cover"
+            placeholder="blur"
+            blurDataURL="/images/loading-files.gif"
+            />
           {
             isHeartLayout === true ? 
             <div className={styles['icon-area']} onClick={heartIconClick}>
