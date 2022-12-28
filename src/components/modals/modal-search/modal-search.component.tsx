@@ -4,6 +4,7 @@ import useSearchRecommendKeywordListApi from '../../../hooks/use-apis/use-search
 import useRecentKeywordListQuery from '../../../hooks/use-queries/use-recent-keyword-list.query';
 import useSearchRecommendKeywordListQuery from '../../../hooks/use-queries/use-search-recommend-keyword-list.query';
 import useRecentKeyword from '../../../hooks/use-recent-keyword/use-recent-keyword.hook';
+import useUser from '../../../hooks/use-user-hook/use-user.hook';
 import { ISearch } from '../../../interfaces/search/search.interface';
 import { getClasses } from '../../../librarys/string-util/string-util.library';
 import HashTagItem from '../../boxes/hash-tag-item/hash-tag-item.component';
@@ -21,6 +22,7 @@ import { IModalSearch } from "./modal-search.interface";
 
 const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IModalSearch.RefObject>) => {
   const router = useRouter();
+  const user = useUser();
   const recentKeyword = useRecentKeyword();
   const recentKeywordListQuery = useRecentKeywordListQuery();
   const modalRef = useRef<IModal.RefObject>(null);
@@ -55,9 +57,11 @@ const ModalSearch = forwardRef((props: IModalSearch.Props, ref: ForwardedRef<IMo
   }, []);
 
   const searchButtonClick = useCallback(() => {
-    recentKeyword.addKeyword(searchValue);
+    if (!user.isLogined()) {
+      recentKeyword.addKeyword(searchValue);
+    }
     router.push('/products?page=1&size=20&keyword=' + searchValue);
-  }, [recentKeyword, router, searchValue]);
+  }, [recentKeyword, router, searchValue, user]);
 
   const hashTagItemClick = useCallback((item: ISearch.KeywordItem) => {
     router.push('/products?page=1&size=20&keyword=' + item.keyword);
