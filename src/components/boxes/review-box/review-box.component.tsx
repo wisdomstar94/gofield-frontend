@@ -4,6 +4,7 @@ import useItemBundleProductReviewListApi from "../../../hooks/use-apis/use-item-
 import { IReview } from "../../../interfaces/review/review.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
 import List, { ListItem } from "../../layouts/list/list.component";
+import NotResultBox from "../not-result-box/not-result-box.component";
 import PaginationBox from "../pagination-box/pagination-box.component";
 import { IPaginationBox } from "../pagination-box/pagination-box.interface";
 import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
@@ -81,39 +82,41 @@ const ReviewBox = (props: IReviewBox.Props) => {
 
   return (
     <>
-      {
-        listOptions.list.length > 0 ? 
-        <>
-          <List __width="100%" __defaultItemJustifyContent="center">
-            <ListItem __marginBottom="12px">
-              <ReviewRatingStars __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
-            </ListItem>
-            <ListItem __marginBottom="2px">
-              <span className={styles['review-number-info-text']}>{ props.__productGroupDetailInfo?.reviewScore } / 5</span>
-            </ListItem>
-            <ListItem>
-              <span className={styles['review-count-text']}>리뷰 { props.__productGroupDetailInfo?.reviewCount }개</span>
-            </ListItem>
-          </List>
-          {
-            listOptions.list.map((item, index) => {
-              return (
-                <ReviewRowItem key={index} __style={{ marginBottom: '24px' }} __item={item} />
-              );
-            })
-          }
-          <div className="w-full flex flex-wrap justify-center">
-            <PaginationBox 
-              ref={paginationBoxRef}
-              __onPageClick={onPageClick} />
-          </div>  
-        </> :
-        <>
-          <div className={styles['empty-review-notice-row']}>
-            등록된 리뷰가 없습니다.
-          </div>
-        </>
-      }
+      <div style={{ 
+        display: listOptions.list.length === 0 ? 'none' : undefined,
+      }}>
+        <List __width="100%" __defaultItemJustifyContent="center">
+          <ListItem __marginBottom="12px">
+            <ReviewRatingStars __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
+          </ListItem>
+          <ListItem __marginBottom="2px">
+            <span className={styles['review-number-info-text']}>{ props.__productGroupDetailInfo?.reviewScore } / 5</span>
+          </ListItem>
+          <ListItem>
+            <span className={styles['review-count-text']}>리뷰 { props.__productGroupDetailInfo?.reviewCount }개</span>
+          </ListItem>
+        </List>
+        {
+          listOptions.list.map((item, index) => {
+            return (
+              <ReviewRowItem key={index} __style={{ marginBottom: '24px' }} __item={item} />
+            );
+          })
+        }
+        <div className="w-full flex flex-wrap justify-center">
+          <PaginationBox 
+            ref={paginationBoxRef}
+            __onPageClick={onPageClick} />
+        </div>  
+      </div>
+
+      <div style={{
+        display: listOptions.list.length > 0 ? 'none' : undefined,
+      }}>
+        <NotResultBox>
+          등록된 리뷰가 없습니다.
+        </NotResultBox>
+      </div>
     </>
   );
 };
