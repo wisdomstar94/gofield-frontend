@@ -18,6 +18,8 @@ export declare namespace IModalDefault {
     contentComponent: React.ReactNode;
     negativeButtonState: ButtonState;
     positiveButtonState: ButtonState;
+    negativeButtonText?: string;
+    positiveButtonText?: string;
     onNegativeButtonClick?: (hide: HideFunction, modalItem: ModalItem) => void;
     onPositiveButtonClick?: (hide: HideFunction, modalItem: ModalItem) => void;
     modalState?: ModalState; 

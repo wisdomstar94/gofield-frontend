@@ -128,7 +128,7 @@ const ModalDefault = forwardRef((props: IModalDefault.Props, ref: ForwardedRef<I
                         className={[
                           styles['modal-button'], styles['total-count-' + getTotalButtonCount(modalItem)], styles['negative-button']
                         ].join(' ')} onClick={e => modalItemNegativeButtonClick(modalItem)}>
-                        취소
+                        { modalItem.negativeButtonText ?? '취소' }
                       </button>
                       : ''
                     }
@@ -139,7 +139,7 @@ const ModalDefault = forwardRef((props: IModalDefault.Props, ref: ForwardedRef<I
                         className={[
                           styles['modal-button'], styles['total-count-' + getTotalButtonCount(modalItem)], styles['positive-button']
                         ].join(' ')} onClick={e => modalItemPositiveButtonClick(modalItem)}>
-                        확인
+                        { modalItem.positiveButtonText ?? '확인' }
                       </button>
                       : ''
                     }  

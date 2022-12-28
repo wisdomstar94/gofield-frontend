@@ -20,6 +20,8 @@ const useModalConfirm = () => {
       },
       negativeButtonState: 'show',
       positiveButtonState: 'show',
+      negativeButtonText: params.negativeButtonText,
+      positiveButtonText: params.positiveButtonText,
       contentComponent: <><div className="w-full block box-sizing px-6">{ params.content }</div></>,
       onNegativeButtonClick(hide, modalItem) {
         if (typeof params.negativeCallback === 'function') {

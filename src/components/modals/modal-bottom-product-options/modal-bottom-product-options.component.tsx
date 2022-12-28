@@ -19,10 +19,12 @@ import useProductOrder from "../../../hooks/use-product-order/use-product-order.
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { IModalSignupNotice } from "../modal-signup-notice/modal-signup-notice.interface";
 import ModalSignupNotice from "../modal-signup-notice/modal-signup-notice.component";
+import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 
 const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.Props, ref: ForwardedRef<IModalBottomProductOptions.RefObject>) => {
   const router = useRouter();
   const modalAlert = useModalAlert();
+  const modalConfirm = useModalConfirm();
   const productOrder = useProductOrder();
   const [modalState, setModalState] = useState<IModalBottom.ModalState>(props.__modalState ?? '');
   const itemProductOptionListApi = useItemProductOptionListApi();
@@ -168,13 +170,22 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
         return;
       }
 
-      modalAlert.show({ title: '안내', content: '장바구니에 상품이 담겼습니다.' });
+      modalConfirm.show({ 
+        title: '안내', 
+        content: '장바구니에 상품이 담겼습니다. 장바구니 페이지로 이동하시겠습니까?', 
+        negativeButtonText: '아니오',
+        positiveButtonText: '예',
+        positiveCallback(hide, modalItem) {
+          router.push('/basket');
+          hide(modalItem);
+        },
+      });
       cartCountQuery.refetch();
       clear();
     }).finally(() => {
       isCartContainingRef.current = false;
     });
-  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert, user]);
+  }, [cartContainApi, cartCountQuery, clear, getTargetItemNumber, modalAlert, modalConfirm, router, user]);
 
   const getTotalPrice = useCallback(() => {
     if (detailInfo?.price === undefined) {
