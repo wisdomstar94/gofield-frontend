@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Config from "../../configs/config.export";
 import { ILogin } from "../../interfaces/login/login.interface";
 import { getJwtPayload, getJwtStatus } from "../../librarys/jwt-util/jwt-util.library";
@@ -67,7 +67,8 @@ const useUser = () => {
   }
 
   function removeAccessToken(): void {
-    localStorage.removeItem(ACCESS_TOKEN);
+    // localStorage.removeItem(ACCESS_TOKEN);
+    deleteCookie('access_token');
   }
 
 
@@ -98,7 +99,8 @@ const useUser = () => {
   }
 
   function removeRefreshToken(): void {
-    localStorage.removeItem(REFRESH_TOKEN);
+    // localStorage.removeItem(REFRESH_TOKEN);
+    deleteCookie('refresh_token');
   }
 
   return {
