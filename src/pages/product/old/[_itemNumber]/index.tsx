@@ -49,17 +49,25 @@ const PageContents = (props: INextjsPage.ProductDetailPageProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const itemNumber = context.query._itemNumber; 
 
-  const res = await getAxiosInstance<IResponse.CommonResponse<IItem.ItemDetailInfoApiData>>({
-    method: 'get',
-    url: Config().api.item._ + '/' + itemNumber,
-    isAuth: true,
-    context,
-  });
+  try {
+    const res = await getAxiosInstance<IResponse.CommonResponse<IItem.ItemDetailInfoApiData>>({
+      method: 'get',
+      url: Config().api.item._ + '/' + itemNumber,
+      isAuth: true,
+      context,
+    });
 
-  return {
-    props: {
-      serverDetailInfo: res.data.data,
-    },
+    return {
+      props: {
+        serverDetailInfo: res.data.data,
+      },
+    };
+  } catch(error) {
+    return {
+      props: {
+        serverDetailInfo: undefined,
+      },
+    };
   }
 }
 
