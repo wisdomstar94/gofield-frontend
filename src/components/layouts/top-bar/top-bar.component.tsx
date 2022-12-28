@@ -7,6 +7,7 @@ import { getClasses } from '../../../librarys/string-util/string-util.library';
 import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
 import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
 import SvgBackIcon from '../../svgs/svg-back-icon/svg-back-icon.component';
+import SvgBottomMenuHomeIcon from '../../svgs/svg-bottom-menu-home-icon/svg-bottom-menu-home-icon.component';
 import SvgMagnifyingGlassIcon from '../../svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component';
 import SvgShoppingCartIcon from '../../svgs/svg-shopping-cart-icon/svg-shopping-cart-icon.component';
 import styles from './top-bar.component.module.scss';
@@ -33,15 +34,15 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
       return;
     }
 
-    if (document.referrer) {
-      history.back();
-    } else {
-      router.push('/');
-    }
+    router.back();
   }, [props, router]);
 
   const searchIconClick = useCallback(() => {
     router.push('/search');
+  }, [router]);
+
+  const homeIconClick = useCallback(() => {
+    router.push('/');
   }, [router]);
 
   const basketIconClick = useCallback(() => {
@@ -99,6 +100,9 @@ const Topbar = forwardRef((props: ITopbar.Props, ref: ForwardedRef<ITopbar.RefOb
                   props.__layoutTypeB.rightComponent !== undefined ? 
                   props.__layoutTypeB.rightComponent : 
                   <>
+                    <div className={getClasses([styles['button-item']])} onClick={homeIconClick}>
+                      <SvgBottomMenuHomeIcon __color='#374553' />
+                    </div> 
                     <div className={styles['button-item']} onClick={basketIconClick}>
                       <SvgShoppingCartIcon />
                       {
