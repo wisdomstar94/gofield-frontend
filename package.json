@@ -60,6 +60,7 @@
     "react-query": "^3.39.2",
     "recoil": "^0.7.6",
     "sass": "^1.55.0",
+    "swiper": "^8.4.5",
     "ua-parser-js": "^1.0.32"
   },
   "devDependencies": {
