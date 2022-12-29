@@ -8,6 +8,7 @@ import ProductGroupColumnItem from "../../components/forms/product-group-column-
 import Article from "../../components/layouts/article/article.component";
 import BothSidebox from "../../components/layouts/both-side-box/both-side-box.component";
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
+import EmptyRow from "../../components/layouts/empty-row/empty-row.component";
 import GridList from "../../components/layouts/grid-list/grid-list.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
@@ -99,7 +100,7 @@ const PageContents = () => {
 
     if (info.isLastScrollArea) {
       searchOptionsRef.current.page = (Number(searchOptionsRef.current.page) + 1).toString();
-      getList()
+      getList();
     }
   }, [getList]);
 
@@ -146,6 +147,7 @@ const PageContents = () => {
             }
           </GridList>
         </Article>
+        <EmptyRow __style={{ height: '40px' }} />
         <BottomMenuBar __activeMenuId="likes" />
       </WindowSizeContainer>
     </>
