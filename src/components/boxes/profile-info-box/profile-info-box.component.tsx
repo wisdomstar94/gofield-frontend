@@ -19,8 +19,11 @@ const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
                 src={userProfileQuery.data?.thumbnail}
                 alt="프로필 이미지"
                 title="프로필 이미지"
-                layout="fill"
-                objectFit="contain" />
+                fill={true}
+                sizes="100%"
+                style={{
+                  objectFit: 'contain',
+                }} />
               : <></>
             }
           </div>

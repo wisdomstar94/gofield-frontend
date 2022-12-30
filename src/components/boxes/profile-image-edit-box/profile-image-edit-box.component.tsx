@@ -34,9 +34,12 @@ const ProfileImageEditBox = (props: IProfileImageEditBox.Props) => {
                 src={imageUrl}
                 alt="프로필 이미지"
                 title="프로필 이미지"
-                layout="fill"
+                fill={true}
+                sizes="100%"
                 draggable={false}
-                objectFit="cover" /> : <></>
+                style={{
+                  objectFit: 'cover',
+                }} /> : <></>
             }
           </div>
           <div className={styles['edit-icon-box']} onClick={imageChangeButtonClick}>

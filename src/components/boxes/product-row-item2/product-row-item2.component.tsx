@@ -41,8 +41,11 @@ const ProductRowItem2 = (props: IProductRowItem2.Props) => {
               src={imageUrl}
               alt="상품 이미지"
               title="상품 이미지"
-              layout="fill"
-              objectFit="cover" />
+              fill={true}
+              sizes="100%"
+              style={{
+                objectFit: 'cover',
+              }} />
             : undefined
           }
         </div>

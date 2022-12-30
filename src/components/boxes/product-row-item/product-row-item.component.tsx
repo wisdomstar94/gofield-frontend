@@ -27,8 +27,11 @@ const ProductRowItem = (props: IProductRowItem.Props) => {
               src="https://cdn.pixabay.com/photo/2012/04/13/00/37/golf-31340__480.png"
               alt="상품 이미지"
               title="상품 이미지"
-              layout="fill"
-              objectFit="contain" />
+              fill={true}
+              sizes="100%"
+              style={{
+                objectFit: 'contain',
+              }} />
           </div>
           <div className={[
               styles['common-area'], styles['right-area']

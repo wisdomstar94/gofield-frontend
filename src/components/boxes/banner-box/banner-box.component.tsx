@@ -52,9 +52,12 @@ const BannerBox = (props: IBannerBox.Props) => {
                       src={item.thumbnail}
                       alt={item.description}
                       title={item.title}
-                      layout="fill"
+                      fill={true}
+                      sizes="100%"
                       draggable={false}
-                      objectFit="cover" />
+                      style={{
+                        objectFit: 'cover',
+                      }} />
                   </div>
                 </SwiperSlide>
               );

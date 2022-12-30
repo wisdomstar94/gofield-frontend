@@ -103,9 +103,12 @@ const PageContents = () => {
                           src={item}
                           alt={'상품 이미지'}
                           title={'상품 이미지'}
-                          layout="fill"
+                          fill={true}
+                          sizes="100%"
                           draggable={false}
-                          objectFit="cover" />
+                          style={{
+                            objectFit: 'cover',
+                          }} />
                       </div>
                     </SwiperSlide>
                   );

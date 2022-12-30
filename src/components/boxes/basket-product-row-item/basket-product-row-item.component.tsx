@@ -117,8 +117,11 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
                     src={item?.thumbnail}
                     alt="상품 상세정보 이미지"
                     title="상품 상세정보 이미지"
-                    layout="fill"
-                    objectFit="cover"
+                    fill={true}
+                    sizes="100%"
+                    style={{
+                      objectFit: 'cover',
+                    }}
                     objectPosition="top" />
                   : <></>
                 }

@@ -82,8 +82,11 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
             src={imageUrl ?? '/images/loading-files.gif'}
             alt="로고 이미지" 
             title="로고 이미지" 
-            layout="fill" 
-            objectFit="contain"
+            fill={true}
+            sizes="100%"
+            style={{
+              objectFit: 'contain',
+            }}
             placeholder="blur"
             blurDataURL="/images/loading-files.gif"
             onClick={itemClick} />

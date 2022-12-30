@@ -98,8 +98,11 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
               src={item.value2 ?? ''}
               alt="카테고리 아이콘 이미지"
               title="카테고리 아이콘 이미지"
-              layout="fill"
-              objectFit="contain" />
+              fill={true}
+              sizes="24px"
+              style={{
+                objectFit: 'contain',
+              }} />
           </>,
           link: '/productGroups/' + item.value,
         };

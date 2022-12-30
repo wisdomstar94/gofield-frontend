@@ -102,8 +102,11 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
             src={imageUrl ?? '/images/loading-files.gif'}
             alt="로고 이미지" 
             title="로고 이미지" 
-            layout="fill" 
-            objectFit="cover"
+            fill={true}
+            sizes="100%"
+            style={{
+              objectFit: 'cover',
+            }}
             placeholder="blur"
             blurDataURL="/images/loading-files.gif"
             />

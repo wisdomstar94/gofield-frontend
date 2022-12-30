@@ -111,8 +111,11 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
                       src={item.fileUrl ?? ''}
                       alt="로고 이미지"
                       title="로고 이미지"
-                      layout="fill"
-                      objectFit="cover" />
+                      fill={true}
+                      sizes="100%"
+                      style={{
+                        objectFit: 'cover',
+                      }} />
                   </div>
                 </div>
               )

@@ -30,8 +30,11 @@ const ReviewHistoryItem = forwardRef((props: IReviewHistoryItem.Props, ref: Forw
                 src={item?.thumbnail ?? ''}
                 alt="상품 이미지"
                 title="상품 이미지"
-                layout="fill"
-                objectFit="cover" />
+                fill={true}
+                sizes="100%"
+                style={{
+                  objectFit: 'cover',
+                }} />
             </div>
           </div>
           <div className={styles['right-area']}>
