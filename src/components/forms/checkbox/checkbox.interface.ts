@@ -14,6 +14,7 @@ export declare namespace ICheckbox {
     __name: string;
     __value: string;
     __checkMode?: CheckMode; // default 는 multiple
+    __isImpossibleUncheck?: boolean;
     __checkState: CheckState;
     __onChange: (changeInfo: CheckboxChangeInfo) => void;
 

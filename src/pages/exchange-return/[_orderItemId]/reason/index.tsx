@@ -59,8 +59,14 @@ const PageContents = () => {
   }, [router.isReady]);
 
   const exchangeReturnReasonCheckboxChanged = useCallback((checkboxChangeInfo: ICheckbox.CheckboxChangeInfo) => {
-    setReasonList([checkboxChangeInfo.value]);
+    setReasonList(prev => {
+      return [checkboxChangeInfo.value];
+    });
   }, []);
+
+  // useEffect(() => {
+  //   console.log('.. reasonList', reasonList);
+  // }, [reasonList]);
 
   const nextStepButtonClick = useCallback(() => {
     if (reasonList.length === 0) {
@@ -105,6 +111,7 @@ const PageContents = () => {
                   <ListItem key={index}>
                     <Checkbox
                       __checkMode="single" 
+                      __isImpossibleUncheck={true}
                       __name="exchange-return-reason-checkbox" 
                       __value={item.value} 
                       __checkState={reasonList.length !== 0 && reasonList.includes(item.value) ? 'checked' : 'none-checked'}

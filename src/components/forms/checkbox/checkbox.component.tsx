@@ -9,8 +9,10 @@ const Checkbox = (props: ICheckbox.Props) => {
   // const [checkMode, setCheckMode] = useState<ICheckbox.CheckMode>(props.__checkMode ?? 'multiple');
   
   const [checkState, setCheckState] = useState<ICheckbox.CheckState>(props.__checkState ?? 'none-checked');
-  useEffect(() => { setCheckState(props.__checkState) }, [props.__checkState]);
+  useEffect(() => { console.log('props.__checkState', props.__checkState); setCheckState(props.__checkState) }, [props.__checkState]);
 
+  const [isImpossibleUncheck, setIsImpossibleUncheck] = useState(props.__isImpossibleUncheck);
+  useEffect(() => { setIsImpossibleUncheck(props.__isImpossibleUncheck) }, [props.__isImpossibleUncheck]);
   // const [checkboxChangeInfo, setCheckboxChangeInfo] = useRecoilState(checkboxChangeInfoAtom);
 
   // useEffect(() => {
@@ -32,6 +34,9 @@ const Checkbox = (props: ICheckbox.Props) => {
   const checkboxItemClick = useCallback(() => {
     let newCheckState: ICheckbox.CheckState = 'checked';
     if (checkState === 'checked') {
+      if (isImpossibleUncheck === true) {
+        return;
+      }
       newCheckState = 'none-checked';
     }
     setCheckState(newCheckState);
@@ -45,7 +50,7 @@ const Checkbox = (props: ICheckbox.Props) => {
     if (typeof props.__onChange === 'function') {
       props.__onChange(changeInfo);
     }
-  }, [checkState, props]);
+  }, [checkState, isImpossibleUncheck, props]);
 
   return (
     <>

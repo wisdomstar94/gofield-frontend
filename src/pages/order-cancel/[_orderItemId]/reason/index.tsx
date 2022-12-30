@@ -86,7 +86,12 @@ const PageContents = () => {
               return (
                 <li key={index} className="flex m-0 p-0 list-none items-center mb-6">
                   <div className="inline-flex mr-2.5">
-                    <Checkbox __name="cancel-reason" __value={item.value} __checkState={item.value === selectedCancelReason ? 'checked' : 'none-checked'} __onChange={cancelReasonCheckboxChange}>
+                    <Checkbox 
+                      __name="cancel-reason" 
+                      __isImpossibleUncheck={true}
+                      __value={item.value} 
+                      __checkState={item.value === selectedCancelReason ? 'checked' : 'none-checked'} 
+                      __onChange={cancelReasonCheckboxChange}>
                       <div className="inline-flex flex-wrap text-sm font-normal text-black-b">
                         { item.text }
                       </div>
