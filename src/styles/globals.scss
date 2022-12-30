@@ -43,13 +43,13 @@ a {
 .next-image-wrapper {
   width: 100%;
   
-	& > span {
-		position: unset !important;
-		img {
-			height: auto !important;
-			position: relative !important;
-    }
-	}
+	// & > span {
+	// 	position: unset !important;
+  img {
+    height: auto !important;
+    position: relative !important;
+  }
+	// }
 }
 
 table.table-style-a {
