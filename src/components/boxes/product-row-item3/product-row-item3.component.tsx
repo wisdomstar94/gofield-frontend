@@ -264,7 +264,7 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                     {
                       item.buttonType === 'order-delivery-cancel' ? 
                       <Button __buttonStyle="white-solid-gray-stroke-radius" __style={{ padding: '8px 10px' }} __onClick={orderDeliveryCancelButtonClick}>
-                        <span className="text-sm font-bold">주문/베송 취소</span>
+                        <span className="text-sm font-bold">주문/배송 취소</span>
                       </Button> : undefined
                     }
                   </div>    
