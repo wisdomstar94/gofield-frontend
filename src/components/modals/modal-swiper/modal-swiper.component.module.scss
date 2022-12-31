@@ -21,6 +21,7 @@
   .center-content-box {
     width: calc(100% - 24px);
     position: relative;
+    // overflow: hidden;
     // background-color: rgba(0, 0, 0, 0.4);
 
     .slide-item {
@@ -29,6 +30,18 @@
       aspect-ratio: 1;
       display: block;
       position: relative;
+      box-sizing: border-box;
+      text-align: center;
+      // overflow: hidden;
+
+      .inner-box {
+        display: block;
+        height: 100%;
+        margin: 0 1px;
+        padding: 0;
+        position: relative;
+      }
+      // padding: 0 1px;
     }
   }
 }

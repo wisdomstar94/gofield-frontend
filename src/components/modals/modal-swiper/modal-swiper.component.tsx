@@ -2,7 +2,7 @@ import styles from "./modal-swiper.component.module.scss";
 import { IModalSwiper } from "./modal-swiper.interface";
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import ModalV2 from "../../forms/modal-v2/modal-v2.component";
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper';
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay, SwiperOptions } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,6 +12,8 @@ import 'swiper/css/autoplay';
 import SvgCloseIcon from "../../svgs/svg-close-icon/svg-close-icon.component";
 
 const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IModalSwiper.RefObject>) => {
+  const [swiper, setSwiper] = useState<any>(null);
+
   const [modalState, setModalState] = useState(props.__modalState ?? '');
   useEffect(() => { setModalState(props.__modalState ?? '') }, [props.__modalState]);
 
@@ -19,6 +21,12 @@ const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IMo
 
   const [swiperItems, setSwiperItems] = useState(props.__swiperItems);
   useEffect(() => { setSwiperItems(props.__swiperItems) }, [props.__swiperItems]);
+  useEffect(() => {
+    if (swiperItems?.length ?? 0 > 0) {
+      swiper.slideTo(activeIndexRef.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [swiperItems]);
 
   useImperativeHandle(ref, () => ({
     // 부모 컴포넌트에서 사용할 함수를 선언
@@ -57,9 +65,9 @@ const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IMo
               navigation
               pagination={{ clickable: true }}
               onSlideChange={() => console.log('slide change')}
-              onSwiper={(swiper) => console.log(swiper)}
+              onSwiper={(swiper) => setSwiper(swiper)}
               modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-              autoplay={{ delay: 3000 }}
+              autoplay={{ delay: 3000 }} 
             >
               {
                 swiperItems?.map((item, index) => {
@@ -67,7 +75,9 @@ const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IMo
                     <SwiperSlide 
                       key={index}>
                       <div className={styles['slide-item']}>
-                        { item.reactNode } ...
+                        <div className={styles['inner-box']}>
+                          { item.reactNode }
+                        </div>
                       </div>
                     </SwiperSlide>
                   );
