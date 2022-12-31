@@ -4,17 +4,24 @@ import { axiosGloballErrorAtom, axiosGlobalResponseAtom } from "../atoms/axios.a
 import { deviceTypeAtom } from "../atoms/device-type.atom";
 import { globalModalDefaultModalItemAtom } from "../atoms/global-modal-default.atom";
 import LoadingDisplayBox from "../components/boxes/loading-display-box/loading-display-box.component";
+import ModalV2 from "../components/forms/modal-v2/modal-v2.component";
 import ModalDefault from "../components/modals/modal-default/modal-default.component";
 import { IModalDefault } from "../components/modals/modal-default/modal-default.interface";
+import ModalSwiper from "../components/modals/modal-swiper/modal-swiper.component";
+import { IModalSwiper } from "../components/modals/modal-swiper/modal-swiper.interface";
 import { getDeviceInfo } from "../librarys/client-util/client-util.library";
+import Image from 'next/image';
+import { globalModalSwiperAtom } from "../atoms/global-modal-swiper.atom";
 
 const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
   const [axiosGloballError, setAxiosGloballError] = useRecoilState(axiosGloballErrorAtom);
   const [axiosGloballResponse, setAxiosGloballResponse] = useRecoilState(axiosGlobalResponseAtom);
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
+  const [globalModalSwiper, setGlobalModalSwiper] = useRecoilState(globalModalSwiperAtom);
   const [deviceType, setDeviceType] = useRecoilState(deviceTypeAtom);
 
   const modalDefaultComponentRef = useRef<IModalDefault.RefObject>(null);
+  const modalSwiperRef = useRef<IModalSwiper.RefObject>(null);
 
   const notShowErrorCode = useRef(new Set(['F4300']));
 
@@ -91,13 +98,21 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    modalSwiperRef.current?.setSwiperInfo(globalModalSwiper.swiperItems, globalModalSwiper.activeIndex);
+    if (globalModalSwiper.swiperItems.length > 0) {
+      modalSwiperRef.current?.show();
+    }
+  }, [globalModalSwiper]);
+
   return (
     <>
       {props.children}
       <ModalDefault
         ref={modalDefaultComponentRef} />
-      <LoadingDisplayBox
-         />
+      <LoadingDisplayBox />
+      <ModalSwiper 
+        ref={modalSwiperRef} />
     </>
   );
 };

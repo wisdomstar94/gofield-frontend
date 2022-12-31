@@ -1,0 +1,147 @@
+.container {
+  width: 0;
+  height: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: -999999px;
+  left: -999999px;
+  overflow: hidden;
+  // background-color: #f7f8f9;
+  box-sizing: border-box;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  &.hide {
+    &.pc {
+      animation-name: displayHidePc;
+    }
+
+    &.mobile {
+      animation-name: displayHideMobile;
+    }
+  }
+
+  &.show {
+    &.pc {
+      animation-name: displayShowPc;
+    }
+
+    &.mobile {
+      animation-name: displayShowMobile;
+    }
+  }
+}
+
+
+@keyframes displayShowPc {
+  0% {
+    width: $globalMobileWidth;
+    height: 100%;
+    left: $globalMobileLeft;
+    opacity: 0;
+    top: 0;
+    left: $globalMobileLeft;
+  }
+  1% {
+    width: $globalMobileWidth;
+    height: 100%;
+    left: $globalMobileLeft;
+    opacity: 0;
+    top: 0;
+    left: $globalMobileLeft;
+  }
+  100% {
+    width: $globalMobileWidth;
+    height: 100%;
+    left: $globalMobileLeft;
+    opacity: 1;
+    top: 0;
+    left: $globalMobileLeft;
+  }
+}
+
+@keyframes displayHidePc {
+  0% {
+    width: $globalMobileWidth;
+    height: 100%;
+    left: $globalMobileLeft;
+    opacity: 1;
+    top: 0;
+    left: $globalMobileLeft;
+  }
+  99% {
+    width: $globalMobileWidth;
+    height: 100%;
+    left: $globalMobileLeft;
+    opacity: 0;
+    top: 0;
+    left: $globalMobileLeft;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    left: $globalMobileLeft;
+    opacity: 0; 
+    top: -999999px;
+    left: -999999px;
+  }
+}
+
+
+
+
+
+
+@keyframes displayShowMobile {
+  0% {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+  }
+  1% {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes displayHideMobile {
+  0% {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 1;
+  }
+  99% {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    left: 0;
+    opacity: 0; 
+  }
+}

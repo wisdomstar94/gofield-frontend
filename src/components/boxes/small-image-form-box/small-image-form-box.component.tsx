@@ -9,9 +9,12 @@ import InputFileHidden from "../input-file-hidden/input-file-hidden.component";
 import { IInputFileHidden } from "../input-file-hidden/input-file-hidden.interface";
 import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
+import { useRecoilState } from "recoil";
+import { globalModalSwiperAtom } from "../../../atoms/global-modal-swiper.atom";
 
 const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: ForwardedRef<ISmallImageFormBox.RefObject>) => {
   const inputFileHiddenRef = useRef<IInputFileHidden.RefObject>(null);
+  const [globalModalSwiper, setGlobalModalSwiper] = useRecoilState(globalModalSwiperAtom);
   
   const [imageItems, setImageItems] = useState(props.__imageItems);
   useEffect(() => { setImageItems(props.__imageItems) }, [props.__imageItems]);
@@ -77,6 +80,27 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
     });
   }, [props]);
 
+  const imageClick = useCallback((targetIndex: number) => {
+    setGlobalModalSwiper({
+      swiperItems: imageItems?.map((item) => ({
+        reactNode: <>
+          <Image
+            priority
+            src={item.fileUrl ?? ''}
+            alt={'이미지'}
+            title={'이미지'}
+            fill={true}
+            sizes="100%"
+            draggable={false}
+            style={{
+              objectFit: 'contain',
+            }} />
+        </>,
+      })) ?? [],
+      activeIndex: targetIndex,
+    });
+  }, [imageItems, setGlobalModalSwiper]);
+
   return (
     <>
       <div className={styles['small-image-form-box']}>
@@ -106,11 +130,11 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
                     </div> : 
                     <></>
                   } 
-                  <div className={styles['image-box']}>
+                  <div className={styles['image-box']} onClick={e => imageClick(index)}>
                     <Image
                       src={item.fileUrl ?? ''}
-                      alt="로고 이미지"
-                      title="로고 이미지"
+                      alt="이미지"
+                      title="이미지"
                       fill={true}
                       sizes="100%"
                       style={{
