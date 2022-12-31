@@ -24,15 +24,15 @@ const RefundAccountFormBox = forwardRef((props: IRefundAccountFormBox.Props, ref
       return;
     }
 
-    userRefundAccountApi.getInstance().then((response) => {
-      detailInfoRef.current = {
-        accountHolderName: response.data.data.bankHolderName ?? '',
-        accountNumber: response.data.data.bankAccountNumber ?? '',
-        bankValueItem: codeBankListQuery.data?.find(x => x.value === response.data.data.bankCode),
-        privacyTermAgree: false,
-      };
-      setTimestamp(new Date().getTime());
-    });
+    // userRefundAccountApi.getInstance().then((response) => {
+    //   detailInfoRef.current = {
+    //     accountHolderName: response.data.data.bankHolderName ?? '',
+    //     accountNumber: response.data.data.bankAccountNumber ?? '',
+    //     bankValueItem: codeBankListQuery.data?.find(x => x.value === response.data.data.bankCode),
+    //     privacyTermAgree: false,
+    //   };
+    //   setTimestamp(new Date().getTime());
+    // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeBankListQuery.isFetched]);
 

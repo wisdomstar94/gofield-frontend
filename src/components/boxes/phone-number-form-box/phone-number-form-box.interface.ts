@@ -8,7 +8,7 @@ export declare namespace IPhoneNumberFormBox {
 
   export interface Props {
     __detailInfo?: IUser.PhoneNumberChangeDetailInfo;
-
+    __onTelAuthPassed?: () => void;
     children?: React.ReactNode;
   }
 }

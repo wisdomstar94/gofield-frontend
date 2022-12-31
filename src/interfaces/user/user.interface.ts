@@ -25,4 +25,16 @@ export declare namespace IUser {
   export interface AlertValueApiData {
     isAlertPromotion: boolean;
   }
+
+  export interface AccountInfo {
+    bankAccountNumber: string;
+    bankCode: string;
+    bankHolderName: string;
+    bankName: string;
+    id: number;
+  }
+
+  export interface TelInfo {
+    tel: string;
+  }
 }

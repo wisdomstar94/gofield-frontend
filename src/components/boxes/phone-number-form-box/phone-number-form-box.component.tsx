@@ -114,12 +114,15 @@ const PhoneNumberFormBox = forwardRef((props: IPhoneNumberFormBox.Props, ref: Fo
         return;
       }
 
-      modalAlert.show({ title: '안내', content: '인증이 완료되었습니다.' });
+      modalAlert.show({ title: '안내', content: '인증이 완료되어 해당 휴대폰번호가 등록되었습니다.' });
+      if (typeof props.__onTelAuthPassed === 'function') {
+        props.__onTelAuthPassed();
+      }
       detailInfoRef.current.phoneNumber = '';
       detailInfoRef.current.certNumber = '';
       setCertRemainTime(-1);
     });
-  }, [modalAlert, userPhoneNumberCertNumberCheckApi]);
+  }, [modalAlert, props, userPhoneNumberCertNumberCheckApi]);
 
   return (
     <>

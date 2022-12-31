@@ -19,7 +19,7 @@
       background-color: rgba(255, 255, 255, 0);
       border: 1px solid #c5c8ce;
       color: #c5c8ce;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -38,7 +38,7 @@
       background-color: rgba(255, 255, 255, 0);
       border: 1px solid #c5c8ce;
       color: #c5c8ce;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -55,7 +55,7 @@
     &.disable {
       background-color: #f9f9f9;
       color: #999;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -73,7 +73,7 @@
     &.disable {
       background-color: #f9f9f9;
       color: #999;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -93,7 +93,7 @@
     &.disable {
       background-color: #f9f9f9;
       color: #999;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -112,7 +112,7 @@
 
     &.disable {
       color: #ccc;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -130,7 +130,7 @@
     &.disable {
       background-color: #f9f9f9;
       color: #999;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -148,7 +148,7 @@
       background-color: #eeeeee;
       border: 1px solid #c5c8ce;
       color: #555;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {
@@ -167,7 +167,7 @@
       background-color: #eeeeee;
       border: 1px solid $borderColorGrayA;
       color: #555;
-      cursor: none;
+      cursor: auto;
     }
 
     &:not(.disable):hover {

@@ -7,10 +7,12 @@ import PhoneNumberFormBox from "../../../../components/boxes/phone-number-form-b
 import { IPhoneNumberFormBox } from "../../../../components/boxes/phone-number-form-box/phone-number-form-box.interface";
 import ProfileFormBox from "../../../../components/boxes/profile-form-box/profile-form-box.component";
 import { IProfileFormBox } from "../../../../components/boxes/profile-form-box/profile-form-box.interface";
+import TitleContentBoxV1 from "../../../../components/boxes/title-content-box-v1/title-content-box-v1.component";
 import Button from "../../../../components/forms/button/button.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
+import useUserTelInfoQuery from "../../../../hooks/use-queries/use-user-tel-info.query";
 
 const LoginPage: NextPage = () => {
   return (
@@ -30,15 +32,20 @@ const LoginPage: NextPage = () => {
 
 const PageContents = () => {
   const formBoxComponentRef = useRef<IPhoneNumberFormBox.RefObject>(null);
+  const userTelInfoQuery = useUserTelInfoQuery();
 
-  const saveButtonClick = useCallback(() => {
-    if (formBoxComponentRef.current === null) {
-      return;
-    }
+  // const saveButtonClick = useCallback(() => {
+  //   if (formBoxComponentRef.current === null) {
+  //     return;
+  //   }
 
-    const detailInfo = formBoxComponentRef.current.getDetailInfo();
-    // console.log('detailInfo', detailInfo);
-  }, []);
+  //   const detailInfo = formBoxComponentRef.current.getDetailInfo();
+  //   // console.log('detailInfo', detailInfo);
+  // }, []);
+
+  const onTelAuthPassed = useCallback(() => {
+    userTelInfoQuery.refetch();
+  }, [userTelInfoQuery]);
 
   return (
     <>
@@ -48,13 +55,18 @@ const PageContents = () => {
             titleComponent: <>휴대폰 번호 변경</>,
             rightComponent: <></>,
           }} />
-        <PhoneNumberFormBox ref={formBoxComponentRef} />
+        <TitleContentBoxV1
+          __title={<>현재 휴대폰 번호</>}
+          __content={<>{ userTelInfoQuery.data?.tel ?? '현재 등록된 휴대폰번호가 없습니다.' }</>} />
+        <PhoneNumberFormBox 
+          ref={formBoxComponentRef}
+          __onTelAuthPassed={onTelAuthPassed} />
         <BottomFixedOrRelativeBox __heightToRelative={100}>
-          <Article>
+          {/* <Article>
             <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>
               인증완료
             </Button>
-          </Article>
+          </Article> */}
         </BottomFixedOrRelativeBox>
       </WindowSizeContainer>
     </>

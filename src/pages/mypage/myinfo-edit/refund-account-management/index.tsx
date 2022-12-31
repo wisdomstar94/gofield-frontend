@@ -5,12 +5,14 @@ import AccessTokenCheck from "../../../../components/auth/access-token-check/acc
 import BottomFixedOrRelativeBox from "../../../../components/boxes/bottom-fixed-or-relative-box/bottom-fixed-or-relative-box.component";
 import RefundAccountFormBox from "../../../../components/boxes/refund-account-form-box/refund-account-form-box.component";
 import { IRefundAccountFormBox } from "../../../../components/boxes/refund-account-form-box/refund-account-form-box.interface";
+import TitleContentBoxV1 from "../../../../components/boxes/title-content-box-v1/title-content-box-v1.component";
 import Button from "../../../../components/forms/button/button.component";
 import Article from "../../../../components/layouts/article/article.component";
 import Topbar from "../../../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../../../components/layouts/window-size-container/window-size-container.component";
 import useUserRefundAccountUpdateApi from "../../../../hooks/use-apis/use-user-refund-account-update.api";
 import useModalAlert from "../../../../hooks/use-modals/use-modal-alert.modal";
+import useUserAccountInfoQuery from "../../../../hooks/use-queries/use-user-account-info.query";
 
 const LoginPage: NextPage = () => {
   return (
@@ -29,6 +31,7 @@ const LoginPage: NextPage = () => {
 };  
 
 const PageContents = () => {
+  const userAccountInfoQuery = useUserAccountInfoQuery();
   const formBoxComponentRef = useRef<IRefundAccountFormBox.RefObject>(null);
   const modalAlert = useModalAlert();
   const userRefundAccountUpdateApi = useUserRefundAccountUpdateApi();
@@ -74,11 +77,12 @@ const PageContents = () => {
       }
 
       modalAlert.show({ title: '안내', content: '환불 계좌 정보가 변경되었습니다.' });
+      userAccountInfoQuery.refetch();
       formBoxComponentRef.current?.clear();
     }).finally(() => {
       isUpdaingRef.current = false;
     });
-  }, [modalAlert, userRefundAccountUpdateApi]);
+  }, [modalAlert, userAccountInfoQuery, userRefundAccountUpdateApi]);
 
   return (
     <>
@@ -89,7 +93,19 @@ const PageContents = () => {
             rightComponent: <></>,
           }} />
         {/* <ProfileFormBox ref={formBoxComponentRef} /> */}
-        <RefundAccountFormBox ref={formBoxComponentRef} />
+        <TitleContentBoxV1
+          __title={<>현재 환불계좌 정보</>}
+          __content={<>
+            {
+              typeof userAccountInfoQuery.data?.bankAccountNumber !== 'string' ? 
+              '현재 등록된 환불계좌 정보가 없습니다.' : 
+              <>
+                { userAccountInfoQuery.data.bankName }&nbsp;{ userAccountInfoQuery.data.bankAccountNumber } (예금주명 : { userAccountInfoQuery.data.bankHolderName })
+              </>
+            }
+          </>} />
+        <RefundAccountFormBox 
+          ref={formBoxComponentRef} />
         <BottomFixedOrRelativeBox __heightToRelative={560}>
           <Article>
             <Button __buttonStyle="black-solid" __onClick={saveButtonClick}>

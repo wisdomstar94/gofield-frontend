@@ -230,6 +230,9 @@ export default function getConfigs(params: ICommonConfig.Params) {
         alert: {
           _: baseUrl + `/api/user/${apiVersion}/alert`,
         },
+        tel: {
+          _: baseUrl + `/api/user/${apiVersion}/tel`,
+        },
       },
 
       code: {
