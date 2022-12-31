@@ -31,6 +31,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import NotResultBox from "../../../components/boxes/not-result-box/not-result-box.component";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 
 const ProductDetailPage = () => {
   return (
@@ -50,6 +51,7 @@ const ProductDetailPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const imageManager = useImageManager();
   const modalSearchRef = useRef<IModalSearch.RefObject>(null);
   const itemBundleProductDetailApi = useItemBundleProductDetailApi();
   const [detailInfo, setDetailInfo] = useState<IItem.BundleProductDetailApiData>();
@@ -99,8 +101,8 @@ const PageContents = () => {
                       key={index}>
                       <div className={styles['product-image-item']}>
                         <Image
-                          priority
-                          src={item}
+                          priority={true}
+                          src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=60&f=webp')}
                           alt={'상품 이미지'}
                           title={'상품 이미지'}
                           fill={true}

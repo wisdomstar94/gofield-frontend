@@ -45,6 +45,7 @@ import NotResultBox from "../not-result-box/not-result-box.component";
 import Config from "../../../configs/config.export";
 import { copyToClipboard } from "../../../librarys/copy-util/copy-util.library";
 import ProductDetailDescriptionBox from "../product-detail-description-box/product-detail-description-box.component";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
   }, [props.__detailInfo]);
 
   const router = useRouter();
+  const imageManager = useImageManager();
   const modalAlert = useModalAlert();
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
@@ -268,8 +270,8 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
                     key={index}>
                     <div className={styles['product-image-item']}>
                       <Image
-                        priority
-                        src={item}
+                        priority={true}
+                        src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=60&f=webp')}
                         alt={'상품 이미지'}
                         title={'상품 이미지'}
                         fill={true}

@@ -8,8 +8,11 @@ import TextProductPrice from "../../texts/text-product-price/text-product-price.
 import HashTagItem from "../../boxes/hash-tag-item/hash-tag-item.component";
 import { useCallback, useEffect, useState } from "react";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 
 const ProductRowItem2 = (props: IProductRowItem2.Props) => {
+  const imageManager = useImageManager();
+
   const [imageUrl, setImageUrl] = useState(props.__imageUrl);
   useEffect(() => { setImageUrl(props.__imageUrl); }, [props.__imageUrl]);
 
@@ -36,13 +39,14 @@ const ProductRowItem2 = (props: IProductRowItem2.Props) => {
       <div className={styles['container']} style={props.__style} onClick={itemClick}>
         <div className={styles['photo-area']}>
           {
-            imageUrl !== undefined ? 
+            typeof imageUrl === 'string' ? 
             <Image
-              src={imageUrl}
+              src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=60&f=webp')}
               alt="상품 이미지"
               title="상품 이미지"
               fill={true}
               sizes="100%"
+              priority={true}
               style={{
                 objectFit: 'cover',
               }} />

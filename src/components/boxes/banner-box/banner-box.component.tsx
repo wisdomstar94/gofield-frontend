@@ -48,7 +48,7 @@ const BannerBox = (props: IBannerBox.Props) => {
                   key={index}>
                   <div className={styles['banner-item']} onClick={e => onItemClick(item)}>
                     <Image
-                      priority
+                      priority={true}
                       src={item.thumbnail}
                       alt={item.description}
                       title={item.title}

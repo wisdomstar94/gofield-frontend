@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
 import ModalSignupNotice from "../../modals/modal-signup-notice/modal-signup-notice.component";
@@ -13,6 +14,7 @@ import { IProductColumnItem } from "./product-column-item.interface";
 
 const ProductColumnItem = (props: IProductColumnItem.Props) => {
   const user = useUser();
+  const imageManager = useImageManager();
   const isHeartingRef = useRef(false);
   const itemLikeApi = useItemLikeApi();
   const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
@@ -78,18 +80,23 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
       <div className={styles['container']} style={props.__style}>
         <div className={styles['image-row']}>
           {/* blur 이미지 출저 : https://lottiefiles.com/99297-loading-files */}
-          <Image
-            src={imageUrl ?? '/images/loading-files.gif'}
-            alt="상품 이미지" 
-            title="상품 이미지" 
-            fill={true}
-            sizes="100%"
-            style={{
-              objectFit: 'contain',
-            }}
-            placeholder="blur"
-            blurDataURL="/images/loading-files.gif"
-            onClick={itemClick} />
+          {
+            typeof imageUrl === 'string' ? 
+            <Image
+              src={imageManager.getImageUrl(imageUrl, '?s=240x240&t=crop&q=60&f=webp') ?? '/images/loading-files.gif'}
+              alt="상품 이미지" 
+              title="상품 이미지" 
+              fill={true}
+              sizes="100%"
+              style={{
+                objectFit: 'contain',
+              }}
+              priority={true}
+              // placeholder="blur"
+              // blurDataURL="/images/loading-files.gif"
+              onClick={itemClick} /> : 
+              <></>
+          }
           {
             isHeartLayout === true ? 
             <div className={styles['icon-area']} onClick={heartIconClick}>

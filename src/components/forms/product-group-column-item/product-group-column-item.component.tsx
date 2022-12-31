@@ -10,10 +10,12 @@ import useUser from '../../../hooks/use-user-hook/use-user.hook';
 import { useRouter } from 'next/router';
 import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
 import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
+import useImageManager from '../../../hooks/use-image-manager/use-image-manager.hook';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const user = useUser();
   const router = useRouter();
+  const imageManager = useImageManager();
   const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
 
   const [itemId, setItemId] = useState(props.__itemId);
@@ -97,19 +99,24 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
       <div className={styles['container']} style={props.__style}>
         <div className={styles['image-area']}>
           {/* blur 이미지 출저 : https://lottiefiles.com/99297-loading-files */}
-          <Image
-            onClick={itemClick}
-            src={imageUrl ?? '/images/loading-files.gif'}
-            alt="상품 이미지" 
-            title="상품 이미지" 
-            fill={true}
-            sizes="100%"
-            style={{
-              objectFit: 'cover',
-            }}
-            placeholder="blur"
-            blurDataURL="/images/loading-files.gif"
-            />
+          {
+            typeof imageUrl === 'string' ? 
+            <Image
+              onClick={itemClick}
+              src={imageManager.getImageUrl(imageUrl, '?s=240x240&t=crop&q=60&f=webp') ?? '/images/loading-files.gif'}
+              alt="상품 이미지" 
+              title="상품 이미지" 
+              fill={true}
+              sizes="100%"
+              style={{
+                objectFit: 'cover',
+              }}
+              priority={true}
+              placeholder="blur"
+              blurDataURL="/images/loading-files.gif"
+              /> : 
+            <></>
+          }
           {
             isHeartLayout === true ? 
             <div className={styles['icon-area']} onClick={heartIconClick}>

@@ -11,10 +11,12 @@ import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import { useRecoilState } from "recoil";
 import { globalModalSwiperAtom } from "../../../atoms/global-modal-swiper.atom";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 
 const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: ForwardedRef<ISmallImageFormBox.RefObject>) => {
   const inputFileHiddenRef = useRef<IInputFileHidden.RefObject>(null);
   const [globalModalSwiper, setGlobalModalSwiper] = useRecoilState(globalModalSwiperAtom);
+  const imageManager = useImageManager();
   
   const [imageItems, setImageItems] = useState(props.__imageItems);
   useEffect(() => { setImageItems(props.__imageItems) }, [props.__imageItems]);
@@ -86,7 +88,7 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
         reactNode: <>
           <Image
             priority
-            src={item.fileUrl ?? ''}
+            src={imageManager.getImageUrl(item.fileUrl, '') ?? ''}
             alt={'이미지'}
             title={'이미지'}
             fill={true}
@@ -102,7 +104,7 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
       })) ?? [],
       activeIndex: targetIndex,
     });
-  }, [imageItems, setGlobalModalSwiper]);
+  }, [imageItems, imageManager, setGlobalModalSwiper]);
 
   return (
     <>
@@ -135,10 +137,11 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
                   } 
                   <div className={styles['image-box']} onClick={e => imageClick(index)}>
                     <Image
-                      src={item.fileUrl ?? ''}
+                      src={imageManager.getImageUrl(item.fileUrl, '?s=60x60&t=crop&q=60&f=webp') ?? ''}
                       alt="이미지"
                       title="이미지"
                       fill={true}
+                      priority={true}
                       sizes="100%"
                       style={{
                         objectFit: 'cover',

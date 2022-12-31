@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import useOrderCarrierTrack from "../../../hooks/use-apis/use-order-carrier-track.api";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
 import useCodeOrderItemStatusListQuery from "../../../hooks/use-queries/use-code-order-item-status-list.query";
@@ -16,6 +17,7 @@ import styles from "./product-row-item3.component.module.scss";
 import { IProductRowItem3 } from "./product-row-item3.interface";
 
 const ProductRowItem3 = (props: IProductRowItem3.Props) => {
+  const imageManager = useImageManager();
   const router = useRouter();
   const enumOrderShippingStatusListQuery = useEnumOrderShippingStatusListQuery();
   const codeOrderItemStatusListQuery = useCodeOrderItemStatusListQuery();
@@ -173,15 +175,15 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                 {
                   typeof imageUrl === 'string' ? 
                   <Image
-                    src={imageUrl}
+                    src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=60&f=webp')}
                     alt="상품 썸네일 이미지"
                     title="상품 썸네일 이미지"
                     fill={true}
                     sizes="100%"
                     style={{
                       objectFit: 'cover',
-                    }}
-                    objectPosition="top" /> : 
+                      objectPosition: 'top',
+                    }} /> : 
                   <></>
                 }
               </div>
