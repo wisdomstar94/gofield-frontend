@@ -94,7 +94,10 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
             draggable={false}
             style={{
               objectFit: 'contain',
-            }} />
+            }}
+            placeholder="blur"
+            blurDataURL="/images/loading-files.gif"
+            />
         </>,
       })) ?? [],
       activeIndex: targetIndex,
