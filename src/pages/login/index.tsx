@@ -63,6 +63,10 @@ const PageContents = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
+  const logoAreaClick = useCallback(() => {
+    router.push('/');
+  }, [router]);
+
   return (
     <>
       <Script 
@@ -85,7 +89,7 @@ const PageContents = () => {
         })}></Script>
 
       <WindowSizeContainer>
-        <div className={styles['top-row']}>
+        <div className={styles['top-row']} onClick={logoAreaClick}>
           <SvgGofieldLogo />
         </div>
         <div className={styles['bottom-row']}>
