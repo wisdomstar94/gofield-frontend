@@ -22,7 +22,7 @@ const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
                 fill={true}
                 sizes="100%"
                 style={{
-                  objectFit: 'contain',
+                  objectFit: 'cover',
                 }} />
               : <></>
             }

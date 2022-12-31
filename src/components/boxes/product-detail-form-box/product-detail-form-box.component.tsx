@@ -376,7 +376,13 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
       </Article>
       {/* <ProductDetailImageBox __imageUrl={detailInfo?.thumbnail} /> */}
       <ProductDetailDescriptionBox __description={detailInfo?.description} />
-      <MenuRowItem __isEnableTopBorder={true} __onClick={() => { 
+      <MenuRowItem 
+        __isEnableTopBorder={true} __onClick={() => { 
+          router.push('/seller/' + detailInfo?.itemNumber);
+        }}>
+        판매자 정보
+      </MenuRowItem>
+      <MenuRowItem __onClick={() => { 
         router.push('/qna/' + detailInfo?.id);
        }}>
         상품문의

@@ -1,4 +1,5 @@
 import { IItem } from "../item/item.interface";
+import { IShipping } from "../shipping/shipping.interface";
 
 export declare namespace ICart {
   export interface CartCountApiData {
@@ -20,7 +21,7 @@ export declare namespace ICart {
     gender: IItem.Gender;
     isCondition: boolean;
     condition: number;
-    chargeType: IItem.ChargeType;
+    chargeType: IShipping.ChargeType;
     charge: number;
     feeJeju: number;
     feeJejuBesides: number;

@@ -1,4 +1,5 @@
 import { IPage } from "../page/page.interface";
+import { IShipping } from "../shipping/shipping.interface";
 
 export declare namespace IItem {
   export type Classification = 'ALL' | 'USED' | 'NEW';
@@ -9,7 +10,7 @@ export declare namespace IItem {
     'PAY' | // 유료배송
     'CONDITION' // 조건부배송
   ;
-  export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
+  // export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'COMBINATION' | 'SIMPLE';
   export type OptionStatus = 'SOLD_OUT' | 'SALE';
   export type ItemStatus = 'SOLD_OUT' | 'SALE';
@@ -97,7 +98,7 @@ export declare namespace IItem {
     title: string;
     isCondition: boolean;
     condition: number;
-    chargeType: ChargeType;
+    chargeType: IShipping.ChargeType;
     charge: number;
     isPaid: boolean;
     exchangeCourierName: string;

@@ -1,11 +1,12 @@
 import { IAddress } from "../address/address.interface";
 import { IItem } from "../item/item.interface";
+import { IShipping } from "../shipping/shipping.interface";
 
 export declare namespace IOrder {
   export type PaymentMethod = 'card' | 'deposit-without-bankbook' | 'bank-transfer';
   export type Environment = 'LOCAL' | 'DEV' | 'PROD';
   export type PaymentType = 'CARD' | 'EASYPAY' | 'BANK';
-  export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
+  // export type ChargeType = 'FREE' | 'FIXED' | 'EACH';
   export type OptionType = 'SIMPLE' | 'COMBINATION';
   export type OrderStatus = 'ORDER_CREATE' | 'ORDER_CANCEL' | 'ORDER_APPROVAL' | 'ORDER_COMPLETE' | 'ORDER_DELETE';
   export type OrderShippingStatus = 
@@ -74,7 +75,7 @@ export declare namespace IOrder {
   export interface orderSheetListItem {
     brandName: string;
     charge: number;
-    chargeType: ChargeType;
+    chargeType: IShipping.ChargeType;
     condition: number;
     deliveryPrice: number;
     feeJeju: number;
@@ -142,7 +143,7 @@ export declare namespace IOrder {
     shippingNumber: string;
     status: OrderShippingStatus;
     trackingNumber: string | null;
-    chargeType: ChargeType;
+    chargeType: IShipping.ChargeType;
     deliveryPrice: number;
     carrier: string | null;
     createDate: string;
