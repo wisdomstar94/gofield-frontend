@@ -100,8 +100,8 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
           <Image
             onClick={itemClick}
             src={imageUrl ?? '/images/loading-files.gif'}
-            alt="로고 이미지" 
-            title="로고 이미지" 
+            alt="상품 이미지" 
+            title="상품 이미지" 
             fill={true}
             sizes="100%"
             style={{
