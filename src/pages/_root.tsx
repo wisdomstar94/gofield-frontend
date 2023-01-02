@@ -12,8 +12,10 @@ import { IModalSwiper } from "../components/modals/modal-swiper/modal-swiper.int
 import { getDeviceInfo } from "../librarys/client-util/client-util.library";
 import Image from 'next/image';
 import { globalModalSwiperAtom } from "../atoms/global-modal-swiper.atom";
+import { useRouter } from "next/router";
 
 const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
+  const router = useRouter();
   const [axiosGloballError, setAxiosGloballError] = useRecoilState(axiosGloballErrorAtom);
   const [axiosGloballResponse, setAxiosGloballResponse] = useRecoilState(axiosGlobalResponseAtom);
   const [globalModalDefaultModalItem, setGlobalModalDefaultModalItem] = useRecoilState(globalModalDefaultModalItemAtom);
@@ -39,6 +41,7 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
         negativeButtonState: 'hide',
         positiveButtonState: 'show',
       });  
+      router.push('/server/inspection');
       return;
     }
 
@@ -57,6 +60,7 @@ const RootComponent: React.FC<{ children: React.ReactNode; }> = (props) => {
       negativeButtonState: 'hide',
       positiveButtonState: 'show',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axiosGloballError]);
 
   useEffect(() => {
