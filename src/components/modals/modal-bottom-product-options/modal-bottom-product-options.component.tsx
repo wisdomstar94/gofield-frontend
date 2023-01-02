@@ -324,6 +324,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
                 <div className="block mb-2" key={index}>
                   <SelectBox
                     __placeholder={item.groupTitle + (item.isEssential ? ' (필수)' : ' (선택)')}
+                    __value={optionGroupSelectInfo.get(item.groupTitle)?.value}
                     __valueItems={item.optionGroup?.map((x) => ({ text: x.name, value: x.name, value2: x.price.toString() }))}
                     __onChange={(value, valueItem) => optionSelectboxChange(item, value, valueItem)} />
                 </div>
