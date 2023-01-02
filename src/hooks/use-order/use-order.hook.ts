@@ -1,4 +1,6 @@
 import { useCallback } from "react";
+import { ICommon } from "../../interfaces/common/common.interface";
+import { IItem } from "../../interfaces/item/item.interface";
 import { IOrder } from "../../interfaces/order/order.interface";
 
 const useOrder = () => {
@@ -49,12 +51,46 @@ const useOrder = () => {
     return true;
   }, []);
 
+  const getTargetOptionItem = useCallback((optionGroupSelectInfo: Map<string, ICommon.ValueItem | undefined>, optionList: IItem.OptionItem[]): IItem.OptionItem | undefined => {
+    console.log('@optionGroupSelectInfo', optionGroupSelectInfo);
+    console.log('@optionList', optionList);
+    const target = optionList.find(optionItem => {
+      // optionList.every(y => optionGroupSelectInfo.has(y.))
+      return optionItem.name.every(optionName => {
+        return new Set(Array.from(optionGroupSelectInfo.values()).map(k => k?.value)).has(optionName);
+      });
+    });
+    console.log('@target', target);
+    return target;
+  }, []);
+
+  const isSoldOut = useCallback((optionGroupSelectInfo: Map<string, ICommon.ValueItem | undefined>, optionList: IItem.OptionItem[]): boolean => {
+    const target = getTargetOptionItem(optionGroupSelectInfo, optionList);
+    if (target === undefined) {
+      return false;
+    }
+    
+    return target.status === 'SOLD_OUT';
+  }, [getTargetOptionItem]);
+
+  const isRequiredOptionAllSelected = useCallback((optionGroupSelectInfo: Map<string, ICommon.ValueItem | undefined>, optionGroupList: IItem.OptionGroupItem[]) => {
+    for (const item of optionGroupList) {
+      if (optionGroupSelectInfo.get(item.groupTitle) === undefined && item.isEssential === true) {
+        return false;
+      }
+    }
+    return true;
+  }, []);
+
   return {
     isCancelPosible,
     isExchangeOrReturnPosible,
     isReviewWritePosible,
     getInstallmentText,
     isOptionExist,
+    getTargetOptionItem,
+    isSoldOut,
+    isRequiredOptionAllSelected,
   };
 };
 

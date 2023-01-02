@@ -20,6 +20,7 @@ import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { IModalSignupNotice } from "../modal-signup-notice/modal-signup-notice.interface";
 import ModalSignupNotice from "../modal-signup-notice/modal-signup-notice.component";
 import useModalConfirm from "../../../hooks/use-modals/use-modal-confirm.modal";
+import useOrder from "../../../hooks/use-order/use-order.hook";
 
 const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.Props, ref: ForwardedRef<IModalBottomProductOptions.RefObject>) => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   const cartContainApi = useCartContainApi();
   const orderSheetCreateApi = useOrderSheetCreateApi();
   const user = useUser();
+  const order = useOrder();
   const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
   
   const cartCountQuery = useCartCountQuery();
@@ -43,10 +45,12 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   // const optionListRef = useRef<IItem.OptionItem[]>([]);
 
   // const optionGroupSelectInfoRef = useRef<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
-  const [optionGroupSelectInfo, setOptionGroupSelectInfo] = useState<Map<number, ICommon.ValueItem | undefined>>(new Map<number, ICommon.ValueItem | undefined>());
+  const [optionGroupSelectInfo, setOptionGroupSelectInfo] = useState<Map<string, ICommon.ValueItem | undefined>>(new Map());
 
   const [detailInfo, setDetailInfo] = useState(props.__detailInfo);
   useEffect(() => { setDetailInfo(props.__detailInfo); }, [props.__detailInfo]);
+
+  // const [isButtonDisable, setIsButtonDisable] = useState(false); 
 
   // const [price, setPrice] = useState(props.__price);
   // useEffect(() => { setPrice(props.__price); }, [props.__price]);
@@ -97,14 +101,14 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     hide();
   }, [hide]);
 
-  const isRequiredOptionSelected = useCallback(() => {
-    for (const item of optionGroupList) {
-      if (optionGroupSelectInfo.get(item.id) === undefined && item.isEssential === true) {
-        return false;
-      }
-    }
-    return true;
-  }, [optionGroupList, optionGroupSelectInfo]);
+  // const isRequiredOptionSelected = useCallback(() => {
+  //   for (const item of optionGroupList) {
+  //     if (optionGroupSelectInfo.get(item.groupTitle) === undefined && item.isEssential === true) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }, [optionGroupList, optionGroupSelectInfo]);
 
   const clear = useCallback(() => {
     hide();
@@ -112,44 +116,54 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
   }, [hide]);
 
   const getTargetItemNumber = useCallback(() => {
-    let targetItemNumber = '';
-    if (optionGroupList.length > 0) {
-      if (!isRequiredOptionSelected()) {
-        modalAlert.show({ title: '안내', content: '옵션을 모두 선택해주세요.' });
-        return '';
-      }
-
-      if (isCartContainingRef.current) {
-        modalAlert.show({ title: '안내', content: '잠시 후 다시 시도해주세요.' });
-        return '';
-      }
-
-      // console.log('optionGroupSelectInfoRef.current', optionGroupSelectInfoRef.current);
-      // console.log('optionGroupSelectInfo', optionGroupSelectInfo);
-
-      const optionGroupSelectOptionNames = Array.from(optionGroupSelectInfo.values()).map(item => item?.text + '');
-      // console.log('optionGroupSelectOptionNames', optionGroupSelectOptionNames);
-
-      const targetOptionItem = optionList?.find((item) => {
-        const result = item.name.every((item) => {
-          return optionGroupSelectOptionNames.includes(item);
-        });
-        return result;
-      });
-      if (targetOptionItem === undefined) {
-        modalAlert.show({ title: '안내', content: '옵션과 일치하는 상품이 없습니다.' });
-        return '';
-      }
-      targetItemNumber = targetOptionItem.itemNumber;
-    } else if (optionGroupList.length === 0) {
-      if (typeof detailInfo?.itemNumber !== 'string' || detailInfo?.itemNumber.trim() === '') {
-        modalAlert.show({ title: '안내', content: '상품 정보를 가져오지 못했습니다.' });
-        return '';
-      }
-      targetItemNumber = detailInfo.itemNumber;
+    if (!order.isRequiredOptionAllSelected(optionGroupSelectInfo, optionGroupList)) {
+      return undefined;
     }
-    return targetItemNumber;
-  }, [detailInfo?.itemNumber, isRequiredOptionSelected, modalAlert, optionGroupList.length, optionGroupSelectInfo, optionList]);
+
+    const targetOptionItem = order.getTargetOptionItem(optionGroupSelectInfo, optionList);
+    if (targetOptionItem !== undefined) {
+      return targetOptionItem.itemNumber;
+    }
+    return detailInfo?.itemNumber;
+
+    // let targetItemNumber = '';
+    // if (optionGroupList.length > 0) {
+    //   if (!isRequiredOptionSelected()) {
+    //     modalAlert.show({ title: '안내', content: '옵션을 모두 선택해주세요.' });
+    //     return '';
+    //   }
+
+    //   if (isCartContainingRef.current) {
+    //     modalAlert.show({ title: '안내', content: '잠시 후 다시 시도해주세요.' });
+    //     return '';
+    //   }
+
+    //   // console.log('optionGroupSelectInfoRef.current', optionGroupSelectInfoRef.current);
+    //   // console.log('optionGroupSelectInfo', optionGroupSelectInfo);
+
+    //   const optionGroupSelectOptionNames = Array.from(optionGroupSelectInfo.values()).map(item => item?.text + '');
+    //   // console.log('optionGroupSelectOptionNames', optionGroupSelectOptionNames);
+
+    //   const targetOptionItem = optionList?.find((item) => {
+    //     const result = item.name.every((item) => {
+    //       return optionGroupSelectOptionNames.includes(item);
+    //     });
+    //     return result;
+    //   });
+    //   if (targetOptionItem === undefined) {
+    //     modalAlert.show({ title: '안내', content: '옵션과 일치하는 상품이 없습니다.' });
+    //     return '';
+    //   }
+    //   targetItemNumber = targetOptionItem.itemNumber;
+    // } else if (optionGroupList.length === 0) {
+    //   if (typeof detailInfo?.itemNumber !== 'string' || detailInfo?.itemNumber.trim() === '') {
+    //     modalAlert.show({ title: '안내', content: '상품 정보를 가져오지 못했습니다.' });
+    //     return '';
+    //   }
+    //   targetItemNumber = detailInfo.itemNumber;
+    // }
+    // return targetItemNumber;
+  }, [detailInfo?.itemNumber, optionGroupList, optionGroupSelectInfo, optionList, order]);
 
   const containBasketButtonClick = useCallback(() => {
     if (!user.isLogined()) {
@@ -158,7 +172,8 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }
 
     const targetItemNumber = getTargetItemNumber();
-    if (targetItemNumber === '') {
+    if (targetItemNumber === '' || targetItemNumber === undefined) {
+      modalAlert.show({ title: '안내', content: '필수 옵션을 모두 선택해주세요.' });
       return;
     }
 
@@ -193,13 +208,19 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }
 
     let returnPrice = detailInfo.price;
-    optionGroupSelectInfo.forEach((value, key) => {
-      const p = Number(value?.value.split('@@_@@')[1]);
-      returnPrice += p;
-    });
+    
+    const targetOptionItem = order.getTargetOptionItem(optionGroupSelectInfo, optionList);
+    if (targetOptionItem !== undefined) {
+      if (targetOptionItem.status === 'SOLD_OUT') {
+        // setIsButtonDisable(true);
+        return '선택하신 옵션은 품절입니다.';
+      }
+      returnPrice = targetOptionItem.price;
+    }
 
-    return getAddCommaNumberString({ numberValue: returnPrice });
-  }, [detailInfo?.price, optionGroupSelectInfo]);
+    // setIsButtonDisable(false);
+    return getAddCommaNumberString({ numberValue: returnPrice }) + '원';
+  }, [detailInfo?.price, optionGroupSelectInfo, optionList, order]);
 
   const nowPayButtonClick = useCallback(() => {
     if (!user.isLogined()) {
@@ -212,7 +233,8 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     }
 
     const targetItemNumber = getTargetItemNumber();
-    if (targetItemNumber === '') {
+    if (targetItemNumber === '' || targetItemNumber === undefined) {
+      modalAlert.show({ title: '안내', content: '필수 옵션을 모두 선택해주세요.' });
       return;
     }
 
@@ -255,6 +277,26 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
     });
   }, [detailInfo?.delivery, detailInfo?.deliveryPrice, detailInfo?.price, detailInfo?.shippingTemplate, getTargetItemNumber, modalAlert, optionList, orderSheetCreateApi, productOrder, router, user]);
 
+  const optionSelectboxChange = useCallback((item: IItem.OptionGroupItem, value: string, valueItem: ICommon.ValueItem | undefined) => {
+    // optionGroupSelectInfoRef.current.set(item.id, valueItem);
+    if (valueItem === undefined) {
+      setOptionGroupSelectInfo((prev) => {
+        const newMap = new Map(prev);
+        newMap.delete(item.groupTitle);
+        return newMap;
+      });
+      // setIsButtonDisable(order.isSoldOut(optionGroupSelectInfo, optionList));
+      return;  
+    }
+
+    setOptionGroupSelectInfo((prev) => {
+      const newMap = new Map(prev);
+      newMap.set(item.groupTitle, valueItem);
+      return newMap;
+    });
+    // setIsButtonDisable(order.isSoldOut(optionGroupSelectInfo, optionList));
+  }, []);
+
   return (
     <>
       <ModalBottom __modalState={modalState}>
@@ -281,12 +323,9 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
               return (
                 <div className="block mb-2" key={index}>
                   <SelectBox
-                    __placeholder={item.groupTitle}
-                    __valueItems={item.optionGroup?.map((x) => ({ text: x.name, value: x.name + '@@_@@' + x.price.toString() }))}
-                    __onChange={(value, valueItem) => {
-                      // optionGroupSelectInfoRef.current.set(item.id, valueItem);
-                      setOptionGroupSelectInfo((prev) => new Map(prev).set(item.id, valueItem));
-                    }} />
+                    __placeholder={item.groupTitle + (item.isEssential ? ' (필수)' : ' (선택)')}
+                    __valueItems={item.optionGroup?.map((x) => ({ text: x.name, value: x.name, value2: x.price.toString() }))}
+                    __onChange={(value, valueItem) => optionSelectboxChange(item, value, valueItem)} />
                 </div>
               );
             })
@@ -300,16 +339,16 @@ const ModalBottomProductOptions = forwardRef((props: IModalBottomProductOptions.
             <span className="text-sm text-black-a tracking-tighter font-bold">상품 금액</span>
           </div>
           <div className="flex flex-wrap justify-end items-center">
-            <span className="text-sm text-orange-a tracking-tighter font-bold">{ getTotalPrice() }원</span>
+            <span className="text-sm text-orange-a tracking-tighter font-bold">{ getTotalPrice() }</span>
           </div>
         </div>
 
         <div className="w-full grid grid-cols-2">
           <div>
-            <Button __buttonStyle="white-solid-gray-stroke" __onClick={containBasketButtonClick}>장바구니 담기</Button>
+            <Button __buttonStyle="white-solid-gray-stroke" __onClick={containBasketButtonClick} __disable={order.isSoldOut(optionGroupSelectInfo, optionList)}>장바구니 담기</Button>
           </div>
           <div>
-            <Button __buttonStyle="black-solid" __onClick={nowPayButtonClick}>바로 구매하기</Button>
+            <Button __buttonStyle="black-solid" __onClick={nowPayButtonClick} __disable={order.isSoldOut(optionGroupSelectInfo, optionList)}>바로 구매하기</Button>
           </div>
         </div>
       </ModalBottom>
