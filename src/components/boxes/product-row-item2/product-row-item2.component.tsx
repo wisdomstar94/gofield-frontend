@@ -41,12 +41,14 @@ const ProductRowItem2 = (props: IProductRowItem2.Props) => {
           {
             typeof imageUrl === 'string' ? 
             <Image
-              src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=60&f=webp')}
+              src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=100&f=webp')}
               alt="상품 이미지"
               title="상품 이미지"
               fill={true}
               sizes="100%"
-              priority={true}
+              // priority={true}
+              placeholder="blur"
+              blurDataURL="/images/loading-files.gif"
               style={{
                 objectFit: 'cover',
               }} />

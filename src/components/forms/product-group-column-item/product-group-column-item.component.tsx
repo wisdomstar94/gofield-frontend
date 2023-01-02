@@ -11,11 +11,13 @@ import { useRouter } from 'next/router';
 import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signup-notice.interface';
 import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
 import useImageManager from '../../../hooks/use-image-manager/use-image-manager.hook';
+import useClientManager from '../../../hooks/use-client-manager/use-client-manager.hook';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const user = useUser();
   const router = useRouter();
   const imageManager = useImageManager();
+  const clientManager = useClientManager();
   const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
 
   const [itemId, setItemId] = useState(props.__itemId);
@@ -103,7 +105,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
             typeof imageUrl === 'string' ? 
             <Image
               onClick={itemClick}
-              src={imageManager.getImageUrl(imageUrl, '?s=240x240&t=crop&q=60&f=webp') ?? '/images/loading-files.gif'}
+              src={imageManager.getImageUrl(imageUrl, `?s=${clientManager.getWindowSizeContainerWidthHalf()}x${clientManager.getWindowSizeContainerWidthHalf()}&t=crop&q=100&f=webp`)}
               alt="상품 이미지" 
               title="상품 이미지" 
               fill={true}
@@ -111,7 +113,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
               style={{
                 objectFit: 'cover',
               }}
-              priority={true}
+              // priority={true}
               placeholder="blur"
               blurDataURL="/images/loading-files.gif"
               /> : 

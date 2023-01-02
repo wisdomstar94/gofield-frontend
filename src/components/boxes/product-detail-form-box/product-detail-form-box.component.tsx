@@ -270,13 +270,15 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
                     key={index}>
                     <div className={styles['product-image-item']}>
                       <Image
-                        priority={true}
-                        src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=60&f=webp')}
+                        // priority={true}
+                        src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=100&f=webp')}
                         alt={'상품 이미지'}
                         title={'상품 이미지'}
                         fill={true}
                         sizes="100%"
                         draggable={false}
+                        placeholder="blur"
+                        blurDataURL="/images/loading-files.gif"
                         style={{
                           objectFit: 'cover',
                         }} />

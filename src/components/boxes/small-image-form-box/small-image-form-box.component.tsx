@@ -137,12 +137,14 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
                   } 
                   <div className={styles['image-box']} onClick={e => imageClick(index)}>
                     <Image
-                      src={imageManager.getImageUrl(item.fileUrl, '?s=60x60&t=crop&q=60&f=webp') ?? ''}
+                      src={imageManager.getImageUrl(item.fileUrl, '?s=60x60&t=crop&q=100&f=webp') ?? ''}
                       alt="이미지"
                       title="이미지"
                       fill={true}
-                      priority={true}
+                      // priority={true}
                       sizes="100%"
+                      placeholder="blur"
+                      blurDataURL="/images/loading-files.gif"
                       style={{
                         objectFit: 'cover',
                       }} />

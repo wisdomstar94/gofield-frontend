@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useItemLikeApi from "../../../hooks/use-apis/use-item-like.api";
+import useClientManager from "../../../hooks/use-client-manager/use-client-manager.hook";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 import useUser from "../../../hooks/use-user-hook/use-user.hook";
 import { getAddCommaNumberString, getClasses } from "../../../librarys/string-util/string-util.library";
@@ -15,6 +16,7 @@ import { IProductColumnItem } from "./product-column-item.interface";
 const ProductColumnItem = (props: IProductColumnItem.Props) => {
   const user = useUser();
   const imageManager = useImageManager();
+  const clientManager = useClientManager();
   const isHeartingRef = useRef(false);
   const itemLikeApi = useItemLikeApi();
   const modalSignupNoticeRef = useRef<IModalSignupNotice.RefObject>(null);
@@ -83,7 +85,7 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
           {
             typeof imageUrl === 'string' ? 
             <Image
-              src={imageManager.getImageUrl(imageUrl, '?s=240x240&t=crop&q=60&f=webp') ?? '/images/loading-files.gif'}
+              src={imageManager.getImageUrl(imageUrl, `?s=${clientManager.getWindowSizeContainerWidthHalf()}x${clientManager.getWindowSizeContainerWidthHalf()}&t=crop&q=100&f=webp`)}
               alt="상품 이미지" 
               title="상품 이미지" 
               fill={true}
@@ -91,9 +93,9 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
               style={{
                 objectFit: 'contain',
               }}
-              priority={true}
-              // placeholder="blur"
-              // blurDataURL="/images/loading-files.gif"
+              // priority={true}
+              placeholder="blur"
+              blurDataURL="/images/loading-files.gif"
               onClick={itemClick} /> : 
               <></>
           }

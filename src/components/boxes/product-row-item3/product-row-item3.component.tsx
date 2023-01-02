@@ -175,11 +175,13 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
                 {
                   typeof imageUrl === 'string' ? 
                   <Image
-                    src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=60&f=webp')}
+                    src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=100&f=webp')}
                     alt="상품 썸네일 이미지"
                     title="상품 썸네일 이미지"
                     fill={true}
                     sizes="100%"
+                    placeholder="blur"
+                    blurDataURL="/images/loading-files.gif"
                     style={{
                       objectFit: 'cover',
                       objectPosition: 'top',

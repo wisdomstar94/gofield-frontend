@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 import useProductOrder from "../../../hooks/use-product-order/use-product-order.interface";
 import { IOrder } from "../../../interfaces/order/order.interface";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
@@ -15,6 +16,8 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
   const router = useRouter();
   const [item, setItem] = useState(props.__item);
   useEffect(() => { setItem(props.__item); }, [props.__item]);
+  
+  const imageManager = useImageManager();
 
   const [totalPriceInfo, setTotalPriceInfo] = useState<IOrder.TotalPriceInfo>();
 
@@ -114,15 +117,18 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
                 {
                   typeof item?.thumbnail === 'string' ? 
                   <Image
-                    src={item?.thumbnail}
-                    alt="상품 상세정보 이미지"
-                    title="상품 상세정보 이미지"
+                    src={imageManager.getImageUrl(item?.thumbnail, '?s=120x120&t=crop&q=100&f=webp')}
+                    alt="상품 썸네일 이미지"
+                    title="상품 썸네일 이미지"
                     fill={true}
                     sizes="100%"
+                    placeholder="blur"
+                    blurDataURL="/images/loading-files.gif"
                     style={{
                       objectFit: 'cover',
+                      objectPosition: "top",
                     }}
-                    objectPosition="top" />
+                    />
                   : <></>
                 }
               </div>
