@@ -61,7 +61,11 @@ const ReviewRowItem = (props: IReviewRowItem.Props) => {
                 { item?.weight !== null ? item?.weight + 'kg' : '' } <br />
               </> : <></>
             }
-            { item?.optionName }
+            { 
+              Array.isArray(item?.optionName) ? 
+              item?.optionName.join(', ') :
+              <></>
+            }
             {/* 남성, 175cm, 75kg <br />
             10.5 SR 구매 */}
           </span>

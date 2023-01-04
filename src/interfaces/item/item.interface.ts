@@ -52,7 +52,7 @@ export declare namespace IItem {
     id: number;
     name: string;
     nickName: string;
-    optionName: string;
+    optionName: string[];
     weight: number;
     height: number;
     reviewScroe: number;
