@@ -1,6 +1,7 @@
 import { AnimationEvent, ForwardedRef, forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 import styles from './modal-default.component.module.scss';
 import { IModalDefault } from "./modal-default.interface";
+import { v4 } from 'uuid';
 
 const ModalDefault = forwardRef((props: IModalDefault.Props, ref: ForwardedRef<IModalDefault.RefObject>) => {
   const [modalItems, setModalItems] = useState<IModalDefault.ModalItem[]>([]);
@@ -12,7 +13,17 @@ const ModalDefault = forwardRef((props: IModalDefault.Props, ref: ForwardedRef<I
   }));
 
   const show = useCallback((modalItem: IModalDefault.ModalItem) => {
+    if (typeof modalItem.uuid === 'string') {
+      if (modalItems.find(x => x.uuid === modalItem.uuid) !== undefined) {
+        return;
+      }
+    } 
+
     const copyModalItem = { ...modalItem };
+    if (typeof copyModalItem.uuid !== 'string') {
+      copyModalItem.uuid = v4();
+    }
+
     const newModalItems = [ ...modalItems ];
     copyModalItem.modalState = 'show';
     newModalItems.push(copyModalItem);

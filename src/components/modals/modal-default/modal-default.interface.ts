@@ -8,6 +8,7 @@ export declare namespace IModalDefault {
   export type HideFunction = (modalItem: ModalItem) => void;
 
   export interface ModalItem {
+    uuid?: string;
     titleStyleA?: {
       component: React.ReactNode;
     };
