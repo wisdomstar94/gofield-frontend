@@ -3,7 +3,7 @@ import styles from "./banner-box.component.module.scss";
 import { IBannerBox } from "./banner-box.interface";
 import Image from 'next/image';
 import useMainBannerListQuery from "../../../hooks/use-queries/use-main-banner-list.query";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IBanner } from "../../../interfaces/banner/banner.interface";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,7 +15,8 @@ import 'swiper/css/autoplay';
 import { getClasses } from "../../../librarys/string-util/string-util.library";
 
 const BannerBox = (props: IBannerBox.Props) => {
-  const mainBannerListQuery = useMainBannerListQuery();
+  const [bannerItems, setBannerItems] = useState(props.__bannerItems);
+  useEffect(() => { setBannerItems(props.__bannerItems) }, [props.__bannerItems]);
 
   const swiperChange = useCallback((currentIndex: number, nextCurrentIndex: number) => {
     // console.log('@@swiperChange', { currentIndex, nextCurrentIndex });
@@ -25,6 +26,12 @@ const BannerBox = (props: IBannerBox.Props) => {
     // if (mainBannerListQuery.data === undefined) {
     //   return;
     // }
+    if (item.linkUrl === null || item.linkUrl === '') {
+      return;
+    }
+
+    // console.log(`window.open(${item.linkUrl});`);
+    console.log('item', item);
     window.open(item.linkUrl);
   }, []);
 
@@ -42,7 +49,7 @@ const BannerBox = (props: IBannerBox.Props) => {
           autoplay={{ delay: 3000 }}
         >
           {
-            mainBannerListQuery?.data?.map((item, index) => {
+            bannerItems?.map((item, index) => {
               return (
                 <SwiperSlide 
                   key={index}>
@@ -50,8 +57,8 @@ const BannerBox = (props: IBannerBox.Props) => {
                     <Image
                       priority={true}
                       src={item.thumbnail}
-                      alt={item.description}
-                      title={item.title}
+                      alt={item.description ?? '배너 이미지'}
+                      title={item.title ?? '배너 이미지'}
                       fill={true}
                       sizes="100%"
                       draggable={false}

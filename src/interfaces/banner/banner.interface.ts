@@ -6,7 +6,8 @@ export declare namespace IBanner {
     title: string;
   }
 
-  export interface BannerListApiData extends BannerItem {
-
+  export interface BannerListApiData {
+    topBannerList: BannerItem[];
+    middleBannerList: BannerItem[];
   }
 }

@@ -25,6 +25,8 @@ import { IItem } from '../interfaces/item/item.interface';
 import { getNextRouterQueryToUrlQueryString } from '../librarys/string-util/string-util.library';
 import GridList from '../components/layouts/grid-list/grid-list.component';
 import { IScrollCheckHook } from '../hooks/use-scroll-check/use-scroll-check.interface';
+import useMainBannerListQuery from '../hooks/use-queries/use-main-banner-list.query';
+import Image from 'next/image';
 
 const Home: NextPage = () => {
   return (
@@ -47,6 +49,7 @@ const PageContents = () => {
   const router = useRouter();
   const itemListApi = useItemListApi();
   const mainItemListQuery = useMainItemListQuery();
+  const mainBannerListQuery = useMainBannerListQuery();
 
   const isGettingUsedItemListRef = useRef(false);
   const isNoneMoreDataUsedItemListRef = useRef(false);
@@ -139,9 +142,10 @@ const PageContents = () => {
 
           }}
            />
-        <BannerBox />
+        <BannerBox
+          __bannerItems={mainBannerListQuery.data?.topBannerList} />
         <CategoryButtonListBox __style={{ marginBottom: '8px' }} />
-        <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
+        <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0', minHeight: '360px' }}>
           <ArticleTopRow>
             <BothSidebox
               __leftComponent={<>
@@ -172,6 +176,30 @@ const PageContents = () => {
             <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
+        {
+          typeof mainBannerListQuery.data?.middleBannerList[0]?.thumbnail === 'string' ?
+          <div className="block" onClick={() => {
+            if (mainBannerListQuery.data?.middleBannerList[0].linkUrl === null || mainBannerListQuery.data?.middleBannerList[0].linkUrl === '') {
+              return;
+            }
+            window.open(mainBannerListQuery.data?.middleBannerList[0].linkUrl);
+          }}>
+            <div className="next-image-wrapper">
+              <Image
+                priority={true}
+                src={mainBannerListQuery.data?.middleBannerList[0].thumbnail}
+                alt={mainBannerListQuery.data?.middleBannerList[0].description ?? '배너 이미지'}
+                title={mainBannerListQuery.data?.middleBannerList[0].title ?? '배너 이미지'}
+                fill={true}
+                sizes="100%"
+                draggable={false}
+                style={{
+                  objectFit: 'cover',
+                }} />
+            </div>
+          </div> : 
+          <></>
+        }
         <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
           <ArticleTopRow>
             <BothSidebox
@@ -203,6 +231,30 @@ const PageContents = () => {
             <EmptyColumn __style={{ width: '24px' }} />
           </HorizontalScrollBox>
         </Article>
+        {
+          typeof mainBannerListQuery.data?.middleBannerList[1]?.thumbnail === 'string' ?
+          <div className="block" onClick={() => {
+            if (mainBannerListQuery.data?.middleBannerList[1].linkUrl === null || mainBannerListQuery.data?.middleBannerList[0].linkUrl === '') {
+              return;
+            }
+            window.open(mainBannerListQuery.data?.middleBannerList[1].linkUrl);
+          }}>
+            <div className="next-image-wrapper">
+              <Image
+                priority={true}
+                src={mainBannerListQuery.data?.middleBannerList[1].thumbnail}
+                alt={mainBannerListQuery.data?.middleBannerList[1].description ?? '배너 이미지'}
+                title={mainBannerListQuery.data?.middleBannerList[1].title ?? '배너 이미지'}
+                fill={true}
+                sizes="100%"
+                draggable={false}
+                style={{
+                  objectFit: 'cover',
+                }} />
+            </div>
+          </div> : 
+          <></>
+        }
         {/* <Article __style={{ marginBottom: '8px', padding: '0 0 24px 0' }}>
           <ArticleTopRow>
             <BothSidebox

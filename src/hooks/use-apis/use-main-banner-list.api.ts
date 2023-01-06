@@ -8,7 +8,7 @@ const useMainBannerListApi = () => {
   const axios = useAxios();
 
   const getInstance = useCallback(() => {
-    return axios.getAxiosInstance<IResponse.CommonResponse<IBanner.BannerListApiData[]>>({
+    return axios.getAxiosInstance<IResponse.CommonResponse<IBanner.BannerListApiData>>({
       url: Config().api.main.banner._,
       method: 'get',
       isAuth: true,
