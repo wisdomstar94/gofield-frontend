@@ -30,14 +30,21 @@ const Input = (props: IInput.Props) => {
   }, [props]);
 
   const inputStyles = useCallback(() => {
-    const obj: CSSProperties = {};
+    let obj: CSSProperties = {};
 
     if (props.__rightLabel !== undefined) {
       obj.paddingRight = (props.__rightLabel.width + 16) + 'px';
     }
 
+    if (props.__style !== undefined) {
+      obj = {
+        ...obj,
+        ...props.__style,
+      };
+    }
+
     return obj;
-  }, [props.__rightLabel]);
+  }, [props.__rightLabel, props.__style]);
 
   const rightLabelStyles = useCallback(() => {
     const obj: CSSProperties = {};

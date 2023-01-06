@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export declare namespace IInput {
   export type InputType = 'text' | 'number' | 'password' | 'date' | 'time';
@@ -17,6 +17,7 @@ export declare namespace IInput {
     __value?: string;
     __maxLength?: number;
     __rightLabel?: RightLabel;
+    __style?: CSSProperties;
     __onChange: (value: string) => void;
   }
 }
