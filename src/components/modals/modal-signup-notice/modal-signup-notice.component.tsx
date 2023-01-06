@@ -12,6 +12,7 @@ import useKakaoLoginSdk from "../../../hooks/use-kakao-login-sdk/use-kakao-login
 import Config from "../../../configs/config.export";
 import useNaverLoginSdk from "../../../hooks/use-naver-login-sdk/use-naver-login-sdk.hook";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: ForwardedRef<IModalSignupNotice.RefObject>) => {
   const router = useRouter();
@@ -94,25 +95,56 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
           <div data-name="close-button" className="absolute top-4 right-4 text-white cursor-pointer text-xl" onClick={closeButtonClick}>
             x
           </div>
-          <div data-name="logo-row" className="w-full flex mt-24 flex-wrap justify-center ttems-center">
-            <span className="text-white text-4xl font-bold">GOFIELD</span>
-          </div>
-          <div data-name="description-row" className="w-full flex my-12 flex-wrap justify-center ttems-center">
-            <span className="text-white text-base font-normal">로그인이 필요합니다.</span>
-          </div>
+          
+          <div className="w-full h-full flex flex-wrap justify-center items-center content-center box-sizing px-4 py-4">
+            <div data-name="logo-row" className="w-full flex mt-24 flex-wrap justify-center ttems-center">
+              <span className="text-white text-4xl font-bold">GOFIELD</span>
+            </div>
+            <div data-name="description-row" className="w-full flex my-12 flex-wrap justify-center ttems-center">
+              <span className="text-white text-base font-normal">로그인이 필요합니다.</span>
+            </div>
 
-          <BottomFixedOrRelativeBox __heightToRelative={140}>
             <div data-name="sns-login-button-row" className="w-full flex flex-wrap justify-center ttems-center mb-12">
               <ul className="w-full block m-0 p-0">
                 <li data-name="button-item" className="w-full block list-none px-8 box-sizing mb-4">
-                  <button className="w-full border-0 block bg-kakao-color rounded p-2" onClick={e => snsLoginButtonClick('KAKAO')}>카카오톡으로 로그인 하기</button>
+                  <button className="w-full border-0 flex flex-wrap justify-center items-center bg-kakao-color rounded p-2" onClick={e => snsLoginButtonClick('KAKAO')}>
+                    <Image
+                      width={20}
+                      height={20}
+                      priority={true}
+                      src={'/images/icons/kakao-icon.png'}
+                      alt={'로고 이미지'}
+                      title={'로고 이미지'}
+                      // fill={true}
+                      sizes="100%"
+                      draggable={false}
+                      style={{
+                        objectFit: 'cover',
+                      }} />
+                    <span className="ml-2">카카오톡으로 로그인 하기</span>
+                  </button>
                 </li>
                 <li data-name="button-item" className="w-full block list-none px-8 box-sizing">
-                  <button className="w-full border-0 block bg-naver-color rounded p-2" onClick={e => snsLoginButtonClick('NAVER')}>네이버로 로그인 하기</button>
+                  <button className="w-full border-0 flex flex-wrap justify-center items-center bg-naver-color rounded p-2" onClick={e => snsLoginButtonClick('NAVER')}>
+                    <Image
+                      width={20}
+                      height={20}
+                      priority={true}
+                      src={'/images/icons/naver-icon.png'}
+                      alt={'로고 이미지'}
+                      title={'로고 이미지'}
+                      // fill={true}
+                      sizes="100%"
+                      draggable={false}
+                      style={{
+                        objectFit: 'cover',
+                      }} />
+                    <span className="ml-2">네이버로 로그인 하기</span>
+                  </button>
                 </li>
               </ul>
             </div>
-          </BottomFixedOrRelativeBox>
+          </div>
         </WindowSizeContainer>
       </Modal>
     </>
