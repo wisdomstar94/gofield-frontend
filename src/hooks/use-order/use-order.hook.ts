@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { IProductRowItem3 } from "../../components/boxes/product-row-item3/product-row-item3.interface";
 import { ICommon } from "../../interfaces/common/common.interface";
 import { IItem } from "../../interfaces/item/item.interface";
 import { IOrder } from "../../interfaces/order/order.interface";
@@ -9,7 +10,15 @@ const useOrder = () => {
       'ORDER_SHIPPING_CHECK',
       'ORDER_SHIPPING_CHECK_COMPLETE',
       'ORDER_SHIPPING_READY',
+    ]);
+    return posibleStatusSet.has(shippingItem.status);
+  }, []);
+
+  const isDeliveryCheckPosible = useCallback((shippingItem: IOrder.OrderShippingListItem) => {
+    const posibleStatusSet = new Set<IOrder.OrderShippingStatus>([
       'ORDER_SHIPPING_DELIVERY',
+      'ORDER_SHIPPING_DELIVERY_COMPLETE',
+      'ORDER_SHIPPING_COMPLETE',
     ]);
     return posibleStatusSet.has(shippingItem.status);
   }, []);
@@ -82,6 +91,28 @@ const useOrder = () => {
     return true;
   }, []);
 
+  const getShowButtonTypes = useCallback((shippingItem: IOrder.OrderShippingListItem, orderItem: IOrder.OrderShippingOrderItem) => {
+    const buttons: IProductRowItem3.ShowButtonTypeItem[] = [];
+
+    if (isDeliveryCheckPosible(shippingItem)) {
+      buttons.push({ buttonType: 'delivery-check', buttonWidthType: 'full' }, );
+    }
+
+    if (isExchangeOrReturnPosible(shippingItem)) {
+      buttons.push({ buttonType: 'exchange-refund', buttonWidthType: 'full' });
+    }
+
+    if (isCancelPosible(shippingItem)) {
+      buttons.push({ buttonType: 'order-delivery-cancel', buttonWidthType: 'full' });
+    }
+
+    if (!orderItem.isReview && isReviewWritePosible(shippingItem)) {
+      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
+    }
+
+    return buttons;
+  }, [isCancelPosible, isDeliveryCheckPosible, isExchangeOrReturnPosible, isReviewWritePosible]);
+
   return {
     isCancelPosible,
     isExchangeOrReturnPosible,
@@ -91,6 +122,7 @@ const useOrder = () => {
     getTargetOptionItem,
     isSoldOut,
     isRequiredOptionAllSelected,
+    getShowButtonTypes,
   };
 };
 

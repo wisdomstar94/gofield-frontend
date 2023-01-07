@@ -68,26 +68,6 @@ const PageContents = () => {
     router.push('/');
   }, [router]);
 
-  const getShowButtonTypes = useCallback((shippingItem: IOrder.OrderShippingListItem, orderItem: IOrder.OrderShippingOrderItem) => {
-    const buttons: IProductRowItem3.ShowButtonTypeItem[] = [
-      { buttonType: 'delivery-check', buttonWidthType: 'full' }, 
-    ];
-
-    if (order.isExchangeOrReturnPosible(shippingItem)) {
-      buttons.push({ buttonType: 'exchange-refund', buttonWidthType: 'full' });
-    }
-
-    if (order.isCancelPosible(shippingItem)) {
-      buttons.push({ buttonType: 'order-delivery-cancel', buttonWidthType: 'full' });
-    }
-
-    if (!orderItem.isReview && order.isReviewWritePosible(shippingItem)) {
-      buttons.push({ buttonType: 'review-write', buttonWidthType: 'full' });
-    }
-
-    return buttons;
-  }, [order]);
-
   return (
     <>
       <WindowSizeContainer __bgColor="#fff">
@@ -174,7 +154,7 @@ const PageContents = () => {
           <span className="text-sm font-normal text-gray-b tracking-tighter">{ orderDetailInfo?.tel }</span>
         </div>
         <div className="block mx-6 mb-4">
-          <span className="text-sm font-normal text-gray-b tracking-tighter">배송요청사항 : { orderDetailInfo?.shippingComment }</span>
+          <span className="text-sm font-normal text-gray-b tracking-tighter">배송요청사항 : { orderDetailInfo?.shippingComment ? orderDetailInfo?.shippingComment : '없음' }</span>
         </div>
 
         <div className="mx-6 mb-4 h-px bg-gray-a"></div>
@@ -199,7 +179,7 @@ const PageContents = () => {
                   // __carrierId={shippingItem.carrier}
                   // __trackId={shippingItem.trackingNumber}
                   __shippingNumber={shippingItem.shippingNumber}
-                  __showButtonTypes={getShowButtonTypes(shippingItem, orderItem)}
+                  __showButtonTypes={order.getShowButtonTypes(shippingItem, orderItem)}
                   // __buttonLayoutType={'none'}
                 />
               )
