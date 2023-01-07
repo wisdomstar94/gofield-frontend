@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IItem } from "../../../interfaces/item/item.interface";
 import { day } from "../../../librarys/date-util/date-util.library";
 import List, { ListItem } from "../../layouts/list/list.component";
-import ReviewStar from "../review-star/review-star.component";
+import ReviewRatingStarsV2 from "../review-rating-stars-v2/review-rating-stars-v2.component";
 import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
 import styles from "./review-row-item.component.module.scss";
 import { IReviewRowItem } from "./review-row-item.interface";
@@ -39,13 +39,11 @@ const ReviewRowItem = (props: IReviewRowItem.Props) => {
     <>
       <List __width="100%" __direction="vertical" __style={props.__style}>
         <ListItem __marginBottom="6px">
-          {
-            Array.from({ length: Math.floor(item?.reviewScroe ?? 0) }).map((item, index) => {
-              return (
-                <ReviewStar key={index} __starSizeType="small" __starMode="fill" __style={{ marginRight: '2px' }} />
-              )
-            })
-          }
+          <ReviewRatingStarsV2
+            __style={{ width: 'auto' }}
+            __isAllowScoreControl={false}
+            __isSmallStar={true}
+            __reviewScore={item?.reviewScroe} />
         </ListItem>
         <ListItem __marginBottom="6px">
           <span className={styles['review-writer-and-craete-at-text']}>

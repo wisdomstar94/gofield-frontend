@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import AccessTokenCheck from '../components/auth/access-token-check/access-token-check.component';
 import BannerBox from '../components/boxes/banner-box/banner-box.component';
 import CategoryButtonListBox from '../components/boxes/category-button-list-box/category-button-list-box.component';
-import ProductGroupColumnItem from '../components/forms/product-group-column-item/product-group-column-item.component';
+import ProductGroupColumnItem from '../components/boxes/product-group-column-item/product-group-column-item.component';
 import Article from '../components/layouts/article/article.component';
 import BothSidebox from '../components/layouts/both-side-box/both-side-box.component';
 import HorizontalScrollBox from '../components/layouts/horizontal-scroll-box/horizontal-scroll-box.component';

@@ -34,6 +34,7 @@ import NotResultBox from "../../../components/boxes/not-result-box/not-result-bo
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 import ImageBox from "../../../components/boxes/image-box/image-box.component";
 import useClientManager from "../../../hooks/use-client-manager/use-client-manager.hook";
+import ReviewRatingStarsV2 from "../../../components/boxes/review-rating-stars-v2/review-rating-stars-v2.component";
 
 const ProductDetailPage = () => {
   return (
@@ -140,7 +141,12 @@ const PageContents = () => {
               <span style={{ fontSize: '1rem', color: '#1e2238', fontWeight: 'bold', letterSpacing: '-0.05rem' }}>{ detailInfo?.name }</span>
             </ListItem>
             <ListItem>
-              <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span> 
+              {/* <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>★ &nbsp;</span>  */}
+              <ReviewRatingStarsV2
+                __style={{ 'width': 'auto', marginRight: '4px' }}
+                __isSmallStar={true}
+                __reviewScore={detailInfo?.reviewScore}
+                __isAllowScoreControl={false} />
               <span style={{ color: '#646f7c', fontSize: '0.7rem', display: 'inline-flex' }}>{ detailInfo?.reviewScore } ({ detailInfo?.reviewCount })</span>
             </ListItem>
             <ListItem>

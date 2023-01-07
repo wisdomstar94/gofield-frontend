@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 
-export declare namespace IReviewRatingStars {
+export declare namespace IReviewRatingStarsV2 {
   export interface RefObject {
     
   }

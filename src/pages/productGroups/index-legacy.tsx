@@ -5,7 +5,7 @@ import AccessTokenCheck from "../../components/auth/access-token-check/access-to
 import BasketFormBox from "../../components/boxes/basket-form-box/basket-form-box.component";
 import SearchFormBox from "../../components/boxes/search-form-box/search-form-box.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
-import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
+import ProductGroupColumnItem from "../../components/boxes/product-group-column-item/product-group-column-item.component";
 import Article from "../../components/layouts/article/article.component";
 import BothSidebox from "../../components/layouts/both-side-box/both-side-box.component";
 import GridList from "../../components/layouts/grid-list/grid-list.component";

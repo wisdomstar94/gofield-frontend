@@ -72,4 +72,11 @@ export declare namespace IReview {
     thumbnail: string;
     finsiehdDate: string | null;
   }
+
+  export interface ReviewWriteForm {
+    weight?: number;
+    height?: number;
+    reviewScore: number;
+    content: string;
+  }
 }

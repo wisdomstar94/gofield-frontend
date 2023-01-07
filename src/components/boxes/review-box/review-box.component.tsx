@@ -7,7 +7,7 @@ import List, { ListItem } from "../../layouts/list/list.component";
 import NotResultBox from "../not-result-box/not-result-box.component";
 import PaginationBox from "../pagination-box/pagination-box.component";
 import { IPaginationBox } from "../pagination-box/pagination-box.interface";
-import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
+import ReviewRatingStarsV2 from "../review-rating-stars-v2/review-rating-stars-v2.component";
 import ReviewRowItem from "../review-row-item/review-row-item.component";
 import styles from "./review-box.component.module.scss";
 import { IReviewBox } from "./review-box.interface";
@@ -87,7 +87,7 @@ const ReviewBox = (props: IReviewBox.Props) => {
       }}>
         <List __width="100%" __defaultItemJustifyContent="center">
           <ListItem __marginBottom="12px">
-            <ReviewRatingStars __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
+            <ReviewRatingStarsV2 __reviewScore={props.__productGroupDetailInfo?.reviewScore} />
           </ListItem>
           <ListItem __marginBottom="2px">
             <span className={styles['review-number-info-text']}>{ props.__productGroupDetailInfo?.reviewScore } / 5</span>

@@ -6,7 +6,7 @@ import BasketFormBox from "../../components/boxes/basket-form-box/basket-form-bo
 import ProductColumnItem from "../../components/boxes/product-column-item/product-column-item.component";
 import SearchFormBox from "../../components/boxes/search-form-box/search-form-box.component";
 import ViewFilterBox from "../../components/boxes/view-filter-box/view-filter-box.component";
-import ProductGroupColumnItem from "../../components/forms/product-group-column-item/product-group-column-item.component";
+import ProductGroupColumnItem from "../../components/boxes/product-group-column-item/product-group-column-item.component";
 import Article from "../../components/layouts/article/article.component";
 import BothSidebox from "../../components/layouts/both-side-box/both-side-box.component";
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";

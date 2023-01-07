@@ -2,7 +2,6 @@ import styles from "./review-detail-form-box.component.module.scss";
 import { IReviewDetailFormBox } from "./review-detail-form-box.interface";
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Article from "../../layouts/article/article.component";
-import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
 import FormListBox from "../form-list-box/form-list-box.component";
 import Input from "../../forms/input/input.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
@@ -21,6 +20,7 @@ import { IReview } from "../../../interfaces/review/review.interface";
 import useOrderReviewWriteApi from "../../../hooks/use-apis/use-order-review-write.api";
 import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
 import { IFile } from "../../../interfaces/file/file.interface";
+import ReviewRatingStarsV2 from "../review-rating-stars-v2/review-rating-stars-v2.component";
 
 const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: ForwardedRef<IReviewDetailFormBox.RefObject>) => {
   const router = useRouter();
@@ -170,7 +170,7 @@ const ReviewDetailFormBox = forwardRef((props: IReviewDetailFormBox.Props, ref: 
         <div className={styles['review-title']}>
           상품은 만족하셨나요?
         </div>
-        <ReviewRatingStars __isAllowScoreControl={true} __reviewScore={reviewFormInfo?.reviewScore} __onReviewScoreChange={onReviewScoreChange} />
+        <ReviewRatingStarsV2 __isAllowScoreControl={true} __reviewScore={reviewFormInfo?.reviewScore} __onReviewScoreChange={onReviewScoreChange} />
       </Article>
       <Article>
         <FormListBox

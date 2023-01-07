@@ -3,13 +3,13 @@ import { IReviewHistoryItem } from "./review-history-item.interface";
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import Image from 'next/image';
 import List, { ListItem } from "../../layouts/list/list.component";
-import ReviewRatingStars from "../review-rating-stars/review-rating-stars.component";
 import ReviewRatingStarBox from "../review-rating-star-box/review-rating-star-box.component";
 import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
 import useOrder from "../../../hooks/use-order/use-order.hook";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import ImageBox from "../image-box/image-box.component";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import ReviewRatingStarsV2 from "../review-rating-stars-v2/review-rating-stars-v2.component";
 
 const ReviewHistoryItem = forwardRef((props: IReviewHistoryItem.Props, ref: ForwardedRef<IReviewHistoryItem.RefObject>) => {
   const imageManager = useImageManager();
@@ -61,7 +61,7 @@ const ReviewHistoryItem = forwardRef((props: IReviewHistoryItem.Props, ref: Forw
                 <span className={styles['text-style-b']}>{ getAddCommaNumberString({ numberValue: item?.price }) }원</span>
               </ListItem>
               <ListItem>
-                <ReviewRatingStars
+                <ReviewRatingStarsV2
                   __style={{ justifyContent: 'flex-start' }}
                   __isSmallStar={true}
                   __reviewScore={item?.reviewScore} />

@@ -1,16 +1,17 @@
 import React, { CSSProperties } from "react";
 
-export declare namespace IReviewStar {
-  export type StarMode = 'fill' | 'stroke';
-
+export declare namespace IReviewStarV2 {
   export type StarSizeType = 'small' | 'big';
 
+  export interface RefObject {
+    
+  }
+
   export interface Props {
-    __starMode?: StarMode;
     __starSizeType?: StarSizeType;
-    __style?: CSSProperties;
+    __fillPercent?: number | `${number}%`;
     __onClick?: () => void;
-    __onMouseEnter?: () => void;
+    __style?: CSSProperties;
     children?: React.ReactNode;
   }
 }

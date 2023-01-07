@@ -1,19 +1,18 @@
-import styles from "./review-rating-stars.component.module.scss";
-import { IReviewRatingStars } from "./review-rating-stars.interface";
+import styles from "./review-rating-stars-v2.component.module.scss";
+import { IReviewRatingStarsV2 } from "./review-rating-stars-v2.interface";
 import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
-import ReviewStar from "../review-star/review-star.component";
-import { IReviewStar } from "../review-star/review-star.interface";
+import ReviewStarV2 from "../review-star-v2/review-star-v2.component";
 
-const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: ForwardedRef<IReviewRatingStars.RefObject>) => {
+const ReviewRatingStarsV2 = forwardRef((props: IReviewRatingStarsV2.Props, ref: ForwardedRef<IReviewRatingStarsV2.RefObject>) => {
   const [reviewScore, setReviewScore] = useState(props.__reviewScore);
   useEffect(() => { setReviewScore(props.__reviewScore); }, [props.__reviewScore]);
 
   const [isSmallStar, setIsSmallStar] = useState(props.__isSmallStar);
   useEffect(() => { setIsSmallStar(props.__isSmallStar); }, [props.__isSmallStar]);
 
-  const [defaultMargin, setDefaultMargin] = useState('8px');
+  const [defaultMargin, setDefaultMargin] = useState('6px');
   useEffect(() => { 
-    setDefaultMargin(isSmallStar === true ? '2px' : '8px');
+    setDefaultMargin(isSmallStar === true ? '2px' : '6px');
   }, [isSmallStar]);
 
   const [isAllowScoreControl, setIsAllowScoreControl] = useState(props.__isAllowScoreControl);
@@ -35,18 +34,39 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
     }
   }, [isAllowScoreControl, props]);
 
+  const getStarFillPercent = useCallback((index: number) => {
+    if (reviewScore === undefined) {
+      return 0;
+    }
+
+    if (reviewScore === index + 1) {
+      return 100;
+    }
+
+    if (index < reviewScore && index + 1 >= reviewScore) {
+      return (index + 1 - reviewScore) * 100;
+    }
+
+    if (reviewScore >= index + 1) {
+      return 100;
+    }
+
+    return 0;
+  }, [reviewScore]);
+
   return (
     <>
       <div className={styles['container']} style={props.__style}>
         {
           Array.from({ length: 5 }).map((item, index) => {
-            const starMode: IReviewStar.StarMode = index + 1 <= Math.floor(reviewScore ?? 0) ? 'fill' : 'stroke';
             return (
-              <ReviewStar 
-                key={index} 
-                __starSizeType={isSmallStar === true ? 'small' : 'big'}
+              <ReviewStarV2 
+                key={index}
+                __starSizeType={isSmallStar ? 'small' : 'big'}
                 __style={{ marginRight: index !== 4 ? defaultMargin : '0' }} 
-                __onClick={() => starClick(index)} __starMode={starMode} />  
+                __fillPercent={getStarFillPercent(index)}
+                __onClick={() => starClick(index)}
+                />
             );
           })
         }
@@ -54,6 +74,6 @@ const ReviewRatingStars = forwardRef((props: IReviewRatingStars.Props, ref: Forw
     </>
   );
 });
-ReviewRatingStars.displayName = 'ReviewRatingStars';
+ReviewRatingStarsV2.displayName = 'ReviewRatingStarsV2';
 
-export default ReviewRatingStars;
+export default ReviewRatingStarsV2;

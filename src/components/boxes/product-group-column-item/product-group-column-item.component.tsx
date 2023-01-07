@@ -12,7 +12,8 @@ import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signu
 import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
 import useImageManager from '../../../hooks/use-image-manager/use-image-manager.hook';
 import useClientManager from '../../../hooks/use-client-manager/use-client-manager.hook';
-import ImageBox from '../../boxes/image-box/image-box.component';
+import ImageBox from '../image-box/image-box.component';
+import ReviewStarV2 from '../review-star-v2/review-star-v2.component';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const user = useUser();
@@ -160,7 +161,9 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
             {
               reviewStarPoint !== undefined && reviewCount !== undefined ? 
               <div className={styles['row']}>
-                <span className={styles['star-text']}>★ &nbsp;</span> 
+                <ReviewStarV2
+                  __starSizeType="small" />
+                &nbsp;
                 <span className={styles['review-info-text']}>{reviewStarPoint} ({reviewCount})</span>
               </div> : <></>
             }
