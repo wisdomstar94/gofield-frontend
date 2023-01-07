@@ -32,6 +32,8 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import NotResultBox from "../../../components/boxes/not-result-box/not-result-box.component";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import ImageBox from "../../../components/boxes/image-box/image-box.component";
+import useClientManager from "../../../hooks/use-client-manager/use-client-manager.hook";
 
 const ProductDetailPage = () => {
   return (
@@ -52,6 +54,7 @@ const ProductDetailPage = () => {
 const PageContents = () => {
   const router = useRouter();
   const imageManager = useImageManager();
+  const clientManager = useClientManager();
   const modalSearchRef = useRef<IModalSearch.RefObject>(null);
   const itemBundleProductDetailApi = useItemBundleProductDetailApi();
   const [detailInfo, setDetailInfo] = useState<IItem.BundleProductDetailApiData>();
@@ -100,9 +103,10 @@ const PageContents = () => {
                     <SwiperSlide 
                       key={index}>
                       <div className={styles['product-image-item']}>
-                        <Image
-                          // priority={true}
-                          src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=100&f=webp')}
+                        <ImageBox
+                          mode="pure"
+                          priority={true}
+                          src={imageManager.getImageUrl(item, `?s=${clientManager.getWindowSizeContainerWidth()}x${clientManager.getWindowSizeContainerWidth()}&t=crop&q=100&f=webp`)}
                           alt={'상품 이미지'}
                           title={'상품 이미지'}
                           fill={true}
@@ -123,24 +127,7 @@ const PageContents = () => {
               등록된 상품 이미지가 없습니다.
             </NotResultBox>
           }
-        </div>  
-        {/* <SwiperCustom __style={{ aspectRatio: '1', height: 'auto', borderBottom: '1px solid #e9ebee' }}>
-          {
-            detailInfo?.images.map((item, index) => {
-              return (
-                <div className={styles['image-slide-item']} key={index}>
-                  <Image
-                    src={item}
-                    draggable={false}
-                    alt="상품 이미지"
-                    title="상품 이미지"
-                    layout="fill"
-                    objectFit="cover" />
-                </div>
-              )
-            })
-          }
-        </SwiperCustom> */}
+        </div>
 
         <Article __style={{ 
             // borderBottom: '1px solid #e9ebee' 

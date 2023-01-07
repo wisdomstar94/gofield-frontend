@@ -8,6 +8,7 @@ import { getAddCommaNumberString } from "../../../librarys/string-util/string-ut
 import Checkbox from "../../forms/checkbox/checkbox.component";
 import { ICheckbox } from "../../forms/checkbox/checkbox.interface";
 import List, { ListItem } from "../../layouts/list/list.component";
+import ImageBox from "../image-box/image-box.component";
 import styles from "./basket-product-row-item.component.module.scss";
 import { IBasketProductRowItem } from "./basket-product-row-item.interface";
 
@@ -116,8 +117,9 @@ const BasketProductRowItem = (props: IBasketProductRowItem.Props) => {
               <div className="next-image-wrapper">
                 {
                   typeof item?.thumbnail === 'string' ? 
-                  <Image
-                    src={imageManager.getImageUrl(item?.thumbnail, '?s=120x120&t=crop&q=100&f=webp')}
+                  <ImageBox
+                    mode="pure"
+                    src={imageManager.getImageUrl(item?.thumbnail, '?s=60x60&t=crop&q=100&f=webp')}
                     alt="상품 썸네일 이미지"
                     title="상품 썸네일 이미지"
                     fill={true}

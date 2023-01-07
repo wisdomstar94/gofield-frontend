@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { getClasses } from "../../../librarys/string-util/string-util.library";
 import Button from "../../forms/button/button.component";
+import ImageBox from "../image-box/image-box.component";
 import styles from "./product-detail-image-box.component.module.scss";
 import { IProductDetailImageBox } from "./product-detail-image-box.interface";
 
@@ -21,7 +22,8 @@ const ProductDetailImageBox = (props: IProductDetailImageBox.Props) => {
         <div className="next-image-wrapper">
           {
             imageUrl !== undefined ? 
-            <Image
+            <ImageBox
+              mode="pure"
               src={imageUrl}
               alt="상품 상세정보 이미지"
               title="상품 상세정보 이미지"
@@ -29,8 +31,8 @@ const ProductDetailImageBox = (props: IProductDetailImageBox.Props) => {
               sizes="100%"
               style={{
                 objectFit: 'cover',
-              }}
-              objectPosition="top" /> : 
+                objectPosition: 'top',
+              }} /> : 
             <></>
           }
         </div>

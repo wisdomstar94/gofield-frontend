@@ -13,8 +13,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import { getClasses } from "../../../librarys/string-util/string-util.library";
+import ImageBox from "../image-box/image-box.component";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import useClientManager from "../../../hooks/use-client-manager/use-client-manager.hook";
 
 const BannerBox = (props: IBannerBox.Props) => {
+  const imageManager = useImageManager();
+  const clientManager = useClientManager();
+
   const [bannerItems, setBannerItems] = useState(props.__bannerItems);
   useEffect(() => { setBannerItems(props.__bannerItems) }, [props.__bannerItems]);
 
@@ -54,13 +60,14 @@ const BannerBox = (props: IBannerBox.Props) => {
                 <SwiperSlide 
                   key={index}>
                   <div className={styles['banner-item']} onClick={e => onItemClick(item)}>
-                    <Image
+                    <ImageBox
+                      mode="pure"
                       priority={true}
-                      src={item.thumbnail}
+                      src={imageManager.getImageUrl(item.thumbnail, `?s=${clientManager.getWindowSizeContainerWidth()}x${clientManager.getHeightWithWidthRatio(clientManager.getWindowSizeContainerWidth(), 16, 9)}&t=crop&q=100&f=webp`)}
                       alt={item.description ?? '배너 이미지'}
                       title={item.title ?? '배너 이미지'}
                       fill={true}
-                      sizes="100%"
+                      sizes="100% 100%"
                       draggable={false}
                       style={{
                         objectFit: 'cover',
@@ -71,32 +78,6 @@ const BannerBox = (props: IBannerBox.Props) => {
             })
           }
         </Swiper>
-
-        {/* <SwiperCustom 
-          __style={{ aspectRatio: '16 / 9' }} 
-          __onChange={swiperChange} 
-          __onItemClick={onItemClick}
-          __slideItemCount={mainBannerListQuery?.data?.length}>
-          {
-            mainBannerListQuery?.data?.map((item, index) => {
-              return (
-                <div key={index}
-                  className={[
-                    styles['banner-item'],
-                  ].join(' ')}>
-                  <Image
-                    priority
-                    src={item.thumbnail}
-                    alt={item.description}
-                    title={item.title}
-                    layout="fill"
-                    draggable={false}
-                    objectFit="cover" />
-                </div>      
-              );
-            })
-          }
-        </SwiperCustom> */}
       </div>
     </>
   );

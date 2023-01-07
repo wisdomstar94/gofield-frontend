@@ -10,9 +10,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import SvgCloseIcon from "../../svgs/svg-close-icon/svg-close-icon.component";
+import useCheckDebounce from "../../../hooks/use-check-debounce/use-check-debounce.hook";
 
 const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IModalSwiper.RefObject>) => {
   const [swiper, setSwiper] = useState<any>(null);
+  
+  const checkDebounceHide = useCheckDebounce();
 
   const [modalState, setModalState] = useState(props.__modalState ?? '');
   useEffect(() => { setModalState(props.__modalState ?? '') }, [props.__modalState]);
@@ -41,7 +44,10 @@ const ModalSwiper = forwardRef((props: IModalSwiper.Props, ref: ForwardedRef<IMo
 
   const hide = useCallback(() => {
     setModalState('hide');
-  }, []);
+    checkDebounceHide.check(() => {
+      setSwiperItems([]);
+    }, 300);
+  }, [checkDebounceHide]);
 
   const setSwiperInfo = useCallback((swiperItems: IModalSwiper.SwiperItem[], activeIndex?: number) => {
     const applyActiveIndex = activeIndex ?? 0;

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IFile } from "../../../interfaces/file/file.interface";
+import ImageBox from "../image-box/image-box.component";
 import InputFileHidden from "../input-file-hidden/input-file-hidden.component";
 import { IInputFileHidden } from "../input-file-hidden/input-file-hidden.interface";
 import styles from "./profile-image-edit-box.component.module.scss";
@@ -30,7 +31,8 @@ const ProfileImageEditBox = (props: IProfileImageEditBox.Props) => {
           <div className={styles['image-box']}>
             { 
               imageUrl !== undefined && imageUrl !== null ? 
-              <Image
+              <ImageBox
+                mode="pure"
                 src={imageUrl}
                 alt="프로필 이미지"
                 title="프로필 이미지"

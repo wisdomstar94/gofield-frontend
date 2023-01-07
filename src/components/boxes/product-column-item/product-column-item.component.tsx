@@ -10,6 +10,7 @@ import { IModalSignupNotice } from "../../modals/modal-signup-notice/modal-signu
 import SvgHeartOffIcon from "../../svgs/svg-heart-off-icon/svg-heart-off-icon.component";
 import SvgHeartOnIcon from "../../svgs/svg-heart-on-icon/svg-heart-on-icon.component";
 import HashTagItem from "../hash-tag-item/hash-tag-item.component";
+import ImageBox from "../image-box/image-box.component";
 import styles from "./product-column-item.component.module.scss";
 import { IProductColumnItem } from "./product-column-item.interface";
 
@@ -84,7 +85,8 @@ const ProductColumnItem = (props: IProductColumnItem.Props) => {
           {/* blur 이미지 출저 : https://lottiefiles.com/99297-loading-files */}
           {
             typeof imageUrl === 'string' ? 
-            <Image
+            <ImageBox
+              mode="pure"
               src={imageManager.getImageUrl(imageUrl, `?s=${clientManager.getWindowSizeContainerWidthHalf()}x${clientManager.getWindowSizeContainerWidthHalf()}&t=crop&q=100&f=webp`)}
               alt="상품 이미지" 
               title="상품 이미지" 

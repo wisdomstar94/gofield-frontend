@@ -13,6 +13,7 @@ import Button from "../../forms/button/button.component";
 import BothSidebox from "../../layouts/both-side-box/both-side-box.component";
 import List, { ListItem } from "../../layouts/list/list.component";
 import SvgCategoryEtcIcon from "../../svgs/svg-category-etc-icon/svg-category-etc-icon.component";
+import ImageBox from "../image-box/image-box.component";
 import styles from "./product-row-item3.component.module.scss";
 import { IProductRowItem3 } from "./product-row-item3.interface";
 
@@ -174,7 +175,8 @@ const ProductRowItem3 = (props: IProductRowItem3.Props) => {
               <div className="next-image-wrapper">
                 {
                   typeof imageUrl === 'string' ? 
-                  <Image
+                  <ImageBox
+                    mode="pure"
                     src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=100&f=webp')}
                     alt="상품 썸네일 이미지"
                     title="상품 썸네일 이미지"

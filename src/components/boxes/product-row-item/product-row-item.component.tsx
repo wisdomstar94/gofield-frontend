@@ -4,6 +4,7 @@ import Image from 'next/image';
 import List, { ListItem } from "../../layouts/list/list.component";
 import StrokeButtons from "../../forms/stroke-buttons/stroke-buttons.component";
 import { useEffect, useState } from "react";
+import ImageBox from "../image-box/image-box.component";
 
 const ProductRowItem = (props: IProductRowItem.Props) => {
   const [isCancelButtonShow, setIsCancelButtonShow] = useState<boolean | undefined>(props.__isCancelButtonShow);
@@ -23,7 +24,8 @@ const ProductRowItem = (props: IProductRowItem.Props) => {
           <div className={[
               styles['common-area'], styles['left-area']
             ].join(' ')}>
-            <Image
+            <ImageBox
+              mode="pure"
               src="https://cdn.pixabay.com/photo/2012/04/13/00/37/golf-31340__480.png"
               alt="상품 이미지"
               title="상품 이미지"

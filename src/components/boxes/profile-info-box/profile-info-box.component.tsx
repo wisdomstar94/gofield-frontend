@@ -4,6 +4,7 @@ import { IProfileInfoBox } from "./profile-info-box.interface";
 import Image from 'next/image';
 import { useEffect, useState } from "react";
 import useUserProfileQuery from "../../../hooks/use-queries/use-user-profile.query";
+import ImageBox from "../image-box/image-box.component";
 
 const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
   const userProfileQuery = useUserProfileQuery();
@@ -15,7 +16,8 @@ const ProfileInfoBox = (props: IProfileInfoBox.Props) => {
           <div className={styles['profile-image-area']}>
             {
               userProfileQuery.data?.thumbnail !== undefined && userProfileQuery.data?.thumbnail !== null ? 
-              <Image
+              <ImageBox
+                mode="pure"
                 src={userProfileQuery.data?.thumbnail}
                 alt="프로필 이미지"
                 title="프로필 이미지"

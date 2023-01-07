@@ -12,6 +12,7 @@ import SvgCategoryMountainIcon from "../../svgs/svg-category-mountain-icon/svg-c
 import SvgCategorySoccerIcon from "../../svgs/svg-category-soccer-icon/svg-category-soccer-icon.component";
 import SvgCategorySwimmingIcon from "../../svgs/svg-category-swimming-icon/svg-category-swimming-icon.component";
 import SvgCategoryTennisIcon from "../../svgs/svg-category-tennis-icon/svg-category-tennis-icon.component";
+import ImageBox from "../image-box/image-box.component";
 import styles from "./category-button-list-box.component.module.scss";
 import { ICategoryButtonListBox } from "./category-button-list-box.interface";
 
@@ -92,7 +93,8 @@ const CategoryButtonListBox = (props: ICategoryButtonListBox.Props) => {
           categoryId: item.value,
           categoryName: item.text,
           icon: <>
-            <Image
+            <ImageBox
+              mode="pure"
               // width={24}
               // height={24}
               src={item.value2 ?? ''}

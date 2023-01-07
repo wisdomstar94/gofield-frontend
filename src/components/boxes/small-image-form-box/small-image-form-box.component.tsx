@@ -12,6 +12,7 @@ import useModalAlert from "../../../hooks/use-modals/use-modal-alert.modal";
 import { useRecoilState } from "recoil";
 import { globalModalSwiperAtom } from "../../../atoms/global-modal-swiper.atom";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import ImageBox from "../image-box/image-box.component";
 
 const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: ForwardedRef<ISmallImageFormBox.RefObject>) => {
   const inputFileHiddenRef = useRef<IInputFileHidden.RefObject>(null);
@@ -86,13 +87,14 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
     setGlobalModalSwiper({
       swiperItems: imageItems?.map((item) => ({
         reactNode: <>
-          <Image
-            priority
+          <ImageBox
+            mode="pure"
+            priority={true}
             src={imageManager.getImageUrl(item.fileUrl, '') ?? ''}
             alt={'이미지'}
             title={'이미지'}
             fill={true}
-            sizes="100%"
+            sizes="100% 100%"
             draggable={false}
             style={{
               objectFit: 'contain',
@@ -136,7 +138,8 @@ const SmallImageFormBox = forwardRef((props: ISmallImageFormBox.Props, ref: Forw
                     <></>
                   } 
                   <div className={styles['image-box']} onClick={e => imageClick(index)}>
-                    <Image
+                    <ImageBox
+                      mode="pure"
                       src={imageManager.getImageUrl(item.fileUrl, '?s=60x60&t=crop&q=100&f=webp') ?? ''}
                       alt="이미지"
                       title="이미지"

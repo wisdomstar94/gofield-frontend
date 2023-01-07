@@ -27,6 +27,9 @@ import GridList from '../components/layouts/grid-list/grid-list.component';
 import { IScrollCheckHook } from '../hooks/use-scroll-check/use-scroll-check.interface';
 import useMainBannerListQuery from '../hooks/use-queries/use-main-banner-list.query';
 import Image from 'next/image';
+import ImageBox from '../components/boxes/image-box/image-box.component';
+import useImageManager from '../hooks/use-image-manager/use-image-manager.hook';
+import useClientManager from '../hooks/use-client-manager/use-client-manager.hook';
 
 const Home: NextPage = () => {
   return (
@@ -47,6 +50,8 @@ const Home: NextPage = () => {
 
 const PageContents = () => {
   const router = useRouter();
+  const imageManager = useImageManager();
+  const clientManager = useClientManager();
   const itemListApi = useItemListApi();
   const mainItemListQuery = useMainItemListQuery();
   const mainBannerListQuery = useMainBannerListQuery();
@@ -162,7 +167,10 @@ const PageContents = () => {
               mainItemListQuery.data?.popularBundleList.map((item, index) => {
                 return (
                   <ProductGroupColumnItem key={index} __style={{ width: '150px', marginRight: '12px' }}
-                    __onClick={() => { router.push('/productGroup/' + item.id) }}
+                    __onClick={() => { 
+                      console.log('...왜?');
+                      router.push('/productGroup/' + item.id);
+                    }}
                     __imageUrl={item.thumbnail}
                     __brandNameComponent={<>{item.brandName}</>}
                     __productNameComponent={<>{item.name}</>}
@@ -185,9 +193,13 @@ const PageContents = () => {
             window.open(mainBannerListQuery.data?.middleBannerList[0].linkUrl);
           }}>
             <div className="next-image-wrapper">
-              <Image
+              <ImageBox
+                mode="pure"
                 priority={true}
-                src={mainBannerListQuery.data?.middleBannerList[0].thumbnail}
+                src={imageManager.getImageUrl(
+                  mainBannerListQuery.data?.middleBannerList[0].thumbnail, 
+                  `?s=${clientManager.getWindowSizeContainerWidth()}x${clientManager.getHeightWithWidthRatio(clientManager.getWindowSizeContainerWidth(), 16, 9)}&t=crop&q=100&f=webp`
+                )}
                 alt={mainBannerListQuery.data?.middleBannerList[0].description ?? '배너 이미지'}
                 title={mainBannerListQuery.data?.middleBannerList[0].title ?? '배너 이미지'}
                 fill={true}
@@ -240,9 +252,13 @@ const PageContents = () => {
             window.open(mainBannerListQuery.data?.middleBannerList[1].linkUrl);
           }}>
             <div className="next-image-wrapper">
-              <Image
+              <ImageBox
+                mode="pure"
                 priority={true}
-                src={mainBannerListQuery.data?.middleBannerList[1].thumbnail}
+                src={imageManager.getImageUrl(
+                  mainBannerListQuery.data?.middleBannerList[1].thumbnail, 
+                  `?s=${clientManager.getWindowSizeContainerWidth()}x${clientManager.getHeightWithWidthRatio(clientManager.getWindowSizeContainerWidth(), 16, 9)}&t=crop&q=100&f=webp`
+                )}
                 alt={mainBannerListQuery.data?.middleBannerList[1].description ?? '배너 이미지'}
                 title={mainBannerListQuery.data?.middleBannerList[1].title ?? '배너 이미지'}
                 fill={true}

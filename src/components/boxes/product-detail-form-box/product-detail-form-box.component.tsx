@@ -46,6 +46,8 @@ import Config from "../../../configs/config.export";
 import { copyToClipboard } from "../../../librarys/copy-util/copy-util.library";
 import ProductDetailDescriptionBox from "../product-detail-description-box/product-detail-description-box.component";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import ImageBox from "../image-box/image-box.component";
+import useClientManager from "../../../hooks/use-client-manager/use-client-manager.hook";
 
 const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref: ForwardedRef<IProductDetailFormBox.RefObject>) => {
   const virtualScrollContainerElementRef = useRef<HTMLDivElement>(null);
@@ -62,6 +64,7 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
 
   const router = useRouter();
   const imageManager = useImageManager();
+  const clientManager = useClientManager();
   const modalAlert = useModalAlert();
   const [selectedOrderBy, setSelectedOrderBy] = useState('');
   const newOrOldProductOrderByListQuery = useNewOrOldProductOrderByListQuery();
@@ -269,9 +272,9 @@ const ProductDetailFormBox = forwardRef((props: IProductDetailFormBox.Props, ref
                   <SwiperSlide 
                     key={index}>
                     <div className={styles['product-image-item']}>
-                      <Image
-                        // priority={true}
-                        src={imageManager.getImageUrl(item, '?s=460x460&t=crop&q=100&f=webp')}
+                    <ImageBox
+                        mode="pure"
+                        src={imageManager.getImageUrl(item, `?s=${clientManager.getWindowSizeContainerWidth()}x${clientManager.getWindowSizeContainerWidth()}&t=crop&q=100&f=webp`)}
                         alt={'상품 이미지'}
                         title={'상품 이미지'}
                         fill={true}

@@ -26,18 +26,23 @@ const useClientManager = () => {
       return getDeviceWidth();
     }
 
-    return getDeviceHeight() * 0.56;
+    return Math.floor(getDeviceHeight() * 0.56);
   }, [deviceType, getDeviceHeight, getDeviceWidth]);
 
   const getWindowSizeContainerWidthHalf = useCallback(() => {
     return Math.ceil(getWindowSizeContainerWidth() / 2);
   }, [getWindowSizeContainerWidth]);
 
+  const getHeightWithWidthRatio = useCallback((width: number, wRatio: number, hRatio: number) => {
+    return Math.floor((hRatio * width) / wRatio);
+  }, []);
+
   return {
     getDeviceWidth,
     getDeviceHeight,
     getWindowSizeContainerWidth,
     getWindowSizeContainerWidthHalf,
+    getHeightWithWidthRatio,
   };
 };
 

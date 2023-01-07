@@ -13,6 +13,7 @@ import Config from "../../../configs/config.export";
 import useNaverLoginSdk from "../../../hooks/use-naver-login-sdk/use-naver-login-sdk.hook";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import ImageBox from "../../boxes/image-box/image-box.component";
 
 const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: ForwardedRef<IModalSignupNotice.RefObject>) => {
   const router = useRouter();
@@ -108,7 +109,8 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
               <ul className="w-full block m-0 p-0">
                 <li data-name="button-item" className="w-full block list-none px-8 box-sizing mb-4">
                   <button className="w-full border-0 flex flex-wrap justify-center items-center bg-kakao-color rounded p-2" onClick={e => snsLoginButtonClick('KAKAO')}>
-                    <Image
+                    <ImageBox
+                      mode="pure"
                       width={20}
                       height={20}
                       priority={true}
@@ -126,7 +128,8 @@ const ModalSignupNotice = forwardRef((props: IModalSignupNotice.Props, ref: Forw
                 </li>
                 <li data-name="button-item" className="w-full block list-none px-8 box-sizing">
                   <button className="w-full border-0 flex flex-wrap justify-center items-center bg-naver-color rounded p-2" onClick={e => snsLoginButtonClick('NAVER')}>
-                    <Image
+                    <ImageBox
+                      mode="pure"
                       width={20}
                       height={20}
                       priority={true}

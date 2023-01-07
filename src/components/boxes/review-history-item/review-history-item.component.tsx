@@ -8,8 +8,12 @@ import ReviewRatingStarBox from "../review-rating-star-box/review-rating-star-bo
 import SmallImageFormBox from "../small-image-form-box/small-image-form-box.component";
 import useOrder from "../../../hooks/use-order/use-order.hook";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
+import ImageBox from "../image-box/image-box.component";
+import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
 
 const ReviewHistoryItem = forwardRef((props: IReviewHistoryItem.Props, ref: ForwardedRef<IReviewHistoryItem.RefObject>) => {
+  const imageManager = useImageManager();
+
   const [item, setItem] = useState(props.__item);
   useEffect(() => { setItem(props.__item) }, [props.__item]);
 
@@ -26,8 +30,9 @@ const ReviewHistoryItem = forwardRef((props: IReviewHistoryItem.Props, ref: Forw
         <div className={styles['product-info-row']}>
           <div className={styles['left-area']}>
             <div className={styles['image-area']}>
-              <Image
-                src={item?.thumbnail ?? ''}
+              <ImageBox
+                mode="pure"
+                src={imageManager.getImageUrl(item?.thumbnail, '?s=60x60&t=crop&q=100&f=webp')}
                 alt="상품 이미지"
                 title="상품 이미지"
                 fill={true}

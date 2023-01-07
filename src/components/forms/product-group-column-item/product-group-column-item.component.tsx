@@ -12,6 +12,7 @@ import { IModalSignupNotice } from '../../modals/modal-signup-notice/modal-signu
 import ModalSignupNotice from '../../modals/modal-signup-notice/modal-signup-notice.component';
 import useImageManager from '../../../hooks/use-image-manager/use-image-manager.hook';
 import useClientManager from '../../../hooks/use-client-manager/use-client-manager.hook';
+import ImageBox from '../../boxes/image-box/image-box.component';
 
 const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   const user = useUser();
@@ -65,6 +66,7 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
   // useEffect(() => { setIsShowPrice(props.__isShowPrice) }, [props.__isShowPrice]);  
 
   const itemClick = useCallback(() => {
+    console.log('.....왜...? itemClick!!');
     if (typeof props.__onClick === 'function') {
       props.__onClick();
     }
@@ -103,8 +105,9 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
           {/* blur 이미지 출저 : https://lottiefiles.com/99297-loading-files */}
           {
             typeof imageUrl === 'string' ? 
-            <Image
-              onClick={itemClick}
+            <ImageBox
+              mode="pure"
+              onClick={() => itemClick()}
               src={imageManager.getImageUrl(imageUrl, `?s=${clientManager.getWindowSizeContainerWidthHalf()}x${clientManager.getWindowSizeContainerWidthHalf()}&t=crop&q=100&f=webp`)}
               alt="상품 이미지" 
               title="상품 이미지" 
@@ -113,7 +116,6 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
               style={{
                 objectFit: 'cover',
               }}
-              // priority={true}
               placeholder="blur"
               blurDataURL="/images/loading-files.gif"
               /> : 
@@ -126,13 +128,13 @@ const ProductGroupColumnItem = (props: IProductGroupColumnItem.Props) => {
             </div> : <></>
           }
         </div>
-        <div className={styles['brand-name-area']} onClick={itemClick}>
+        <div className={styles['brand-name-area']} onClick={() => itemClick()}>
           { brandNameComponent }
         </div>
-        <div className={styles['product-name-area']} onClick={itemClick}>
+        <div className={styles['product-name-area']} onClick={() => itemClick()}>
           { productNameComponent }
         </div>
-        <div className={styles['info-area']} onClick={itemClick}>
+        <div className={styles['info-area']} onClick={() => itemClick()}>
           <div className={styles['info-area-type-a']}>
             {
               newProductPrice !== undefined && oldProductPrice !== undefined ?

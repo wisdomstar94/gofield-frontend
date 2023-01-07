@@ -9,6 +9,7 @@ import HashTagItem from "../../boxes/hash-tag-item/hash-tag-item.component";
 import { useCallback, useEffect, useState } from "react";
 import { getAddCommaNumberString } from "../../../librarys/string-util/string-util.library";
 import useImageManager from "../../../hooks/use-image-manager/use-image-manager.hook";
+import ImageBox from "../image-box/image-box.component";
 
 const ProductRowItem2 = (props: IProductRowItem2.Props) => {
   const imageManager = useImageManager();
@@ -40,7 +41,8 @@ const ProductRowItem2 = (props: IProductRowItem2.Props) => {
         <div className={styles['photo-area']}>
           {
             typeof imageUrl === 'string' ? 
-            <Image
+            <ImageBox
+              mode="pure"
               src={imageManager.getImageUrl(imageUrl, '?s=120x120&t=crop&q=100&f=webp')}
               alt="상품 이미지"
               title="상품 이미지"
