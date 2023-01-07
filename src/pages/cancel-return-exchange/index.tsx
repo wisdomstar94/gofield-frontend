@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
+import NotResultBox from "../../components/boxes/not-result-box/not-result-box.component";
 import PaginationBox from "../../components/boxes/pagination-box/pagination-box.component";
 import { IPaginationBox } from "../../components/boxes/pagination-box/pagination-box.interface";
 import CancelReturnExchangeRowItem from "../../components/forms/cancel-return-exchange-row-item/cancel-return-exchange-row-item.component";
@@ -95,22 +96,34 @@ const PageContents = () => {
           }} />
 
         {
-          listOptions.list.map((groupItem) => {
-            return groupItem.cancelItems.map((item) => {
-              return (
-                <CancelReturnExchangeRowItem
-                  __groupItem={groupItem}
-                  __item={item}
-                  key={item.id} 
-                  />
-              ); 
-            })
-          })
+          listOptions.list.length === 0 ?
+          <>
+            <NotResultBox>
+              조회 결과가 없습니다.
+            </NotResultBox>
+          </> :
+          <>
+            {
+              listOptions.list.map((groupItem) => {
+                return groupItem.cancelItems.map((item) => {
+                  return (
+                    <CancelReturnExchangeRowItem
+                      __groupItem={groupItem}
+                      __item={item}
+                      key={item.id} 
+                      />
+                  ); 
+                })
+              })
+            }
+
+            <div className="w-full mb-2"></div>
+          </>
         }
 
-        <div className="w-full mb-2"></div>
-
-        <div className="w-full flex flex-wrap justify-center">
+        <div className="w-full flex flex-wrap justify-center" style={{
+          display: listOptions.list.length > 0 ? undefined : 'none',
+        }}>
           <PaginationBox 
             ref={paginationBoxRef}
             __onPageClick={onPageClick} />
