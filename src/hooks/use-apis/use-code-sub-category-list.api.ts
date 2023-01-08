@@ -9,7 +9,7 @@ const useCodeSubCategoryListApi = () => {
 
   const getInstance = useCallback((categoryId: string | number) => {
     return axios.getAxiosInstance<IResponse.CommonResponse<ICode.CategoryCodeItem[]>>({
-      url: Config().api.code.category._ + '/' + categoryId,
+      url: Config().api.common.category._ + '/' + categoryId,
       method: 'get',
       isAuth: true,
     });

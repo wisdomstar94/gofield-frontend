@@ -9,7 +9,7 @@ const useCodePaymentMethodListApi = () => {
 
   const getInstance = useCallback(() => {
     return axios.getAxiosInstance<IResponse.CommonResponse<ICode.CodeItem[]>>({
-      url: Config().api.code.code._,
+      url: Config().api.common.code._,
       method: 'get',
       isAuth: true,
       params: {

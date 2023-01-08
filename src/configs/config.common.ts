@@ -235,12 +235,12 @@ export default function getConfigs(params: ICommonConfig.Params) {
         },
       },
 
-      code: {
+      common: {
         code: {
-          _: baseUrl + `/api/code/${apiVersion}/code`,
+          _: baseUrl + `/api/common/${apiVersion}/code`,
         },
         category: {
-          _: baseUrl + `/api/code/${apiVersion}/category`,
+          _: baseUrl + `/api/common/${apiVersion}/category`,
         },
       },
 
