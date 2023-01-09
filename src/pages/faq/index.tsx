@@ -1,16 +1,18 @@
 import Head from "next/head";
-import React, { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import AccessTokenCheck from "../../components/auth/access-token-check/access-token-check.component";
 import FaqRowItem from "../../components/boxes/faq-row-item/faq-row-item.component";
-import MenuRowList from "../../components/boxes/menu-row-list/menu-row-list.component";
-import PreparingBox from "../../components/boxes/preparing-box/preparing-box.component";
-import { ICheckbox } from "../../components/forms/checkbox/checkbox.interface";
+import NotResultBox from "../../components/boxes/not-result-box/not-result-box.component";
+import PaginationBox from "../../components/boxes/pagination-box/pagination-box.component";
+import { IPaginationBox } from "../../components/boxes/pagination-box/pagination-box.interface";
 import Input from "../../components/forms/input/input.component";
-import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
 import SvgMagnifyingGlassIcon from "../../components/svgs/svg-magnifying-glass-icon/svg-magnifying-glass-icon.component";
+import useCommonFaqListApi from "../../hooks/use-apis/use-common-faq-list.api";
 import { IFaq } from "../../interfaces/faq/faq.interface";
+import { getNextRouterQueryToUrlQueryString } from "../../librarys/string-util/string-util.library";
 
 const ProductNewPage = () => {
   return (
@@ -29,9 +31,13 @@ const ProductNewPage = () => {
 };
 
 const PageContents = () => {
+  const router = useRouter();
+  const isGettingListRef = useRef(false);
+  const paginationBoxRef = useRef<IPaginationBox.RefObject>(null);
+  const commonFaqListApi = useCommonFaqListApi();
   const [listOptions, setListOptions] = useState<IFaq.FaqListOptions>({
     page: '1',
-    size: '10',
+    size: '5',
     keyword: '',
     list: [],
   });
@@ -41,9 +47,33 @@ const PageContents = () => {
     keywordRef.current = value;
   }, []);
 
-  const getList = useCallback((optoins: IFaq.FaqListOptions) => {
+  const getList = useCallback((options: IFaq.FaqListOptions) => {
+    if (isGettingListRef.current) {
+      return;
+    }
+    isGettingListRef.current = true;
+    const query = {
+      page: options.page,
+      size: options.size,
+      keyword: options.keyword,
+    };
+    commonFaqListApi.getInstance(getNextRouterQueryToUrlQueryString(query)).then((response) => {
+      if (response.data.status !== true) {
+        return;
+      }
 
-  }, []);
+      setListOptions(prev => {
+        const newValue = {
+          ...prev,
+          list: response.data.data.list,
+        };
+        return newValue;
+      });
+      paginationBoxRef.current?.setPage(response.data.data.page);
+    }).finally(() => {
+      isGettingListRef.current = false;
+    });
+  }, [commonFaqListApi]);
 
   const searchButtonClick = useCallback(() => {
     setListOptions(prev => {
@@ -55,6 +85,26 @@ const PageContents = () => {
       };
       getList(obj);
       return obj;
+    });
+  }, [getList]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    getList(listOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  const onPageClick = useCallback((page: number) => {
+    setListOptions(prev => {
+      const newValue = {
+        ...prev,
+        page: page.toString(),
+      };
+      getList(newValue);
+      return newValue;
     });
   }, [getList]);
 
@@ -82,7 +132,38 @@ const PageContents = () => {
         </div>
         
         {/* 자주하는 질문 목록 부분 */}
-        <FaqRowItem />
+        {
+          listOptions.list.length === 0 ?
+          <>
+            <NotResultBox>
+              조회 결과가 없습니다.
+            </NotResultBox>
+          </> :
+          <>
+            {
+              listOptions.list.map((item, index) => {
+                return (
+                  <FaqRowItem
+                    key={index} 
+                    __item={item}
+                    />
+                ); 
+                
+              })
+            }
+
+            <div className="w-full mb-2"></div>
+          </>
+        }
+
+        <div className="w-full flex flex-wrap justify-center" style={{
+          display: listOptions.list.length > 0 ? undefined : 'none',
+        }}>
+          <PaginationBox 
+            ref={paginationBoxRef}
+            __onPageClick={onPageClick} />
+        </div>  
+        {/* <FaqRowItem /> */}
       </WindowSizeContainer>
     </>
   );

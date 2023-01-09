@@ -1,4 +1,5 @@
 import React from "react";
+import { IFaq } from "../../../interfaces/faq/faq.interface";
 
 export declare namespace IFaqRowItem {
   export type State = 'default' | 'open' | 'close';
@@ -9,6 +10,7 @@ export declare namespace IFaqRowItem {
 
   export interface Props {
     __state?: State;
+    __item?: IFaq.FaqItem;
     children?: React.ReactNode;
   }
 }

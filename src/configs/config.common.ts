@@ -242,6 +242,12 @@ export default function getConfigs(params: ICommonConfig.Params) {
         category: {
           _: baseUrl + `/api/common/${apiVersion}/category`,
         },
+        faq: {
+          _: baseUrl + `/api/common/${apiVersion}/faq`,
+        },
+        notice: {
+          _: baseUrl + `/api/common/${apiVersion}/notice`,
+        },
       },
 
       enum: {
