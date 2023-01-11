@@ -22,6 +22,7 @@ import { IScrollCheckHook } from "../../../hooks/use-scroll-check/use-scroll-che
 import { ICommon } from "../../../interfaces/common/common.interface";
 import { IItem } from "../../../interfaces/item/item.interface";
 import { getNextRouterQueryToUrlQueryString } from "../../../librarys/string-util/string-util.library";
+import NotResultBox from "../../../components/boxes/not-result-box/not-result-box.component";
 
 const ProductGroupsPage = () => {
   return (
@@ -247,24 +248,30 @@ const PageContents = () => {
                 __orderByValueItems={enumBundleItemSortListQuery.data}
                 __onChange={viewFilterChange} />
             </>} />
-          <GridList>
-            {
-              listOptions.list.map((item, index) => {
-                return (
-                  <ProductGroupColumnItem
-                    key={item.id}
-                    __onClick={() => productGroupColumnItemClick(item)}
-                    __imageUrl={item.thumbnail}
-                    __brandNameComponent={<>{ item.brandName }</>}
-                    __productNameComponent={<>{ item.name }</>}
-                    __newProductPrice={item.newLowestPrice}
-                    __oldProductPrice={item.usedLowestPrice}
-                    __reviewCount={item.reviewCount}
-                    __reviewStarPoint={item.reviewScore} />      
-                );
-              })
-            }
-          </GridList>
+          {
+            listOptions.list.length === 0 ? 
+            <NotResultBox __isNoPadding={true}>
+              조회 결과가 없습니다.
+            </NotResultBox> : 
+            <GridList>
+              {
+                listOptions.list.map((item, index) => {
+                  return (
+                    <ProductGroupColumnItem
+                      key={item.id}
+                      __onClick={() => productGroupColumnItemClick(item)}
+                      __imageUrl={item.thumbnail}
+                      __brandNameComponent={<>{ item.brandName }</>}
+                      __productNameComponent={<>{ item.name }</>}
+                      __newProductPrice={item.newLowestPrice}
+                      __oldProductPrice={item.usedLowestPrice}
+                      __reviewCount={item.reviewCount}
+                      __reviewStarPoint={item.reviewScore} />      
+                  );
+                })
+              }
+            </GridList>
+          }
         </Article>
       </WindowSizeContainer>
     </>
