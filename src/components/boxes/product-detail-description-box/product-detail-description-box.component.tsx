@@ -81,6 +81,9 @@ const ProductDetailDescriptionBox = forwardRef((props: IProductDetailDescription
             상세 정보 더보기  
           </Button>
         </div>
+        <div className={styles['closed-blur-box']}>
+          
+        </div>
       </div>
     </>
   );
