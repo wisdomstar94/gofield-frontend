@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Topbar from "../../../components/layouts/top-bar/top-bar.component";
+import WindowSizeContainer from "../../../components/layouts/window-size-container/window-size-container.component";
 
 const UseService20221101 = () => {
   return (
@@ -17,13 +19,18 @@ const UseService20221101 = () => {
 const PageContents = () => {
   return (
     <>
-      <div className="terms-content-area">
-        <h2>이용약관</h2>
-      </div>
-
-      <p>
-        준비중입니다..
-      </p>
+      <WindowSizeContainer>
+        <Topbar
+          __layoutTypeB={{
+            titleComponent: '이용약관',
+          }} />
+        <div className="terms-content-area">
+          <h2>이용약관</h2>
+          <p>
+            준비중입니다..
+          </p>
+        </div>
+      </WindowSizeContainer>
     </>
   );
 };

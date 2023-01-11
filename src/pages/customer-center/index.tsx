@@ -6,6 +6,7 @@ import { ICheckbox } from "../../components/forms/checkbox/checkbox.interface";
 import BottomMenuBar from "../../components/layouts/bottom-menu-bar/bottom-menu-bar.component";
 import Topbar from "../../components/layouts/top-bar/top-bar.component";
 import WindowSizeContainer from "../../components/layouts/window-size-container/window-size-container.component";
+import Config from "../../configs/config.export";
 
 const ProductNewPage = () => {
   return (
@@ -46,6 +47,14 @@ const PageContents = () => {
             {
               menuNameComponent: <>공지사항</>,
               menuLink: '/notice',
+            },
+            {
+              menuNameComponent: <>개인정보처리방침</>,
+              menuLink: `/terms/privacy/privacy-${Config().terms.privacyRecentDate}`,
+            },
+            {
+              menuNameComponent: <>이용약관</>,
+              menuLink: `/terms/use-service/use-service-${Config().terms.privacyRecentDate}`,
             },
           ]} />
         <BottomMenuBar __activeMenuId="my-page" />

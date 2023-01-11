@@ -65,6 +65,11 @@ export default function getConfigs(params: ICommonConfig.Params) {
       var4: 'melon',
     },
 
+    terms: {
+      privacyRecentDate: '20221101',
+      serviceRecentDate: '20221101',
+    },
+
     api: {
       /*
       app: {
